@@ -1,11 +1,9 @@
 #include "EngineWindow.h"
+#include <EngineBase/EngineDebug.h>
 
+// 전역 변수 초기화
 HINSTANCE UEngineWindow::hInstance = nullptr;
-
-void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
-{
-    hInstance = _Instance;
-}
+std::map<std::string, WNDCLASSEXA> UEngineWindow::WindowClasses;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -15,7 +13,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
         EndPaint(hWnd, &ps);
     }
     break;
@@ -28,24 +25,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-int UEngineWindow::WindowMessageLoop()
-{
-    MSG msg;
-
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        // 단축키를 아예 안사용하므로 단축키를 처리한다는 일 자차게 없으므로 의미가 없는 코드가 되었다.
-        if (!TranslateAccelerator(msg.hwnd, nullptr, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
-
-    return (int)msg.wParam;
-}
-
-UEngineWindow::UEngineWindow()
+// 윈도우 기본 설정
+void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
 {
     WNDCLASSEXA wcex;
 
@@ -61,26 +42,98 @@ UEngineWindow::UEngineWindow()
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName = nullptr;
-    wcex.lpszClassName = "DefaultWindow";
+    wcex.lpszClassName = "Default";
     wcex.hIconSm = nullptr;
+    CreateWindowClass(wcex);
 
-    RegisterClassExA(&wcex);
+    hInstance = _Instance;
+}
 
-    WindowHandle = CreateWindowA("DefaultWindow", "MainWindow", WS_OVERLAPPEDWINDOW,
-        -2000, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+int UEngineWindow::WindowMessageLoop()
+{
+    MSG msg;
 
-    if (!WindowHandle)
+    while (GetMessage(&msg, nullptr, 0, 0))
     {
+        
+        if (!TranslateAccelerator(msg.hwnd, nullptr, &msg))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+
+    return (int)msg.wParam;
+}
+
+void UEngineWindow::CreateWindowClass(const WNDCLASSEXA& _Class)
+{
+    // 맵을 사용하여 윈도우 관리
+    std::map<std::string, WNDCLASSEXA>::iterator EndIter = WindowClasses.end();
+    std::map<std::string, WNDCLASSEXA>::iterator FindIter = WindowClasses.find(std::string(_Class.lpszClassName));
+
+    if (EndIter != FindIter)
+    {
+        MSGASSERT(std::string(_Class.lpszClassName) + "같은 이름의 윈도우 클래스를 2번 등록했습니다");
         return;
     }
+
+    RegisterClassExA(&_Class);
+    WindowClasses.insert(std::pair{ _Class.lpszClassName, _Class });
+}
+
+bool UEngineWindow::IsWindowClass(const std::string_view _Text)
+{
+    return false;
+}
+
+UEngineWindow::UEngineWindow()
+{
+  
 }
 
 UEngineWindow::~UEngineWindow()
 {
+
 }
 
-void UEngineWindow::Open()
+// 타이틀 이름과 클래스 이름을 직접 작성하여 윈도우를 생성하는 함수
+void UEngineWindow::Create(std::string_view _TitleName, std::string_view _ClassName)
 {
-    ShowWindow(WindowHandle, SW_SHOW);
+    // 맵에 해당 클래스가 존재하지 않을 경우 (클래스 등록 안됨)
+    if (false == WindowClasses.contains(_ClassName.data()))
+    {
+        MSGASSERT(std::string(_ClassName) + "등록하지 않은 클래스로 윈도우창을 만들려고 했습니다");
+        return;
+    }
+
+    // 해당 클래스와 타이틀 이름으로 윈도우 창 생성
+    WindowHandle = CreateWindowA(_ClassName.data(), _TitleName.data(), WS_OVERLAPPEDWINDOW, 0, 0, 
+        CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+
+    // 생성이 제대로 되지 않았을 경우 에러 메세지 발생
+    if (!WindowHandle)
+    {
+        MSGASSERT(std::string(_TitleName) + "윈도우 생성에 실패했습니다.");
+        return;
+    }
+}
+
+// 타이틀 이름은 자동으로 "Window" 생성되며 클래스 이름만을 요구하여 윈도우를 생성하는 함수
+void UEngineWindow::Create(std::string_view _ClassName)
+{
+    Create("Window", _ClassName);
+}
+
+
+void UEngineWindow::Open(std::string_view _TitleName)
+{
+    // 윈도우가 만들어지지 않는다면 만든다.
+    if (nullptr == WindowHandle)
+    {
+        Create();
+    }
+
+    ShowWindow(WindowHandle, SW_SHOW);  // 윈도우를 보이게끔 하는 함수
     UpdateWindow(WindowHandle);
 }
