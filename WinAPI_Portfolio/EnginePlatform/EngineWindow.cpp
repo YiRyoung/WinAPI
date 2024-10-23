@@ -1,9 +1,11 @@
+#include "PreCompile.h"
 #include "EngineWindow.h"
 #include <EngineBase/EngineDebug.h>
 
 // 전역 변수 초기화
 HINSTANCE UEngineWindow::hInstance = nullptr;
 std::map<std::string, WNDCLASSEXA> UEngineWindow::WindowClasses;
+int WindowCount = 0;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -37,7 +39,6 @@ void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
-    // wcex.hInstance = nullptr;
     wcex.hIcon = nullptr;
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
@@ -47,20 +48,23 @@ void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
     CreateWindowClass(wcex);
 }
 
-int UEngineWindow::WindowMessageLoop()
+int UEngineWindow::WindowMessageLoop(EngineDelegate _FrameFunction)
 {
     MSG msg;
 
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (WindowCount)
     {
-        
-        if (!TranslateAccelerator(msg.hwnd, nullptr, &msg))
+        if (0 != PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-    }
 
+        if (true == _FrameFunction.IsBind())
+        {
+            _FrameFunction();
+        }
+    }
     return (int)msg.wParam;
 }
 
@@ -122,4 +126,5 @@ void UEngineWindow::Open(std::string_view _TitleName)
 
     ShowWindow(WindowHandle, SW_SHOW);  // 윈도우를 보이게끔 하는 함수
     UpdateWindow(WindowHandle);
+    ++WindowCount;
 }

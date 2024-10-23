@@ -1,14 +1,22 @@
 #pragma once
+
+// OS
 #include <Windows.h>
-#include <string>
+
+// std
 #include <map>
+#include <string>
+#include <functional>
+
+// user
+#include <EngineBase/EngineDelegate.h>
 
 class UEngineWindow
 {
 public:
 	static void EngineWindowInit(HINSTANCE _Instance);
 	static void CreateWindowClass(const WNDCLASSEXA& _Class);
-	static int WindowMessageLoop();
+	static int WindowMessageLoop(EngineDelegate _FrameFunction);
 
 	// constrcuter destructer
 	UEngineWindow();
