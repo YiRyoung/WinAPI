@@ -1,7 +1,6 @@
 #pragma once
 #include <functional>
 
-// Ό³Έν :
 class EngineDelegate
 {
 public:
@@ -33,6 +32,11 @@ public:
 			std::function<void()>& Function = *StartIter;
 			Function();
 		}
+	}
+
+	void Clear()
+	{
+		Functions.clear();
 	}
 
 protected:
