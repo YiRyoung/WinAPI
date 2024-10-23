@@ -11,6 +11,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UEngineWindow::EngineWindowInit(hInstance);
 
 	UEngineWindow NewWindow;
+	NewWindow.Create("Test");
 	NewWindow.Open();
 
 	return UEngineWindow::WindowMessageLoop();

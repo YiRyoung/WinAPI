@@ -28,10 +28,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 // 윈도우 기본 설정
 void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
 {
+    hInstance = _Instance;
+
     WNDCLASSEXA wcex;
-
     wcex.cbSize = sizeof(WNDCLASSEX);
-
     wcex.style = CS_HREDRAW | CS_VREDRAW;
     wcex.lpfnWndProc = WndProc;
     wcex.cbClsExtra = 0;
@@ -45,8 +45,6 @@ void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
     wcex.lpszClassName = "Default";
     wcex.hIconSm = nullptr;
     CreateWindowClass(wcex);
-
-    hInstance = _Instance;
 }
 
 int UEngineWindow::WindowMessageLoop()
@@ -82,11 +80,6 @@ void UEngineWindow::CreateWindowClass(const WNDCLASSEXA& _Class)
     WindowClasses.insert(std::pair{ _Class.lpszClassName, _Class });
 }
 
-bool UEngineWindow::IsWindowClass(const std::string_view _Text)
-{
-    return false;
-}
-
 UEngineWindow::UEngineWindow()
 {
   
@@ -119,19 +112,12 @@ void UEngineWindow::Create(std::string_view _TitleName, std::string_view _ClassN
     }
 }
 
-// 타이틀 이름은 자동으로 "Window" 생성되며 클래스 이름만을 요구하여 윈도우를 생성하는 함수
-void UEngineWindow::Create(std::string_view _ClassName)
-{
-    Create("Window", _ClassName);
-}
-
-
 void UEngineWindow::Open(std::string_view _TitleName)
 {
     // 윈도우가 만들어지지 않는다면 만든다.
     if (nullptr == WindowHandle)
     {
-        Create();
+        Create("Window");
     }
 
     ShowWindow(WindowHandle, SW_SHOW);  // 윈도우를 보이게끔 하는 함수
