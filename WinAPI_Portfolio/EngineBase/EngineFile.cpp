@@ -10,7 +10,6 @@ UEngineFile::UEngineFile()
 
 UEngineFile::~UEngineFile()
 {
-	// 소멸자를 이용해서 자연스럽게 파괴되도록 만드는게 좋다.
 	Close();
 }
 

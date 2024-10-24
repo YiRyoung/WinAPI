@@ -1,7 +1,6 @@
 #pragma once
 #include <EngineCore/EngineAPICore.h>
 
-// Ό³Έν :
 class KirbyContentsCore : public UContentsCore
 {
 public:
@@ -18,7 +17,8 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick() override;
-private:
 
+private:
+	ULevel* TitleLevel;
 };
 

@@ -3,13 +3,15 @@
 
 #include <EnginePlatform/EngineWindow.h>
 #include <EngineBase/EngineDelegate.h>
+#include <EngineBase/EngineDebug.h>
 
 UEngineAPICore* UEngineAPICore::MainCore = nullptr;
 UContentsCore* UEngineAPICore::UserCore = nullptr;
 
+
 UEngineAPICore::UEngineAPICore()
 {
-	MainCore = this;
+
 }
 
 UEngineAPICore::~UEngineAPICore()
@@ -36,11 +38,11 @@ int UEngineAPICore::EngineStart(HINSTANCE _Inst, UContentsCore* _UserCore)
 
 	UserCore = _UserCore;
 
-	// 윈도우 디폴트 정보 등록
 	UEngineWindow::EngineWindowInit(_Inst);
 
 	UEngineAPICore Core = UEngineAPICore();
 	Core.EngineMainWindow.Open();
+	MainCore = &Core;
 
 	EngineDelegate Start = EngineDelegate(std::bind(EngineBeginPlay));
 	EngineDelegate FrameLoop = EngineDelegate(std::bind(EngineTick));;
@@ -60,6 +62,30 @@ void UEngineAPICore::EngineTick()
 
 void UEngineAPICore::Tick()
 {
+	if (nullptr == CurLevel)
+	{
+		MSGASSERT("엔진 코어에 현재 레벨이 지정되지 않았습니다");
+		return;
+	}
 
+	CurLevel->Tick();
+	CurLevel->Render();
 }
 
+
+void UEngineAPICore::OpenLevel(std::string_view _LevelName)
+{
+	std::string ChangeName = _LevelName.data();
+
+	std::map<std::string, class ULevel*>::iterator FindIter = Levels.find(ChangeName);
+	std::map<std::string, class ULevel*>::iterator EndIter = Levels.end();
+
+	if (EndIter == FindIter)
+	{
+		MSGASSERT(ChangeName + "라는 이름의 레벨은 존재하지 않습니다.");
+		return;
+	}
+
+	// 최신 방식
+	CurLevel = FindIter->second;
+}

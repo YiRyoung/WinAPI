@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 
-class EngineDelegate	// 함수 여러 개를 실행
+class EngineDelegate
 {
 public:
 	// constrcuter destructer
@@ -13,7 +13,6 @@ public:
 	}
 	~EngineDelegate();
 
-	// 함수의 객체가 존재하는지 여부 확인
 	bool IsBind()
 	{
 		return false == Functions.empty();
@@ -44,7 +43,6 @@ public:
 protected:
 
 private:
-	// 함수 포인터를 저장할 리스트 생성
 	std::list<std::function<void()>> Functions;
 };
 

@@ -23,7 +23,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="AGameMode.h">
+    <ClInclude Include="GameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -41,7 +41,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="AGameMode.cpp">
+    <ClCompile Include="GameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>

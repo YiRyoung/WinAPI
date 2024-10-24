@@ -30,7 +30,7 @@ public:
 
 	static int EngineStart(HINSTANCE _Inst, UContentsCore* _UserCore);
 
-	class UEngineAPICore* GetCore()
+	static class UEngineAPICore* GetCore()
 	{
 		return MainCore;
 	}
@@ -40,12 +40,18 @@ public:
 		return EngineMainWindow;
 	}
 
-	void CreateLevel(std::string_view _LevelName)
+	template<typename GameModeType, typename MainPawnType>
+	ULevel* CreateLevel(std::string_view _LevelName)
 	{
 		ULevel* NewLevel = new ULevel();
-
+		NewLevel->CreateGameMode<GameModeType, MainPawnType>();
 		Levels.insert({ _LevelName.data() , NewLevel });
+		return NewLevel;
 	}
+
+	void OpenLevel(std::string_view _LevelName);
+
+
 
 protected:
 
@@ -55,11 +61,10 @@ private:
 	static UEngineAPICore* MainCore;
 	static UContentsCore* UserCore;
 
-	// 메인 윈도우
-	UEngineWindow EngineMainWindow;
-
+	UEngineWindow EngineMainWindow; // 엔진 메인 윈도우
 	std::map<std::string, class ULevel*> Levels;
+	class ULevel* CurLevel = nullptr;
 
 	void Tick();
-};
 
+};

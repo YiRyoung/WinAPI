@@ -157,9 +157,13 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayGameMode.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\EnginePlatform\PreCompile.cpp" />
+    <ClCompile Include="..\EnginePlatform\PreCompile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="KirbyContentsCore.cpp">
       <SubType>
       </SubType>
@@ -168,6 +172,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PlayGameMode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

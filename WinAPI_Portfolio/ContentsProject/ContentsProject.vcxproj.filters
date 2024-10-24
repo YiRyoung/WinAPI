@@ -10,6 +10,9 @@
     <ClInclude Include="KirbyContentsCore.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="PlayGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\EnginePlatform\PreCompile.cpp">
@@ -21,6 +24,9 @@
     <ClCompile Include="KirbyContentsCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="PlayGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -31,6 +37,9 @@
     </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{d4658465-ccb1-4e32-97fb-a879db11d8d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\GameMode">
+      <UniqueIdentifier>{c7386f9b-9b36-443d-826d-99051c03ecb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
