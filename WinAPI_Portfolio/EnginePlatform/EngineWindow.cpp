@@ -5,7 +5,7 @@
 // 전역 변수 초기화
 HINSTANCE UEngineWindow::hInstance = nullptr;
 std::map<std::string, WNDCLASSEXA> UEngineWindow::WindowClasses;
-int WindowCount = 0;
+int WindowCount = 0;    // 현재 생성된 윈도우 창의 개수
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -18,8 +18,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         EndPaint(hWnd, &ps);
     }
     break;
-    case WM_DESTROY:
-        --WindowCount;
+    case WM_DESTROY:    // 윈도우 창을 닫을 시
+        --WindowCount;  // 윈도우 창의 개수 감소
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
@@ -27,32 +27,38 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-// 윈도우 기본 설정
 void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
 {
     hInstance = _Instance;
 
+    // 윈도우 기본 설정 등록
     WNDCLASSEXA wcex;
+    // 구조체 값 초기화 코드
     wcex.cbSize = sizeof(WNDCLASSEX);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
     wcex.lpfnWndProc = WndProc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
-    wcex.hIcon = nullptr;
-    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hIcon = nullptr;                               // 윈도우 아이콘 출력
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);      // 윈도우 아이콘 설정
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = nullptr;
+    wcex.lpszMenuName = nullptr;                        // 윈도우 상단 메뉴 설정
     wcex.lpszClassName = "Default";
     wcex.hIconSm = nullptr;
     CreateWindowClass(wcex);
 }
 
-int UEngineWindow::WindowMessageLoop(EngineDelegate _FrameFunction)
+int UEngineWindow::WindowMessageLoop(EngineDelegate _StartFunction, EngineDelegate _FrameFunction)
 {
-    MSG msg;
+    MSG msg = MSG();
 
-    while (WindowCount)
+    // 프로그램 시작 후 딱 한 번 실행할 것들
+    _StartFunction();
+
+    // 윈도우 창이 1개 이상일 때에만 작동하며 
+    // 창이 전부 꺼지면 프로그램도 종료됨
+    while ( 0 != WindowCount)
     {
         if (0 != PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
@@ -109,9 +115,9 @@ void UEngineWindow::Create(std::string_view _TitleName, std::string_view _ClassN
         CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     // 생성이 제대로 되지 않았을 경우 에러 메세지 발생
-    if (!WindowHandle)
+    if (nullptr == WindowHandle)
     {
-        MSGASSERT(std::string(_TitleName) + "윈도우 생성에 실패했습니다.");
+        MSGASSERT(std::string(_TitleName) + " 윈도우 생성에 실패했습니다.");
         return;
     }
 }
@@ -119,12 +125,17 @@ void UEngineWindow::Create(std::string_view _TitleName, std::string_view _ClassN
 void UEngineWindow::Open(std::string_view _TitleName)
 {
     // 윈도우가 만들어지지 않는다면 만든다.
-    if (nullptr == WindowHandle)
+    if (0 == WindowHandle)
     {
         Create("Window");
     }
 
+    if (0 == WindowHandle)
+    {
+        return;
+    }
+
     ShowWindow(WindowHandle, SW_SHOW);  // 윈도우를 보이게끔 하는 함수
     UpdateWindow(WindowHandle);
-    ++WindowCount;
+    ++WindowCount;                      // 윈도우 창의 개수 증가 
 }

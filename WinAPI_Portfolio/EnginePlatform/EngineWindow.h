@@ -16,7 +16,8 @@ class UEngineWindow
 public:
 	static void EngineWindowInit(HINSTANCE _Instance);
 	static void CreateWindowClass(const WNDCLASSEXA& _Class);
-	static int WindowMessageLoop(EngineDelegate _FrameFunction);
+
+	static int WindowMessageLoop(EngineDelegate _StartFunction, EngineDelegate _FrameFunction);
 
 	// constrcuter destructer
 	UEngineWindow();
