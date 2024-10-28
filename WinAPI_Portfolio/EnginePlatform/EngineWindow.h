@@ -35,7 +35,10 @@ public:
 		return BackBuffer;
 	}
 
-
+	inline void SetWindowTitle(std::string_view Text)
+	{
+		SetWindowTextA(WindowHandle, Text.data());
+	}
 
 protected:
 

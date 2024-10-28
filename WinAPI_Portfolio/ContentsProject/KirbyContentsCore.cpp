@@ -15,11 +15,9 @@ KirbyContentsCore::~KirbyContentsCore()
 
 void KirbyContentsCore::BeginPlay()
 {
-	
+	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
 	UEngineAPICore::GetCore()->CreateLevel<APlayGameMode, APlayer>("Play");
-
 	UEngineAPICore::GetCore()->OpenLevel("Play");
-
 }
 
 void KirbyContentsCore::Tick()
