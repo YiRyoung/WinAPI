@@ -8,6 +8,19 @@ UEngineFile::UEngineFile()
 
 }
 
+// 생성체인
+// 자식에서 부모 생성자를 명시적으로 호출
+UEngineFile::UEngineFile(std::string_view _Path) : UEnginePath(_Path)
+{
+
+}
+
+UEngineFile::UEngineFile(std::filesystem::path _Path)
+	: UEnginePath(_Path)
+{
+
+}
+
 UEngineFile::~UEngineFile()
 {
 	Close();

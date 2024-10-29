@@ -156,8 +156,16 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineDirectory.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EngineFile.h" />
     <ClInclude Include="EngineMath.h" />
+    <ClInclude Include="EnginePath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EngineTimer.h">
       <SubType>
       </SubType>
@@ -175,6 +183,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="EngineDirectory.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EngineFile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
@@ -182,6 +194,10 @@
     <ClCompile Include="EngineMath.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="EnginePath.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="EngineTimer.cpp">
       <SubType>

@@ -63,8 +63,11 @@ private:
 
 
 	FVector2D WindowSize;
+	
+	// HDC
 	UEngineWinImage* BackBufferImage = nullptr;
 	UEngineWinImage* WindowImage = nullptr;
+	
 	HWND WindowHandle = nullptr;
 };
 

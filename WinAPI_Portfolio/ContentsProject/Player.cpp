@@ -18,6 +18,8 @@ APlayer::~APlayer()
 
 void APlayer::BeginPlay()
 {
+	Super::BeginPlay();
+
 	UEngineInput::GetInst().BindAction('A', KeyEvent::Press, std::bind(&APlayer::LeftMove, this, std::placeholders::_1));
 	UEngineInput::GetInst().BindAction('D', KeyEvent::Press, std::bind(&APlayer::RightMove, this, std::placeholders::_1));
 	UEngineInput::GetInst().BindAction('S', KeyEvent::Press, std::bind(&APlayer::DownMove, this, std::placeholders::_1));
@@ -47,6 +49,8 @@ void APlayer::DownMove(float _DeltaTime)
 
 void APlayer::Tick(float _DeltaTime)
 {
+	Super::Tick(_DeltaTime);
+
 	if (3.0f < UEngineInput::GetInst().IsPreeTime(VK_LBUTTON))
 	{
 		ABullet* Ptr = GetWorld()->SpawnActor<ABullet>();
