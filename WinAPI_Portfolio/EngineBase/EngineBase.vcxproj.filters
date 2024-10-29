@@ -13,12 +13,10 @@
     <ClInclude Include="EngineDelegate.h">
       <Filter>Function</Filter>
     </ClInclude>
-    <ClInclude Include="PreCompile.h">
-      <Filter>PreCompile</Filter>
-    </ClInclude>
     <ClInclude Include="EngineTimer.h">
       <Filter>Time</Filter>
     </ClInclude>
+    <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
@@ -33,12 +31,10 @@
     <ClCompile Include="EngineDelegate.cpp">
       <Filter>Function</Filter>
     </ClCompile>
-    <ClCompile Include="PreCompile.cpp">
-      <Filter>PreCompile</Filter>
-    </ClCompile>
     <ClCompile Include="EngineTimer.cpp">
       <Filter>Time</Filter>
     </ClCompile>
+    <ClCompile Include="PreCompile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

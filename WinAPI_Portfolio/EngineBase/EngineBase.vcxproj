@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{47e3aad8-cc6c-46c3-86c8-b7ca1a81da66}</ProjectGuid>
+    <ProjectGuid>{A57A3818-F473-45E0-B3B0-36DF1F609EAE}</ProjectGuid>
     <RootNamespace>EngineBase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -162,10 +162,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PreCompile.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
@@ -191,8 +188,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PreCompile.cpp">
-      <SubType>
-      </SubType>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>

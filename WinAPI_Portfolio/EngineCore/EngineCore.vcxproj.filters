@@ -21,9 +21,6 @@
     <ClInclude Include="EngineAPICore.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="PreCompile.h">
-      <Filter>PreCompile</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Object\Level</Filter>
     </ClInclude>
@@ -33,13 +30,13 @@
     <ClInclude Include="Actor.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineAPICore.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="PreCompile.cpp">
-      <Filter>PreCompile</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Object\Level</Filter>
@@ -49,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
