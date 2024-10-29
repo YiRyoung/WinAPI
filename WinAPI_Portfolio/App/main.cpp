@@ -14,5 +14,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
 	KirbyContentsCore User;
-	return UEngineAPICore::EngineStart(hInstance, &User);
+ 	return UEngineAPICore::EngineStart(hInstance, &User);
 }

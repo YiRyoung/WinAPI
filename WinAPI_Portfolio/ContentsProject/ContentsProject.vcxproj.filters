@@ -1,37 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Player.h">
-      <Filter>ContentsObject</Filter>
-    </ClInclude>
     <ClInclude Include="KirbyContentsCore.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="PlayGameMode.h">
       <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>ContentsObject</Filter>
-    </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ContentsObject\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>ContentsObject\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayMap.h">
+      <Filter>ContentsObject\Play</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Player.cpp">
-      <Filter>ContentsObject</Filter>
-    </ClCompile>
     <ClCompile Include="KirbyContentsCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>ContentsObject</Filter>
-    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ContentsObject\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>ContentsObject\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayMap.cpp">
+      <Filter>ContentsObject\Play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +52,12 @@
     </Filter>
     <Filter Include="ContentsObject\GameMode">
       <UniqueIdentifier>{c7386f9b-9b36-443d-826d-99051c03ecb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global">
+      <UniqueIdentifier>{f115cbb0-2ba9-4f77-a2c8-4966520677b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Play">
+      <UniqueIdentifier>{5f7ed488-6b15-43c9-9f51-c1f0add939b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

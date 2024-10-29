@@ -21,6 +21,9 @@
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
+    <ClInclude Include="EngineWinImage.h">
+      <Filter>Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineWindow.cpp">
@@ -31,6 +34,9 @@
     </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineWinImage.cpp">
+      <Filter>Window</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
