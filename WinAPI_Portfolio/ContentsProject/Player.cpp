@@ -9,6 +9,7 @@ APlayer::APlayer()
 	// UEngineAPICore::GetCore()->CreateLevel("Title");
 	SetActorLocation({ 100, 100 });
 	SetActorScale({ 100, 100 });
+	SetSprite("Title_Kirby.png");
 }
 
 APlayer::~APlayer()
@@ -51,7 +52,7 @@ void APlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	if (3.0f < UEngineInput::GetInst().IsPreeTime(VK_LBUTTON))
+	if (3.0f < UEngineInput::GetInst().IsPressTime(VK_LBUTTON))
 	{
 		ABullet* Ptr = GetWorld()->SpawnActor<ABullet>();
 		Ptr->SetActorLocation(GetActorLocation());

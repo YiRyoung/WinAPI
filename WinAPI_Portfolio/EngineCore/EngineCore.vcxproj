@@ -23,11 +23,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineSprite.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="EngineAPICore.h" />
+    <ClInclude Include="ImageManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Level.h">
       <SubType>
       </SubType>
@@ -41,6 +49,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="EngineSprite.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameMode.cpp">
       <SubType>
       </SubType>
@@ -48,6 +60,10 @@
     <ClCompile Include="EngineAPICore.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <SubType>

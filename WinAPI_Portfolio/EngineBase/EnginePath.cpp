@@ -23,6 +23,16 @@ std::string UEnginePath::GetPathToString()
     return Path.string();
 }
 
+std::string UEnginePath::GetFileName()
+{
+    return Path.filename().string();
+}
+
+std::string UEnginePath::GetExtension()
+{
+    return Path.extension().string();
+}
+
 bool UEnginePath::IsExists()
 {
     return std::filesystem::exists(Path);
@@ -50,10 +60,17 @@ bool UEnginePath::MoveParentToDirectory(std::string_view _Path)
 
     bool Result = false;
     std::filesystem::path CurPath = DummyPath.Path;
+    std::filesystem::path Root = CurPath.root_path();
 
-    while (CurPath != CurPath.root_path())  // 최상위 폴더가 아니라면
+    while (true)
     {
         CurPath = DummyPath.Path;
+
+        if (CurPath == Root)
+        {
+            break;
+        }
+
         CurPath.append(_Path);
         if (true == std::filesystem::exists(CurPath))   // 대상을 찾았다면
         {
