@@ -36,7 +36,7 @@ void KirbyContentsCore::BeginPlay()
 		UImageManager::GetInst().Load(FilePath);
 	}
 
-	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
+	UImageManager::GetInst().CuttingSprite("Title_Kirby.png", { 64, 64 });
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 256 * 4, 240 * 4 });
 	UEngineAPICore::GetCore()->CreateLevel<APlayGameMode, APlayer>("Play");
 	UEngineAPICore::GetCore()->OpenLevel("Play");

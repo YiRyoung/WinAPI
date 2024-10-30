@@ -52,10 +52,11 @@ void APlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	if (3.0f < UEngineInput::GetInst().IsPressTime(VK_LBUTTON))
+	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
-		ABullet* Ptr = GetWorld()->SpawnActor<ABullet>();
-		Ptr->SetActorLocation(GetActorLocation());
+		SetSprite("Title_Kirby.png", MySpriteIndex);
+		++MySpriteIndex;
 	}
+
 
 }

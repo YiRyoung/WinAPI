@@ -77,6 +77,7 @@ void UEngineWinImage::CopyToBit(UEngineWinImage* _TargetImage, const FTransform&
 		0,
 		SRCCOPY);
 
+	FVector2D Vector;
 }
 
 

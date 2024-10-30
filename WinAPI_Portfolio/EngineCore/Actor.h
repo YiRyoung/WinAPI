@@ -57,6 +57,7 @@ private:
 
 public:
 	class UEngineSprite* Sprite = nullptr;
-	void SetSprite(std::string_view _Name);
+	int CurIndex = 0;
+	void SetSprite(std::string_view _Name, int _CurIndex = 0);
 };
 

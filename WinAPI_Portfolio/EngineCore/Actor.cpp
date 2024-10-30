@@ -29,13 +29,13 @@ void AActor::Render()
 	UEngineWinImage* BackBufferImage = MainWindow.GetBackBuffer();
 
 
-	UEngineSprite::USpriteData CurData = Sprite->GetSpriteData(0);
+	UEngineSprite::USpriteData CurData = Sprite->GetSpriteData(CurIndex);
 	CurData.Image;
 	CurData.Transform;
 	CurData.Image->CopyToTrans(BackBufferImage, Transform, CurData.Transform);
 }
 
-void AActor::SetSprite(std::string_view _Name)
+void AActor::SetSprite(std::string_view _Name, int _CurIndex)
 {
 	Sprite = UImageManager::GetInst().FindSprite(_Name);
 
@@ -44,4 +44,6 @@ void AActor::SetSprite(std::string_view _Name)
 		MSGASSERT("로드하지 않은 스프라이트를 사용하려고 했습니다" + std::string(_Name));
 		return;
 	}
+
+	CurIndex = _CurIndex;
 }
