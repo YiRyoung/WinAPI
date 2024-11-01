@@ -10,6 +10,9 @@
     <Filter Include="Input">
       <UniqueIdentifier>{54e7dde4-ef9b-4b9d-8cf7-94545c9a3697}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{805fc861-ec7e-4892-9034-2a1c5ec78de2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineWindow.h">
@@ -24,6 +27,9 @@
     <ClInclude Include="EngineWinImage.h">
       <Filter>Window</Filter>
     </ClInclude>
+    <ClInclude Include="EngineWinDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineWindow.cpp">
@@ -37,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="EngineWinImage.cpp">
       <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineWinDebug.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

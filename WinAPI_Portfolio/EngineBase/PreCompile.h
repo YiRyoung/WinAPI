@@ -11,5 +11,5 @@
 #include <iostream>
 #include <functional>
 
-// math
+// ¼öÇĞ
 #include "EngineMath.h"

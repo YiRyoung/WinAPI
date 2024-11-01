@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 
+// Ό³Έν :
 class AGameMode : public AActor
 {
 public:
@@ -15,10 +16,6 @@ public:
 	AGameMode& operator=(AGameMode&& _Other) noexcept = delete;
 
 protected:
-	void Render() override
-	{
-
-	}
 
 private:
 

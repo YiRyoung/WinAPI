@@ -17,15 +17,15 @@ public:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void LeftMove(float _DeltaTime);
-	void RightMove(float _DeltaTime);
-	void UpMove(float _DeltaTime);
-	void DownMove(float _DeltaTime);
+	void MoveFunction(FVector2D _Dir);
 
 protected:
 
 private:
 	float Speed = 100.0f;
 	int MySpriteIndex = 0;
+
+	class USpriteRenderer* SpriteRenderer;
+
 };
 

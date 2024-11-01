@@ -19,6 +19,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{d6feb0d4-4cb2-4eb5-879c-b4fc9051ade3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{d50d90ad-97f2-44d2-9d34-41081e68d07d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineAPICore.h">
@@ -42,6 +45,13 @@
     <ClInclude Include="EngineSprite.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="2DCollision.h" />
+    <ClInclude Include="ActorComponent.h" />
+    <ClInclude Include="SceneComponent.h" />
+    <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="EngineCoreDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineAPICore.cpp">
@@ -64,6 +74,13 @@
     </ClCompile>
     <ClCompile Include="EngineSprite.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="2DCollision.cpp" />
+    <ClCompile Include="ActorComponent.cpp" />
+    <ClCompile Include="SceneComponent.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="EngineCoreDebug.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,11 +1,19 @@
 #include "PreCompile.h"
 #include "EngineInput.h"
 
+// UEngineInput UEngineInput::Inst = UEngineInput();
+// UEngineInput* UEngineInput::Inst = nullptr;
+
+// Input 내부에 Key 내부의 keyCheck 함수
 void UEngineInput::UEngineKey::KeyCheck(float _DeltaTime)
 {
+	// if (true == GetAsyncKeyState('B'))
 	if (0 != GetAsyncKeyState(Key))
 	{
+		// 게임엔진에서 시간재는법
+		// 특정 float을 만들어 놓고 그 float 계속 델타타임을 더해주면
 		PressTime += _DeltaTime;
+		// 이전전까지 안눌려있어다면
 		if (true == IsFree)
 		{
 			IsDown = true;
@@ -13,17 +21,19 @@ void UEngineInput::UEngineKey::KeyCheck(float _DeltaTime)
 			IsFree = false;
 			IsUp = false;
 		}
-		else if (true == IsDown)
+		else if(true == IsDown)
 		{
 			IsDown = false;
 			IsPress = true;
 			IsFree = false;
 			IsUp = false;
 		}
-	}
-	else
+
+		// B키가 눌렸다면
+	} else 
 	{
 		PressTime = 0.0f;
+		// B키가 안눌렸다면
 		if (true == IsPress)
 		{
 			IsDown = false;
@@ -42,13 +52,13 @@ void UEngineInput::UEngineKey::KeyCheck(float _DeltaTime)
 	}
 }
 
-void UEngineInput::UEngineKey::EventCheck(float _DeltaTime)
+void UEngineInput::UEngineKey::EventCheck()
 {
 	if (true == IsDown)
 	{
 		for (size_t i = 0; i < DownEvents.size(); i++)
 		{
-			DownEvents[i](_DeltaTime);
+			DownEvents[i]();
 		}
 	}
 
@@ -56,7 +66,7 @@ void UEngineInput::UEngineKey::EventCheck(float _DeltaTime)
 	{
 		for (size_t i = 0; i < PressEvents.size(); i++)
 		{
-			PressEvents[i](_DeltaTime);
+			PressEvents[i]();
 		}
 	}
 
@@ -64,7 +74,7 @@ void UEngineInput::UEngineKey::EventCheck(float _DeltaTime)
 	{
 		for (size_t i = 0; i < FreeEvents.size(); i++)
 		{
-			FreeEvents[i](_DeltaTime);
+			FreeEvents[i]();
 		}
 	}
 
@@ -72,13 +82,15 @@ void UEngineInput::UEngineKey::EventCheck(float _DeltaTime)
 	{
 		for (size_t i = 0; i < UpEvents.size(); i++)
 		{
-			UpEvents[i](_DeltaTime);
+			UpEvents[i]();
 		}
 	}
 }
 
 UEngineInput::UEngineInput()
 {
+	// 여기에 
+	// 기본 알파뱃
 	Keys.insert({ 'Q', UEngineKey('Q') });
 	Keys.insert({ 'W', UEngineKey('W') });
 	Keys.insert({ 'E', UEngineKey('E') });
@@ -193,8 +205,9 @@ void UEngineInput::EventCheck(float _DeltaTime)
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
+		// 명시적이기 잖고 디버깅이 힘들어서 별로 좋아하지 않게 되었다.
 		UEngineKey& CurKey = StartIter->second;
-		CurKey.EventCheck(_DeltaTime);
+		CurKey.EventCheck();
 	}
 }
 
@@ -205,6 +218,7 @@ void UEngineInput::KeyCheck(float _DeltaTime)
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
+		// 명시적이기 잖고 디버깅이 힘들어서 별로 좋아하지 않게 되었다.
 		UEngineKey& CurKey = StartIter->second;
 		CurKey.KeyCheck(_DeltaTime);
 	}
@@ -214,7 +228,7 @@ UEngineInput::~UEngineInput()
 {
 }
 
-void UEngineInput::BindAction(int _KeyIndex, KeyEvent _EventType, std::function<void(float) > _Function)
+void UEngineInput::BindAction(int _KeyIndex, KeyEvent _EventType, std::function<void() > _Function)
 {
 	if (false == Keys.contains(_KeyIndex))
 	{
@@ -239,4 +253,6 @@ void UEngineInput::BindAction(int _KeyIndex, KeyEvent _EventType, std::function<
 	default:
 		break;
 	}
+
+
 }

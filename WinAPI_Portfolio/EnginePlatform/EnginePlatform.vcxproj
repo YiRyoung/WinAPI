@@ -155,6 +155,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineWinDebug.h" />
     <ClInclude Include="EngineWindow.h">
       <SubType>
       </SubType>
@@ -170,6 +171,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EngineWinDebug.cpp" />
     <ClCompile Include="EngineWindow.cpp">
       <SubType>
       </SubType>

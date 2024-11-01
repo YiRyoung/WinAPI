@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneComponent.h"
 
+// Ό³Έν :
 class U2DCollision : public USceneComponent
 {
 public:

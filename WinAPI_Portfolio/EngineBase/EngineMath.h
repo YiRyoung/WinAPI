@@ -1,4 +1,9 @@
 #pragma once
+// FVector로 통일하겠습니다.
+// FVector2D xy
+// FVector3D xyz
+// FVector4D xyzw
+// FVector4D == FVector;
 
 class FVector2D
 {
@@ -38,10 +43,11 @@ public:
 	}
 
 	int iY() const
- 	{
+	{
 		return static_cast<int>(Y);
 	}
 
+	// X든 Y든 0이있으면 터트리는 함수.
 	bool IsZeroed() const
 	{
 		return X == 0.0f || Y == 0.0f;
@@ -52,6 +58,22 @@ public:
 		return { X * 0.5f, Y * 0.5f };
 	}
 
+	float Length() const
+	{
+		return sqrtf(X * X + Y * Y);
+	}
+
+	void Normalize()
+	{
+		float Len = Length();
+		if (0.0f < Len && false == isnan(Len))
+		{
+			X = X / Len;
+			X = Y / Len;
+		}
+		return;
+	}
+
 	FVector2D operator*(float _Value) const
 	{
 		FVector2D Result;
@@ -59,8 +81,6 @@ public:
 		Result.Y = Y * _Value;
 		return Result;
 	}
-
-
 
 	FVector2D operator+(FVector2D _Other) const
 	{
@@ -87,15 +107,26 @@ public:
 		return Result;
 	}
 
+
+	// ture가 나오는 
 	bool operator==(FVector2D _Other) const
 	{
 		return X == _Other.X && Y == _Other.Y;
 	}
 
+	// float은 비교가 굉장히 위험
+	// const가 붙은 함수에서는 const가 붙은 함수 호출할수 없다.
 	bool EqualToInt(FVector2D _Other) const
 	{
+		// const FVector* const Ptr;
+		// this = nullptr;
 		return iX() == _Other.iX() && iY() == _Other.iY();
 	}
+
+	//bool Compare(FVector2D _Other, float _limite = 0.0f) const
+	//{
+	//	return X == _Other.X && Y == _Other.Y;
+	//}
 
 	FVector2D& operator+=(FVector2D _Other)
 	{
@@ -103,8 +134,22 @@ public:
 		Y += _Other.Y;
 		return *this;
 	}
+
+	std::string ToString()
+	{
+		std::string Stream;
+
+		Stream += "X : [";
+		Stream += std::to_string(X);
+		Stream += "] Y : [";
+		Stream += std::to_string(Y);
+		Stream += "]";
+		return Stream;
+	}
 };
 
+// 대부분 오브젝트에서 크기와 위치는 한쌍입니다.
+// 그래서 그 2가지를 모두 묶는 자료형을 만들어서 그걸 써요.
 class FTransform
 {
 public:
@@ -179,6 +224,8 @@ class EngineMath
 {
 };
 
+
+
 class UColor
 {
 public:
@@ -195,9 +242,8 @@ public:
 	};
 
 	UColor(unsigned char _R, unsigned char _G, unsigned char _B, unsigned char _A)
-		: R(_R), G(_G), B(_B), A(_A)
+		:R(_R), G(_G), B(_B), A(_A)
 	{
 
 	}
 };
-
