@@ -7,6 +7,7 @@
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/ImageManager.h>
 
+#include "TitleGameMode.h"
 #include "PlayGameMode.h"
 #include "Player.h"
 
@@ -36,6 +37,7 @@ void KirbyContentsCore::BeginPlay()
 		UImageManager::GetInst().Load(FilePath);
 	}
 
+	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
 	UImageManager::GetInst().CuttingSprite("Title_Kirby.png", { 64, 64 });
 	
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 256 * 4, 240 * 4 });

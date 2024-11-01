@@ -28,7 +28,7 @@ public:
 	UEngineWindow& operator=(UEngineWindow&& _Other) noexcept = delete;
 
 	void Create(std::string_view _TitleName, std::string_view _ClassName = "Default");
-	void Open(std::string_view _TitleName = "Kirby's Adventure");
+	void Open(std::string_view _TitleName = "Window");
 
 	inline FVector2D GetWindowSize() const
 	{
