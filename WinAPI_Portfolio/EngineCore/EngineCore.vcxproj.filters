@@ -22,6 +22,15 @@
     <Filter Include="Debug">
       <UniqueIdentifier>{d50d90ad-97f2-44d2-9d34-41081e68d07d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\Component">
+      <UniqueIdentifier>{08067667-e0b6-4dbf-aeb7-ef4f1480a654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\Component\Collision">
+      <UniqueIdentifier>{8aa1b9e2-43c8-467b-8c67-6ffff85adb03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\Component\Rendering">
+      <UniqueIdentifier>{701dad83-e936-4baf-ba66-37819685759b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineAPICore.h">
@@ -45,12 +54,20 @@
     <ClInclude Include="EngineSprite.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="2DCollision.h" />
-    <ClInclude Include="ActorComponent.h" />
-    <ClInclude Include="SceneComponent.h" />
-    <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="EngineCoreDebug.h">
       <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="2DCollision.h">
+      <Filter>Object\Actor\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Object\Actor\Component\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorComponent.h">
+      <Filter>Object\Actor\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneComponent.h">
+      <Filter>Object\Actor\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -75,12 +92,20 @@
     <ClCompile Include="EngineSprite.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="2DCollision.cpp" />
-    <ClCompile Include="ActorComponent.cpp" />
-    <ClCompile Include="SceneComponent.cpp" />
-    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="EngineCoreDebug.cpp">
       <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="2DCollision.cpp">
+      <Filter>Object\Actor\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Object\Actor\Component\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorComponent.cpp">
+      <Filter>Object\Actor\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneComponent.cpp">
+      <Filter>Object\Actor\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

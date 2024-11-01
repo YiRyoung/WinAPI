@@ -13,13 +13,10 @@ namespace UEngineDebug
 	};
 
 
-	// 선언
-	std::vector<DebugTextInfo> DebugTexts;
+		std::vector<DebugTextInfo> DebugTexts;
 
 
-// #ifdef _DEBUG
 	FVector2D EngineTextPos = FVector2D::ZERO;
-// #endif
 
 #ifdef _DEBUG
 	bool IsDebug = true;
@@ -39,18 +36,13 @@ namespace UEngineDebug
 
 	void CoreOutPutString(std::string_view _Text)
 	{
-// #ifdef _DEBUG
-		// 바로 출력하지 않는다.
-		DebugTexts.push_back({ _Text.data(), EngineTextPos});
+				DebugTexts.push_back({ _Text.data(), EngineTextPos});
 		EngineTextPos.Y += 20;
-// endif 
 	}
 
 	void CoreOutPutString(std::string_view _Text, FVector2D _Pos)
 	{
-// #ifdef _DEBUG
 		DebugTexts.push_back({ _Text.data(), _Pos });
-// #endif
 	}
 
 	void PrintEngineDebugText()
@@ -60,8 +52,7 @@ namespace UEngineDebug
 			return;
 		}
 
-		// void WinAPIOutPutString(UEngineWinImage * _Image, std::string_view _Text, FVector2D _Pos);
-		UEngineWinImage* BackBuffer = UEngineAPICore::GetCore()->GetMainWindow().GetBackBuffer();
+				UEngineWinImage* BackBuffer = UEngineAPICore::GetCore()->GetMainWindow().GetBackBuffer();
 
 		for (size_t i = 0; i < DebugTexts.size(); i++)
 		{

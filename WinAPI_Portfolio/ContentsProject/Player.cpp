@@ -3,18 +3,20 @@
 
 #include <EngineCore/EngineAPICore.h>
 #include <EngineCore/SpriteRenderer.h>
+#include <EngineCore/EngineCoreDebug.h>
 
 #include <EnginePlatform/EngineInput.h>
+
 #include "Bullet.h"
 
 APlayer::APlayer()
 {
-	// UEngineAPICore::GetCore()->CreateLevel("Title");
 	SetActorLocation({ 100, 100 });
 	SetActorScale({ 256, 256 });
 
 	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-	SpriteRenderer->SetSprite("Title_Kirby.png");
+	SpriteRenderer->SetSprite("Title_Eng.png");
+	SpriteRenderer->SetComponentScale({ 256 * 4, 240 * 4 });
 }
 
 APlayer::~APlayer()
@@ -25,6 +27,9 @@ APlayer::~APlayer()
 void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+	GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
 }
 
 
@@ -56,4 +61,16 @@ void APlayer::Tick(float _DeltaTime)
 	}
 
 
+}
+
+void APlayer::MoveFunction(FVector2D _Dir)
+{
+}
+
+void APlayer::LevelChangeStart()
+{
+}
+
+void APlayer::LevelChangeEnd()
+{
 }

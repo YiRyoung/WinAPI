@@ -19,6 +19,9 @@
     <ClInclude Include="PlayMap.h">
       <Filter>ContentsObject\Play</Filter>
     </ClInclude>
+    <ClInclude Include="TitleGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KirbyContentsCore.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="PlayMap.cpp">
       <Filter>ContentsObject\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

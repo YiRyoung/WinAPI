@@ -1,9 +1,4 @@
 #pragma once
-// FVector로 통일하겠습니다.
-// FVector2D xy
-// FVector3D xyz
-// FVector4D xyzw
-// FVector4D == FVector;
 
 class FVector2D
 {
@@ -47,8 +42,7 @@ public:
 		return static_cast<int>(Y);
 	}
 
-	// X든 Y든 0이있으면 터트리는 함수.
-	bool IsZeroed() const
+		bool IsZeroed() const
 	{
 		return X == 0.0f || Y == 0.0f;
 	}
@@ -108,26 +102,17 @@ public:
 	}
 
 
-	// ture가 나오는 
-	bool operator==(FVector2D _Other) const
+		bool operator==(FVector2D _Other) const
 	{
 		return X == _Other.X && Y == _Other.Y;
 	}
 
-	// float은 비교가 굉장히 위험
-	// const가 붙은 함수에서는 const가 붙은 함수 호출할수 없다.
-	bool EqualToInt(FVector2D _Other) const
+			bool EqualToInt(FVector2D _Other) const
 	{
-		// const FVector* const Ptr;
-		// this = nullptr;
-		return iX() == _Other.iX() && iY() == _Other.iY();
+						return iX() == _Other.iX() && iY() == _Other.iY();
 	}
 
-	//bool Compare(FVector2D _Other, float _limite = 0.0f) const
-	//{
-	//	return X == _Other.X && Y == _Other.Y;
-	//}
-
+				
 	FVector2D& operator+=(FVector2D _Other)
 	{
 		X += _Other.X;
@@ -148,8 +133,6 @@ public:
 	}
 };
 
-// 대부분 오브젝트에서 크기와 위치는 한쌍입니다.
-// 그래서 그 2가지를 모두 묶는 자료형을 만들어서 그걸 써요.
 class FTransform
 {
 public:

@@ -97,8 +97,7 @@ void UImageManager::Load(std::string_view _KeyName, std::string_view Path)
 		return;
 	}
 
-	// 만들었다고 끝이 아닙니다.
-	UEngineWinImage* NewImage = new UEngineWinImage();
+		UEngineWinImage* NewImage = new UEngineWinImage();
 	NewImage->Load(WindowImage, Path);
 
 	NewImage->SetName(UpperName);
@@ -106,8 +105,7 @@ void UImageManager::Load(std::string_view _KeyName, std::string_view Path)
 
 	UEngineSprite* NewSprite = new UEngineSprite();
 
-	// 이미지를 자르는 기준이 되는 위치는 왼쪽 위를 기준으로 자르는 것을 하겠다.
-	FTransform Trans;
+		FTransform Trans;
 	Trans.Location = { 0,0 };
 	Trans.Scale = NewImage->GetImageScale();
 	NewSprite->PushData(NewImage, Trans);
@@ -139,8 +137,7 @@ void UImageManager::LoadFolder(std::string_view _KeyName, std::string_view _Path
 	NewSprite->SetName(UpperName);
 	Sprites.insert({ UpperName , NewSprite });
 
-	// 로드하기 위해서 필요한 Window Main HDC
-	UEngineWinImage* WindowImage = UEngineAPICore::GetCore()->GetMainWindow().GetWindowImage();
+		UEngineWinImage* WindowImage = UEngineAPICore::GetCore()->GetMainWindow().GetWindowImage();
 
 	UEngineDirectory Dir = _Path;
 	std::vector<UEngineFile> ImageFiles = Dir.GetAllFile();
@@ -157,8 +154,7 @@ void UImageManager::LoadFolder(std::string_view _KeyName, std::string_view _Path
 			NewImage->Load(WindowImage, FilePath);
 		}
 		Images.insert({ UpperFileName,  NewImage });
-		// 이미지 로딩은 끝났으니
-
+		
 		FTransform Transform;
 		Transform.Location = { 0, 0 };
 		Transform.Scale = NewImage->GetImageScale();
@@ -267,10 +263,8 @@ UEngineSprite* UImageManager::FindSprite(std::string_view _KeyName)
 		return nullptr;
 	}
 
-	//std::map<std::string, UEngineSprite*>::iterator FindIter = Sprites.find(UpperName);
-
-	// 이걸로 
-	return Sprites[UpperName];
+	
+		return Sprites[UpperName];
 }
 
 UEngineWinImage* UImageManager::FindImage(std::string_view _KeyName)
@@ -283,17 +277,9 @@ UEngineWinImage* UImageManager::FindImage(std::string_view _KeyName)
 		return nullptr;
 	}
 
-	// 이걸로 
-	return Images[UpperName];
+		return Images[UpperName];
 }
 
-// 기존의 이미지를 찾아 잘라낸 후 새로운 스프라이트 이미지를 만듭니다.
-// _NewSpriteKeyName : 새로운 키 값
-// _StartPos : 기존 이미지에서 잘라낼 좌상단 값
-// _CuttingSize : 이미지 사이즈
-// _XYOffSet : 이미지 사이의 빈공간 간격, XY
-// _Xcount : 가로 이미지 갯수
-// _ImageCount : 총 이미지 갯수
 void UImageManager::CreateCutSprite(std::string_view _SearchKeyName, std::string_view _NewSpriteKeyName, FVector2D _StartPos, FVector2D _CuttingSize, FVector2D _XYOffSet, UINT _Xcount, UINT _ImageCount)
 {
 	std::string SearchName = UEngineString::ToUpper(_SearchKeyName);

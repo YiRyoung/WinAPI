@@ -12,7 +12,6 @@
 
 #include "ImageManager.h"
 
-// delete 도 헤더가 있어야 호출할수 있습니다.
 #include "ActorComponent.h"
 
 std::list<UActorComponent*> AActor::ComponentList;
@@ -40,8 +39,7 @@ AActor::AActor()
 
 AActor::~AActor()
 {
-	// 컴포넌트의 생성주기는 액터의 생명주기와 같다고 한다.
-	std::list<UActorComponent*>::iterator StartIter = Components.begin();
+		std::list<UActorComponent*>::iterator StartIter = Components.begin();
 	std::list<UActorComponent*>::iterator EndIter = Components.end();
 	for (; StartIter != EndIter; ++StartIter)
 	{

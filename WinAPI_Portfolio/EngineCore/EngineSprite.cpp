@@ -19,8 +19,7 @@ void UEngineSprite::PushData(UEngineWinImage* _Image, const FTransform& _Trans)
 	}
 	
 
-	// 리스트 이니셜라이저
-	Data.push_back({ _Image, _Trans });
+		Data.push_back({ _Image, _Trans });
 }
 
 
