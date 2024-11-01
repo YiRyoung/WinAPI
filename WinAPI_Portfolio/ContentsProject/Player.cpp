@@ -21,10 +21,10 @@ void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UEngineInput::GetInst().BindAction('A', KeyEvent::Press, std::bind(&APlayer::LeftMove, this, std::placeholders::_1));
-	UEngineInput::GetInst().BindAction('D', KeyEvent::Press, std::bind(&APlayer::RightMove, this, std::placeholders::_1));
-	UEngineInput::GetInst().BindAction('S', KeyEvent::Press, std::bind(&APlayer::DownMove, this, std::placeholders::_1));
-	UEngineInput::GetInst().BindAction('W', KeyEvent::Press, std::bind(&APlayer::UpMove, this, std::placeholders::_1));
+	UEngineInput::GetInst().BindAction(VK_LEFT, KeyEvent::Press, std::bind(&APlayer::LeftMove, this, std::placeholders::_1));
+	UEngineInput::GetInst().BindAction(VK_RIGHT, KeyEvent::Press, std::bind(&APlayer::RightMove, this, std::placeholders::_1));
+	UEngineInput::GetInst().BindAction(VK_DOWN, KeyEvent::Press, std::bind(&APlayer::DownMove, this, std::placeholders::_1));
+	UEngineInput::GetInst().BindAction(VK_UP, KeyEvent::Press, std::bind(&APlayer::UpMove, this, std::placeholders::_1));
 
 }
 

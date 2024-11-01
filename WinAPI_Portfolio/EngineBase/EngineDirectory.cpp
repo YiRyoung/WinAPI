@@ -12,6 +12,10 @@ UEngineDirectory::UEngineDirectory(std::string_view _Path) : UEnginePath(_Path)
 
 }
 
+UEngineDirectory::UEngineDirectory(std::filesystem::path _Path) : UEnginePath(_Path)
+{
+}
+
 UEngineDirectory::~UEngineDirectory()
 {
 }
@@ -42,6 +46,30 @@ std::vector<class UEngineFile> UEngineDirectory::GetAllFile(bool _IsRecursive)
 		Result.push_back(UEngineFile(FilePath));
 		++Diriter;
 	}
+	return Result;
+}
+
+std::vector<class UEngineDirectory> UEngineDirectory::GetAllDirectory()
+{
+	std::vector<class UEngineDirectory> Result;
+
+	std::filesystem::directory_iterator Diriter = std::filesystem::directory_iterator(Path);
+
+	while (false == Diriter._At_end())
+	{
+		std::filesystem::path FilePath = *Diriter;
+
+		UEnginePath Path = UEnginePath(FilePath);
+		if (false == Path.IsDirectory())
+		{
+			++Diriter;
+			continue;
+		}
+
+		Result.push_back(UEngineDirectory(FilePath));
+		++Diriter;
+	}
+
 	return Result;
 }
 
