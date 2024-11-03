@@ -51,7 +51,7 @@ void UImageManager::Load(std::string_view Path)
 	UEnginePath EnginePath = UEnginePath(Path);
 
 	std::string FileName = EnginePath.GetFileName();
-	
+
 	Load(FileName, Path);
 }
 
@@ -97,21 +97,21 @@ void UImageManager::Load(std::string_view _KeyName, std::string_view Path)
 		return;
 	}
 
-		UEngineWinImage* NewImage = new UEngineWinImage();
+	UEngineWinImage* NewImage = new UEngineWinImage();
 	NewImage->Load(WindowImage, Path);
 
 	NewImage->SetName(UpperName);
-	Images.insert({ UpperName , NewImage});
+	Images.insert({ UpperName , NewImage });
 
 	UEngineSprite* NewSprite = new UEngineSprite();
 
-		FTransform Trans;
+	FTransform Trans;
 	Trans.Location = { 0,0 };
 	Trans.Scale = NewImage->GetImageScale();
 	NewSprite->PushData(NewImage, Trans);
 
 	NewSprite->SetName(UpperName);
-	Sprites.insert({ UpperName , NewSprite});
+	Sprites.insert({ UpperName , NewSprite });
 }
 
 void UImageManager::LoadFolder(std::string_view _KeyName, std::string_view _Path)
@@ -137,7 +137,7 @@ void UImageManager::LoadFolder(std::string_view _KeyName, std::string_view _Path
 	NewSprite->SetName(UpperName);
 	Sprites.insert({ UpperName , NewSprite });
 
-		UEngineWinImage* WindowImage = UEngineAPICore::GetCore()->GetMainWindow().GetWindowImage();
+	UEngineWinImage* WindowImage = UEngineAPICore::GetCore()->GetMainWindow().GetWindowImage();
 
 	UEngineDirectory Dir = _Path;
 	std::vector<UEngineFile> ImageFiles = Dir.GetAllFile();
@@ -154,12 +154,12 @@ void UImageManager::LoadFolder(std::string_view _KeyName, std::string_view _Path
 			NewImage->Load(WindowImage, FilePath);
 		}
 		Images.insert({ UpperFileName,  NewImage });
-		
+
 		FTransform Transform;
 		Transform.Location = { 0, 0 };
 		Transform.Scale = NewImage->GetImageScale();
 
-		NewSprite->PushData( NewImage, Transform);
+		NewSprite->PushData(NewImage, Transform);
 	}
 }
 
@@ -256,15 +256,15 @@ bool UImageManager::IsLoadSprite(std::string_view _KeyName)
 UEngineSprite* UImageManager::FindSprite(std::string_view _KeyName)
 {
 	std::string UpperName = UEngineString::ToUpper(_KeyName);
-	
+
 	if (false == Sprites.contains(UpperName))
 	{
 		MSGASSERT("로드하지 않은 스프라이트를 사용하려고 했습니다" + std::string(_KeyName));
 		return nullptr;
 	}
 
-	
-		return Sprites[UpperName];
+
+	return Sprites[UpperName];
 }
 
 UEngineWinImage* UImageManager::FindImage(std::string_view _KeyName)
@@ -277,7 +277,7 @@ UEngineWinImage* UImageManager::FindImage(std::string_view _KeyName)
 		return nullptr;
 	}
 
-		return Images[UpperName];
+	return Images[UpperName];
 }
 
 void UImageManager::CreateCutSprite(std::string_view _SearchKeyName, std::string_view _NewSpriteKeyName, FVector2D _StartPos, FVector2D _CuttingSize, FVector2D _XYOffSet, UINT _Xcount, UINT _ImageCount)

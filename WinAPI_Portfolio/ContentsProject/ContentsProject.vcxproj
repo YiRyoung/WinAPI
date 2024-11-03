@@ -151,7 +151,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="Kirby.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -159,20 +160,31 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayGameMode.h" />
-    <ClInclude Include="PlayMap.h">
+    <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="Stage1_1_GameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="Stage1_1_Map.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleKirby.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleMap.h">
       <SubType>
       </SubType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="ContentsEnum.cpp" />
+    <ClCompile Include="Kirby.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -180,20 +192,27 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="PlayGameMode.cpp" />
-    <ClCompile Include="PlayMap.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Stage1_1_GameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage1_1_Map.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleKirby.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>

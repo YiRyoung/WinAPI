@@ -56,17 +56,17 @@ public:
 		return Transform.Location;
 	}
 
-			template<typename ComponentType>
+	template<typename ComponentType>
 	ComponentType* CreateDefaultSubObject()
 	{
 		ComponentType* NewComponent = new ComponentType();
 
 		UActorComponent* ComponentPtr = dynamic_cast<UActorComponent*>(NewComponent);
-				ComponentPtr->ParentActor = this;
+		ComponentPtr->ParentActor = this;
 
-								Components.push_back(NewComponent);
+		Components.push_back(NewComponent);
 
-				ComponentList.push_back(NewComponent);
+		ComponentList.push_back(NewComponent);
 		return NewComponent;
 	}
 

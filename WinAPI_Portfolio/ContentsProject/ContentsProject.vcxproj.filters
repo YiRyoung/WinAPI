@@ -1,48 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="KirbyContentsCore.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayGameMode.h">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ContentsObject\Global</Filter>
+    <ClInclude Include="ContentsEnum.h">
+      <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>ContentsObject\Play</Filter>
+    <ClInclude Include="KirbyContentsCore.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="PlayMap.h">
-      <Filter>ContentsObject\Play</Filter>
+    <ClInclude Include="TitleMap.h">
+      <Filter>ContentsObject\Title</Filter>
     </ClInclude>
     <ClInclude Include="TitleGameMode.h">
       <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
+    <ClInclude Include="Kirby.h">
+      <Filter>ContentsObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleKirby.h">
+      <Filter>ContentsObject\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1_1_Map.h">
+      <Filter>ContentsObject\Stage 1_1</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1_1_GameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="KirbyContentsCore.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayGameMode.cpp">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ContentsObject\Global</Filter>
+    <ClCompile Include="ContentsEnum.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>ContentsObject\Play</Filter>
+    <ClCompile Include="KirbyContentsCore.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="PlayMap.cpp">
-      <Filter>ContentsObject\Play</Filter>
+    <ClCompile Include="TitleMap.cpp">
+      <Filter>ContentsObject\Title</Filter>
     </ClCompile>
     <ClCompile Include="TitleGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby.cpp">
+      <Filter>ContentsObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleKirby.cpp">
+      <Filter>ContentsObject\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1_1_Map.cpp">
+      <Filter>ContentsObject\Stage 1_1</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1_1_GameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,20 +62,26 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{c4022ac5-0ad8-4dcb-90e2-7ba0fd12ee5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject">
-      <UniqueIdentifier>{ed165c42-362e-49db-bac5-c3da0dcf2f5f}</UniqueIdentifier>
+    <Filter Include="Global">
+      <UniqueIdentifier>{3c01f258-cf39-4f1d-9c9d-37ca7a51ab9e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core">
-      <UniqueIdentifier>{d4658465-ccb1-4e32-97fb-a879db11d8d5}</UniqueIdentifier>
+      <UniqueIdentifier>{1216df93-2dcf-46f9-a662-e58e853335b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject">
+      <UniqueIdentifier>{5d5f059a-dd30-4c43-880f-adf8b1b2a3dc}</UniqueIdentifier>
     </Filter>
     <Filter Include="ContentsObject\GameMode">
-      <UniqueIdentifier>{c7386f9b-9b36-443d-826d-99051c03ecb1}</UniqueIdentifier>
+      <UniqueIdentifier>{e2509237-b126-4819-b1d3-7ecccbf9ee60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Global">
-      <UniqueIdentifier>{f115cbb0-2ba9-4f77-a2c8-4966520677b8}</UniqueIdentifier>
+    <Filter Include="ContentsObject\Title">
+      <UniqueIdentifier>{51a6bc1b-9910-4d30-bc0e-8783b3ea7bb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Play">
-      <UniqueIdentifier>{5f7ed488-6b15-43c9-9f51-c1f0add939b2}</UniqueIdentifier>
+    <Filter Include="ContentsObject\Player">
+      <UniqueIdentifier>{6dc3c2c8-3645-494f-b3b7-e133cc09b75d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Stage 1_1">
+      <UniqueIdentifier>{1173d6c2-c373-4ca5-9e83-8a580f179c2b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

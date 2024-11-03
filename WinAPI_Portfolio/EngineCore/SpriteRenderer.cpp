@@ -15,7 +15,7 @@ USpriteRenderer::~USpriteRenderer()
 
 void USpriteRenderer::Render(float _DeltaTime)
 {
-		if (nullptr != CurAnimation)
+	if (nullptr != CurAnimation)
 	{
 		std::vector<int>& Indexs = CurAnimation->FrameIndex;
 		std::vector<float>& Times = CurAnimation->FrameTime;
@@ -27,7 +27,7 @@ void USpriteRenderer::Render(float _DeltaTime)
 
 		float CurFrameTime = Times[CurAnimation->CurIndex];
 
-				if (CurAnimation->CurTime > CurFrameTime)
+		if (CurAnimation->CurTime > CurFrameTime)
 		{
 			CurAnimation->CurTime -= CurFrameTime;
 			++CurAnimation->CurIndex;
@@ -58,8 +58,8 @@ void USpriteRenderer::Render(float _DeltaTime)
 		}
 
 
-				CurIndex = Indexs[CurAnimation->CurIndex];
-			}
+		CurIndex = Indexs[CurAnimation->CurIndex];
+	}
 
 	if (nullptr == Sprite)
 	{
@@ -77,15 +77,15 @@ void USpriteRenderer::Render(float _DeltaTime)
 
 	Trans.Location = Trans.Location - Level->CameraPos;
 
-	
+
 	CurData.Image->CopyToTrans(BackBufferImage, Trans, CurData.Transform);
 }
 
 void USpriteRenderer::BeginPlay()
 {
-			Super::BeginPlay();
+	Super::BeginPlay();
 
-	
+
 	AActor* Actor = GetActor();
 	ULevel* Level = Actor->GetWorld();
 
@@ -99,8 +99,8 @@ void USpriteRenderer::ComponentTick(float _DeltaTime)
 
 void USpriteRenderer::SetSprite(std::string_view _Name, int _CurIndex /*= 0*/)
 {
-			
-		Sprite = UImageManager::GetInst().FindSprite(_Name);
+
+	Sprite = UImageManager::GetInst().FindSprite(_Name);
 
 	if (nullptr == Sprite)
 	{
@@ -117,7 +117,7 @@ void USpriteRenderer::SetOrder(int _Order)
 
 	Order = _Order;
 
-			ULevel* Level = GetActor()->GetWorld();
+	ULevel* Level = GetActor()->GetWorld();
 
 	if (nullptr != Level)
 	{
@@ -135,7 +135,7 @@ FVector2D USpriteRenderer::SetSpriteScale(float _Ratio /*= 1.0f*/, int _CurIndex
 
 	UEngineSprite::USpriteData CurData = Sprite->GetSpriteData(CurIndex);
 
-	FVector2D Scale = CurData.Transform.Scale* _Ratio;
+	FVector2D Scale = CurData.Transform.Scale * _Ratio;
 
 	SetComponentScale(CurData.Transform.Scale * _Ratio);
 
@@ -210,7 +210,7 @@ void USpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _For
 		return;
 	}
 
-	FrameAnimation* ChangeAnimation =&FrameAnimations[UpperName];
+	FrameAnimation* ChangeAnimation = &FrameAnimations[UpperName];
 
 	if (CurAnimation == ChangeAnimation && false == _Force)
 	{

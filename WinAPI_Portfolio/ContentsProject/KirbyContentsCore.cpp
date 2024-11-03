@@ -1,15 +1,15 @@
 #include "PreCompile.h"
 #include "KirbyContentsCore.h"
 
-#include <EngineCore/EngineAPICore.h>
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineFile.h>
+
 #include <EngineCore/ImageManager.h>
+#include <EngineCore/EngineAPICore.h>
 
 #include "TitleGameMode.h"
-#include "PlayGameMode.h"
-#include "Player.h"
+#include "Stage1_1_GameMode.h"
 
 KirbyContentsCore::KirbyContentsCore()
 {
@@ -25,7 +25,7 @@ void KirbyContentsCore::BeginPlay()
 
 	if (false == Dir.MoveParentToDirectory("Resources"))
 	{
-		MSGASSERT("리소스 폴더를 찾지 못했습니다.");
+		MSGASSERT("Resources 폴더를 찾지 못했습니다.");
 		return;
 	}
 
@@ -36,15 +36,17 @@ void KirbyContentsCore::BeginPlay()
 		std::string FilePath = ImageFiles[i].GetPathToString();
 		UImageManager::GetInst().Load(FilePath);
 	}
+	UImageManager::GetInst().CuttingSprite("Title_Kirby_64.png", { 64, 64 });
+	UImageManager::GetInst().CuttingSprite("Kirby_Idle_Right_18.png", { 18, 18 });
 
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
-	UImageManager::GetInst().CuttingSprite("Title_Kirby.png", { 64, 64 });
-	
-	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 256 * 4, 240 * 4 });
-	UEngineAPICore::GetCore()->CreateLevel<APlayGameMode, APlayer>("Play");
-	UEngineAPICore::GetCore()->OpenLevel("Play");
+	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 1024, 960 });
+	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
+	UEngineAPICore::GetCore()->CreateLevel<AStage1_1_GameMode, AActor>("Stage1_1");
+	UEngineAPICore::GetCore()->OpenLevel("Title");
 }
 
 void KirbyContentsCore::Tick()
 {
 }
+
