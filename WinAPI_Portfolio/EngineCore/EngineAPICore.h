@@ -51,9 +51,9 @@ public:
 	{
 		ULevel* NewLevel = new ULevel();
 
-				NewLevel->CreateGameMode<GameModeType, MainPawnType>();
+		NewLevel->CreateGameMode<GameModeType, MainPawnType>();
 
-										Levels.insert({ _LevelName.data() , NewLevel});
+		Levels.insert({ _LevelName.data() , NewLevel});
 
 		return NewLevel;
 	}

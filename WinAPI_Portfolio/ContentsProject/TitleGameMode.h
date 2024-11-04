@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/GameMode.h>
 
+// Ό³Έν :
 class ATitleGameMode : public AGameMode
 {
 public:
@@ -18,6 +19,7 @@ protected:
 	void BeginPlay() override;
 
 	void Tick(float _DeltaTime) override;
+
 private:
 
 };

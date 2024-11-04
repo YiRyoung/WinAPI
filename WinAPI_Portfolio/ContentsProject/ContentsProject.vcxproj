@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{F136EA1C-9DA2-472A-98FB-FD6709D91197}</ProjectGuid>
+    <ProjectGuid>{ff6353c1-f445-4001-aa75-89ea5f23ad81}</ProjectGuid>
     <RootNamespace>ContentsProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -151,21 +151,56 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ContentsEnum.h" />
-    <ClInclude Include="Kirby.h">
+    <ClInclude Include="BossStage.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="KirbyContentsCore.h">
+    <ClInclude Include="BossStageGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EduContentsCore.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage101GameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage101.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
-    <ClInclude Include="Stage1_1_GameMode.h">
+    <ClInclude Include="Stage102.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Stage1_1_Map.h">
+    <ClInclude Include="Stage102GameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage103.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage103GameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage104.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage104GameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -183,12 +218,31 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ContentsEnum.cpp" />
-    <ClCompile Include="Kirby.cpp">
+    <ClCompile Include="BossStage.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="KirbyContentsCore.cpp">
+    <ClCompile Include="BossStageGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EduContentsCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage101GameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage101.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentsEnum.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -196,11 +250,27 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Stage1_1_GameMode.cpp">
+    <ClCompile Include="Stage102.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Stage1_1_Map.cpp">
+    <ClCompile Include="Stage102GameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage103.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage103GameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage104.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage104GameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>

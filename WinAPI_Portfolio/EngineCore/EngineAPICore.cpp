@@ -62,13 +62,10 @@ void UEngineAPICore::EngineBeginPlay()
 
 void UEngineAPICore::EngineTick()
 {
-		
-				
-
 		UserCore->Tick();
 
 		MainCore->Tick();
-		}
+}
 
 void UEngineAPICore::Tick()
 {
@@ -101,7 +98,7 @@ void UEngineAPICore::Tick()
 
 	UEngineInput::GetInst().EventCheck(DeltaTime);
 	CurLevel->Tick(DeltaTime);
-		CurLevel->Render(DeltaTime);
+	CurLevel->Render(DeltaTime);
 
 }
 

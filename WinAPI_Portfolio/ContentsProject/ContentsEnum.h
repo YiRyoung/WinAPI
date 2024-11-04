@@ -1,8 +1,8 @@
 #pragma once
 
-enum class EContentsEnum
-{
-	BACKGROUND = -10,
-	FOREGROUND = -9
-};
 
+enum class ERenderOrder
+{
+	BACKGROUND = -1000,
+	PLAYER = 0,
+};

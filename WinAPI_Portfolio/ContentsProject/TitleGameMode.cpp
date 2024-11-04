@@ -15,20 +15,23 @@ ATitleGameMode::~ATitleGameMode()
 {
 }
 
+
+// 언리얼에서는 MainPawn 주인공 무조건 지정하게 해요.
 void ATitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	ATitleMap* Background = GetWorld()->SpawnActor<ATitleMap>();
-	ATitleKirby* Foreground = GetWorld()->SpawnActor<ATitleKirby>();
+	TitleMap* NewMap = GetWorld()->SpawnActor<TitleMap>();
+	TitleKirby* NewActor = GetWorld()->SpawnActor<TitleKirby>();
 }
+
 
 void ATitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	if (true == UEngineInput::GetInst().IsDown(VK_RETURN))
+	if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
 	{
-		UEngineAPICore::GetCore()->OpenLevel("Stage1_1");
+		UEngineAPICore::GetCore()->OpenLevel("Stage101");
 	}
-}
 
+}

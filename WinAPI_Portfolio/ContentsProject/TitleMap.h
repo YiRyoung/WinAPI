@@ -1,18 +1,18 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
-class ATitleMap : public AActor
+class TitleMap : public AActor
 {
 public:
 	// constrcuter destructer
-	ATitleMap();
-	~ATitleMap();
+	TitleMap();
+	~TitleMap();
 
 	// delete Function
-	ATitleMap(const ATitleMap& _Other) = delete;
-	ATitleMap(ATitleMap&& _Other) noexcept = delete;
-	ATitleMap& operator=(const ATitleMap& _Other) = delete;
-	ATitleMap& operator=(ATitleMap&& _Other) noexcept = delete;
+	TitleMap(const TitleMap& _Other) = delete;
+	TitleMap(TitleMap&& _Other) noexcept = delete;
+	TitleMap& operator=(const TitleMap& _Other) = delete;
+	TitleMap& operator=(TitleMap&& _Other) noexcept = delete;
 
 protected:
 

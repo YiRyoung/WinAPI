@@ -91,7 +91,7 @@ void ULevel::Tick(float _DeltaTime)
 
 		BeginPlayList.clear();
 
-				AActor::ComponentBeginPlay();
+		AActor::ComponentBeginPlay();
 	}
 
 	{
@@ -109,13 +109,11 @@ void ULevel::Tick(float _DeltaTime)
 
 void ULevel::Render(float _DeltaTime)
 {
-	ScreenClear();
-
-		
+	ScreenClear();	
 		
 	if (true == IsCameraToMainPawn)
 	{
-				CameraPos = MainPawn->GetTransform().Location + CameraPivot;
+		CameraPos = MainPawn->GetTransform().Location + CameraPivot;
 	}
 
 

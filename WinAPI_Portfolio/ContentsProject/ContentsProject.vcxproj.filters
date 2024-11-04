@@ -1,87 +1,147 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="PreCompile.h">
-      <Filter>PreCompile</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsEnum.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="KirbyContentsCore.h">
+    <ClCompile Include="EduContentsCore.cpp">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleMap.h">
-      <Filter>ContentsObject\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleGameMode.h">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClInclude>
-    <ClInclude Include="Kirby.h">
-      <Filter>ContentsObject\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleKirby.h">
-      <Filter>ContentsObject\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage1_1_Map.h">
-      <Filter>ContentsObject\Stage 1_1</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage1_1_GameMode.h">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="PreCompile.cpp">
-      <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ContentsObject\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage101.cpp">
+      <Filter>ContentsObject\Maps\Stage101</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleMap.cpp">
+      <Filter>ContentsObject\Maps\Title</Filter>
     </ClCompile>
     <ClCompile Include="ContentsEnum.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="KirbyContentsCore.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="TitleMap.cpp">
-      <Filter>ContentsObject\Title</Filter>
+    <ClCompile Include="Stage102.cpp">
+      <Filter>ContentsObject\Maps\Stage102</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage101GameMode.cpp">
+      <Filter>ContentsObject\Maps\Stage101</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage102GameMode.cpp">
+      <Filter>ContentsObject\Maps\Stage102</Filter>
     </ClCompile>
     <ClCompile Include="TitleGameMode.cpp">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClCompile>
-    <ClCompile Include="Kirby.cpp">
-      <Filter>ContentsObject\Player</Filter>
+      <Filter>ContentsObject\Maps\Title</Filter>
     </ClCompile>
     <ClCompile Include="TitleKirby.cpp">
-      <Filter>ContentsObject\Title</Filter>
+      <Filter>ContentsObject\Maps\Title</Filter>
     </ClCompile>
-    <ClCompile Include="Stage1_1_Map.cpp">
-      <Filter>ContentsObject\Stage 1_1</Filter>
+    <ClCompile Include="Stage103.cpp">
+      <Filter>ContentsObject\Maps\Stage103</Filter>
     </ClCompile>
-    <ClCompile Include="Stage1_1_GameMode.cpp">
-      <Filter>ContentsObject\GameMode</Filter>
+    <ClCompile Include="Stage103GameMode.cpp">
+      <Filter>ContentsObject\Maps\Stage103</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage104.cpp">
+      <Filter>ContentsObject\Maps\Stage104</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage104GameMode.cpp">
+      <Filter>ContentsObject\Maps\Stage104</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage.cpp">
+      <Filter>ContentsObject\Maps\BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStageGameMode.cpp">
+      <Filter>ContentsObject\Maps\BossStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="PreCompile">
-      <UniqueIdentifier>{c4022ac5-0ad8-4dcb-90e2-7ba0fd12ee5e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global">
-      <UniqueIdentifier>{3c01f258-cf39-4f1d-9c9d-37ca7a51ab9e}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="EduContentsCore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ContentsObject\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage101.h">
+      <Filter>ContentsObject\Maps\Stage101</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleMap.h">
+      <Filter>ContentsObject\Maps\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage102.h">
+      <Filter>ContentsObject\Maps\Stage102</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleGameMode.h">
+      <Filter>ContentsObject\Maps\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage101GameMode.h">
+      <Filter>ContentsObject\Maps\Stage101</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage102GameMode.h">
+      <Filter>ContentsObject\Maps\Stage102</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleKirby.h">
+      <Filter>ContentsObject\Maps\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage103.h">
+      <Filter>ContentsObject\Maps\Stage103</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage103GameMode.h">
+      <Filter>ContentsObject\Maps\Stage103</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage104.h">
+      <Filter>ContentsObject\Maps\Stage104</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage104GameMode.h">
+      <Filter>ContentsObject\Maps\Stage104</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage.h">
+      <Filter>ContentsObject\Maps\BossStage</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStageGameMode.h">
+      <Filter>ContentsObject\Maps\BossStage</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <Filter Include="Core">
-      <UniqueIdentifier>{1216df93-2dcf-46f9-a662-e58e853335b1}</UniqueIdentifier>
+      <UniqueIdentifier>{a6ec63b0-0597-4432-9f83-2754695cc6e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="ContentsObject">
-      <UniqueIdentifier>{5d5f059a-dd30-4c43-880f-adf8b1b2a3dc}</UniqueIdentifier>
+      <UniqueIdentifier>{57e7d21e-ce4f-4f92-96ba-71d1027b53b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\GameMode">
-      <UniqueIdentifier>{e2509237-b126-4819-b1d3-7ecccbf9ee60}</UniqueIdentifier>
+    <Filter Include="ContentsObject\Global">
+      <UniqueIdentifier>{150a3a0c-36a1-4da9-b604-5e11603221ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Title">
-      <UniqueIdentifier>{51a6bc1b-9910-4d30-bc0e-8783b3ea7bb8}</UniqueIdentifier>
+    <Filter Include="Global">
+      <UniqueIdentifier>{13cfc642-be9c-42c5-8532-6a19c8122805}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Player">
-      <UniqueIdentifier>{6dc3c2c8-3645-494f-b3b7-e133cc09b75d}</UniqueIdentifier>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{916c87ff-1051-46f7-a4b4-d8a1eb2ffcbc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Stage 1_1">
-      <UniqueIdentifier>{1173d6c2-c373-4ca5-9e83-8a580f179c2b}</UniqueIdentifier>
+    <Filter Include="ContentsObject\Maps">
+      <UniqueIdentifier>{f1357283-ff33-4a5e-803a-ab3d19e366b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Maps\Title">
+      <UniqueIdentifier>{78a8595f-5914-481f-9723-cc2c0e5fe1e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Maps\BossStage">
+      <UniqueIdentifier>{725c9b57-ec51-4bb0-92db-c68f5586c615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Maps\Stage101">
+      <UniqueIdentifier>{25b0eb23-1494-4967-b0b1-ae86665f67b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Maps\Stage102">
+      <UniqueIdentifier>{dd3fe174-aa69-413c-9665-609d5e59b36b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Maps\Stage103">
+      <UniqueIdentifier>{056f02bd-90ad-412e-933b-8258839708e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Maps\Stage104">
+      <UniqueIdentifier>{6ecdaf71-7a55-4a3f-812d-34500c1125f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
