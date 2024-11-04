@@ -17,7 +17,6 @@ ULevel::ULevel()
 ULevel::~ULevel()
 {
 	{
-				
 		std::list<AActor*>::iterator StartIter = BeginPlayList.begin();
 		std::list<AActor*>::iterator EndIter = BeginPlayList.end();
 
@@ -28,8 +27,6 @@ ULevel::~ULevel()
 		}
 	}
 
-
-
 	std::list<AActor*>::iterator StartIter = AllActors.begin();
 	std::list<AActor*>::iterator EndIter = AllActors.end();
 
@@ -39,7 +36,7 @@ ULevel::~ULevel()
 
 		if (nullptr != CurActor)
 		{
-			delete *StartIter;
+			delete* StartIter;
 		}
 	}
 }
@@ -109,13 +106,12 @@ void ULevel::Tick(float _DeltaTime)
 
 void ULevel::Render(float _DeltaTime)
 {
-	ScreenClear();	
-		
+	ScreenClear();
+
 	if (true == IsCameraToMainPawn)
 	{
 		CameraPos = MainPawn->GetTransform().Location + CameraPivot;
 	}
-
 
 	std::map<int, std::list<class USpriteRenderer*>>::iterator StartOrderIter = Renderers.begin();
 	std::map<int, std::list<class USpriteRenderer*>>::iterator EndOrderIter = Renderers.end();
@@ -150,7 +146,7 @@ void ULevel::ScreenClear()
 
 void ULevel::DoubleBuffering()
 {
-		UEngineWindow& MainWindow = UEngineAPICore::GetCore()->GetMainWindow();
+	UEngineWindow& MainWindow = UEngineAPICore::GetCore()->GetMainWindow();
 
 	UEngineWinImage* WindowImage = MainWindow.GetWindowImage();
 	UEngineWinImage* BackBufferImage = MainWindow.GetBackBuffer();
@@ -159,7 +155,7 @@ void ULevel::DoubleBuffering()
 	Trans.Location = MainWindow.GetWindowSize().Half();
 	Trans.Scale = MainWindow.GetWindowSize();
 
-		BackBufferImage->CopyToBit(WindowImage, Trans);
+	BackBufferImage->CopyToBit(WindowImage, Trans);
 
 }
 
@@ -172,10 +168,7 @@ void ULevel::PushRenderer(class USpriteRenderer* _Renderer)
 
 void ULevel::ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder)
 {
-			
-			Renderers[_PrevOrder].remove(_Renderer);
+	Renderers[_PrevOrder].remove(_Renderer);
 
 	Renderers[_Renderer->GetOrder()].push_back(_Renderer);
-
-
 }

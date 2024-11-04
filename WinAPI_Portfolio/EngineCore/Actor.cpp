@@ -39,7 +39,7 @@ AActor::AActor()
 
 AActor::~AActor()
 {
-		std::list<UActorComponent*>::iterator StartIter = Components.begin();
+	std::list<UActorComponent*>::iterator StartIter = Components.begin();
 	std::list<UActorComponent*>::iterator EndIter = Components.end();
 	for (; StartIter != EndIter; ++StartIter)
 	{

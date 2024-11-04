@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="EduContentsCore.cpp">
+    <ClCompile Include="KirbyContentsCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -19,42 +19,33 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="Stage102.cpp">
-      <Filter>ContentsObject\Maps\Stage102</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage101GameMode.cpp">
-      <Filter>ContentsObject\Maps\Stage101</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage102GameMode.cpp">
-      <Filter>ContentsObject\Maps\Stage102</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleGameMode.cpp">
-      <Filter>ContentsObject\Maps\Title</Filter>
-    </ClCompile>
     <ClCompile Include="TitleKirby.cpp">
       <Filter>ContentsObject\Maps\Title</Filter>
     </ClCompile>
-    <ClCompile Include="Stage103.cpp">
-      <Filter>ContentsObject\Maps\Stage103</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage103GameMode.cpp">
-      <Filter>ContentsObject\Maps\Stage103</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage104.cpp">
-      <Filter>ContentsObject\Maps\Stage104</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage104GameMode.cpp">
-      <Filter>ContentsObject\Maps\Stage104</Filter>
-    </ClCompile>
-    <ClCompile Include="BossStage.cpp">
-      <Filter>ContentsObject\Maps\BossStage</Filter>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ContentsObject\Maps</Filter>
     </ClCompile>
     <ClCompile Include="BossStageGameMode.cpp">
-      <Filter>ContentsObject\Maps\BossStage</Filter>
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage104GameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage103GameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage102GameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage101GameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EduContentsCore.h">
+    <ClInclude Include="KirbyContentsCore.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
@@ -72,38 +63,29 @@
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
-    <ClInclude Include="Stage102.h">
-      <Filter>ContentsObject\Maps\Stage102</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleGameMode.h">
-      <Filter>ContentsObject\Maps\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage101GameMode.h">
-      <Filter>ContentsObject\Maps\Stage101</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage102GameMode.h">
-      <Filter>ContentsObject\Maps\Stage102</Filter>
-    </ClInclude>
     <ClInclude Include="TitleKirby.h">
       <Filter>ContentsObject\Maps\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Stage103.h">
-      <Filter>ContentsObject\Maps\Stage103</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage103GameMode.h">
-      <Filter>ContentsObject\Maps\Stage103</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage104.h">
-      <Filter>ContentsObject\Maps\Stage104</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage104GameMode.h">
-      <Filter>ContentsObject\Maps\Stage104</Filter>
-    </ClInclude>
-    <ClInclude Include="BossStage.h">
-      <Filter>ContentsObject\Maps\BossStage</Filter>
+    <ClInclude Include="Stage.h">
+      <Filter>ContentsObject\Maps</Filter>
     </ClInclude>
     <ClInclude Include="BossStageGameMode.h">
-      <Filter>ContentsObject\Maps\BossStage</Filter>
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage104GameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage103GameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage102GameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage101GameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,20 +110,11 @@
     <Filter Include="ContentsObject\Maps\Title">
       <UniqueIdentifier>{78a8595f-5914-481f-9723-cc2c0e5fe1e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Maps\BossStage">
-      <UniqueIdentifier>{725c9b57-ec51-4bb0-92db-c68f5586c615}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ContentsObject\Maps\Stage101">
       <UniqueIdentifier>{25b0eb23-1494-4967-b0b1-ae86665f67b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Maps\Stage102">
-      <UniqueIdentifier>{dd3fe174-aa69-413c-9665-609d5e59b36b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ContentsObject\Maps\Stage103">
-      <UniqueIdentifier>{056f02bd-90ad-412e-933b-8258839708e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ContentsObject\Maps\Stage104">
-      <UniqueIdentifier>{6ecdaf71-7a55-4a3f-812d-34500c1125f5}</UniqueIdentifier>
+    <Filter Include="ContentsObject\GameMode">
+      <UniqueIdentifier>{2a8bcfd1-b521-40f1-9b91-89dbc638bbc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

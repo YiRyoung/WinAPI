@@ -14,9 +14,11 @@ public:
 	AStage101& operator=(const AStage101& _Other) = delete;
 	AStage101& operator=(AStage101&& _Other) noexcept = delete;
 
+	FVector2D LeftTopPos = FVector2D::ZERO;
+	FVector2D RightBottomPos = FVector2D::ZERO;
+
 protected:
 
 private:
-
 };
 

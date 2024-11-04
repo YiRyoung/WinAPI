@@ -19,9 +19,9 @@ public:
 	AActor& operator=(const AActor& _Other) = delete;
 	AActor& operator=(AActor&& _Other) noexcept = delete;
 
-		virtual void BeginPlay() {}
+	virtual void BeginPlay() {}
 
-		virtual void Tick(float _DeltaTime) {}
+	virtual void Tick(float _DeltaTime) {}
 
 	virtual void LevelChangeStart() {}
 	virtual void LevelChangeEnd() {}

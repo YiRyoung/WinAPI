@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "EduContentsCore.h"
+#include "KirbyContentsCore.h"
 #include <EngineCore/EngineAPICore.h>
 
 #include <EngineBase/EngineDirectory.h>
@@ -17,15 +17,15 @@
 #include "Player.h"
 
 
-EduContentsCore::EduContentsCore()
+KirbyContentsCore::KirbyContentsCore()
 {
 }
 
-EduContentsCore::~EduContentsCore()
+KirbyContentsCore::~KirbyContentsCore()
 {
 }
 
-void EduContentsCore::BeginPlay()
+void KirbyContentsCore::BeginPlay()
 {
 
 	UEngineDirectory Dir;
@@ -45,10 +45,8 @@ void EduContentsCore::BeginPlay()
 	}
 
 	UImageManager::GetInst().CuttingSprite("Title_Kirby_64.png", {64, 64});
-	UImageManager::GetInst().CuttingSprite("Kirby_Idle_Right_18.png", {18, 18});
-	UImageManager::GetInst().CuttingSprite("Kirby_Idle_Left_18.png", {18, 18});
 	UImageManager::GetInst().CuttingSprite("Kirby_Walk_Right_18.png", {18, 18});
-	UImageManager::GetInst().CuttingSprite("Kirby_Walk_Left_18.png", {18, 18});
+	UImageManager::GetInst().CuttingSprite("Kirby_Idle_Right_18.png", {18, 18});
 
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
 
@@ -66,7 +64,7 @@ void EduContentsCore::BeginPlay()
 
 }
 
-void EduContentsCore::Tick()
+void KirbyContentsCore::Tick()
 {
 	// 지금 전혀 용도를 찾지 못해서 사용하지 않는 함수입니다.
 }

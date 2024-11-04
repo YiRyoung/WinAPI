@@ -5,8 +5,7 @@
 #include <EngineCore/EngineAPICore.h>
 
 #include <EngineCore/Level.h>
-#include "Stage102.h"
-#include "Stage103.h"
+
 
 AStage102GameMode::AStage102GameMode()
 {
@@ -19,7 +18,7 @@ AStage102GameMode::~AStage102GameMode()
 void AStage102GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	AStage102* NewActor = GetWorld()->SpawnActor<AStage102>();
+	//AStage102* NewActor = GetWorld()->SpawnActor<AStage102>();
 }
 
 void AStage102GameMode::Tick(float _DeltaTime)

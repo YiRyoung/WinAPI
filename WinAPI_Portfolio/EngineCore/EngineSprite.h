@@ -9,14 +9,14 @@ public:
 	class USpriteData
 	{
 	public:
-				UEngineWinImage* Image;
-				FTransform Transform;
-			};
+		UEngineWinImage* Image;
+		FTransform Transform;
+	};
 
-		UEngineSprite();
+	UEngineSprite();
 	~UEngineSprite();
 
-		UEngineSprite(const UEngineSprite& _Other) = delete;
+	UEngineSprite(const UEngineSprite& _Other) = delete;
 	UEngineSprite(UEngineSprite&& _Other) noexcept = delete;
 	UEngineSprite& operator=(const UEngineSprite& _Other) = delete;
 	UEngineSprite& operator=(UEngineSprite&& _Other) noexcept = delete;

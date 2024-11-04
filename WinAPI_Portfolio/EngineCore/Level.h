@@ -44,6 +44,26 @@ public:
 		CameraPivot = _Pivot;
 	}
 
+	void SetCameraPos(FVector2D Pos)
+	{
+		CameraPos = Pos;
+	}
+
+	FVector2D GetCameraPivot()
+	{
+		return CameraPivot;
+	}
+
+	FVector2D GetCameraPos()
+	{
+		return CameraPos;
+	}
+
+	AActor* GetPawn()
+	{
+		return MainPawn;
+	}
+
 protected:
 
 private:
@@ -66,7 +86,6 @@ private:
 
 	}
 
-
 	void PushRenderer(class USpriteRenderer* _Renderer);
 	void ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder);
 
@@ -78,7 +97,7 @@ private:
 
 	std::list<AActor*> BeginPlayList;
 
-	bool IsCameraToMainPawn = true;
+	bool IsCameraToMainPawn = false;
 	FVector2D CameraPos;
 	FVector2D CameraPivot;
 
