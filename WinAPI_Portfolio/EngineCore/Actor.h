@@ -4,6 +4,7 @@
 
 #include "EngineSprite.h"
 
+// Ό³Έν :
 class AActor : public UObject
 {
 public:
@@ -11,9 +12,11 @@ public:
 
 	friend class ULevel;
 
+	// constrcuter destructer
 	AActor();
 	~AActor();
 
+	// delete Function
 	AActor(const AActor& _Other) = delete;
 	AActor(AActor&& _Other) noexcept = delete;
 	AActor& operator=(const AActor& _Other) = delete;
@@ -39,11 +42,6 @@ public:
 	void AddActorLocation(FVector2D _Direction)
 	{
 		Transform.Location += _Direction;
-	}
-
-	void SetActorScale(FVector2D _Scale)
-	{
-		Transform.Scale = _Scale;
 	}
 
 	FTransform GetTransform()
@@ -77,6 +75,8 @@ private:
 
 	static bool IsNewActorCreate;
 	static std::list<class UActorComponent*> ComponentList;
+
+	void ReleaseCheck(float _DeltaTime) override;
 
 	class ULevel* World = nullptr;
 	FTransform Transform;

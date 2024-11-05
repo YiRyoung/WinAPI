@@ -1,15 +1,17 @@
 #pragma once
 #include "GameMode.h"
-#include <list>
 
+// Ό³Έν :
 class ULevel
 {
 public:
 	friend class USpriteRenderer;
 	friend class UEngineAPICore;
+	// constrcuter destructer
 	ULevel();
 	~ULevel();
 
+	// delete Function
 	ULevel(const ULevel& _Other) = delete;
 	ULevel(ULevel&& _Other) noexcept = delete;
 	ULevel& operator=(const ULevel& _Other) = delete;
@@ -21,6 +23,7 @@ public:
 
 	void Tick(float _DeltaTime);
 	void Render(float _DeltaTime);
+	void Release(float _DeltaTime);
 
 	template<typename ActorType>
 	ActorType* SpawnActor()
@@ -31,6 +34,7 @@ public:
 		ActorPtr->World = this;
 
 		BeginPlayList.push_back(ActorPtr);
+
 		return NewActor;
 	}
 
@@ -44,9 +48,9 @@ public:
 		CameraPivot = _Pivot;
 	}
 
-	void SetCameraPos(FVector2D Pos)
+	void SetCameraPos(FVector2D _Pos)
 	{
-		CameraPos = Pos;
+		CameraPos = _Pos;
 	}
 
 	FVector2D GetCameraPivot()
@@ -64,12 +68,18 @@ public:
 		return MainPawn;
 	}
 
+	template<typename ConvertType>
+	ConvertType* GetPawn()
+	{
+		return dynamic_cast<ConvertType*>(MainPawn);
+	}
+
+
 protected:
 
 private:
 	void ScreenClear();
 	void DoubleBuffering();
-
 
 	template<typename GameModeType, typename MainPawnType>
 	void CreateGameMode()

@@ -1,5 +1,4 @@
 #pragma once
-
 class FVector2D
 {
 public:
@@ -42,7 +41,7 @@ public:
 		return static_cast<int>(Y);
 	}
 
-		bool IsZeroed() const
+	bool IsZeroed() const
 	{
 		return X == 0.0f || Y == 0.0f;
 	}
@@ -57,6 +56,8 @@ public:
 		return sqrtf(X * X + Y * Y);
 	}
 
+	class FIntPoint ConvertToPoint() const;
+
 	void Normalize()
 	{
 		float Len = Length();
@@ -66,6 +67,11 @@ public:
 			X = Y / Len;
 		}
 		return;
+	}
+
+	float Dot(const FVector2D& other) const
+	{
+		return X * other.X + Y * other.Y;
 	}
 
 	FVector2D operator*(float _Value) const
@@ -101,18 +107,24 @@ public:
 		return Result;
 	}
 
+	FVector2D operator/(const FVector2D& Other) const
+	{
+		FVector2D Result;
+		Result.X = X / Other.X;
+		Result.Y = Y / Other.Y;
+		return Result;
+	}
 
-		bool operator==(FVector2D _Other) const
+	bool operator==(FVector2D _Other) const
 	{
 		return X == _Other.X && Y == _Other.Y;
 	}
 
-			bool EqualToInt(FVector2D _Other) const
+	bool EqualToInt(FVector2D _Other) const
 	{
-						return iX() == _Other.iX() && iY() == _Other.iY();
+		return iX() == _Other.iX() && iY() == _Other.iY();
 	}
 
-				
 	FVector2D& operator+=(FVector2D _Other)
 	{
 		X += _Other.X;
@@ -207,11 +219,12 @@ class EngineMath
 {
 };
 
-
-
 class UColor
 {
 public:
+	static const UColor WHITE;
+	static const UColor BLACK;
+
 	union
 	{
 		int Color;
@@ -223,6 +236,18 @@ public:
 			unsigned char A;
 		};
 	};
+
+	UColor(unsigned long _Value)
+		:Color(_Value)
+	{
+
+	}
+
+	bool operator==(const UColor& _Other)
+	{
+		return R == _Other.R && G == _Other.G && B == _Other.B;
+	}
+
 
 	UColor(unsigned char _R, unsigned char _G, unsigned char _B, unsigned char _A)
 		:R(_R), G(_G), B(_B), A(_A)

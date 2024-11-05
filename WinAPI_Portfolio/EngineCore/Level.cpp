@@ -27,6 +27,8 @@ ULevel::~ULevel()
 		}
 	}
 
+
+
 	std::list<AActor*>::iterator StartIter = AllActors.begin();
 	std::list<AActor*>::iterator EndIter = AllActors.end();
 
@@ -44,14 +46,28 @@ ULevel::~ULevel()
 void ULevel::LevelChangeStart()
 {
 	{
-		std::list<AActor*>::iterator StartIter = AllActors.begin();
-		std::list<AActor*>::iterator EndIter = AllActors.end();
-
-		for (; StartIter != EndIter; ++StartIter)
 		{
-			AActor* CurActor = *StartIter;
+			std::list<AActor*>::iterator StartIter = AllActors.begin();
+			std::list<AActor*>::iterator EndIter = AllActors.end();
 
-			CurActor->LevelChangeStart();
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				AActor* CurActor = *StartIter;
+
+				CurActor->LevelChangeStart();
+			}
+		}
+
+		{
+			std::list<AActor*>::iterator StartIter = BeginPlayList.begin();
+			std::list<AActor*>::iterator EndIter = BeginPlayList.end();
+
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				AActor* CurActor = *StartIter;
+
+				CurActor->LevelChangeStart();
+			}
 		}
 	}
 
@@ -60,14 +76,28 @@ void ULevel::LevelChangeStart()
 void ULevel::LevelChangeEnd()
 {
 	{
-		std::list<AActor*>::iterator StartIter = AllActors.begin();
-		std::list<AActor*>::iterator EndIter = AllActors.end();
-
-		for (; StartIter != EndIter; ++StartIter)
 		{
-			AActor* CurActor = *StartIter;
+			std::list<AActor*>::iterator StartIter = AllActors.begin();
+			std::list<AActor*>::iterator EndIter = AllActors.end();
 
-			CurActor->LevelChangeEnd();
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				AActor* CurActor = *StartIter;
+
+				CurActor->LevelChangeEnd();
+			}
+		}
+
+		{
+			std::list<AActor*>::iterator StartIter = BeginPlayList.begin();
+			std::list<AActor*>::iterator EndIter = BeginPlayList.end();
+
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				AActor* CurActor = *StartIter;
+
+				CurActor->LevelChangeEnd();
+			}
 		}
 	}
 
@@ -99,6 +129,11 @@ void ULevel::Tick(float _DeltaTime)
 		{
 			AActor* CurActor = *StartIter;
 
+			if (false == CurActor->IsActive())
+			{
+				continue;
+			}
+
 			CurActor->Tick(_DeltaTime);
 		}
 	}
@@ -113,6 +148,7 @@ void ULevel::Render(float _DeltaTime)
 		CameraPos = MainPawn->GetTransform().Location + CameraPivot;
 	}
 
+
 	std::map<int, std::list<class USpriteRenderer*>>::iterator StartOrderIter = Renderers.begin();
 	std::map<int, std::list<class USpriteRenderer*>>::iterator EndOrderIter = Renderers.end();
 
@@ -125,6 +161,11 @@ void ULevel::Render(float _DeltaTime)
 
 		for (; RenderStartIter != RenderEndIter; ++RenderStartIter)
 		{
+			if (false == (*RenderStartIter)->IsActive())
+			{
+				continue;
+			}
+
 			(*RenderStartIter)->Render(_DeltaTime);
 		}
 
@@ -133,6 +174,52 @@ void ULevel::Render(float _DeltaTime)
 	UEngineDebug::PrintEngineDebugText();
 
 	DoubleBuffering();
+}
+
+void ULevel::Release(float _DeltaTime)
+{
+	std::map<int, std::list<class USpriteRenderer*>>::iterator StartOrderIter = Renderers.begin();
+	std::map<int, std::list<class USpriteRenderer*>>::iterator EndOrderIter = Renderers.end();
+
+	for (; StartOrderIter != EndOrderIter; ++StartOrderIter)
+	{
+		std::list<class USpriteRenderer*>& RendererList = StartOrderIter->second;
+
+		std::list<class USpriteRenderer*>::iterator RenderStartIter = RendererList.begin();
+		std::list<class USpriteRenderer*>::iterator RenderEndIter = RendererList.end();
+
+		for (; RenderStartIter != RenderEndIter; )
+		{
+			if (false == (*RenderStartIter)->IsDestroy())
+			{
+				++RenderStartIter;
+				continue;
+			}
+
+			RenderStartIter = RendererList.erase(RenderStartIter);
+		}
+	}
+
+	{
+		std::list<AActor*>::iterator StartIter = AllActors.begin();
+		std::list<AActor*>::iterator EndIter = AllActors.end();
+
+		for (; StartIter != EndIter; )
+		{
+			AActor* CurActor = *StartIter;
+
+
+			if (false == CurActor->IsDestroy())
+			{
+				CurActor->ReleaseCheck(_DeltaTime);
+				++StartIter;
+				continue;
+			}
+
+			delete CurActor;
+			StartIter = AllActors.erase(StartIter);
+		}
+	}
 }
 
 void ULevel::ScreenClear()
@@ -171,4 +258,6 @@ void ULevel::ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder)
 	Renderers[_PrevOrder].remove(_Renderer);
 
 	Renderers[_Renderer->GetOrder()].push_back(_Renderer);
+
+
 }
