@@ -59,7 +59,7 @@ void KirbyContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<AStage104GameMode, APlayer>("Stage104");
 	UEngineAPICore::GetCore()->CreateLevel<ABossStageGameMode, APlayer>("BossStage");
 
-	UEngineAPICore::GetCore()->OpenLevel("Title");
+	UEngineAPICore::GetCore()->OpenLevel("Stage101");
 
 }
 

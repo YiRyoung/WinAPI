@@ -110,8 +110,8 @@ void APlayer::Tick(float _DeltaTime)
 		CurPos = { CurPos.X, TempPos.Y };
 	}
 
-
 	GetWorld()->SetCameraPos(CurPos);
+
 }
 
 void APlayer::LevelChangeStart()
@@ -124,7 +124,12 @@ void APlayer::LevelChangeEnd()
 	Super::LevelChangeEnd();
 }
 
-void APlayer::GetImage(std::string_view _ImageName)
+void APlayer::GetBackImage(std::string_view _ImageName)
 {
 	BackImage = UImageManager::GetInst().FindImage(_ImageName);
+}
+
+void APlayer::GetColImage(std::string_view _ImageName)
+{
+	ColImage = UImageManager::GetInst().FindImage(_ImageName);
 }

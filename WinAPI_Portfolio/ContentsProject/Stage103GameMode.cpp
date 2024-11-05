@@ -24,7 +24,7 @@ void AStage103GameMode::BeginPlay()
 	NewActor->SetSprite("Stage103.png");
 
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
-	Player->GetImage("Stage103.png");
+	Player->GetBackImage("Stage103.png");
 }
 
 void AStage103GameMode::Tick(float _DeltaTime)

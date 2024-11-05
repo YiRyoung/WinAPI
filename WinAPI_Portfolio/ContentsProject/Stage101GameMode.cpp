@@ -22,9 +22,9 @@ void AStage101GameMode::BeginPlay()
 
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Stage101.png");
-
+	NewActor->SetColSprite("ColStage101.png");
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
-	Player->GetImage("Stage101.png");
+	Player->GetBackImage("Stage101.png");
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)

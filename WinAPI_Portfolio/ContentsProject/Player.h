@@ -20,10 +20,8 @@ public:
 	void LevelChangeStart();
 	void LevelChangeEnd();
 
-	void GetImage(std::string_view _ImageName);
-
-	//FVector2D CameraPivot;
-	class UEngineWinImage* BackImage;
+	void GetBackImage(std::string_view _ImageName);
+	void GetColImage(std::string_view _ImageName);
 
 protected:
 
@@ -31,6 +29,8 @@ private:
 	float Speed = 500.0f;
 	int MySpriteIndex = 0;
 
+	class UEngineWinImage* BackImage = nullptr;
+	class UEngineWinImage* ColImage = nullptr;
 	class USpriteRenderer* SpriteRenderer;
 };
 

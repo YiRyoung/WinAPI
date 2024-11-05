@@ -26,7 +26,7 @@ void ABossStageGameMode::BeginPlay()
 	FVector2D Pos = NewActor->GetActorLocation();
 
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
-	Player->GetImage("Whispy Woods.png");
+	Player->GetBackImage("Whispy Woods.png");
 }
 
 void ABossStageGameMode::Tick(float _DeltaTime)
