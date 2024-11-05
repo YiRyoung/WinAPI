@@ -21,10 +21,10 @@ public:
 class UEngineAPICore
 {
 public:
-		UEngineAPICore();
+	UEngineAPICore();
 	~UEngineAPICore();
 
-		UEngineAPICore(const UEngineAPICore& _Other) = delete;
+	UEngineAPICore(const UEngineAPICore& _Other) = delete;
 	UEngineAPICore(UEngineAPICore&& _Other) noexcept = delete;
 	UEngineAPICore& operator=(const UEngineAPICore& _Other) = delete;
 	UEngineAPICore& operator=(UEngineAPICore&& _Other) noexcept = delete;
@@ -53,7 +53,7 @@ public:
 
 		NewLevel->CreateGameMode<GameModeType, MainPawnType>();
 
-		Levels.insert({ _LevelName.data() , NewLevel});
+		Levels.insert({ _LevelName.data() , NewLevel });
 
 		return NewLevel;
 	}
@@ -71,11 +71,11 @@ private:
 	static UContentsCore* UserCore;
 
 	UEngineTimer DeltaTimer = UEngineTimer();
-	UEngineWindow EngineMainWindow = UEngineWindow(); 
-	
-		std::map<std::string, class ULevel*> Levels;
+	UEngineWindow EngineMainWindow = UEngineWindow();
 
-				class ULevel* CurLevel = nullptr;
+	std::map<std::string, class ULevel*> Levels;
+
+	class ULevel* CurLevel = nullptr;
 	class ULevel* NextLevel = nullptr;
 
 	void Tick();

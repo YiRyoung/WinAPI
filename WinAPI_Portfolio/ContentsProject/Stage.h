@@ -1,7 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
-// Ό³Έν :
 class AStage : public AActor
 {
 public:
@@ -15,13 +14,13 @@ public:
 	AStage& operator=(const AStage& _Other) = delete;
 	AStage& operator=(AStage&& _Other) noexcept = delete;
 
-	FVector2D MapScale;
-
 	void SetSprite(std::string _Sprite);
 
 protected:
 
 private:
+	FVector2D MapScale = FVector2D::ZERO;
+
 	class USpriteRenderer* SpriteRenderer;
 
 };

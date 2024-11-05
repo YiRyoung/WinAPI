@@ -44,14 +44,13 @@ void KirbyContentsCore::BeginPlay()
 		UImageManager::GetInst().Load(FilePath);
 	}
 
-	UImageManager::GetInst().CuttingSprite("Title_Kirby_64.png", {64, 64});
 	UImageManager::GetInst().CuttingSprite("Kirby_Walk_Right_18.png", {18, 18});
 	UImageManager::GetInst().CuttingSprite("Kirby_Idle_Right_18.png", {18, 18});
 
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
 
 	// 이거 꼭 호출해줘야 합니다.
-	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, {1040, 960});
+	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, {768, 720});
 
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<AStage101GameMode, APlayer>("Stage101");

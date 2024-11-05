@@ -22,6 +22,6 @@ void AStage::SetSprite(std::string _Sprite)
 {
 	SpriteRenderer->SetSprite(_Sprite);
 
-	MapScale = SpriteRenderer->SetSpriteScale(4.0f);
+	MapScale = SpriteRenderer->SetSpriteScale(1.0f);
 	SpriteRenderer->SetComponentLocation(MapScale.Half());
 }

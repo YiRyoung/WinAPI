@@ -15,8 +15,6 @@ ATitleGameMode::~ATitleGameMode()
 {
 }
 
-
-// 언리얼에서는 MainPawn 주인공 무조건 지정하게 해요.
 void ATitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();

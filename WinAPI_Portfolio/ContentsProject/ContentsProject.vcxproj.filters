@@ -7,9 +7,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>ContentsObject\Global</Filter>
     </ClCompile>
-    <ClCompile Include="Stage101.cpp">
-      <Filter>ContentsObject\Maps\Stage101</Filter>
-    </ClCompile>
     <ClCompile Include="TitleMap.cpp">
       <Filter>ContentsObject\Maps\Title</Filter>
     </ClCompile>
@@ -50,9 +47,6 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>ContentsObject\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage101.h">
-      <Filter>ContentsObject\Maps\Stage101</Filter>
     </ClInclude>
     <ClInclude Include="TitleMap.h">
       <Filter>ContentsObject\Maps\Title</Filter>
@@ -109,9 +103,6 @@
     </Filter>
     <Filter Include="ContentsObject\Maps\Title">
       <UniqueIdentifier>{78a8595f-5914-481f-9723-cc2c0e5fe1e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ContentsObject\Maps\Stage101">
-      <UniqueIdentifier>{25b0eb23-1494-4967-b0b1-ae86665f67b8}</UniqueIdentifier>
     </Filter>
     <Filter Include="ContentsObject\GameMode">
       <UniqueIdentifier>{2a8bcfd1-b521-40f1-9b91-89dbc638bbc6}</UniqueIdentifier>

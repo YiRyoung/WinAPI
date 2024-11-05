@@ -11,10 +11,10 @@ TitleKirby::TitleKirby()
 	{
 		USpriteRenderer* SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 		SpriteRenderer->SetOrder(ERenderOrder::PLAYER);
-		SpriteRenderer->SetSprite("Title_Kirby_64.png");
+		SpriteRenderer->SetSprite("TitleKirby.png");
 
-		FVector2D MapScale = SpriteRenderer->SetSpriteScale(4.0f);
-		SpriteRenderer->SetComponentLocation(FVector2D({ 500.f, 480.f }));
+		FVector2D MapScale = SpriteRenderer->SetSpriteScale(1.0f);
+		SpriteRenderer->SetComponentLocation({380.0f, 360.0f});
 	}
 }
 

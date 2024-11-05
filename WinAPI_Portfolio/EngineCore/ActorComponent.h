@@ -4,20 +4,20 @@
 class UActorComponent : public UObject
 {
 public:
-		friend class AActor;
+	friend class AActor;
 
 	typedef UActorComponent Super;
 
-		UActorComponent();
-		~UActorComponent();
+	UActorComponent();
+	~UActorComponent();
 
-		UActorComponent(const UActorComponent& _Other) = delete;
+	UActorComponent(const UActorComponent& _Other) = delete;
 	UActorComponent(UActorComponent&& _Other) noexcept = delete;
 	UActorComponent& operator=(const UActorComponent& _Other) = delete;
 	UActorComponent& operator=(UActorComponent&& _Other) noexcept = delete;
 
 	virtual void BeginPlay() {}
-		virtual void ComponentTick(float _DeltaTime) {}
+	virtual void ComponentTick(float _DeltaTime) {}
 
 	class AActor* GetActor()
 	{

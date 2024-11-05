@@ -1,24 +1,25 @@
 #include "PreCompile.h"
 #include "Player.h"
-#include "Stage101.h"
 
 #include <EngineCore/EngineAPICore.h>
+#include <EngineCore/ImageManager.h>
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/EngineCoreDebug.h>
 
 #include <EnginePlatform/EngineInput.h>
 
+
 APlayer::APlayer()
 {
-	SetActorLocation({100, 100});
+	SetActorLocation({ 100, 100 });
 
 	{
 		SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 		SpriteRenderer->SetSprite("Kirby_Idle_Right_18.png");
-		SpriteRenderer->SetComponentScale({ 72, 72 });
+		SpriteRenderer->SetComponentScale({ 64, 64 });
 
 		// 오른쪽
-		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Walk_Right_18.png", 0, 4, 1.0f);
+		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Walk_Right_18.png", 0, 4, 0.1f);
 		SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Idle_Right_18.png", 0, 1, 1.0f);
 
 		SpriteRenderer->ChangeAnimation("Idle_Right");
@@ -34,17 +35,18 @@ void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GetWorld()->SetCameraToMainPawn(false);
+
 	// 메인 윈도우 사이즈 가져오는 코드 {1040, 960}
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 
 	// {520, 480} * -1 = {-520, -480}
 	GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
-	//APlayer* player = dynamic_cast GetWorld()->GetPawn();
 }
 
 void APlayer::Tick(float _DeltaTime)
 {
-	Super::Tick(_DeltaTime); 
+	Super::Tick(_DeltaTime);
 
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
@@ -67,6 +69,49 @@ void APlayer::Tick(float _DeltaTime)
 	{
 		AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
 	}
+
+	if (false == UEngineInput::GetInst().IsPress('A') &&
+		false == UEngineInput::GetInst().IsPress('D') &&
+		false == UEngineInput::GetInst().IsPress('W') &&
+		false == UEngineInput::GetInst().IsPress('S'))
+	{
+		SpriteRenderer->ChangeAnimation("Idle_Right");
+	}
+
+	// 카메라 이동
+	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+	FVector2D CurPos = GetActorLocation() - Size.Half();
+	FVector2D CurPosRB = CurPos + Size;
+	FVector2D BackImageSize = BackImage->GetImageScale();
+	BackImageSize += FVector2D(0, 264);
+
+	// 카메라 제한
+	if (0.0f >= CurPos.X)
+	{
+		CurPos = { 0.0f, CurPos.Y };
+	}
+
+	if (0.0f >= CurPos.Y)
+	{
+		CurPos = { CurPos.X, 0.0f };
+	}
+
+	if (BackImageSize.X <= CurPosRB.X)
+	{
+		CurPosRB = { BackImageSize.X, CurPosRB.Y };
+		FVector2D TempPos = CurPosRB - Size;
+		CurPos = { TempPos.X ,CurPos.Y };
+	}
+
+	if (BackImageSize.Y <= CurPosRB.Y)
+	{
+		CurPosRB = { CurPosRB.X, BackImageSize.Y };
+		FVector2D TempPos = CurPosRB - Size;
+		CurPos = { CurPos.X, TempPos.Y };
+	}
+
+
+	GetWorld()->SetCameraPos(CurPos);
 }
 
 void APlayer::LevelChangeStart()
@@ -77,6 +122,9 @@ void APlayer::LevelChangeStart()
 void APlayer::LevelChangeEnd()
 {
 	Super::LevelChangeEnd();
+}
 
-
+void APlayer::GetImage(std::string_view _ImageName)
+{
+	BackImage = UImageManager::GetInst().FindImage(_ImageName);
 }

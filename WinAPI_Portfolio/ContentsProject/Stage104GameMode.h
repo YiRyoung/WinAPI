@@ -20,6 +20,6 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
-
+	class AStage* NewActor = nullptr;
 };
 

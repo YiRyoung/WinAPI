@@ -20,14 +20,15 @@ public:
 	void LevelChangeStart();
 	void LevelChangeEnd();
 
-	FVector2D CameraPivot;
-	class AStage101* CurStage = nullptr;
+	void GetImage(std::string_view _ImageName);
+
+	//FVector2D CameraPivot;
+	class UEngineWinImage* BackImage;
 
 protected:
 
 private:
-
-	float Speed = 300.0f;
+	float Speed = 500.0f;
 	int MySpriteIndex = 0;
 
 	class USpriteRenderer* SpriteRenderer;

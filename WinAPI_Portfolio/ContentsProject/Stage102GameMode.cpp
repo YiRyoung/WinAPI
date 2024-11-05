@@ -6,6 +6,9 @@
 
 #include <EngineCore/Level.h>
 
+#include "Player.h"
+#include "Stage.h"
+
 
 AStage102GameMode::AStage102GameMode()
 {
@@ -18,7 +21,11 @@ AStage102GameMode::~AStage102GameMode()
 void AStage102GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	//AStage102* NewActor = GetWorld()->SpawnActor<AStage102>();
+	NewActor = GetWorld()->SpawnActor<AStage>();
+	NewActor->SetSprite("Stage102.png");
+
+	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
+	Player->GetImage("Stage102.png");
 }
 
 void AStage102GameMode::Tick(float _DeltaTime)
