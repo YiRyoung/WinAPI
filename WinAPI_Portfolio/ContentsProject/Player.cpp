@@ -16,7 +16,7 @@ APlayer::APlayer()
 	{
 		SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 		SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
-		SpriteRenderer->SetComponentScale({ 120, 120 });
+		SpriteRenderer->SetComponentScale({ 100, 100 });
 
 		// ¿ÞÂÊ
 		SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
