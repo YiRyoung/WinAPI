@@ -38,3 +38,8 @@ void AStage::SetColSprite(std::string _Sprite)
 	MapScale = ColSpriteRenderer->SetSpriteScale(1.0f);
 	ColSpriteRenderer->SetComponentLocation(MapScale.Half());
 }
+
+void AStage::SwitchColSprite()
+{
+	ColSpriteRenderer->SetActiveSwitch();
+}

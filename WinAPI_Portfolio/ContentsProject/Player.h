@@ -1,6 +1,12 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+enum class PlayerState
+{
+	Idle,
+	Move
+};
+
 class APlayer : public AActor
 {
 public:
@@ -23,6 +29,10 @@ public:
 	void GetBackImage(std::string_view _ImageName);
 	void GetColImage(std::string_view _ImageName);
 
+	void CameraMove();
+
+	PlayerState CurPlayerState = PlayerState::Idle;
+
 protected:
 
 private:
@@ -32,5 +42,11 @@ private:
 	class UEngineWinImage* BackImage = nullptr;
 	class UEngineWinImage* ColImage = nullptr;
 	class USpriteRenderer* SpriteRenderer;
+
+	void ChangeState(PlayerState _CurPlayerState);
+
+	void Idle(float _DeltaTime);
+	void Move(float _DeltaTime);
+
 };
 

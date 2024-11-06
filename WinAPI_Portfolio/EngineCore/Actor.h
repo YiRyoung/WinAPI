@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineBase/Object.h>
 #include <EngineBase/EngineMath.h>
+#include <list>
 
 #include "EngineSprite.h"
 

@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="HUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Stage.h">
       <SubType>
       </SubType>
@@ -202,6 +206,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Stage.cpp">
       <SubType>
       </SubType>

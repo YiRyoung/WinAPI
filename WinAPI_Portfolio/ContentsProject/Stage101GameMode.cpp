@@ -23,8 +23,10 @@ void AStage101GameMode::BeginPlay()
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Stage101.png");
 	NewActor->SetColSprite("ColStage101.png");
+
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackImage("Stage101.png");
+	Player->GetColImage("ColStage101.png");
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
@@ -34,6 +36,11 @@ void AStage101GameMode::Tick(float _DeltaTime)
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Stage102");
+	}
+
+	if (true == UEngineInput::GetInst().IsDown('T'))
+	{
+		NewActor->SwitchColSprite();
 	}
 }
  

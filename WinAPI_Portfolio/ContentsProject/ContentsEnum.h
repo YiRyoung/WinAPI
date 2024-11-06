@@ -4,7 +4,7 @@
 enum class ERenderOrder
 {
 	BACKGROUND = -1000,
-	COLGROUND = -999,
-	HUI = -900,
+	COLGROUND = -998,
 	PLAYER = 0,
+	HUI = 10000,
 };

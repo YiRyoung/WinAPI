@@ -15,7 +15,9 @@ public:
 	AStage& operator=(AStage&& _Other) noexcept = delete;
 
 	void SetSprite(std::string _Sprite);
+
 	void SetColSprite(std::string _Sprite);
+	void SwitchColSprite();
 
 protected:
 

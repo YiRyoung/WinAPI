@@ -15,12 +15,16 @@ APlayer::APlayer()
 
 	{
 		SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-		SpriteRenderer->SetSprite("Kirby_Idle_Right_18.png");
-		SpriteRenderer->SetComponentScale({ 64, 64 });
+		SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
+		SpriteRenderer->SetComponentScale({ 120, 120 });
 
+		// 왼쪽
+		SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
+		SpriteRenderer->CreateAnimation("Idle_Left", "Kirby_Normal_Left.png", 0, 1, 1.0f);
+		
 		// 오른쪽
-		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Walk_Right_18.png", 0, 4, 0.1f);
-		SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Idle_Right_18.png", 0, 1, 1.0f);
+		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
+		SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
 
 		SpriteRenderer->ChangeAnimation("Idle_Right");
 	}
@@ -51,33 +55,44 @@ void APlayer::Tick(float _DeltaTime)
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
 
-	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
+	// 이동
+	switch (CurPlayerState)
 	{
-		SpriteRenderer->ChangeAnimation("Walk_Right");
-		AddActorLocation(FVector2D::RIGHT * _DeltaTime * Speed);
-	}
-	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
-	{
-		SpriteRenderer->ChangeAnimation("Walk_Right");
-		AddActorLocation(FVector2D::LEFT * _DeltaTime * Speed);
-	}
-	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
-	{
-		AddActorLocation(FVector2D::DOWN * _DeltaTime * Speed);
-	}
-	if (true == UEngineInput::GetInst().IsPress(VK_UP))
-	{
-		AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
+	case PlayerState::Idle:
+		Idle(_DeltaTime);
+		break;
+	case PlayerState::Move:
+		Move(_DeltaTime);
+		break;
+	default:
+		break;
 	}
 
-	if (false == UEngineInput::GetInst().IsPress('A') &&
-		false == UEngineInput::GetInst().IsPress('D') &&
-		false == UEngineInput::GetInst().IsPress('W') &&
-		false == UEngineInput::GetInst().IsPress('S'))
-	{
-		SpriteRenderer->ChangeAnimation("Idle_Right");
-	}
+	CameraMove();
+}
 
+void APlayer::LevelChangeStart()
+{
+	Super::LevelChangeStart();
+}
+
+void APlayer::LevelChangeEnd()
+{
+	Super::LevelChangeEnd();
+}
+
+void APlayer::GetBackImage(std::string_view _ImageName)
+{
+	BackImage = UImageManager::GetInst().FindImage(_ImageName);
+}
+
+void APlayer::GetColImage(std::string_view _ImageName)
+{
+	ColImage = UImageManager::GetInst().FindImage(_ImageName);
+}
+
+void APlayer::CameraMove()
+{
 	// 카메라 이동
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 	FVector2D CurPos = GetActorLocation() - Size.Half();
@@ -111,25 +126,64 @@ void APlayer::Tick(float _DeltaTime)
 	}
 
 	GetWorld()->SetCameraPos(CurPos);
-
 }
 
-void APlayer::LevelChangeStart()
+void APlayer::ChangeState(PlayerState _CurPlayerState)
 {
-	Super::LevelChangeStart();
+	CurPlayerState = _CurPlayerState;
 }
 
-void APlayer::LevelChangeEnd()
+void APlayer::Idle(float _DeltaTime)
 {
-	Super::LevelChangeEnd();
+	SpriteRenderer->ChangeAnimation("Idle_Right");
+
+	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT) ||
+		true == UEngineInput::GetInst().IsPress(VK_LEFT) ||
+		true == UEngineInput::GetInst().IsPress(VK_DOWN) ||
+		true == UEngineInput::GetInst().IsPress(VK_UP))
+	{
+		ChangeState(PlayerState::Move);
+		return;
+	}
 }
 
-void APlayer::GetBackImage(std::string_view _ImageName)
+void APlayer::Move(float _DeltaTime)
 {
-	BackImage = UImageManager::GetInst().FindImage(_ImageName);
-}
+	FVector2D Vector = FVector2D::ZERO;
 
-void APlayer::GetColImage(std::string_view _ImageName)
-{
-	ColImage = UImageManager::GetInst().FindImage(_ImageName);
+	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
+	{
+		SpriteRenderer->ChangeAnimation("Walk_Right");
+		Vector += FVector2D::RIGHT;
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
+	{
+		SpriteRenderer->ChangeAnimation("Walk_Left");
+		Vector += FVector2D::LEFT;
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
+	{
+		Vector += FVector2D::DOWN;
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_UP))
+	{
+		Vector += FVector2D::UP;
+	}
+
+	if (false == UEngineInput::GetInst().IsPress(VK_RIGHT) &&
+		false == UEngineInput::GetInst().IsPress(VK_LEFT) &&
+		false == UEngineInput::GetInst().IsPress(VK_DOWN) &&
+		false == UEngineInput::GetInst().IsPress(VK_UP))
+	{
+		ChangeState(PlayerState::Idle);
+		return;
+	}
+
+	// 다음 이동할 위치 및 색상
+	FVector2D NextPos = GetActorLocation() + Vector * _DeltaTime * Speed;
+	UColor Color = ColImage->GetColor(NextPos, UColor::MAGENTA);
+	if (Color != UColor::MAGENTA)
+	{
+		AddActorLocation(Vector * _DeltaTime * Speed);
+	}
 }
