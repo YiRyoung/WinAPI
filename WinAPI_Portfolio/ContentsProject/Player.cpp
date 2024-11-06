@@ -27,6 +27,7 @@ APlayer::APlayer()
 		SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
 
 		SpriteRenderer->ChangeAnimation("Idle_Right");
+		SpriteRenderer->SetPivotType(PivotType::BOTTOM);
 	}
 }
 
@@ -180,8 +181,12 @@ void APlayer::Move(float _DeltaTime)
 	}
 
 	// 다음 이동할 위치 및 색상
+	// 플레이어의 중심을 기준으로 NextPos가 구해졌으므로 피벗을 변경해주어야 함
+	// 현재 Bottom을 기준으로 검사했으므로 나머지 방향 또한 검사를 추가해야함.
+
 	FVector2D NextPos = GetActorLocation() + Vector * _DeltaTime * Speed;
 	UColor Color = ColImage->GetColor(NextPos, UColor::MAGENTA);
+	//if (Color != UColor::MAGENTA && && )
 	if (Color != UColor::MAGENTA)
 	{
 		AddActorLocation(Vector * _DeltaTime * Speed);
