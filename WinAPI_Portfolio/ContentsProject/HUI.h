@@ -14,9 +14,12 @@ public:
 	AHUI& operator=(const AHUI& _Other) = delete;
 	AHUI& operator=(AHUI&& _Other) noexcept = delete;
 
+	void SetSprite(std::string _Sprite);
+
 protected:
 
 private:
-
+	FVector2D MapScale = FVector2D::ZERO;
+	class USpriteRenderer* SpriteRenderer;
 };
 

@@ -8,6 +8,7 @@
 
 #include "Player.h"
 #include "Stage.h"
+#include "HUI.h"
 
 
 AStage102GameMode::AStage102GameMode()
@@ -27,6 +28,9 @@ void AStage102GameMode::BeginPlay()
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackImage("Stage102.png");
 	Player->GetColImage("ColStage102.png");
+
+	NewUI = GetWorld()->SpawnActor<AHUI>();
+	NewUI->SetSprite("StageUI.png");
 }
 
 void AStage102GameMode::Tick(float _DeltaTime)

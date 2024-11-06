@@ -99,7 +99,7 @@ void APlayer::CameraMove()
 	FVector2D CurPos = GetActorLocation() - Size.Half();
 	FVector2D CurPosRB = CurPos + Size;
 	FVector2D BackImageSize = BackImage->GetImageScale();
-	BackImageSize += FVector2D(0, 264);
+	BackImageSize += FVector2D(0, 195);
 
 	// 카메라 제한
 	if (0.0f >= CurPos.X)

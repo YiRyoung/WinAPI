@@ -8,6 +8,7 @@
 
 #include "Player.h"
 #include "Stage.h"
+#include "HUI.h"
 
 AStage103GameMode::AStage103GameMode()
 {
@@ -26,6 +27,9 @@ void AStage103GameMode::BeginPlay()
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackImage("Stage103.png");
 	Player->GetColImage("ColStage103.png");
+
+	NewUI = GetWorld()->SpawnActor<AHUI>();
+	NewUI->SetSprite("StageUI.png");
 }
 
 void AStage103GameMode::Tick(float _DeltaTime)
@@ -35,6 +39,11 @@ void AStage103GameMode::Tick(float _DeltaTime)
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
 		UEngineAPICore::GetCore()->OpenLevel("Stage104");
+	}
+
+	if (true == UEngineInput::GetInst().IsDown('T'))
+	{
+		NewActor->SwitchColSprite();
 	}
 }
 
