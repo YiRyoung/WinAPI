@@ -16,7 +16,7 @@ APlayer::APlayer()
 	{
 		SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 		SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
-		SpriteRenderer->SetComponentScale({ 100, 100 });
+		SpriteRenderer->SetComponentScale({ 84, 84 });
 
 		// 왼쪽
 		SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
@@ -184,10 +184,25 @@ void APlayer::Move(float _DeltaTime)
 	// 플레이어의 중심을 기준으로 NextPos가 구해졌으므로 피벗을 변경해주어야 함
 	// 현재 Bottom을 기준으로 검사했으므로 나머지 방향 또한 검사를 추가해야함.
 
+	// Bottom
 	FVector2D NextPos = GetActorLocation() + Vector * _DeltaTime * Speed;
 	UColor Color = ColImage->GetColor(NextPos, UColor::MAGENTA);
+
+	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
+	FVector2D NextUpPos = GetActorLocation() + FVector2D{ 0.0f, -(PlayerScale.Y * 0.5f)} + Vector * _DeltaTime * Speed;
+	UColor UpColor = ColImage->GetColor(NextUpPos, UColor::MAGENTA);
+
+	FVector2D NextLeftPos = GetActorLocation() + FVector2D{ -(PlayerScale.X * 0.25f), 0.0f} + Vector * _DeltaTime * Speed;
+	UColor LeftColor = ColImage->GetColor(NextLeftPos, UColor::MAGENTA);
+
+	FVector2D NextRightPos = GetActorLocation() + FVector2D{ (PlayerScale.X * 0.25f), 0.0f } + Vector * _DeltaTime * Speed;
+	UColor RightColor = ColImage->GetColor(NextRightPos, UColor::MAGENTA);
+	// Top
+	// Left
+	// Right
 	//if (Color != UColor::MAGENTA && && )
-	if (Color != UColor::MAGENTA)
+	if (Color != UColor::MAGENTA && UpColor != UColor::MAGENTA &&
+		LeftColor != UColor::MAGENTA && RightColor != UColor::MAGENTA)
 	{
 		AddActorLocation(Vector * _DeltaTime * Speed);
 	}
