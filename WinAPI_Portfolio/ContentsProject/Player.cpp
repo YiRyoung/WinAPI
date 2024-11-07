@@ -202,6 +202,10 @@ void APlayer::Move(float _DeltaTime)
 	FVector2D NextRightPos = GetActorLocation() + FVector2D{ (PlayerScale.X * 0.25f), 0.0f } + Vector * _DeltaTime * Speed;
 	UColor RightColor = ColImage->GetColor(NextRightPos, UColor::MAGENTA);
 	
+	// WHITE, RED, GREEN, CYAN은 통과
+	// BLACK은 조건부 통과
+	// YELLOW, BLUE는 경사면
+	// MAGENTA는 충돌
 	if (Color != UColor::MAGENTA && UpColor != UColor::MAGENTA &&
 		LeftColor != UColor::MAGENTA && RightColor != UColor::MAGENTA)
 	{
