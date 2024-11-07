@@ -46,6 +46,7 @@ void KirbyContentsCore::BeginPlay()
 
 	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Left.png", {32, 32});
 	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Right.png", {32, 32});
+	UImageManager::GetInst().CuttingSprite("Lives.png", {43, 37});
 
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
 

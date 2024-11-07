@@ -22,5 +22,6 @@ protected:
 private:
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
+	class AHUI* NewLiveUI = nullptr;
 };
 

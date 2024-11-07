@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "HUI.h"
 
+#include <EngineCore/EngineAPICore.h>
 #include <EngineCore/SpriteRenderer.h>
 
 #include "ContentsEnum.h"
@@ -20,7 +21,10 @@ void AHUI::SetSprite(std::string _Sprite)
 {
 		SpriteRenderer->SetSprite(_Sprite);
 
-		MapScale = SpriteRenderer->SetSpriteScale(0.75f);
-		SpriteRenderer->SetComponentLocation(MapScale.Half() + FVector2D({0, 525}));
+		MapScale = SpriteRenderer->SetSpriteScale(1.0f);
+
+		FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
+		FVector2D Pos = { 0.0f, Size.Y - MapScale.Y };
+		SpriteRenderer->SetComponentLocation(MapScale.Half() + Pos);
 }
 

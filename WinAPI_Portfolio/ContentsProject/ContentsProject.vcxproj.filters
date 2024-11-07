@@ -41,7 +41,10 @@
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
     <ClCompile Include="HUI.cpp">
-      <Filter>ContentsObject\Global</Filter>
+      <Filter>ContentsObject\Global\HUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,7 +88,10 @@
       <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
     <ClInclude Include="HUI.h">
-      <Filter>ContentsObject\Global</Filter>
+      <Filter>ContentsObject\Global\HUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +118,9 @@
     </Filter>
     <Filter Include="ContentsObject\GameMode">
       <UniqueIdentifier>{2a8bcfd1-b521-40f1-9b91-89dbc638bbc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\HUI">
+      <UniqueIdentifier>{b6b1cb4d-f5e2-4919-9cae-bb55d80c85bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
