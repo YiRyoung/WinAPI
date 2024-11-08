@@ -204,8 +204,11 @@ void APlayer::Move(float _DeltaTime)
 	
 	// WHITE, RED, GREEN, CYAN은 통과
 	// BLACK은 조건부 통과
-	// YELLOW, BLUE는 경사면
 	// MAGENTA는 충돌
+
+	bool IsNotMAGENTA;
+	bool IsNotBLACK;
+
 	if (Color != UColor::MAGENTA && UpColor != UColor::MAGENTA &&
 		LeftColor != UColor::MAGENTA && RightColor != UColor::MAGENTA)
 	{

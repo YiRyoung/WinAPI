@@ -7,4 +7,5 @@ enum class ERenderOrder
 	COLGROUND = -998,
 	PLAYER = 0,
 	HUI = 10000,
+	HUITEXT = 10001
 };

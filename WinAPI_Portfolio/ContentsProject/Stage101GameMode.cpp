@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
+#include "LiveIcon.h"
 
 AStage101GameMode::AStage101GameMode()
 {
@@ -32,6 +33,10 @@ void AStage101GameMode::BeginPlay()
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png");
+
+	NewLiveUI = GetWorld()->SpawnActor<ALiveIcon>();
+	NewLiveUI->SetSprite("Lives.png");
+
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
