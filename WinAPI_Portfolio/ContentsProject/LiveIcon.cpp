@@ -26,10 +26,10 @@ void ALiveIcon::SetSprite(std::string _Sprite)
 {
 	SpriteRenderer->SetSprite(_Sprite);
 
-	MapScale = SpriteRenderer->SetSpriteScale(3.12f);
+	MapScale = SpriteRenderer->SetSpriteScale(1.0f);
 
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 	FVector2D Pos = { Size.X - MapScale.X, Size.Y - MapScale.Y };
-	SpriteRenderer->SetComponentLocation(MapScale.Half() + Pos + FVector2D({-144.0f, -99.5f}));
+	SpriteRenderer->SetComponentLocation(MapScale.Half() + Pos + FVector2D({-143, -99}));
 }
 

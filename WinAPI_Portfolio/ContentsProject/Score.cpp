@@ -1,9 +1,6 @@
 #include "PreCompile.h"
 #include "Score.h"
 
-#include <EngineCore/ImageManager.h>
-#include <EngineCore/SpriteRenderer.h>
-
 AScore::AScore()
 {
 	// 0 부터 9까지

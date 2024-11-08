@@ -9,6 +9,9 @@
 #include "Stage.h"
 #include "HUI.h"
 #include "LiveIcon.h"
+#include "Score.h"
+
+#include "ContentsEnum.h"
 
 AStage101GameMode::AStage101GameMode()
 {
@@ -29,14 +32,13 @@ void AStage101GameMode::BeginPlay()
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackImage("Stage101.png");
 	Player->GetColImage("ColStage101.png");
-	Player->SetActorLocation({ 100, 400 });
+	Player->SetActorLocation({ 100, 395 });
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png");
 
 	NewLiveUI = GetWorld()->SpawnActor<ALiveIcon>();
 	NewLiveUI->SetSprite("Lives.png");
-
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)

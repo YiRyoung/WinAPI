@@ -21,7 +21,7 @@ void AHUI::SetSprite(std::string _Sprite)
 {
 		SpriteRenderer->SetSprite(_Sprite);
 
-		MapScale = SpriteRenderer->SetSpriteScale(3.12f);
+		MapScale = SpriteRenderer->SetSpriteScale(1.0f);
 
 		FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 		FVector2D Pos = { 0.0f, Size.Y - MapScale.Y + 1.0f };

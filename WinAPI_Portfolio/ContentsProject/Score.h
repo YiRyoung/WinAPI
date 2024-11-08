@@ -1,8 +1,11 @@
 #pragma once
+#include <vector>
 
 #include <EngineCore/Actor.h>
+#include <EngineCore/ImageManager.h>
+#include <EngineCore/SpriteRenderer.h>
 
-class AScore : AActor
+class AScore : public AActor
 {
 public:
 	// constrcuter destructer
