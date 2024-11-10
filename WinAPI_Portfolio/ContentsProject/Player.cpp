@@ -21,7 +21,7 @@ APlayer::APlayer()
 		// 왼쪽
 		SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
 		SpriteRenderer->CreateAnimation("Idle_Left", "Kirby_Normal_Left.png", 0, 1, 1.0f);
-		
+
 		// 오른쪽
 		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
 		SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
@@ -29,6 +29,7 @@ APlayer::APlayer()
 		SpriteRenderer->ChangeAnimation("Idle_Right");
 		SpriteRenderer->SetPivotType(PivotType::BOTTOM);
 	}
+	DebugOn();
 }
 
 APlayer::~APlayer()
@@ -187,31 +188,38 @@ void APlayer::Move(float _DeltaTime)
 	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
 
 	// Bottom
-	FVector2D NextPos = GetActorLocation() + Vector * _DeltaTime * Speed;
-	UColor Color = ColImage->GetColor(NextPos, UColor::MAGENTA);
+	FVector2D NextDownPos = GetActorLocation() + (FVector2D::DOWN * 2.5f)+ Vector * _DeltaTime * Speed;
+	UColor DownColor = ColImage->GetColor(NextDownPos, UColor::MAGENTA);
 
 	// Top
-	FVector2D NextUpPos = GetActorLocation() + FVector2D{ 0.0f, -(PlayerScale.Y * 0.5f)} + Vector * _DeltaTime * Speed;
+	FVector2D NextUpPos = GetActorLocation() + FVector2D{ 0.0f, -(PlayerScale.Y * 0.5f) } + Vector * _DeltaTime * Speed;
 	UColor UpColor = ColImage->GetColor(NextUpPos, UColor::MAGENTA);
 
-	// Left
-	FVector2D NextLeftPos = GetActorLocation() + FVector2D{ -(PlayerScale.X * 0.25f), 0.0f} + Vector * _DeltaTime * Speed;
-	UColor LeftColor = ColImage->GetColor(NextLeftPos, UColor::MAGENTA);
+	// LeftBottom
+	FVector2D NextLeftBottomPos = NextDownPos + FVector2D(-PlayerScale.X * 0.25f, 0.0f) + Vector * _DeltaTime * Speed;
+	UColor LeftColor = ColImage->GetColor(NextLeftBottomPos, UColor::MAGENTA);
 
 	// Right
 	FVector2D NextRightPos = GetActorLocation() + FVector2D{ (PlayerScale.X * 0.25f), 0.0f } + Vector * _DeltaTime * Speed;
 	UColor RightColor = ColImage->GetColor(NextRightPos, UColor::MAGENTA);
-	
-	// WHITE, RED, GREEN, CYAN은 통과
-	// BLACK은 조건부 통과
-	// MAGENTA는 충돌
 
-	bool IsNotMAGENTA;
-	bool IsNotBLACK;
-
-	if (Color != UColor::MAGENTA && UpColor != UColor::MAGENTA &&
-		LeftColor != UColor::MAGENTA && RightColor != UColor::MAGENTA)
+	if (UColor::MAGENTA != DownColor && UColor::MAGENTA != UpColor && UColor::MAGENTA != LeftColor && UColor::MAGENTA != RightColor)
 	{
 		AddActorLocation(Vector * _DeltaTime * Speed);
+		
+
+		while (UColor::YELLOW == ColImage->GetColor(GetActorLocation() + Vector * _DeltaTime * Speed, UColor::MAGENTA)
+			|| UColor::CYAN == ColImage->GetColor(GetActorLocation() + Vector * _DeltaTime * Speed, UColor::MAGENTA))
+		{
+		 AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
+		}
 	}
+	// WHITE, RED, GREEN, CYAN은 통과
+	// MAGENTA는 충돌
+	// BLACK은 조건부 통과
+
+	bool IsNotMAGENTA;
+	bool IsNotYELLOW;
+	bool IsNotCYAN;
+
 }
