@@ -42,12 +42,6 @@ void APlayer::BeginPlay()
 	Super::BeginPlay();
 
 	GetWorld()->SetCameraToMainPawn(false);
-
-	// 메인 윈도우 사이즈 가져오는 코드 {1040, 960}
-	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-
-	// {520, 480} * -1 = {-520, -480}
-	GetWorld()->SetCameraPivot(Size.Half() * -1.0f);
 }
 
 void APlayer::Tick(float _DeltaTime)
@@ -73,24 +67,10 @@ void APlayer::Tick(float _DeltaTime)
 	CameraMove();
 }
 
-void APlayer::LevelChangeStart()
-{
-	Super::LevelChangeStart();
-}
-
-void APlayer::LevelChangeEnd()
-{
-	Super::LevelChangeEnd();
-}
-
-void APlayer::GetBackImage(std::string_view _ImageName)
+void APlayer::GetBackImage(std::string_view _ImageName, std::string_view _ColliderName)
 {
 	BackImage = UImageManager::GetInst().FindImage(_ImageName);
-}
-
-void APlayer::GetColImage(std::string_view _ImageName)
-{
-	ColImage = UImageManager::GetInst().FindImage(_ImageName);
+	ColImage = UImageManager::GetInst().FindImage(_ColliderName);
 }
 
 void APlayer::CameraMove()
@@ -203,23 +183,36 @@ void APlayer::Move(float _DeltaTime)
 	FVector2D NextRightPos = GetActorLocation() + FVector2D{ (PlayerScale.X * 0.25f), 0.0f } + Vector * _DeltaTime * Speed;
 	UColor RightColor = ColImage->GetColor(NextRightPos, UColor::MAGENTA);
 
+	Vector.Normalize();
 	if (UColor::MAGENTA != DownColor && UColor::MAGENTA != UpColor && UColor::MAGENTA != LeftColor && UColor::MAGENTA != RightColor)
 	{
 		AddActorLocation(Vector * _DeltaTime * Speed);
-		
 
-		while (UColor::YELLOW == ColImage->GetColor(GetActorLocation() + Vector * _DeltaTime * Speed, UColor::MAGENTA)
-			|| UColor::CYAN == ColImage->GetColor(GetActorLocation() + Vector * _DeltaTime * Speed, UColor::MAGENTA))
+
+		while (true)
 		{
-		 AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
+			NextDownPos = GetActorLocation() + (FVector2D::DOWN * 2.5f) + Vector * _DeltaTime * Speed;
+			DownColor = ColImage->GetColor(NextDownPos, UColor::MAGENTA);
+
+			NextLeftBottomPos = NextDownPos + FVector2D(-PlayerScale.X * 0.25f, 0.0f) + Vector * _DeltaTime * Speed;
+			LeftColor = ColImage->GetColor(NextLeftBottomPos, UColor::MAGENTA);
+
+			NextRightPos = GetActorLocation() + FVector2D{ (PlayerScale.X * 0.25f), 0.0f } + Vector * _DeltaTime * Speed;
+			RightColor = ColImage->GetColor(NextRightPos, UColor::MAGENTA);
+			
+			if (UColor::YELLOW == DownColor || UColor::CYAN == DownColor
+				|| UColor::YELLOW == LeftColor || UColor::CYAN == LeftColor 
+				|| UColor::YELLOW == RightColor || UColor::CYAN == RightColor)
+			{
+				AddActorLocation(FVector2D::UP * _DeltaTime * Speed);
+			}
+			else
+			{
+				break;
+			}
 		}
 	}
 	// WHITE, RED, GREEN, CYAN은 통과
 	// MAGENTA는 충돌
 	// BLACK은 조건부 통과
-
-	bool IsNotMAGENTA;
-	bool IsNotYELLOW;
-	bool IsNotCYAN;
-
 }

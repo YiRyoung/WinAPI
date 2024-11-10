@@ -23,11 +23,7 @@ public:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void LevelChangeStart();
-	void LevelChangeEnd();
-
-	void GetBackImage(std::string_view _ImageName);
-	void GetColImage(std::string_view _ImageName);
+	void GetBackImage(std::string_view _ImageName, std::string_view _CollierName);
 
 	void CameraMove();
 
@@ -44,7 +40,6 @@ private:
 	class USpriteRenderer* SpriteRenderer;
 
 	void ChangeState(PlayerState _CurPlayerState);
-
 	void Idle(float _DeltaTime);
 	void Move(float _DeltaTime);
 
