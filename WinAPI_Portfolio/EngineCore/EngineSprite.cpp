@@ -18,8 +18,7 @@ void UEngineSprite::PushData(UEngineWinImage* _Image, const FTransform& _Trans)
 		MSGASSERT("크기가 0인 이미지를 만들수 없습니다");
 	}
 	
-
-		Data.push_back({ _Image, _Trans });
+	Data.push_back({ _Image, _Trans });
 }
 
 

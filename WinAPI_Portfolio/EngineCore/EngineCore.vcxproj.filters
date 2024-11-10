@@ -1,40 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Object">
-      <UniqueIdentifier>{0a6170ab-7be8-4511-ba6c-b323a848cfff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{adf488e9-ca19-4c28-b196-9f3f34ed9336}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PreCompile">
-      <UniqueIdentifier>{b191b634-e221-4728-a273-b9a8ea5c97f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor">
-      <UniqueIdentifier>{a57e9378-d9dc-4404-99b1-4a8c7965f5d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Level">
-      <UniqueIdentifier>{e1532e4e-bd50-4dc9-9b01-092a39e33d79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{d6feb0d4-4cb2-4eb5-879c-b4fc9051ade3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Debug">
-      <UniqueIdentifier>{d50d90ad-97f2-44d2-9d34-41081e68d07d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\Component">
-      <UniqueIdentifier>{08067667-e0b6-4dbf-aeb7-ef4f1480a654}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\Component\Collision">
-      <UniqueIdentifier>{8aa1b9e2-43c8-467b-8c67-6ffff85adb03}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\Component\Rendering">
-      <UniqueIdentifier>{701dad83-e936-4baf-ba66-37819685759b}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="Actor.h">
+      <Filter>Object</Filter>
+    </ClInclude>
     <ClInclude Include="EngineAPICore.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Object\Level</Filter>
@@ -42,26 +16,11 @@
     <ClInclude Include="GameMode.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="PreCompile.h">
-      <Filter>PreCompile</Filter>
-    </ClInclude>
     <ClInclude Include="ImageManager.h">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="EngineSprite.h">
       <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineCoreDebug.h">
-      <Filter>Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="2DCollision.h">
-      <Filter>Object\Actor\Component\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>Object\Actor\Component\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="ActorComponent.h">
       <Filter>Object\Actor\Component</Filter>
@@ -69,10 +28,25 @@
     <ClInclude Include="SceneComponent.h">
       <Filter>Object\Actor\Component</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Object\Actor\Component\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="2DCollision.h">
+      <Filter>Object\Actor\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineCoreDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
     <ClCompile Include="EngineAPICore.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Object\Level</Filter>
@@ -80,26 +54,11 @@
     <ClCompile Include="GameMode.cpp">
       <Filter>Object\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="PreCompile.cpp">
-      <Filter>PreCompile</Filter>
-    </ClCompile>
     <ClCompile Include="ImageManager.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="EngineSprite.cpp">
       <Filter>Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineCoreDebug.cpp">
-      <Filter>Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="2DCollision.cpp">
-      <Filter>Object\Actor\Component\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>Object\Actor\Component\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="ActorComponent.cpp">
       <Filter>Object\Actor\Component</Filter>
@@ -107,5 +66,46 @@
     <ClCompile Include="SceneComponent.cpp">
       <Filter>Object\Actor\Component</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Object\Actor\Component\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="2DCollision.cpp">
+      <Filter>Object\Actor\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCoreDebug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object">
+      <UniqueIdentifier>{fa94d2f9-90f5-4035-b805-794f14daf733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{82398bc5-5f12-4ab3-b1ff-d78f32657e74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{21fc7fc3-3267-4d43-abda-b0faf2091956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level">
+      <UniqueIdentifier>{b85a84f9-2e02-45f0-838a-60e1286deee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor">
+      <UniqueIdentifier>{c79465ad-2c21-4eef-9186-7d51fef1f550}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{fab33097-9ee2-42c1-90ea-b908d9602769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\Component">
+      <UniqueIdentifier>{bf7426a1-680b-44e2-b43f-cef6e1c29f85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\Component\Rendering">
+      <UniqueIdentifier>{4cc72022-462c-4c1c-a276-260e0013a173}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\Component\Collision">
+      <UniqueIdentifier>{554ef4f3-b70e-4491-947e-9115c462fff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{84337941-4f62-4d84-bf3a-a0b091d02df9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

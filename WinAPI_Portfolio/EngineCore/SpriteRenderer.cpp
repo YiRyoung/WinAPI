@@ -57,6 +57,7 @@ void USpriteRenderer::Render(float _DeltaTime)
 
 		}
 
+
 		CurIndex = Indexs[CurAnimation->CurIndex];
 	}
 
@@ -81,12 +82,14 @@ void USpriteRenderer::Render(float _DeltaTime)
 
 	Trans.Location += Pivot;
 
+
 	CurData.Image->CopyToTrans(BackBufferImage, Trans, CurData.Transform);
 }
 
 void USpriteRenderer::BeginPlay()
 {
 	Super::BeginPlay();
+
 
 	AActor* Actor = GetActor();
 	ULevel* Level = Actor->GetWorld();
@@ -101,6 +104,7 @@ void USpriteRenderer::ComponentTick(float _DeltaTime)
 
 void USpriteRenderer::SetSprite(std::string_view _Name, int _CurIndex /*= 0*/)
 {
+
 	Sprite = UImageManager::GetInst().FindSprite(_Name);
 
 	if (nullptr == Sprite)
@@ -136,7 +140,7 @@ FVector2D USpriteRenderer::SetSpriteScale(float _Ratio /*= 1.0f*/, int _CurIndex
 
 	UEngineSprite::USpriteData CurData = Sprite->GetSpriteData(_CurIndex);
 
-	FVector2D Scale = CurData.Transform.Scale* _Ratio;
+	FVector2D Scale = CurData.Transform.Scale * _Ratio;
 
 	SetComponentScale(CurData.Transform.Scale * _Ratio);
 
@@ -152,17 +156,33 @@ void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::stri
 		return;
 	}
 
-	int Inter = (_End - _Start) + 1;
+	int Inter = 0;
 
 	std::vector<int> Indexs;
 	std::vector<float> Times;
 
-	for (size_t i = 0; i < Inter; i++)
+	if (_Start < _End)
 	{
-		Indexs.push_back(_Start);
-		Times.push_back(Time);
-		++_Start;
+		Inter = (_End - _Start) + 1;
+		for (size_t i = 0; i < Inter; i++)
+		{
+			Indexs.push_back(_Start);
+			Times.push_back(Time);
+			++_Start;
+		}
+
 	}
+	else
+	{
+		Inter = (_Start - _End) + 1;
+		for (size_t i = 0; i < Inter; i++)
+		{
+			Indexs.push_back(_End);
+			Times.push_back(Time);
+			++_End;
+		}
+	}
+
 
 	CreateAnimation(_AnimationName, _SpriteName, Indexs, Times, _Loop);
 }
@@ -224,7 +244,7 @@ void USpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _For
 		return;
 	}
 
-	FrameAnimation* ChangeAnimation =&FrameAnimations[UpperName];
+	FrameAnimation* ChangeAnimation = &FrameAnimations[UpperName];
 
 	if (CurAnimation == ChangeAnimation && false == _Force)
 	{
@@ -276,6 +296,11 @@ void USpriteRenderer::SetAnimationEvent(std::string_view _AnimationName, int _Fr
 
 }
 
+void USpriteRenderer::SetCameraEffectScale(float _Effect)
+{
+	CameraEffectScale = _Effect;
+}
+
 void USpriteRenderer::SetPivotType(PivotType _Type)
 {
 	if (PivotType::CENTER == _Type)
@@ -305,9 +330,4 @@ void USpriteRenderer::SetPivotType(PivotType _Type)
 	default:
 		break;
 	}
-}
-
-void USpriteRenderer::SetCameraEffectScale(float _Effect)
-{
-	CameraEffectScale = _Effect;
 }

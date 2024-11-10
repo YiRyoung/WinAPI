@@ -1,7 +1,6 @@
 #pragma once
 #include <EngineCore/GameMode.h>
 
-// Ό³Έν :
 class ATitleGameMode : public AGameMode
 {
 public:

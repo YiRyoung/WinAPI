@@ -32,7 +32,7 @@ void AStage102GameMode::BeginPlay()
 	Player->SetActorLocation({ 100, 445 });
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
-	NewUI->SetSprite("StageUI.png");
+	NewUI->SetSprite("StageUI.png", "Lives.png");
 }
 
 void AStage102GameMode::Tick(float _DeltaTime)

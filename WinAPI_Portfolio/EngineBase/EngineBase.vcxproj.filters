@@ -13,11 +13,11 @@
     <ClInclude Include="EngineDelegate.h">
       <Filter>Function</Filter>
     </ClInclude>
-    <ClInclude Include="EngineTimer.h">
-      <Filter>Time</Filter>
-    </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineTimer.h">
+      <Filter>Time</Filter>
     </ClInclude>
     <ClInclude Include="EngineDirectory.h">
       <Filter>IO</Filter>
@@ -51,11 +51,11 @@
     <ClCompile Include="EngineDelegate.cpp">
       <Filter>Function</Filter>
     </ClCompile>
-    <ClCompile Include="EngineTimer.cpp">
-      <Filter>Time</Filter>
-    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineTimer.cpp">
+      <Filter>Time</Filter>
     </ClCompile>
     <ClCompile Include="EngineDirectory.cpp">
       <Filter>IO</Filter>
@@ -87,19 +87,19 @@
       <UniqueIdentifier>{ea7ef493-e79b-4081-9ac6-502c8d1eb677}</UniqueIdentifier>
     </Filter>
     <Filter Include="Function">
-      <UniqueIdentifier>{ba787548-b74f-4d15-927c-97501ba811d2}</UniqueIdentifier>
+      <UniqueIdentifier>{2ae5fbfe-862b-4c33-b733-956c360fe246}</UniqueIdentifier>
     </Filter>
     <Filter Include="PreCompile">
-      <UniqueIdentifier>{962be23c-790b-4fdc-8e65-aa234253955d}</UniqueIdentifier>
+      <UniqueIdentifier>{81930aca-db5f-4e79-a8e2-be0ea3408be3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Time">
-      <UniqueIdentifier>{614474b9-0288-4664-9b3b-5083ae7ee5d7}</UniqueIdentifier>
+      <UniqueIdentifier>{4e650c3e-4fcc-49f6-9a21-400224c97f29}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object">
-      <UniqueIdentifier>{5a43a8a2-8ce9-4b90-a236-38c0bdf57e0a}</UniqueIdentifier>
+      <UniqueIdentifier>{7de8859f-dc02-41a2-981b-710e9b9f093c}</UniqueIdentifier>
     </Filter>
     <Filter Include="String">
-      <UniqueIdentifier>{ca320c1b-9f59-44f2-ab07-8d2f8a4ecc48}</UniqueIdentifier>
+      <UniqueIdentifier>{ee4d51a2-b559-4bc3-95db-f4b21f13a0bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

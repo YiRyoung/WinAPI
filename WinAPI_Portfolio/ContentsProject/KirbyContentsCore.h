@@ -2,7 +2,6 @@
 #include <EngineCore/EngineAPICore.h>
 #include <EnginePlatform/EngineWindow.h>
 
-// Ό³Έν :
 class KirbyContentsCore : public UContentsCore
 {
 public:

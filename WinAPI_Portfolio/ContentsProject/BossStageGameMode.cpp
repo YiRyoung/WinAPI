@@ -31,7 +31,7 @@ void ABossStageGameMode::BeginPlay()
 	Player->SetActorLocation({ 70, 149 });
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
-	NewUI->SetSprite("StageUI.png");
+	NewUI->SetSprite("StageUI.png", "Lives.png");
 }
 
 void ABossStageGameMode::Tick(float _DeltaTime)

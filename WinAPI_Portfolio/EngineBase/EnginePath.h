@@ -4,25 +4,25 @@
 class UEnginePath
 {
 public:
-		UEnginePath();
+	// constrcuter destructer
+	UEnginePath();
 	UEnginePath(std::string_view _Path);
 	UEnginePath(std::filesystem::path _Path);
 	~UEnginePath();
 
-					
 	bool IsExists();
 	void MoveParent();
 
 	std::string GetPathToString();
 
-		std::string GetFileName();
+	std::string GetFileName();
 
-		std::string GetDirectoryName();
+	std::string GetDirectoryName();
 
-		std::string GetExtension();
+	std::string GetExtension();
 
 
-								bool MoveParentToDirectory(std::string_view _Path);
+	bool MoveParentToDirectory(std::string_view _Path);
 
 	bool IsDirectory();
 

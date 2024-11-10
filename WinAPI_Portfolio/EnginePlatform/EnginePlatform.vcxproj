@@ -18,10 +18,45 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EngineInput.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EngineWinDebug.h" />
+    <ClInclude Include="EngineWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EngineWinImage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EngineInput.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EngineWinDebug.cpp" />
+    <ClCompile Include="EngineWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EngineWinImage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PreCompile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{CE2F9D6D-C280-4F3B-8B6D-A89D11A631D3}</ProjectGuid>
+    <ProjectGuid>{f9ce566d-792c-41f3-a621-26f0a42cba9c}</ProjectGuid>
     <RootNamespace>EnginePlatform</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -150,43 +185,6 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="EngineInput.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="EngineWinDebug.h" />
-    <ClInclude Include="EngineWindow.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="EngineWinImage.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PreCompile.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="EngineInput.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="EngineWinDebug.cpp" />
-    <ClCompile Include="EngineWindow.cpp">
-      <SubType>
-      </SubType>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="EngineWinImage.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="PreCompile.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

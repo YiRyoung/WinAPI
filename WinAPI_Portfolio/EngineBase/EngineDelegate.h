@@ -1,11 +1,11 @@
 #pragma once
 #include <functional>
-#include <list>
 
 class EngineDelegate
 {
 public:
-		EngineDelegate();
+	// constrcuter destructer
+	EngineDelegate();
 	EngineDelegate(std::function<void()> _Function)
 	{
 		Functions.push_back(_Function);

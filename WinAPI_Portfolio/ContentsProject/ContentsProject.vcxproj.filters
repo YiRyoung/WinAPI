@@ -43,12 +43,6 @@
     <ClCompile Include="HUI.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>ContentsObject\Global\HUI</Filter>
-    </ClCompile>
-    <ClCompile Include="LiveIcon.cpp">
-      <Filter>ContentsObject\Global\HUI</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -91,12 +85,6 @@
       <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
     <ClInclude Include="HUI.h">
-      <Filter>ContentsObject\Global\HUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>ContentsObject\Global\HUI</Filter>
-    </ClInclude>
-    <ClInclude Include="LiveIcon.h">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
   </ItemGroup>

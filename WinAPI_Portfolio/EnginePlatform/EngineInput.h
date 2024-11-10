@@ -5,6 +5,11 @@
 #include <vector>
 #include <functional>
 
+
+
+
+
+
 enum class KeyEvent
 {
 	Down,
@@ -16,18 +21,27 @@ enum class KeyEvent
 class UEngineInput
 {
 public:
-		~UEngineInput();
+	// constrcuter destructer
+	~UEngineInput();
 
-		UEngineInput(const UEngineInput& _Other) = delete;
+	// delete Function
+	UEngineInput(const UEngineInput& _Other) = delete;
 	UEngineInput(UEngineInput&& _Other) noexcept = delete;
 	UEngineInput& operator=(const UEngineInput& _Other) = delete;
 	UEngineInput& operator=(UEngineInput&& _Other) noexcept = delete;
 
+
+
 	static UEngineInput& GetInst()
 	{
+
 		static UEngineInput Inst = UEngineInput();
 		return Inst;
 	}
+
+
+
+
 
 private:
 	class UEngineKey
@@ -50,6 +64,8 @@ private:
 		std::vector<std::function<void()>> UpEvents;
 		std::vector<std::function<void()>> FreeEvents;
 
+
+
 		UEngineKey()
 		{
 		}
@@ -62,13 +78,14 @@ private:
 		void EventCheck();
 
 		void KeyCheck(float _DeltaTime);
-		
+
 	};
 
 
 public:
 	void KeyCheck(float _DeltaTime);
 	void EventCheck(float _DeltaTime);
+
 
 	bool IsDown(int _KeyIndex)
 	{
@@ -77,6 +94,7 @@ public:
 			MSGASSERT("아직도 등록되지 않은 키가 존재합니다.");
 			return false;
 		}
+
 
 		return Keys[_KeyIndex].IsDown;
 	}
@@ -126,11 +144,14 @@ public:
 		return Keys[_KeyIndex].IsFree;
 	}
 
-	void BindAction(int _KeyIndex, KeyEvent _EventType,  std::function<void()> _Function);
+	void BindAction(int _KeyIndex, KeyEvent _EventType, std::function<void()> _Function);
 
 protected:
 
 private:
+
+
+
 	std::map<int, UEngineKey> Keys;
 
 	UEngineInput();

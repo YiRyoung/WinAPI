@@ -8,6 +8,8 @@
 #include <objidl.h>
 #include <gdiplus.h>
 
+
+ // BMP 확장용 라이브러리
 #pragma comment(lib, "Msimg32.lib")
 
 // PNG 를 통한 window 네이티브 그래픽 확장용 라이브러리
@@ -33,20 +35,25 @@ UEngineWinImage::~UEngineWinImage()
 
 }
 
-void UEngineWinImage::Create(UEngineWinImage* _TargetImage,  FVector2D _Scale)
+void UEngineWinImage::Create(UEngineWinImage* _TargetImage, FVector2D _Scale)
 {
 	if (nullptr == _TargetImage)
 	{
 		MSGASSERT("Main windowDC를 넣지않고 이미지를 생성하려고 했습니다");
 		return;
 	}
-	
+
+
+
+
+
 	HBITMAP NewBitmap = static_cast<HBITMAP>(CreateCompatibleBitmap(_TargetImage->GetDC(), _Scale.iX(), _Scale.iY()));
+
 
 	HDC NewImageDC = CreateCompatibleDC(_TargetImage->GetDC());
 
-	HBITMAP OldBitMap = static_cast<HBITMAP>(SelectObject(NewImageDC, NewBitmap));
 
+	HBITMAP OldBitMap = static_cast<HBITMAP>(SelectObject(NewImageDC, NewBitmap));
 	DeleteObject(OldBitMap);
 
 	hBitMap = NewBitmap;
@@ -64,7 +71,8 @@ void UEngineWinImage::CopyToBit(UEngineWinImage* _TargetImage, const FTransform&
 
 	HDC CopyDC = ImageDC;
 	HDC TargetDC = _TargetImage->ImageDC;
-	
+
+
 	FVector2D LeftTop = _Trans.CenterLeftTop();
 	FVector2D RightBot = _Trans.CenterRightBottom();
 
@@ -79,13 +87,17 @@ void UEngineWinImage::CopyToBit(UEngineWinImage* _TargetImage, const FTransform&
 		0,
 		SRCCOPY);
 
+
 	FVector2D Vector;
 }
 
 void UEngineWinImage::CopyToTrans(UEngineWinImage* _TargetImage, const FTransform& _RenderTrans, const FTransform& _LTImageTrans, UColor _Color /*= UColor(255, 0, 255, 255)*/)
 {
+
+
 	HDC CopyDC = ImageDC;
 	HDC TargetDC = _TargetImage->ImageDC;
+
 
 	FVector2D LeftTop = _RenderTrans.CenterLeftTop();
 
@@ -106,6 +118,10 @@ void UEngineWinImage::CopyToTrans(UEngineWinImage* _TargetImage, const FTransfor
 
 void UEngineWinImage::Load(UEngineWinImage* _TargetImage, std::string_view _Path)
 {
+
+
+
+
 	UEnginePath Path = _Path;
 
 	std::string UpperExt = UEngineString::ToUpper(Path.GetExtension());
@@ -114,6 +130,7 @@ void UEngineWinImage::Load(UEngineWinImage* _TargetImage, std::string_view _Path
 
 	if (".PNG" == UpperExt)
 	{
+
 		ULONG_PTR gidplustoken = 0;
 
 		Gdiplus::GdiplusStartupInput StartupInput;
@@ -134,7 +151,6 @@ void UEngineWinImage::Load(UEngineWinImage* _TargetImage, std::string_view _Path
 			return;
 		}
 
-		// 
 		delete pBitMap;
 		delete pImage;
 	}
@@ -182,6 +198,7 @@ UColor UEngineWinImage::GetColor(FIntPoint _Point, UColor _DefaultColor = UColor
 	{
 		return _DefaultColor;
 	}
+
 
 	UColor ResultColor = ::GetPixel(ImageDC, _Point.X, _Point.Y);
 	return ResultColor;

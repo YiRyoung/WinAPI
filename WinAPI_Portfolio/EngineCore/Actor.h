@@ -1,11 +1,9 @@
 #pragma once
 #include <EngineBase/Object.h>
 #include <EngineBase/EngineMath.h>
-#include <list>
 
 #include "EngineSprite.h"
 
-// Ό³Έν :
 class AActor : public UObject
 {
 public:
@@ -25,7 +23,7 @@ public:
 
 	virtual void BeginPlay() {}
 
-	virtual void Tick(float _DeltaTime) {}
+	virtual void Tick(float _DeltaTime);
 
 	virtual void LevelChangeStart() {}
 	virtual void LevelChangeEnd() {}
@@ -68,6 +66,7 @@ public:
 		ComponentList.push_back(NewComponent);
 		return NewComponent;
 	}
+
 
 protected:
 

@@ -1,7 +1,6 @@
 #pragma once
 #include <random>
 
-// Ό³Έν :
 class UEngineRandom
 {
 public:
@@ -22,7 +21,10 @@ public:
 
 	int RandomInt(int _Min, int _Max)
 	{
-		std::uniform_int_distribution<int> RandomCreate(_Min, _Max + 1);
+
+		std::uniform_int_distribution<int> RandomCreate(_Min, _Max);
+
+
 		return RandomCreate.operator()(MtGen);
 	}
 
@@ -32,9 +34,9 @@ public:
 		return RandomCreate.operator()(MtGen);
 	}
 
-
 protected:
 
 private:
 	std::mt19937_64 MtGen = std::mt19937_64(time(nullptr));
 };
+

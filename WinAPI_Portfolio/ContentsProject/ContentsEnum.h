@@ -9,3 +9,8 @@ enum class ERenderOrder
 	HUI = 10000,
 	HUITEXT = 10001
 };
+
+enum class ECollisionGroup
+{
+	PlayerBody
+};

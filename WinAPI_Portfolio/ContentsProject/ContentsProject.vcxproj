@@ -155,14 +155,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="LiveIcon.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <SubType>
       </SubType>
@@ -215,14 +207,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HUI.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="LiveIcon.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -22,7 +22,6 @@ protected:
 private:
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
-	class ALiveIcon* NewLiveUI = nullptr;
 	class AScore* Score = nullptr;
 };
 

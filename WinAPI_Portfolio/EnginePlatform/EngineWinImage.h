@@ -3,6 +3,7 @@
 #include <EngineBase/EngineMath.h>
 #include <EngineBase/Object.h>
 
+
 class UEngineWinImage : public UObject
 {
 public:
@@ -20,7 +21,7 @@ public:
 	{
 		return ImageDC;
 	}
-	
+
 	void Create(HDC _DC)
 	{
 		ImageDC = _DC;
@@ -28,11 +29,11 @@ public:
 
 	void Create(UEngineWinImage* _TargetImage, FVector2D _Scale);
 
-	void CopyToBit(UEngineWinImage* _TargetImage, 
+	void CopyToBit(UEngineWinImage* _TargetImage,
 		const FTransform& _Trans);
 
-	void CopyToTrans(UEngineWinImage* _TargetImage, 
-		const FTransform& _RenderTrans, 
+	void CopyToTrans(UEngineWinImage* _TargetImage,
+		const FTransform& _RenderTrans,
 		const FTransform& _LTImageTrans,
 		UColor _Color = UColor(255, 0, 255, 0));
 

@@ -2,9 +2,6 @@
 #include "EngineWindow.h"
 #include <EngineBase/EngineDebug.h>
 
-
-
-
 HINSTANCE UEngineWindow::hInstance = nullptr;
 std::map<std::string, WNDCLASSEXA> UEngineWindow::WindowClasss;
 int WindowCount = 0;
@@ -54,10 +51,6 @@ void UEngineWindow::EngineWindowInit(HINSTANCE _Instance)
 int UEngineWindow::WindowMessageLoop(EngineDelegate _StartFunction, EngineDelegate _FrameFunction)
 {
 	MSG msg = MSG();
-
-
-
-
 
 	if (true == _StartFunction.IsBind())
 	{
@@ -188,4 +181,14 @@ void UEngineWindow::SetWindowPosAndScale(FVector2D _Pos, FVector2D _Scale)
 	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 	::SetWindowPos(WindowHandle, nullptr, _Pos.iX(), _Pos.iY(), Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER);
+}
+
+FVector2D UEngineWindow::GetMousePos()
+{
+	POINT MousePoint;
+
+	GetCursorPos(&MousePoint);
+	ScreenToClient(WindowHandle, &MousePoint);
+
+	return FVector2D(MousePoint.x, MousePoint.y);
 }

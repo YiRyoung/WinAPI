@@ -1,15 +1,16 @@
 #pragma once
+// Os Header
 #include <Windows.h>
 
+// std Header
 #include <map>
 #include <string>
 #include <functional>
 
+// user header
 #include <EngineBase/EngineDelegate.h>
 #include <EngineBase/EngineMath.h>
 #include "EngineWinImage.h"
-
-
 
 class UEngineWindow
 {
@@ -18,10 +19,11 @@ public:
 	static void CreateWindowClass(const WNDCLASSEXA& _Class);
 
 	static int WindowMessageLoop(EngineDelegate _StartFunction, EngineDelegate _FrameFunction);
-	
+	// constrcuter destructer
 	UEngineWindow();
 	~UEngineWindow();
 
+	// delete Function
 	UEngineWindow(const UEngineWindow& _Other) = delete;
 	UEngineWindow(UEngineWindow&& _Other) noexcept = delete;
 	UEngineWindow& operator=(const UEngineWindow& _Other) = delete;
@@ -45,15 +47,14 @@ public:
 		return BackBufferImage;
 	}
 
-		
 	inline void SetWindowTitle(std::string_view Text)
 	{
 		SetWindowTextA(WindowHandle, Text.data());
 	}
 
-
 	void SetWindowPosAndScale(FVector2D _Pos, FVector2D _Scale);
 
+	FVector2D GetMousePos();
 
 protected:
 

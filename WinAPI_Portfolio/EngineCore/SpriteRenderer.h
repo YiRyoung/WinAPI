@@ -8,7 +8,7 @@ enum class PivotType
 {
 	CENTER,
 	BOTTOM,
-	TOP
+	TOP,
 };
 
 class USpriteRenderer : public USceneComponent
@@ -82,16 +82,6 @@ public:
 		return Sprite->GetName();
 	}
 
-	bool IsActive() override
-	{
-		return UObject::IsActive() && GetActor()->IsActive();
-	}
-
-	
-	bool IsDestroy() override
-	{
-		return UObject::IsDestroy() || GetActor()->IsDestroy();
-	}
 
 	void SetCameraEffect(bool _Value)
 	{
@@ -102,6 +92,7 @@ public:
 	{
 		Pivot = _Pivot;
 	}
+
 	void SetPivotType(PivotType _Type);
 
 	void SetCameraEffectScale(float _Effect);

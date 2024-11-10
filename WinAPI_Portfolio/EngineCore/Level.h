@@ -1,12 +1,13 @@
 #pragma once
 #include "GameMode.h"
 
-// Ό³Έν :
 class ULevel
 {
 public:
+	friend class U2DCollision;
 	friend class USpriteRenderer;
 	friend class UEngineAPICore;
+
 	// constrcuter destructer
 	ULevel();
 	~ULevel();
@@ -14,8 +15,8 @@ public:
 	// delete Function
 	ULevel(const ULevel& _Other) = delete;
 	ULevel(ULevel&& _Other) noexcept = delete;
-	ULevel& operator=(const ULevel& _Other) = delete;
 	ULevel& operator=(ULevel&& _Other) noexcept = delete;
+	ULevel& operator=(const ULevel& _Other) = delete;
 
 	void LevelChangeStart();
 
@@ -34,7 +35,6 @@ public:
 		ActorPtr->World = this;
 
 		BeginPlayList.push_back(ActorPtr);
-
 		return NewActor;
 	}
 
@@ -51,6 +51,11 @@ public:
 	void SetCameraPos(FVector2D _Pos)
 	{
 		CameraPos = _Pos;
+	}
+
+	void AddCameraPos(FVector2D _Value)
+	{
+		CameraPos += _Value;
 	}
 
 	FVector2D GetCameraPivot()
@@ -81,6 +86,7 @@ private:
 	void ScreenClear();
 	void DoubleBuffering();
 
+
 	template<typename GameModeType, typename MainPawnType>
 	void CreateGameMode()
 	{
@@ -99,6 +105,8 @@ private:
 	void PushRenderer(class USpriteRenderer* _Renderer);
 	void ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder);
 
+	void PushCollision(class U2DCollision* _Collision);
+
 	class AGameMode* GameMode = nullptr;
 
 	class AActor* MainPawn = nullptr;
@@ -112,5 +120,7 @@ private:
 	FVector2D CameraPivot;
 
 	std::map<int, std::list<class USpriteRenderer*>> Renderers;
+
+	std::map<int, std::list<class U2DCollision*>> Collisions;
 };
 

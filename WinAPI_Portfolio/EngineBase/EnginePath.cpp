@@ -10,13 +10,11 @@ UEnginePath::UEnginePath()
 UEnginePath::UEnginePath(std::string_view _Path)
 	: Path(_Path)
 {
-
 }
 
 UEnginePath::UEnginePath(std::filesystem::path _Path)
 	: Path(_Path)
 {
-
 }
 
 UEnginePath::~UEnginePath()
@@ -58,7 +56,7 @@ std::string UEnginePath::GetExtension()
 
 bool UEnginePath::IsExists()
 {
-			return std::filesystem::exists(Path);
+	return std::filesystem::exists(Path);
 }
 
 bool UEnginePath::IsFile()
@@ -83,8 +81,8 @@ void UEnginePath::Append(std::string_view _AppendName)
 
 bool UEnginePath::MoveParentToDirectory(std::string_view _Path)
 {
-	
-		UEnginePath DummyPath = UEnginePath(Path);
+
+	UEnginePath DummyPath = UEnginePath(Path);
 
 	if (false == DummyPath.IsDirectory())
 	{
@@ -92,7 +90,7 @@ bool UEnginePath::MoveParentToDirectory(std::string_view _Path)
 		return false;
 	}
 
-		bool Result = false;
+	bool Result = false;
 	std::filesystem::path CurPath = DummyPath.Path;
 
 	std::filesystem::path Root = CurPath.root_path();
@@ -115,10 +113,8 @@ bool UEnginePath::MoveParentToDirectory(std::string_view _Path)
 		DummyPath.MoveParent();
 	}
 
-
 	return Result;
-
-	}
+}
 
 
 

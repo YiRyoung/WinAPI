@@ -7,6 +7,7 @@
 #include <EnginePlatform/EngineWinImage.h>
 
 #include "SpriteRenderer.h"
+#include "2DCollision.h"
 
 #include "EngineCoreDebug.h"
 
@@ -143,6 +144,8 @@ void ULevel::Render(float _DeltaTime)
 {
 	ScreenClear();
 
+
+
 	if (true == IsCameraToMainPawn)
 	{
 		CameraPos = MainPawn->GetTransform().Location + CameraPivot;
@@ -171,32 +174,59 @@ void ULevel::Render(float _DeltaTime)
 
 	}
 
-	UEngineDebug::PrintEngineDebugText();
+	UEngineDebug::PrintEngineDebugRender();
 
 	DoubleBuffering();
 }
 
 void ULevel::Release(float _DeltaTime)
 {
-	std::map<int, std::list<class USpriteRenderer*>>::iterator StartOrderIter = Renderers.begin();
-	std::map<int, std::list<class USpriteRenderer*>>::iterator EndOrderIter = Renderers.end();
 
-	for (; StartOrderIter != EndOrderIter; ++StartOrderIter)
 	{
-		std::list<class USpriteRenderer*>& RendererList = StartOrderIter->second;
+		std::map<int, std::list<class U2DCollision*>>::iterator StartOrderIter = Collisions.begin();
+		std::map<int, std::list<class U2DCollision*>>::iterator EndOrderIter = Collisions.end();
 
-		std::list<class USpriteRenderer*>::iterator RenderStartIter = RendererList.begin();
-		std::list<class USpriteRenderer*>::iterator RenderEndIter = RendererList.end();
-
-		for (; RenderStartIter != RenderEndIter; )
+		for (; StartOrderIter != EndOrderIter; ++StartOrderIter)
 		{
-			if (false == (*RenderStartIter)->IsDestroy())
-			{
-				++RenderStartIter;
-				continue;
-			}
+			std::list<class U2DCollision*>& CollisionList = StartOrderIter->second;
 
-			RenderStartIter = RendererList.erase(RenderStartIter);
+			std::list<class U2DCollision*>::iterator CollisionStartIter = CollisionList.begin();
+			std::list<class U2DCollision*>::iterator CollisionEndIter = CollisionList.end();
+
+			for (; CollisionStartIter != CollisionEndIter; )
+			{
+				if (false == (*CollisionStartIter)->IsDestroy())
+				{
+					++CollisionStartIter;
+					continue;
+				}
+
+				CollisionStartIter = CollisionList.erase(CollisionStartIter);
+			}
+		}
+	}
+
+	{
+		std::map<int, std::list<class USpriteRenderer*>>::iterator StartOrderIter = Renderers.begin();
+		std::map<int, std::list<class USpriteRenderer*>>::iterator EndOrderIter = Renderers.end();
+
+		for (; StartOrderIter != EndOrderIter; ++StartOrderIter)
+		{
+			std::list<class USpriteRenderer*>& RendererList = StartOrderIter->second;
+
+			std::list<class USpriteRenderer*>::iterator RenderStartIter = RendererList.begin();
+			std::list<class USpriteRenderer*>::iterator RenderEndIter = RendererList.end();
+
+			for (; RenderStartIter != RenderEndIter; )
+			{
+				if (false == (*RenderStartIter)->IsDestroy())
+				{
+					++RenderStartIter;
+					continue;
+				}
+
+				RenderStartIter = RendererList.erase(RenderStartIter);
+			}
 		}
 	}
 
@@ -253,8 +283,15 @@ void ULevel::PushRenderer(class USpriteRenderer* _Renderer)
 	Renderers[Order].push_back(_Renderer);
 }
 
+void ULevel::PushCollision(U2DCollision* _Collision)
+{
+	int Order = _Collision->GetGroup();
+	Collisions[Order].push_back(_Collision);
+}
+
 void ULevel::ChangeRenderOrder(class USpriteRenderer* _Renderer, int _PrevOrder)
 {
+
 	Renderers[_PrevOrder].remove(_Renderer);
 
 	Renderers[_Renderer->GetOrder()].push_back(_Renderer);

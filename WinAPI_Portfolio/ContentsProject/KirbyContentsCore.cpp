@@ -53,7 +53,6 @@ void KirbyContentsCore::BeginPlay()
 
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
 
-	// 이거 꼭 호출해줘야 합니다.
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, {768, 720});
 
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
@@ -69,5 +68,4 @@ void KirbyContentsCore::BeginPlay()
 
 void KirbyContentsCore::Tick()
 {
-	// 지금 전혀 용도를 찾지 못해서 사용하지 않는 함수입니다.
 }

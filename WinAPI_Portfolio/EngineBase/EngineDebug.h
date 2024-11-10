@@ -7,7 +7,6 @@
 
 namespace UEngineDebug
 {
-	// 분리해야 하겠네요
-	void OutPutString(const std::string& Text);
+	 	void OutPutString(const std::string& Text);
 }
 

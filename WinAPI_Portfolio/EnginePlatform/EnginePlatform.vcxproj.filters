@@ -2,50 +2,39 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Window">
-      <UniqueIdentifier>{3dfd2401-424e-4e3c-8038-0fd0b7407bdd}</UniqueIdentifier>
+      <UniqueIdentifier>{1a58ac3a-56bb-4fd1-beaa-715e38dd917c}</UniqueIdentifier>
     </Filter>
     <Filter Include="PreCompile">
-      <UniqueIdentifier>{17c81d43-b54b-4a16-959a-3333a8626930}</UniqueIdentifier>
+      <UniqueIdentifier>{851e9c80-3b24-4156-8b0a-e6537c61ab7f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Input">
-      <UniqueIdentifier>{54e7dde4-ef9b-4b9d-8cf7-94545c9a3697}</UniqueIdentifier>
+      <UniqueIdentifier>{76bd226f-dfeb-4ca8-b1c7-700b1260d873}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Debug">
-      <UniqueIdentifier>{805fc861-ec7e-4892-9034-2a1c5ec78de2}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="EngineWindow.h">
-      <Filter>Window</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineInput.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="PreCompile.h">
-      <Filter>PreCompile</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineWinImage.h">
-      <Filter>Window</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineWinDebug.h">
-      <Filter>Debug</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineWindow.cpp">
       <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="EngineInput.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="EngineWinImage.cpp">
+    <ClCompile Include="EngineInput.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineWinImage.cpp" />
+    <ClCompile Include="EngineWinDebug.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EngineWindow.h">
       <Filter>Window</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineWinDebug.cpp">
-      <Filter>Debug</Filter>
-    </ClCompile>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineInput.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineWinImage.h" />
+    <ClInclude Include="EngineWinDebug.h" />
   </ItemGroup>
 </Project>
