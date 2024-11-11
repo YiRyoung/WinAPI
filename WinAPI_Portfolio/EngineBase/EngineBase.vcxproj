@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{A57A3818-F473-45E0-B3B0-36DF1F609EAE}</ProjectGuid>
+    <ProjectGuid>{47E3AAD8-CC6C-46C3-86C8-B7CA1A81DA66}</ProjectGuid>
     <RootNamespace>EngineBase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -178,10 +178,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FSMStateManager.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>
@@ -216,10 +212,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EngineTimer.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="FSMStateManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

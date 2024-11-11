@@ -24,6 +24,10 @@ APlayer::APlayer()
 		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
 		SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
 
+
+		// Fly
+		SpriteRenderer->CreateAnimation("Fly_Right", "Kirby_Normal_Right.png", 19, 22, 1.0f, false);
+
 		SpriteRenderer->ChangeAnimation("Idle_Right");
 		SpriteRenderer->SetPivotType(PivotType::BOTTOM);
 	}
@@ -135,7 +139,7 @@ void APlayer::Gravity(float _DeltaTime)
 	if (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)])
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
-		GravityForce += FVector2D::DOWN * _DeltaTime * 500.0f;
+		GravityForce += FVector2D::DOWN * _DeltaTime * 300.0f;
 	}	
 	else
 	{
@@ -158,11 +162,24 @@ void APlayer::Idle(float _DeltaTime)
 	SpriteRenderer->ChangeAnimation("Idle_Right");
 
 	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT) ||
-		true == UEngineInput::GetInst().IsPress(VK_LEFT) ||
-		true == UEngineInput::GetInst().IsPress(VK_DOWN) ||
-		true == UEngineInput::GetInst().IsPress(VK_UP))
+		true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
 		ChangeState(PlayerState::Move);
+		return; 
+	}
+	else if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
+	{
+		ChangeState(PlayerState::Bend);
+		return;
+	}
+	else if (true == UEngineInput::GetInst().IsPress(VK_UP))
+	{
+		ChangeState(PlayerState::Fly);
+		return;
+	}
+	else if (true == UEngineInput::GetInst().IsPress('Z'))
+	{
+		ChangeState(PlayerState::Jump);
 		return;
 	}
 }
@@ -173,54 +190,59 @@ void APlayer::Move(float _DeltaTime)
 	Gravity(_DeltaTime);
 
 	FVector2D Vector = FVector2D::ZERO;
+	bool IsWall = false;
 
 	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
 	{
 		SpriteRenderer->ChangeAnimation("Walk_Right");
+		UColor RightColor = CheckColor[static_cast<int>(CheckDir::Right)];
+		if (UColor::MAGENTA == RightColor)
+		{
+			IsWall = true;
+		}
+
 		Vector += FVector2D::RIGHT;
 	}
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
 		SpriteRenderer->ChangeAnimation("Walk_Left");
-		Vector += FVector2D::LEFT;
-	}
-	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
-	{
-		Vector += FVector2D::DOWN;
-	}
-	if (true == UEngineInput::GetInst().IsPress(VK_UP))
-	{
-		Vector += FVector2D::UP;
-	}
+		UColor LeftColor = CheckColor[static_cast<int>(CheckDir::Left)];
+		if (UColor::MAGENTA == LeftColor)
+		{
+			IsWall = true;
+		}
 
-	if (false == UEngineInput::GetInst().IsPress(VK_RIGHT) &&
-		false == UEngineInput::GetInst().IsPress(VK_LEFT) &&
-		false == UEngineInput::GetInst().IsPress(VK_DOWN) &&
-		false == UEngineInput::GetInst().IsPress(VK_UP))
-	{
-		ChangeState(PlayerState::Idle);
-		return;
+		Vector += FVector2D::LEFT;
 	}
 
 	Vector.Normalize();
+	
+	if (false == IsWall)
+	{
+		IsWall = false;
+		AddActorLocation(Vector * _DeltaTime * Speed);
+	}
 
-	PlayerGroundCheck(Vector * _DeltaTime * Speed);
+	if (true == UEngineInput::GetInst().IsUp(VK_RIGHT))
+	{
+		SpriteRenderer->ChangeAnimation("Idle_Right");
+		return;
+	}
+	if (true == UEngineInput::GetInst().IsUp(VK_LEFT))
+	{
+		SpriteRenderer->ChangeAnimation("Idle_Left");
+		return;
+	}
+}
 
-	// White 는 통과
-	// Black은 조건부 충돌
-	// Magenta는 충돌
-	// Yellow는 사다리
-	// Red 는 포탈
-	// Green은 함정
+void APlayer::Fly(float _DeltaTime)
+{
+}
 
-	//// 공중일 때
-	//if (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)])
-	//{
-	//	// 점프 힘
-	//	AddActorLocation(Vector * _DeltaTime * Jump);
-	//}
-	//else
-	//{
-	//	AddActorLocation(Vector * _DeltaTime * Speed);
-	//}
+void APlayer::Jump(float _DeltaTime)
+{
+}
+
+void APlayer::Bend(float _DeltaTime)
+{
 }

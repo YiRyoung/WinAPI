@@ -13,7 +13,10 @@ enum class CheckDir
 enum class PlayerState
 {
 	Idle,
-	Move
+	Move,
+	Fly,
+	Jump,
+	Bend
 };
 
 class APlayer : public AActor
@@ -40,16 +43,26 @@ public:
 
 	void Gravity(float _DeltaTime);
 
+	void WallCheck(UColor _Color)
+	{
+		if (UColor::MAGENTA == _Color)
+		{
+			IsWall = true;
+		}
+		
+		IsWall = false ;
+	}
+
 	PlayerState CurPlayerState = PlayerState::Idle;
 
 protected:
 
 private:
-	float Speed = 100.0f;
-	float Jump = 500.0f;
+	float Speed = 300.0f;
+	float JumpForce = 500.0f;
 	int MySpriteIndex = 0;
 
-	int IsGround = false;
+	bool IsWall = false;
 	FVector2D GravityForce = FVector2D::ZERO;
 
 	class UEngineWinImage* BackImage = nullptr;
@@ -61,6 +74,8 @@ private:
 	void ChangeState(PlayerState _CurPlayerState);
 	void Idle(float _DeltaTime);
 	void Move(float _DeltaTime);
-
+	void Fly(float _DeltaTime);
+	void Jump(float _DeltaTime);
+	void Bend(float _DeltaTime);
 };
 

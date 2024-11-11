@@ -22,9 +22,6 @@
     <ClCompile Include="Stage.cpp">
       <Filter>ContentsObject\Maps</Filter>
     </ClCompile>
-    <ClCompile Include="BossStageGameMode.cpp">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClCompile>
     <ClCompile Include="Stage104GameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
@@ -42,6 +39,9 @@
     </ClCompile>
     <ClCompile Include="HUI.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStageGameMode.cpp">
+      <Filter>ContentsObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
