@@ -305,7 +305,6 @@ public:
 	static const UColor BLACK;
 	static const UColor MAGENTA;
 	static const UColor YELLOW;
-	static const UColor CYAN;
 	static const UColor GREEN;
 	static const UColor BLUE;
 	static const UColor RED;

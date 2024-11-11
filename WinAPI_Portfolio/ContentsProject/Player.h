@@ -37,18 +37,16 @@ public:
 	void CameraMove();
 
 	void PlayerGroundCheck(FVector2D _MovePos);
+
 	void Gravity(float _DeltaTime);
-
-	void GroundUp();
-
-	void GroundDowm();
 
 	PlayerState CurPlayerState = PlayerState::Idle;
 
 protected:
 
 private:
-	float Speed = 500.0f;
+	float Speed = 100.0f;
+	float Jump = 500.0f;
 	int MySpriteIndex = 0;
 
 	int IsGround = false;

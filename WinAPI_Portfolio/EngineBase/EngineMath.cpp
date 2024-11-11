@@ -17,7 +17,6 @@ const UColor UColor::WHITE = { 255, 255, 255, 0 };
 const UColor UColor::BLACK = { 0, 0, 0, 0 };
 const UColor UColor::MAGENTA = { 255, 0, 255, 0 };
 const UColor UColor::YELLOW = { 255, 255, 0, 0 };
-const UColor UColor::CYAN = { 0, 255, 255, 0 };
 const UColor UColor::RED = { 255, 0, 0, 0 };
 const UColor UColor::GREEN = { 0, 255, 0, 0 };
 const UColor UColor::BLUE = { 0, 0, 255, 0 };

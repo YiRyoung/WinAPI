@@ -136,7 +136,7 @@ void APlayer::Gravity(float _DeltaTime)
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
 		GravityForce += FVector2D::DOWN * _DeltaTime * 500.0f;
-	}
+	}	
 	else
 	{
 		GravityForce = FVector2D::ZERO;
@@ -206,50 +206,21 @@ void APlayer::Move(float _DeltaTime)
 
 	PlayerGroundCheck(Vector * _DeltaTime * Speed);
 
-	if (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)])
-	{
-		AddActorLocation(Vector * _DeltaTime * Speed);
+	// White 는 통과
+	// Black은 조건부 충돌
+	// Magenta는 충돌
+	// Yellow는 사다리
+	// Red 는 포탈
+	// Green은 함정
 
-		PlayerGroundCheck(FVector2D::DOWN * 50);
-
-		if (UColor::YELLOW == CheckColor[static_cast<int>(CheckDir::Down)])
-		{
-			GroundDowm();
-		}
-		else  if (UColor::CYAN == CheckColor[static_cast<int>(CheckDir::Down)])
-		{
-			GroundDowm();
-		}
-
-	}
-	else
-	{
-		AddActorLocation(Vector * _DeltaTime * Speed);
-		if (UColor::YELLOW == CheckColor[static_cast<int>(CheckDir::Down)])
-		{
-			GroundUp();
-		}
-		else if (UColor::CYAN == CheckColor[static_cast<int>(CheckDir::Down)])
-		{
-			GroundUp();
-		}
-	}
-}
-
-void APlayer::GroundUp()
-{
-	do
-	{
-		PlayerGroundCheck(FVector2D::ZERO);
-		AddActorLocation(FVector2D::UP);
-	} while (UColor::WHITE != CheckColor[static_cast<int>(CheckDir::Down)]);
-}
-
-void APlayer::GroundDowm()
-{
-	do
-	{
-		PlayerGroundCheck(FVector2D::ZERO);
-		AddActorLocation(FVector2D::DOWN);
-	} while (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)]);
+	//// 공중일 때
+	//if (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)])
+	//{
+	//	// 점프 힘
+	//	AddActorLocation(Vector * _DeltaTime * Jump);
+	//}
+	//else
+	//{
+	//	AddActorLocation(Vector * _DeltaTime * Speed);
+	//}
 }
