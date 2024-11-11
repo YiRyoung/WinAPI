@@ -1,5 +1,14 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EngineBase/EngineMath.h>
+enum class CheckDir
+{
+	Left,
+	Right,
+	Up,
+	Down,
+	Max
+};
 
 enum class PlayerState
 {
@@ -27,6 +36,13 @@ public:
 
 	void CameraMove();
 
+	void PlayerGroundCheck(FVector2D _MovePos);
+	void Gravity(float _DeltaTime);
+
+	void GroundUp();
+
+	void GroundDowm();
+
 	PlayerState CurPlayerState = PlayerState::Idle;
 
 protected:
@@ -35,9 +51,14 @@ private:
 	float Speed = 500.0f;
 	int MySpriteIndex = 0;
 
+	int IsGround = false;
+	FVector2D GravityForce = FVector2D::ZERO;
+
 	class UEngineWinImage* BackImage = nullptr;
 	class UEngineWinImage* ColImage = nullptr;
 	class USpriteRenderer* SpriteRenderer;
+
+	UColor CheckColor[static_cast<int>(CheckDir::Max)];
 
 	void ChangeState(PlayerState _CurPlayerState);
 	void Idle(float _DeltaTime);

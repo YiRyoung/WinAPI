@@ -322,6 +322,12 @@ public:
 		};
 	};
 
+	UColor()
+	{
+
+	}
+
+
 	UColor(unsigned long _Value)
 		:Color(_Value)
 	{
