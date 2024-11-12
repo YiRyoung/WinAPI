@@ -14,7 +14,7 @@ APlayer::APlayer()
 	{
 		SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 		SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
-		SpriteRenderer->SetComponentScale({ 76, 76 });
+		SpriteRenderer->SetComponentScale({ 94, 94 });
 
 		// Left
 		SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
@@ -29,7 +29,6 @@ APlayer::APlayer()
 		SpriteRenderer->CreateAnimation("Fly_Right", "Kirby_Normal_Right.png", 19, 22, 1.0f, false);
 
 		SpriteRenderer->ChangeAnimation("Idle_Right");
-		SpriteRenderer->SetPivotType(PivotType::BOTTOM);
 	}
 
 	DebugOn();
