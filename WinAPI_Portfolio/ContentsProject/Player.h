@@ -43,14 +43,28 @@ public:
 
 	void Gravity(float _DeltaTime);
 
-	void DirCheck()
+	void SetAnimDir()
 	{
 		if (true == IsLeft)
 		{
-			DirString = "_Left";
+			AnimDir = "_Left";
 		}
-		
-		DirString = "_Right";
+		else
+		{
+			AnimDir = "_Right";
+		}
+	}
+
+	bool CheckMAGENTA(UColor _Color)
+	{
+		if (UColor::MAGENTA == _Color)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	PlayerState CurPlayerState = PlayerState::Idle;
@@ -62,7 +76,8 @@ private:
 	float JumpForce = 500.0f;
 	int MySpriteIndex = 0;
 
-	bool IsWall = false;
+	bool IsMAGENTA = false;
+
 	FVector2D GravityForce = FVector2D::ZERO;
 
 	class UEngineWinImage* BackImage = nullptr;
@@ -71,8 +86,8 @@ private:
 
 	UColor CheckColor[static_cast<int>(CheckDir::Max)];
 
-	bool IsLeft = false;
-	std::string DirString = "";
+	bool IsLeft = true;
+	std::string AnimDir = "";
 
 	void ChangeState(PlayerState _CurPlayerState);
 	void Idle(float _DeltaTime);

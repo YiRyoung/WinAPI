@@ -16,16 +16,20 @@ APlayer::APlayer()
 		SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
 		SpriteRenderer->SetComponentScale({ 94, 94 });
 
-		// Left
-		SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
+		// Idle
 		SpriteRenderer->CreateAnimation("Idle_Left", "Kirby_Normal_Left.png", 0, 1, 1.0f);
-
-		// Right
-		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
 		SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
 
+		// Walk
+		SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
+		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
 
+		// Bend
+		SpriteRenderer->CreateAnimation("Bend_Left", "Kirby_Normal_Left.png", 7, 7, 1.0f);
+		SpriteRenderer->CreateAnimation("Bend_Right", "Kirby_Normal_Right.png", 7, 7, 1.0f);
+		 
 		// Fly
+		SpriteRenderer->CreateAnimation("Fly_Left", "Kirby_Normal_Left.png", 19, 22, 1.0f, false);
 		SpriteRenderer->CreateAnimation("Fly_Right", "Kirby_Normal_Right.png", 19, 22, 1.0f, false);
 
 		SpriteRenderer->ChangeAnimation("Idle_Right");
@@ -53,8 +57,6 @@ void APlayer::Tick(float _DeltaTime)
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
 
-	DirCheck();
-
 	// FSM
 	switch (CurPlayerState)
 	{
@@ -63,6 +65,9 @@ void APlayer::Tick(float _DeltaTime)
 		break;
 	case PlayerState::Move:
 		Move(_DeltaTime);
+		break;
+	case PlayerState::Bend:
+		Bend(_DeltaTime);
 		break;
 	default:
 		break;
@@ -171,85 +176,77 @@ void APlayer::ChangeState(PlayerState _CurPlayerState)
 
 void APlayer::Idle(float _DeltaTime)
 {
-	FVector2D Pos = GetActorLocation();
-
+	// 중력가속도를 기준으로 지면 체크
 	PlayerGroundCheck(GravityForce * _DeltaTime);
 	Gravity(_DeltaTime);
 
-	SpriteRenderer->ChangeAnimation("Idle_Right");
+	// 방향 체크 및 애니메이션
+	SetAnimDir();
+	SpriteRenderer->ChangeAnimation("Idle" + AnimDir);
 
-	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT) ||
-		true == UEngineInput::GetInst().IsPress(VK_LEFT))
+	// 키 입력 체크
+	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
+		IsLeft = true;
 		ChangeState(PlayerState::Move);
-		return; 
+		return;
 	}
-	else if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
+	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
+	{
+		IsLeft = false;
+		ChangeState(PlayerState::Move);
+		return;
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
 	{
 		ChangeState(PlayerState::Bend);
-		return;
-	}
-	else if (true == UEngineInput::GetInst().IsPress(VK_UP))
-	{
-		ChangeState(PlayerState::Fly);
-		return;
-	}
-	else if (true == UEngineInput::GetInst().IsPress('Z'))
-	{
-		ChangeState(PlayerState::Jump);
 		return;
 	}
 }
 
 void APlayer::Move(float _DeltaTime)
 {
-
+	// 중력가속도를 기준으로 지면 체크
 	PlayerGroundCheck(GravityForce * _DeltaTime);
 	Gravity(_DeltaTime);
 
+	// 방향 체크 및 애니메이션
+	SetAnimDir();
+	SpriteRenderer->ChangeAnimation("Walk" + AnimDir);
+
+	// 이동 방향 벡터 설정
 	FVector2D Vector = FVector2D::ZERO;
-	bool IsWall = false;
 
-	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
-	{
-		SpriteRenderer->ChangeAnimation("Walk_Right");
-		UColor RightColor = CheckColor[static_cast<int>(CheckDir::Right)];
-		if (UColor::MAGENTA == RightColor)
-		{
-			IsWall = true;
-		}
-
-		Vector += FVector2D::RIGHT;
-	}
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
-		SpriteRenderer->ChangeAnimation("Walk_Left");
-		UColor LeftColor = CheckColor[static_cast<int>(CheckDir::Left)];
-		if (UColor::MAGENTA == LeftColor)
-		{
-			IsWall = true;
-		}
-
 		Vector += FVector2D::LEFT;
+		UColor LeftColor = CheckColor[static_cast<int>(CheckDir::Left)];
+		IsMAGENTA = CheckMAGENTA(LeftColor);
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
+	{
+		Vector += FVector2D::RIGHT;
+		UColor RightColor = CheckColor[static_cast<int>(CheckDir::Right)];
+		IsMAGENTA = CheckMAGENTA(RightColor);
 	}
 
-	Vector.Normalize();
+	// 키 입력 체크
+	if (false == UEngineInput::GetInst().IsPress(VK_LEFT)
+		&& false == UEngineInput::GetInst().IsPress(VK_RIGHT))
+	{
+		ChangeState(PlayerState::Idle);
+		return;
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
+	{
+		ChangeState(PlayerState::Bend);
+		return;
+	}
 	
-	if (false == IsWall)
+	// 이동할 위치 충돌 체크
+	if (false == IsMAGENTA)
 	{
-		IsWall = false;
 		AddActorLocation(Vector * _DeltaTime * Speed);
-	}
-
-	if (true == UEngineInput::GetInst().IsUp(VK_RIGHT))
-	{
-		SpriteRenderer->ChangeAnimation("Idle_Right");
-		return;
-	}
-	if (true == UEngineInput::GetInst().IsUp(VK_LEFT))
-	{
-		SpriteRenderer->ChangeAnimation("Idle_Left");
-		return;
 	}
 }
 
@@ -263,4 +260,12 @@ void APlayer::Jump(float _DeltaTime)
 
 void APlayer::Bend(float _DeltaTime)
 {
+	SetAnimDir();
+	SpriteRenderer->ChangeAnimation("Bend" + AnimDir);
+
+	if (false == UEngineInput::GetInst().IsPress(VK_DOWN))
+	{
+		ChangeState(PlayerState::Idle);
+		return;
+	}
 }

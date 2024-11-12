@@ -41,7 +41,7 @@
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
     <ClCompile Include="BossStageGameMode.cpp">
-      <Filter>ContentsObject</Filter>
+      <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
