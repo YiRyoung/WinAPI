@@ -53,6 +53,8 @@ void APlayer::Tick(float _DeltaTime)
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
 
+	DirCheck();
+
 	// FSM
 	switch (CurPlayerState)
 	{
@@ -150,7 +152,8 @@ void APlayer::PlayerGroundCheck(FVector2D _MovePos)
 
 void APlayer::Gravity(float _DeltaTime)
 {
-	if (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)])
+	if (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)]
+		|| UColor::BLUE == CheckColor[static_cast<int>(CheckDir::Down)])
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
 		GravityForce += FVector2D::DOWN * _DeltaTime * 100.0f;
@@ -200,6 +203,7 @@ void APlayer::Idle(float _DeltaTime)
 
 void APlayer::Move(float _DeltaTime)
 {
+
 	PlayerGroundCheck(GravityForce * _DeltaTime);
 	Gravity(_DeltaTime);
 

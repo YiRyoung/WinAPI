@@ -43,14 +43,14 @@ public:
 
 	void Gravity(float _DeltaTime);
 
-	void WallCheck(UColor _Color)
+	void DirCheck()
 	{
-		if (UColor::MAGENTA == _Color)
+		if (true == IsLeft)
 		{
-			IsWall = true;
+			DirString = "_Left";
 		}
 		
-		IsWall = false ;
+		DirString = "_Right";
 	}
 
 	PlayerState CurPlayerState = PlayerState::Idle;
@@ -70,6 +70,9 @@ private:
 	class USpriteRenderer* SpriteRenderer;
 
 	UColor CheckColor[static_cast<int>(CheckDir::Max)];
+
+	bool IsLeft = false;
+	std::string DirString = "";
 
 	void ChangeState(PlayerState _CurPlayerState);
 	void Idle(float _DeltaTime);
