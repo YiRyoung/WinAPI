@@ -100,3 +100,16 @@ void AActor::ReleaseCheck(float _DeltaTime)
 		StartIter = Components.erase(StartIter);
 	}
 }
+
+void AActor::ReleaseTimeCheck(float _DeltaTime)
+{
+	UObject::ReleaseTimeCheck(_DeltaTime);
+
+	std::list<UActorComponent*>::iterator StartIter = Components.begin();
+	std::list<UActorComponent*>::iterator EndIter = Components.end();
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		UActorComponent* Component = *StartIter;
+		Component->ReleaseTimeCheck(_DeltaTime);
+	}
+}

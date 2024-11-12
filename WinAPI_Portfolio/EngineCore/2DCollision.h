@@ -1,9 +1,14 @@
 #pragma once
 #include "SceneComponent.h"
+#include <set>
+
+
 
 class U2DCollision : public USceneComponent
 {
 public:
+	friend class ULevel;
+
 	// constrcuter destructer
 	U2DCollision();
 	~U2DCollision();
@@ -70,10 +75,27 @@ public:
 		CollisionType = _CollisionType;
 	}
 
+	ECollisionType GetCollisionType()
+	{
+		return CollisionType;
+	}
+
+	void SetCollisionEnter(std::function<void(AActor*)> _Function);
+	void SetCollisionStay(std::function<void(AActor*)> _Function);
+	void SetCollisionEnd(std::function<void(AActor*)> _Function);
+
 protected:
 
 private:
+	void CollisionEventCheck(class U2DCollision* _Other);
+
 	ECollisionType CollisionType = ECollisionType::CirCle;
 	int CollisionGroup = -1;
+
+	std::set<U2DCollision*> CollisionCheckSet;
+
+	std::function<void(AActor*)> Enter;
+	std::function<void(AActor*)> Stay;
+	std::function<void(AActor*)> End;
 };
 

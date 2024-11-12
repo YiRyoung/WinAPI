@@ -26,6 +26,11 @@ void U2DCollision::BeginPlay()
 	}
 
 	Level->PushCollision(this);
+
+	if (nullptr != Enter || nullptr != Stay || nullptr != End)
+	{
+		Level->PushCheckCollision(this);
+	}
 }
 
 void U2DCollision::ComponentTick(float _DeltaTime)
@@ -53,8 +58,6 @@ void U2DCollision::ComponentTick(float _DeltaTime)
 		}
 	}
 }
-
-
 
 bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Result, FVector2D _NextPos, unsigned int  _Limite)
 {
@@ -91,4 +94,88 @@ bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Re
 	}
 
 	return 0 != _Result.size();
+}
+
+// 이벤트 방식
+void U2DCollision::SetCollisionEnter(std::function<void(AActor*)> _Function)
+{
+	Enter = _Function;
+
+	ULevel* Level = GetActor()->GetWorld();
+
+	if (nullptr != GetActor()->GetWorld())
+	{
+		Level->PushCheckCollision(this);
+	}
+}
+
+void U2DCollision::SetCollisionStay(std::function<void(AActor*)> _Function)
+{
+	Stay = _Function;
+
+	ULevel* Level = GetActor()->GetWorld();
+
+	if (nullptr != GetActor()->GetWorld())
+	{
+		Level->PushCheckCollision(this);
+	}
+
+}
+
+void U2DCollision::SetCollisionEnd(std::function<void(AActor*)> _Function)
+{
+	End = _Function;
+
+	ULevel* Level = GetActor()->GetWorld();
+
+	if (nullptr != GetActor()->GetWorld())
+	{
+		Level->PushCheckCollision(this);
+	}
+
+}
+
+void U2DCollision::CollisionEventCheck(class U2DCollision* _Other)
+{
+	U2DCollision* ThisCollision = this;
+	U2DCollision* DestCollision = _Other;
+	FTransform ThisTrans = ThisCollision->GetActorTransform();
+	FTransform DestTrans = DestCollision->GetActorTransform();
+
+	ECollisionType ThisType = ThisCollision->GetCollisionType();
+	ECollisionType DestType = DestCollision->GetCollisionType();
+
+	bool Result = FTransform::Collision(ThisType, ThisTrans, DestType, DestTrans);
+
+	if (true == Result)
+	{
+		if (false == CollisionCheckSet.contains(DestCollision))
+		{
+			if (nullptr != Enter)
+			{
+				Enter(DestCollision->GetActor());
+			}
+
+			CollisionCheckSet.insert(DestCollision);
+		}
+		else
+		{
+			if (nullptr != Stay)
+			{
+				Stay(DestCollision->GetActor());
+			}
+		}
+	}
+	else
+	{
+		if (true == CollisionCheckSet.contains(DestCollision))
+		{
+			if (nullptr != End)
+			{
+				End(DestCollision->GetActor());
+			}
+
+			CollisionCheckSet.erase(DestCollision);
+		}
+	}
 }

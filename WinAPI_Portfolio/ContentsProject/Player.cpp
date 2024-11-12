@@ -139,7 +139,7 @@ void APlayer::Gravity(float _DeltaTime)
 	if (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)])
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
-		GravityForce += FVector2D::DOWN * _DeltaTime * 300.0f;
+		GravityForce += FVector2D::DOWN * _DeltaTime * 100.0f;
 	}	
 	else
 	{
