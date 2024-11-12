@@ -116,21 +116,36 @@ void APlayer::PlayerGroundCheck(FVector2D _MovePos)
 {
 	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
 
-	// Bottom
+	// Down
 	FVector2D NextDownPos = GetActorLocation() + _MovePos;
 	CheckColor[static_cast<int>(CheckDir::Down)] = ColImage->GetColor(NextDownPos, UColor::MAGENTA);
-
+	
 	// Top
 	FVector2D NextUpPos = GetActorLocation() + FVector2D({ 0.0f, PlayerScale.Y * -0.5f }) + _MovePos;
 	CheckColor[static_cast<int>(CheckDir::Up)] = ColImage->GetColor(NextUpPos, UColor::MAGENTA);
+	
+	FTransform PlayerTransform1 = GetTransform();
+	PlayerTransform1.Location += FVector2D({ 0.0f, PlayerScale.Y * -0.5f }) - GetWorld()->GetCameraPos();
+	PlayerTransform1.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform1, UEngineDebug::EDebugPosType::Circle);
 
-	// LeftBottom
-	FVector2D NextLeftPos = GetActorLocation() + FVector2D({ PlayerScale.X * -0.25f, 0.0f }) + _MovePos;
+	// Left
+	FVector2D NextLeftPos = GetActorLocation() + FVector2D({ PlayerScale.X * -0.25f, PlayerScale.Y * -0.25f }) + _MovePos;
 	CheckColor[static_cast<int>(CheckDir::Left)] = ColImage->GetColor(NextLeftPos, UColor::MAGENTA);
 
+	FTransform PlayerTransform2 = GetTransform();
+	PlayerTransform2.Location += FVector2D({ PlayerScale.X * -0.25f, PlayerScale.Y * -0.25f }) - GetWorld()->GetCameraPos();
+	PlayerTransform2.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform2, UEngineDebug::EDebugPosType::Circle);
+
 	// Right
-	FVector2D NextRightPos = GetActorLocation() + FVector2D({ PlayerScale.X * 0.25f, 0.0f }) + _MovePos;
+	FVector2D NextRightPos = GetActorLocation() + FVector2D({ PlayerScale.X * 0.25f, PlayerScale.Y * -0.25f }) + _MovePos;
 	CheckColor[static_cast<int>(CheckDir::Right)] = ColImage->GetColor(NextRightPos, UColor::MAGENTA);
+
+	FTransform PlayerTransform3 = GetTransform();
+	PlayerTransform3.Location += FVector2D({ PlayerScale.X * 0.25f, PlayerScale.Y * -0.25f }) - GetWorld()->GetCameraPos();
+	PlayerTransform3.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform3, UEngineDebug::EDebugPosType::Circle);
 }
 
 void APlayer::Gravity(float _DeltaTime)
