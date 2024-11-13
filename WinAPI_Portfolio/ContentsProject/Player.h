@@ -14,9 +14,13 @@ enum class PlayerState
 {
 	Idle,
 	Move,
+	Dash,
 	Fly,
 	Jump,
-	Bend
+	Bend,
+	Slide,
+	Climb,
+	Swim
 };
 
 class APlayer : public AActor
@@ -73,7 +77,7 @@ protected:
 
 private:
 	float Speed = 300.0f;
-	float JumpForce = 500.0f;
+	float JumpForce = 280.0f;
 	int MySpriteIndex = 0;
 
 	bool IsMAGENTA = false;
@@ -86,12 +90,13 @@ private:
 
 	UColor CheckColor[static_cast<int>(CheckDir::Max)];
 
-	bool IsLeft = true;
+	bool IsLeft = false;
 	std::string AnimDir = "";
 
 	void ChangeState(PlayerState _CurPlayerState);
 	void Idle(float _DeltaTime);
 	void Move(float _DeltaTime);
+	void Dash(float _DeltaTime);
 	void Fly(float _DeltaTime);
 	void Jump(float _DeltaTime);
 	void Bend(float _DeltaTime);
