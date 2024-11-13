@@ -63,18 +63,8 @@ public:
 
 	void Gravity(float _DeltaTime);
 
-	void SetAnimDir()
-	{
-		if (true == IsLeft)
-		{
-			AnimDir = "_Left";
-		}
-		else
-		{
-			AnimDir = "_Right";
-		}
-	}
-
+	void SetAnimDir();
+	
 	bool CheckMAGENTA(UColor _Color)
 	{
 		if (UColor::MAGENTA == _Color)
@@ -107,15 +97,13 @@ private:
 	UColor CheckColor[static_cast<int>(CheckDir::Max)];
 
 	bool IsLeft = false;
-	std::string AnimDir = "";
+	std::string AnimDir = "_Right";
 
 	void ChangeState(PlayerState _CurPlayerState);
 	void Idle(float _DeltaTime);
 	void Move(float _DeltaTime);
 	void Dash(float _DeltaTime);
-	void FlyStart(float _DeltaTime);
-	void Flying(float _DeltaTime);
-	void FlyEnd(float _DeltaTime);
+	void Fly(float _DeltaTime);
 	void Jump(float _DeltaTime);
 	void Bend(float _DeltaTime);
 	void Slide(float _DeltaTime);

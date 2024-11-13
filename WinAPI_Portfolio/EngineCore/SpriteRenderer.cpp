@@ -17,6 +17,7 @@ void USpriteRenderer::Render(float _DeltaTime)
 {
 	if (nullptr != CurAnimation)
 	{
+		CurAnimation->IsEnd = false;
 		std::vector<int>& Indexs = CurAnimation->FrameIndex;
 		std::vector<float>& Times = CurAnimation->FrameTime;
 
@@ -219,7 +220,7 @@ void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::stri
 
 	if (nullptr == FindSprite)
 	{
-		MSGASSERT("로드하지 않은 스프라이트를 애니메이션 생서에 사용하려고 했습니다" + std::string(UpperName));
+		MSGASSERT("로드하지 않은 스프라이트를 애니메이션 생성에 사용하려고 했습니다" + std::string(UpperName));
 		return;
 	}
 
