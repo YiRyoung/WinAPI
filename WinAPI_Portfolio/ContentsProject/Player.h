@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineBase/EngineMath.h>
+
 enum class CheckDir
 {
 	Up,
@@ -24,19 +25,7 @@ enum class PlayerState
 	Bend,
 	Slide,
 	Climb,
-	Swim,
 	Attack
-};
-
-enum class PlayerAbility
-{
-	Common,
-	HaveBullet,
-	Beam,
-	Cutter,
-	Fire,
-	Spark,
-	Sword
 };
 
 class APlayer : public AActor
@@ -55,6 +44,8 @@ public:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void SetAnim();
+
 	void GetBackImage(std::string_view _ImageName, std::string_view _CollierName);
 
 	void CameraMove();
@@ -65,7 +56,7 @@ public:
 
 	void SetAnimDir();
 	
-	bool CheckMAGENTA(UColor _Color)
+	inline bool CheckMAGENTA(UColor _Color)
 	{
 		if (UColor::MAGENTA == _Color)
 		{
@@ -74,6 +65,42 @@ public:
 		else
 		{
 			return false;
+		}
+	}
+
+	inline bool CheckYELLOW(UColor _Color)
+	{
+		if (UColor::YELLOW == _Color)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	inline bool CheckBLACK(UColor _Color)
+	{
+		if (UColor::BLACK == _Color)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	inline bool GetDirLeft() const
+	{
+		if (AnimDir == "_Right")
+		{
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 
@@ -86,8 +113,6 @@ private:
 	float JumpForce = 280.0f;
 	int MySpriteIndex = 0;
 
-	bool IsMAGENTA = false;
-
 	FVector2D GravityForce = FVector2D::ZERO;
 
 	class UEngineWinImage* BackImage = nullptr;
@@ -96,7 +121,6 @@ private:
 
 	UColor CheckColor[static_cast<int>(CheckDir::Max)];
 
-	bool IsLeft = false;
 	std::string AnimDir = "_Right";
 
 	void ChangeState(PlayerState _CurPlayerState);
@@ -107,5 +131,6 @@ private:
 	void Jump(float _DeltaTime);
 	void Bend(float _DeltaTime);
 	void Slide(float _DeltaTime);
+	void Climb(float _DeltaTime);
 };
 

@@ -16,49 +16,7 @@ APlayer::APlayer()
 		SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
 		SpriteRenderer->SetComponentScale({ 94, 94 });
 
-		// Idle
-		SpriteRenderer->CreateAnimation("Idle_Left", "Kirby_Normal_Left.png", 0, 1, 1.0f);
-		SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
-
-		// Walk
-		SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
-		SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
-
-		// Dash
-		SpriteRenderer->CreateAnimation("Dash_Left", "Kirby_Normal_Left.png", 2, 5, 0.07f);
-		SpriteRenderer->CreateAnimation("Dash_Right", "Kirby_Normal_Right.png", 2, 5, 0.07f);
-
-		// Bend
-		SpriteRenderer->CreateAnimation("Bend_Left", "Kirby_Normal_Left.png", 7, 7, 1.0f);
-		SpriteRenderer->CreateAnimation("Bend_Right", "Kirby_Normal_Right.png", 7, 7, 1.0f);
-		 
-		// Slide
-		SpriteRenderer->CreateAnimation("Slide_Left", "Kirby_Normal_Left.png", 8, 8, 1.0f);
-		SpriteRenderer->CreateAnimation("Slide_Right", "Kirby_Normal_Right.png", 8, 8, 1.0f);
-
-		// FlyStart
-		SpriteRenderer->CreateAnimation("FlyStart_Left", "Kirby_Normal_Left.png", 17, 22, 0.1f, false);
-		SpriteRenderer->CreateAnimation("FlyStart_Right", "Kirby_Normal_Right.png", 17, 22, 0.1f, false);
-
-		// Flying
-		SpriteRenderer->CreateAnimation("Flying_Left", "Kirby_Normal_Left.png", 21, 22, 0.7f);
-		SpriteRenderer->CreateAnimation("Flying_Right", "Kirby_Normal_Right.png", 21, 22, 0.7f);
-
-		// FlyEnd
-		SpriteRenderer->CreateAnimation("FlyiEnd_Left", "Kirby_Normal_Left.png", 23, 26, 0.1f, false);
-		SpriteRenderer->CreateAnimation("FlyEnd_Right", "Kirby_Normal_Right.png", 23, 26, 0.1f, false);
-
-		// JumpStart
-		SpriteRenderer->CreateAnimation("JumpStart_Left", "Kirby_Normal_Left.png", 11, 11, 1.0f);
-		SpriteRenderer->CreateAnimation("JumpStart_Right", "Kirby_Normal_Right.png", 11, 11, 1.0f);
-
-		// Jumping
-		SpriteRenderer->CreateAnimation("Jumping_Left", "Kirby_Normal_Left.png", 12, 14, 0.5f, false);
-		SpriteRenderer->CreateAnimation("Jumping_Right", "Kirby_Normal_Right.png", 12, 14, 0.5f, false);
-
-		// JumpEnd
-		SpriteRenderer->CreateAnimation("JumpEnd_Left", "Kirby_Normal_Left.png", 15, 15, 1.0f);
-		SpriteRenderer->CreateAnimation("JumpEnd_Right", "Kirby_Normal_Right.png", 15, 15, 1.0f);
+		SetAnim();
 
 		SpriteRenderer->ChangeAnimation("Idle_Right");
 		SpriteRenderer->SetPivotType(PivotType::BOTTOM);
@@ -85,6 +43,9 @@ void APlayer::Tick(float _DeltaTime)
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
 
+	// 좌우 방향 체크
+	SetAnimDir();
+
 	// PlayerState FSM
 	switch (CurPlayerState)
 	{
@@ -109,11 +70,65 @@ void APlayer::Tick(float _DeltaTime)
 	case PlayerState::Fly:
 		Fly(_DeltaTime);
 		break;
+	case PlayerState::Climb:
+		Climb(_DeltaTime);
+		break;
 	default:
 		break;
 	}
 
 	CameraMove();
+}
+
+void APlayer::SetAnim()
+{
+	// Idle
+	SpriteRenderer->CreateAnimation("Idle_Left", "Kirby_Normal_Left.png", 0, 1, 1.0f);
+	SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
+
+	// Walk
+	SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
+	SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
+
+	// Dash
+	SpriteRenderer->CreateAnimation("Dash_Left", "Kirby_Normal_Left.png", 2, 5, 0.07f);
+	SpriteRenderer->CreateAnimation("Dash_Right", "Kirby_Normal_Right.png", 2, 5, 0.07f);
+
+	// Bend
+	SpriteRenderer->CreateAnimation("Bend_Left", "Kirby_Normal_Left.png", 7, 7, 1.0f);
+	SpriteRenderer->CreateAnimation("Bend_Right", "Kirby_Normal_Right.png", 7, 7, 1.0f);
+
+	// Slide
+	SpriteRenderer->CreateAnimation("Slide_Left", "Kirby_Normal_Left.png", 8, 8, 1.0f);
+	SpriteRenderer->CreateAnimation("Slide_Right", "Kirby_Normal_Right.png", 8, 8, 1.0f);
+
+	// FlyStart
+	SpriteRenderer->CreateAnimation("FlyStart_Left", "Kirby_Normal_Left.png", 17, 21, 0.1f, false);
+	SpriteRenderer->CreateAnimation("FlyStart_Right", "Kirby_Normal_Right.png", 17, 21, 0.1f, false);
+
+	// Flying
+	SpriteRenderer->CreateAnimation("Flying_Left", "Kirby_Normal_Left.png", 21, 22, 0.7f);
+	SpriteRenderer->CreateAnimation("Flying_Right", "Kirby_Normal_Right.png", 21, 22, 0.7f);
+
+	// FlyEnd
+	SpriteRenderer->CreateAnimation("FlyiEnd_Left", "Kirby_Normal_Left.png", 23, 26, 0.1f, false);
+	SpriteRenderer->CreateAnimation("FlyEnd_Right", "Kirby_Normal_Right.png", 23, 26, 0.1f, false);
+
+	// JumpStart
+	SpriteRenderer->CreateAnimation("JumpStart_Left", "Kirby_Normal_Left.png", 11, 11, 1.0f);
+	SpriteRenderer->CreateAnimation("JumpStart_Right", "Kirby_Normal_Right.png", 11, 11, 1.0f);
+
+	// Jumping
+	SpriteRenderer->CreateAnimation("Jumping_Left", "Kirby_Normal_Left.png", 12, 14, 0.5f, false);
+	SpriteRenderer->CreateAnimation("Jumping_Right", "Kirby_Normal_Right.png", 12, 14, 0.5f, false);
+
+	// JumpEnd
+	SpriteRenderer->CreateAnimation("JumpEnd_Left", "Kirby_Normal_Left.png", 15, 15, 1.0f);
+	SpriteRenderer->CreateAnimation("JumpEnd_Right", "Kirby_Normal_Right.png", 15, 15, 1.0f);
+
+	// Climb
+	SpriteRenderer->CreateAnimation("ClimbUp", "Kirby_Normal_Left.png", 68, 70, 1.0f);
+	SpriteRenderer->CreateAnimation("ClimbDown", "Kirby_Normal_Left.png", 62, 62, 1.0f);
 }
 
 void APlayer::GetBackImage(std::string_view _ImageName, std::string_view _ColliderName)
@@ -216,6 +231,24 @@ void APlayer::PlayerGroundCheck(FVector2D _MovePos)
 	PlayerTransform5.Location += FVector2D({ PlayerScale.X * 0.25f,  PlayerScale.Y * -0.2f }) - GetWorld()->GetCameraPos();
 	PlayerTransform5.Scale = { 6,6 };
 	UEngineDebug::CoreDebugRender(PlayerTransform5, UEngineDebug::EDebugPosType::Circle);
+
+	// Left
+	FVector2D NextLeftPos = GetActorLocation() + FVector2D({ PlayerScale.X * -0.25f,  PlayerScale.Y * 0.1f }) + _MovePos;
+	CheckColor[static_cast<int>(CheckDir::LeftDown)] = ColImage->GetColor(NextLeftPos, UColor::MAGENTA);
+
+	FTransform PlayerTransform6 = GetTransform();
+	PlayerTransform6.Location += FVector2D({ PlayerScale.X * -0.25f,  PlayerScale.Y * 0.1f }) - GetWorld()->GetCameraPos();
+	PlayerTransform6.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform6, UEngineDebug::EDebugPosType::Circle);
+
+	// Right
+	FVector2D NextRightPos = GetActorLocation() + FVector2D({ PlayerScale.X * 0.25f,  PlayerScale.Y * 0.1f }) + _MovePos;
+	CheckColor[static_cast<int>(CheckDir::RightDown)] = ColImage->GetColor(NextRightPos, UColor::MAGENTA);
+
+	FTransform PlayerTransform7 = GetTransform();
+	PlayerTransform7.Location += FVector2D({ PlayerScale.X * 0.25f,  PlayerScale.Y * 0.1f }) - GetWorld()->GetCameraPos();
+	PlayerTransform7.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform7, UEngineDebug::EDebugPosType::Circle);
 }
 
 void APlayer::Gravity(float _DeltaTime)
@@ -240,24 +273,21 @@ void APlayer::ChangeState(PlayerState _CurPlayerState)
 
 void APlayer::Idle(float _DeltaTime)
 {
+	SpriteRenderer->ChangeAnimation("Idle" + AnimDir);
+
 	// 중력가속도를 기준으로 지면 체크
 	PlayerGroundCheck(GravityForce * _DeltaTime);
 	Gravity(_DeltaTime);
-
-	// 방향 체크 및 애니메이션
-	SetAnimDir();
 
 	// 키 입력 체크
 	// 왼쪽 이동 (Move, Dash)
 	if (true == UEngineInput::GetInst().IsDoubleClick(VK_LEFT, 0.2f))
 	{
-		IsLeft = true;
 		ChangeState(PlayerState::Dash);
 		return;
 	}
 	else if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
-		IsLeft = true;
 		ChangeState(PlayerState::Move);
 		return;
 	}
@@ -265,29 +295,45 @@ void APlayer::Idle(float _DeltaTime)
 	// 오른쪽 이동 (Move, Dash)
 	if (true == UEngineInput::GetInst().IsDoubleClick(VK_RIGHT, 0.2f))
 	{
-		IsLeft = false;
 		ChangeState(PlayerState::Dash);
 		return;
 	}
 	else if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
 	{
-		IsLeft = false;
 		ChangeState(PlayerState::Move);
 		return;
 	}
 
-	// 숙이기
-	if (true == UEngineInput::GetInst().IsPress(VK_DOWN)
-		&& false == UEngineInput::GetInst().IsPress(VK_UP))
+	UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
+	UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
+
+	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
 	{
+		// 내려가기
+		if (true == CheckYELLOW(DownColor))
+		{
+			ChangeState(PlayerState::Climb);
+			return;
+		}
+		else  // 숙이기
+		{
 		ChangeState(PlayerState::Bend);
 		return;
+		}
 	}
 
-	// 비행
 	if (true == UEngineInput::GetInst().IsPress(VK_UP))
 	{
-		ChangeState(PlayerState::Fly);
+		// 오르기
+		if (true == CheckYELLOW(DownColor))
+		{
+			ChangeState(PlayerState::Climb);
+		}
+		else  // 비행
+		{
+			ChangeState(PlayerState::Fly);
+			return;
+		}
 	}
 
 	// 점프
@@ -297,7 +343,6 @@ void APlayer::Idle(float _DeltaTime)
 		ChangeState(PlayerState::Jump);
 		return;
 	}
-
 }
 
 void APlayer::SetAnimDir()
@@ -314,13 +359,11 @@ void APlayer::SetAnimDir()
 
 void APlayer::Move(float _DeltaTime)
 {
+	SpriteRenderer->ChangeAnimation("Walk" + AnimDir);
+
 	// 중력가속도를 기준으로 지면 체크
 	PlayerGroundCheck(GravityForce * _DeltaTime);
 	Gravity(_DeltaTime);
-
-	// 방향 체크 및 애니메이션
-	SetAnimDir();
-	SpriteRenderer->ChangeAnimation("Walk" + AnimDir);
 
 	// 이동 방향 벡터 설정
 	FVector2D Vector = FVector2D::ZERO;
@@ -328,17 +371,16 @@ void APlayer::Move(float _DeltaTime)
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
 		Vector += FVector2D::LEFT;
-		UColor LeftColor = CheckColor[static_cast<int>(CheckDir::Left)];
-		IsMAGENTA = CheckMAGENTA(LeftColor);
 	}
 	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
 	{
 		Vector += FVector2D::RIGHT;
-		UColor RightColor = CheckColor[static_cast<int>(CheckDir::Right)];
-		IsMAGENTA = CheckMAGENTA(RightColor);
 	}
 
 	// 키 입력 체크
+	UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
+	UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
+
 	if (false == UEngineInput::GetInst().IsPress(VK_LEFT)
 		&& false == UEngineInput::GetInst().IsPress(VK_RIGHT))
 	{
@@ -347,8 +389,30 @@ void APlayer::Move(float _DeltaTime)
 	}
 	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
 	{
-		ChangeState(PlayerState::Bend);
-		return;
+		// 내려가기
+		if (true == CheckYELLOW(DownColor))
+		{
+			ChangeState(PlayerState::Climb);
+			return;
+		}
+		else  // 숙이기
+		{
+			ChangeState(PlayerState::Bend);
+			return;
+		}
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_UP))
+	{
+		// 오르기
+		if (true == CheckYELLOW(DownColor))
+		{
+			ChangeState(PlayerState::Climb);
+		}
+		else  // 비행
+		{
+			ChangeState(PlayerState::Fly);
+			return;
+		}
 	}
 	if (true == UEngineInput::GetInst().IsPress('Z')
 		&& CurPlayerState != PlayerState::Bend)
@@ -358,7 +422,11 @@ void APlayer::Move(float _DeltaTime)
 	}
 	
 	// 이동할 위치 충돌 체크
-	if (false == IsMAGENTA)
+	PlayerGroundCheck(Vector * _DeltaTime * Speed);
+	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
+	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
+
+	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
 		AddActorLocation(Vector * _DeltaTime * Speed);
 	}
@@ -380,14 +448,10 @@ void APlayer::Dash(float _DeltaTime)
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
 		Vector += FVector2D::LEFT;
-		UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
-		IsMAGENTA = CheckMAGENTA(LeftColor);
 	}
 	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
 	{
 		Vector += FVector2D::RIGHT;
-		UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
-		IsMAGENTA = CheckMAGENTA(RightColor);
 	}
 
 	// 키 입력 체크
@@ -407,9 +471,12 @@ void APlayer::Dash(float _DeltaTime)
 		ChangeState(PlayerState::Jump);
 		return;
 	}
-
+	
 	// 이동할 위치 충돌 체크
-	if (false == IsMAGENTA)
+	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
+	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
+	
+	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
 		AddActorLocation(Vector * _DeltaTime * (Speed * 1.2f));
 	}
@@ -417,51 +484,54 @@ void APlayer::Dash(float _DeltaTime)
 
 void APlayer::Fly(float _DeltaTime)
 {
-	PlayerGroundCheck(GravityForce * _DeltaTime * 0.6f);
-	
+	PlayerGroundCheck(FVector2D::UP * _DeltaTime * (Speed * 0.5f));
 
 	SpriteRenderer->ChangeAnimation("FlyStart" + AnimDir);
 
 	FVector2D Vector = FVector2D::ZERO;
 
+	// 위 키를 눌렀을 때
 	if (true == UEngineInput::GetInst().IsPress	(VK_UP))
 	{
-		GravityForce = FVector2D::ZERO;
 		Vector += FVector2D::UP;
-		UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
-		IsMAGENTA = CheckMAGENTA(UpColor);
 	}
 	else 
 	{
-		Gravity(_DeltaTime * 0.6f);
+		PlayerGroundCheck(FVector2D::DOWN * _DeltaTime * (Speed * 0.5f));
+		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
+		if (false == CheckMAGENTA(DownColor))
+		{
+			AddActorLocation(FVector2D::DOWN * _DeltaTime * (Speed * 0.5f));
+		}
 	}
 
 
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
 		Vector += FVector2D::LEFT;
-		UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
-		IsMAGENTA = CheckMAGENTA(LeftColor);
 	}
 	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
 	{
 		Vector += FVector2D::RIGHT;
-		UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
-		IsMAGENTA = CheckMAGENTA(RightColor);
 	}
 
 	Vector.Normalize();
-	if (false == IsMAGENTA)
+	
+	UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
+	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
+	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
+
+	if (false == CheckMAGENTA(UpColor) && false == CheckMAGENTA(LeftColor) 
+		&& false == CheckMAGENTA(RightColor))
 	{
 		AddActorLocation(Vector * Speed * _DeltaTime * 0.6f);
 	}
 
-
 	if (true == UEngineInput::GetInst().IsPress('X'))
 	{
+		ChangeState(PlayerState::Idle);
+		return;
 	}
-
-
 }
 
 void APlayer::Jump(float _DeltaTime)
@@ -493,12 +563,9 @@ void APlayer::Jump(float _DeltaTime)
 
 void APlayer::Bend(float _DeltaTime)
 {
-	SetAnimDir();
 	SpriteRenderer->ChangeAnimation("Bend" + AnimDir);
 
-	if (false == UEngineInput::GetInst().IsPress(VK_DOWN)
-
-		|| true == UEngineInput::GetInst().IsPress(VK_UP))
+	if (false == UEngineInput::GetInst().IsPress(VK_DOWN))
 	{
 		ChangeState(PlayerState::Idle);
 		return;
@@ -514,25 +581,21 @@ void APlayer::Bend(float _DeltaTime)
 
 void APlayer::Slide(float _DeltaTime)
 {
-	SetAnimDir();
 	SpriteRenderer->ChangeAnimation("Slide" + AnimDir);
 	FVector2D Vector = FVector2D::ZERO;
 
-	if (true == IsLeft)
-	{
-		Vector += FVector2D::LEFT;
-	}
-	else
+	if (false == GetDirLeft())
 	{
 		Vector += FVector2D::RIGHT;
 	}
+	else
+	{
+		Vector += FVector2D::LEFT;
+	}
 
 	PlayerGroundCheck(Vector * _DeltaTime * Speed);
-
 	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
-	IsMAGENTA = CheckMAGENTA(LeftColor);
 	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
-	IsMAGENTA = CheckMAGENTA(RightColor);
 
 	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
@@ -542,4 +605,29 @@ void APlayer::Slide(float _DeltaTime)
 	{
 		ChangeState(PlayerState::Bend);
 	}
+}
+
+void APlayer::Climb(float _DeltaTime)
+{	
+	FVector2D Vector = FVector2D::ZERO;
+
+	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
+	{
+		Vector += FVector2D::DOWN;
+	}
+	if (false == UEngineInput::GetInst().IsPress(VK_UP))
+	{
+		Vector += FVector2D::UP;
+	}
+
+	PlayerGroundCheck(Vector * Speed * _DeltaTime);
+	UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
+	UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
+
+	if (false == CheckYELLOW(DownColor))
+	{
+		SpriteRenderer->ChangeAnimation("ClimbUp");
+		AddActorLocation(FVector2D::DOWN * Speed * _DeltaTime);
+	}
+		
 }
