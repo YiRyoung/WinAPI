@@ -3,10 +3,14 @@
 #include <EngineBase/EngineMath.h>
 enum class CheckDir
 {
-	Left,
-	Right,
 	Up,
 	Down,
+	Left,
+	Right,
+	LeftUp,
+	RightUp,
+	LeftDown,
+	RightDown,
 	Max
 };
 
@@ -20,7 +24,19 @@ enum class PlayerState
 	Bend,
 	Slide,
 	Climb,
-	Swim
+	Swim,
+	Attack
+};
+
+enum class PlayerAbility
+{
+	Common,
+	HaveBullet,
+	Beam,
+	Cutter,
+	Fire,
+	Spark,
+	Sword
 };
 
 class APlayer : public AActor
@@ -97,8 +113,11 @@ private:
 	void Idle(float _DeltaTime);
 	void Move(float _DeltaTime);
 	void Dash(float _DeltaTime);
-	void Fly(float _DeltaTime);
+	void FlyStart(float _DeltaTime);
+	void Flying(float _DeltaTime);
+	void FlyEnd(float _DeltaTime);
 	void Jump(float _DeltaTime);
 	void Bend(float _DeltaTime);
+	void Slide(float _DeltaTime);
 };
 
