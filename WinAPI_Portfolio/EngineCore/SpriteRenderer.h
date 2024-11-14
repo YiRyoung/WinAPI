@@ -3,6 +3,7 @@
 #include "EngineSprite.h"
 #include <EngineBase/EngineDelegate.h>
 #include <map>
+#include <EngineBase/EngineMath.h>
 
 enum class PivotType
 {
@@ -10,6 +11,7 @@ enum class PivotType
 	BOTTOM,
 	TOP,
 };
+
 
 class USpriteRenderer : public USceneComponent
 {
@@ -83,7 +85,6 @@ public:
 		return Sprite->GetName();
 	}
 
-
 	void SetCameraEffect(bool _Value)
 	{
 		IsCameraEffect = _Value;
@@ -111,6 +112,7 @@ private:
 	int CurIndex = 0;
 	bool IsCameraEffect = true;
 	float CameraEffectScale = 1.0f;
+
 	FVector2D Pivot = FVector2D::ZERO;
 
 	class UEngineSprite* Sprite = nullptr;

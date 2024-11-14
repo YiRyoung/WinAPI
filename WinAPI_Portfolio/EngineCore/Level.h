@@ -1,6 +1,7 @@
 #pragma once
 #include "GameMode.h"
 
+
 class CollisionLinkData
 {
 public:
@@ -14,6 +15,7 @@ public:
 		__int64 Key;
 	};
 };
+
 
 class ULevel
 {
@@ -29,8 +31,8 @@ public:
 	ULevel(const ULevel& _Other) = delete;
 	ULevel(ULevel&& _Other) noexcept = delete;
 	ULevel& operator=(ULevel&& _Other) noexcept = delete;
-	ULevel& operator=(const ULevel& _Other) = delete;
 
+	ULevel& operator=(const ULevel& _Other) = delete;
 	void LevelChangeStart();
 
 	void LevelChangeEnd();
@@ -134,6 +136,7 @@ protected:
 private:
 	void ScreenClear();
 	void DoubleBuffering();
+	void BeginPlayCheck();
 
 
 	template<typename GameModeType, typename MainPawnType>

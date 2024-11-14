@@ -1,6 +1,8 @@
 #pragma once
 #include <EngineBase/Object.h>
 #include <EngineBase/EngineMath.h>
+#include <EngineBase/TimeEvent.h>
+
 
 #include "EngineSprite.h"
 
@@ -69,6 +71,7 @@ public:
 
 
 protected:
+	UTimeEvent TimeEventer;
 
 private:
 	static void ComponentBeginPlay();
@@ -81,6 +84,7 @@ private:
 
 	class ULevel* World = nullptr;
 	FTransform Transform;
+
 
 	std::list<class UActorComponent*> Components;
 };
