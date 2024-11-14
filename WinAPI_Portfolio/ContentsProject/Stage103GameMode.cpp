@@ -24,10 +24,11 @@ void AStage103GameMode::BeginPlay()
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Stage103.png");
 	NewActor->SetColSprite("ColStage103.png");
+	NewActor->SwitchColSprite();
 
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackImage("Stage103.png", "ColStage103.png");
-	Player->SetActorLocation({ 150, 195 });
+	Player->SetActorLocation({ 150, 1016 });
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");

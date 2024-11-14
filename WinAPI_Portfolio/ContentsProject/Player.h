@@ -54,6 +54,19 @@ public:
 
 	void Gravity(float _DeltaTime);
 
+	// аб©Л
+	inline bool GetDirLeft() const
+	{
+		if (AnimDir == "_Right")
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 	void SetAnimDir();
 	
 	inline bool CheckMAGENTA(UColor _Color)
@@ -92,15 +105,15 @@ public:
 		}
 	}
 
-	inline bool GetDirLeft() const
+	inline bool CheckWHITE(UColor _Color)
 	{
-		if (AnimDir == "_Right")
+		if (UColor::WHITE == _Color)
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 
@@ -109,19 +122,17 @@ public:
 protected:
 
 private:
-	float Speed = 300.0f;
+	float Speed = 200.0f;
 	float JumpForce = 280.0f;
 	int MySpriteIndex = 0;
+	std::string AnimDir = "_Right";
 
 	FVector2D GravityForce = FVector2D::ZERO;
+	UColor CheckColor[static_cast<int>(CheckDir::Max)];
 
 	class UEngineWinImage* BackImage = nullptr;
 	class UEngineWinImage* ColImage = nullptr;
 	class USpriteRenderer* SpriteRenderer;
-
-	UColor CheckColor[static_cast<int>(CheckDir::Max)];
-
-	std::string AnimDir = "_Right";
 
 	void ChangeState(PlayerState _CurPlayerState);
 	void Idle(float _DeltaTime);

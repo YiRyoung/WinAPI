@@ -24,6 +24,7 @@ void ABossStageGameMode::BeginPlay()
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Whispy Woods.png");
 	NewActor->SetColSprite("ColWhispy Woods.png");
+	NewActor->SwitchColSprite();
 
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackImage("Whispy Woods.png", "ColWhispy Woods.png");

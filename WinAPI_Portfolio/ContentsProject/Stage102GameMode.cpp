@@ -25,6 +25,7 @@ void AStage102GameMode::BeginPlay()
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Stage102.png");
 	NewActor->SetColSprite("ColStage102.png");
+	NewActor->SwitchColSprite();
 
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackImage("Stage102.png", "ColStage102.png");

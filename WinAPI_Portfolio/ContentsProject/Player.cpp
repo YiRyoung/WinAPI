@@ -127,8 +127,20 @@ void APlayer::SetAnim()
 	SpriteRenderer->CreateAnimation("JumpEnd_Right", "Kirby_Normal_Right.png", 15, 15, 1.0f);
 
 	// Climb
-	SpriteRenderer->CreateAnimation("ClimbUp", "Kirby_Normal_Left.png", 68, 70, 1.0f);
+	SpriteRenderer->CreateAnimation("ClimbUp", "Kirby_Normal_Left.png", 68, 70, 0.2f);
 	SpriteRenderer->CreateAnimation("ClimbDown", "Kirby_Normal_Left.png", 62, 62, 1.0f);
+}
+
+void APlayer::SetAnimDir()
+{
+	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
+	{
+		AnimDir = "_Left";
+	}
+	else if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
+	{
+		AnimDir = "_Right";
+	}
 }
 
 void APlayer::GetBackImage(std::string_view _ImageName, std::string_view _ColliderName)
@@ -253,12 +265,14 @@ void APlayer::PlayerGroundCheck(FVector2D _MovePos)
 
 void APlayer::Gravity(float _DeltaTime)
 {
-	if (UColor::WHITE == CheckColor[static_cast<int>(CheckDir::Down)]
-		|| UColor::BLUE == CheckColor[static_cast<int>(CheckDir::Down)]
-		|| UColor::RED == CheckColor[static_cast<int>(CheckDir::Down)])
+	UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
+	UColor LeftDownColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
+
+	if (UColor::WHITE == DownColor || UColor::YELLOW == LeftDownColor
+		|| UColor::BLUE == DownColor || UColor::RED == DownColor)
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
-		GravityForce += FVector2D::DOWN * _DeltaTime * 300.0f;
+		GravityForce += FVector2D::DOWN * _DeltaTime * 360.0f;
 	}	
 	else
 	{
@@ -337,23 +351,10 @@ void APlayer::Idle(float _DeltaTime)
 	}
 
 	// 점프
-	if (true == UEngineInput::GetInst().IsPress('Z')
-		&& CurPlayerState != PlayerState::Bend)
+	if (true == UEngineInput::GetInst().IsPress('Z') && CurPlayerState != PlayerState::Bend)
 	{
 		ChangeState(PlayerState::Jump);
 		return;
-	}
-}
-
-void APlayer::SetAnimDir()
-{
-	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
-	{
-		AnimDir = "_Left";
-	}
-	else if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
-	{
-		AnimDir = "_Right";
 	}
 }
 
@@ -490,7 +491,6 @@ void APlayer::Fly(float _DeltaTime)
 
 	FVector2D Vector = FVector2D::ZERO;
 
-	// 위 키를 눌렀을 때
 	if (true == UEngineInput::GetInst().IsPress	(VK_UP))
 	{
 		Vector += FVector2D::UP;
@@ -499,12 +499,11 @@ void APlayer::Fly(float _DeltaTime)
 	{
 		PlayerGroundCheck(FVector2D::DOWN * _DeltaTime * (Speed * 0.5f));
 		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
-		if (false == CheckMAGENTA(DownColor))
+		if (false == CheckMAGENTA(DownColor) && false == CheckBLACK(DownColor))
 		{
 			AddActorLocation(FVector2D::DOWN * _DeltaTime * (Speed * 0.5f));
 		}
 	}
-
 
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
@@ -548,7 +547,8 @@ void APlayer::Jump(float _DeltaTime)
 	{
 		NextPos += FVector2D::RIGHT;
 	}
-	
+
+	NextPos.Normalize();
 	AddActorLocation(NextPos * JumpForce * _DeltaTime);
 
 	UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
@@ -601,7 +601,7 @@ void APlayer::Slide(float _DeltaTime)
 	{
 		AddActorLocation(Vector * _DeltaTime * Speed);
 	}
-	else
+	else  // 3초 뒤에 슬라이드 해제 추가
 	{
 		ChangeState(PlayerState::Bend);
 	}
@@ -609,25 +609,43 @@ void APlayer::Slide(float _DeltaTime)
 
 void APlayer::Climb(float _DeltaTime)
 {	
-	FVector2D Vector = FVector2D::ZERO;
-
 	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
 	{
-		Vector += FVector2D::DOWN;
-	}
-	if (false == UEngineInput::GetInst().IsPress(VK_UP))
-	{
-		Vector += FVector2D::UP;
-	}
+		PlayerGroundCheck(FVector2D::DOWN * Speed * _DeltaTime);
+		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
 
-	PlayerGroundCheck(Vector * Speed * _DeltaTime);
-	UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
-	UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
-
-	if (false == CheckYELLOW(DownColor))
-	{
-		SpriteRenderer->ChangeAnimation("ClimbUp");
-		AddActorLocation(FVector2D::DOWN * Speed * _DeltaTime);
+		if (false == CheckMAGENTA(DownColor))
+		{
+			SpriteRenderer->ChangeAnimation("ClimbDown");
+			AddActorLocation(FVector2D::DOWN * Speed * _DeltaTime);
+		}
+		else
+		{
+			ChangeState(PlayerState::Bend);
+			return;
+		}
 	}
-		
+	if (true == UEngineInput::GetInst().IsPress(VK_UP))
+	{
+		PlayerGroundCheck(FVector2D::UP * Speed * _DeltaTime);
+		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
+
+		if (true == CheckYELLOW(DownColor))
+		{
+			SpriteRenderer->ChangeAnimation("ClimbUp");
+			AddActorLocation(FVector2D::UP * Speed * _DeltaTime);
+		}
+		else
+		{
+			ChangeState(PlayerState::Bend);
+			return;
+		}
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_LEFT)
+		|| true == UEngineInput::GetInst().IsPress(VK_RIGHT))
+	{
+		ChangeState(PlayerState::Idle);
+		return;
+	}
+	
 }
