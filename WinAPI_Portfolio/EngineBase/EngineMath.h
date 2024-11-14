@@ -364,7 +364,6 @@ public:
 	static const UColor MAGENTA;
 	static const UColor YELLOW;
 	static const UColor RED;
-	static const UColor BLUE;
 
 	union
 	{

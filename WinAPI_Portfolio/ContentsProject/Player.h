@@ -50,11 +50,11 @@ public:
 
 	void CameraMove();
 
-	void PlayerGroundCheck(FVector2D _MovePos);
-
 	void Gravity(float _DeltaTime);
 
 	// 좌우
+	void SetAnimDir();
+
 	inline bool GetDirLeft() const
 	{
 		if (AnimDir == "_Right")
@@ -67,8 +67,23 @@ public:
 		}
 	}
 
-	void SetAnimDir();
+	// 스피드(가속도)
+	inline void SetSpeed()
+	{
+		if (DirAcc >= MaxSpeed)
+		{
+			DirAcc = MaxSpeed;
+		}
+		else if (DirAcc <= MinSpeed)
+		{
+			DirAcc;
+		}
+	}
 	
+
+	// 충돌 색상 체크
+	void PlayerGroundCheck(FVector2D _MovePos);
+
 	inline bool CheckMAGENTA(UColor _Color)
 	{
 		if (UColor::MAGENTA == _Color)
@@ -122,9 +137,15 @@ public:
 protected:
 
 private:
-	float Speed = 200.0f;
+	float Speed = 300.0f;
+	float DirAcc = 300.0f;
+	float MaxSpeed = 300.0f;
+	float MinSpeed = 0.1f;
+
 	float JumpForce = 280.0f;
 	int MySpriteIndex = 0;
+
+
 	std::string AnimDir = "_Right";
 
 	FVector2D GravityForce = FVector2D::ZERO;
