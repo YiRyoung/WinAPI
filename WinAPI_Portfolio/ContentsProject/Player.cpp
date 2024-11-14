@@ -433,7 +433,7 @@ void APlayer::Move(float _DeltaTime)
 	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
 		AddActorLocation(Vector * _DeltaTime * DirAcc);
-		DirAcc += 50.0f;
+		DirAcc *= 1.2f;
 	} 
 }
 
@@ -484,7 +484,7 @@ void APlayer::Dash(float _DeltaTime)
 	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
 		AddActorLocation(Vector * _DeltaTime * (DirAcc * 1.2f));
-		DirAcc += 50.0f;
+		DirAcc *= 1.2f;
 	}
 }
 
@@ -577,7 +577,8 @@ void APlayer::Jump(float _DeltaTime)
 	UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
 	UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
 
-	if (true == CheckMAGENTA(DownColor) || true == CheckMAGENTA(UpColor))
+	if (true == CheckMAGENTA(DownColor) || true == CheckMAGENTA(UpColor) ||
+		true == CheckBLACK(DownColor))
 	{
 		ChangeState(PlayerState::Idle);
 		return;
@@ -632,13 +633,13 @@ void APlayer::Slide(float _DeltaTime)
 	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
 	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
 
-	if (true == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
+	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
 		AddActorLocation(Vector * _DeltaTime * Speed);
 	}
 	else
 	{
-		ChangeState(PlayerState::Bend);
+		ChangeState(PlayerState::Idle);
 		return;
 	}
 }

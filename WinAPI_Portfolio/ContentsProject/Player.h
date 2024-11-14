@@ -138,11 +138,13 @@ protected:
 
 private:
 	float Speed = 300.0f;
+
+	// 
 	float DirAcc = 300.0f;
 	float MaxSpeed = 300.0f;
 	float MinSpeed = 0.1f;
 
-	float JumpForce = 280.0f;
+	float JumpForce = 300.0f;
 	int MySpriteIndex = 0;
 
 
