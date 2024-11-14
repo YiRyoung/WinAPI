@@ -114,7 +114,7 @@ void APlayer::SetAnim()
 	SpriteRenderer->CreateAnimation("Flying_Right", "Kirby_Normal_Right.png", 21, 22, 0.7f);
 
 	// FlyEnd
-	SpriteRenderer->CreateAnimation("FlyiEnd_Left", "Kirby_Normal_Left.png", 23, 26, 0.1f, false);
+	SpriteRenderer->CreateAnimation("FlyEnd_Left", "Kirby_Normal_Left.png", 23, 26, 0.1f, false);
 	SpriteRenderer->CreateAnimation("FlyEnd_Right", "Kirby_Normal_Right.png", 23, 26, 0.1f, false);
 
 	// JumpStart
@@ -128,6 +128,11 @@ void APlayer::SetAnim()
 	// Climb
 	SpriteRenderer->CreateAnimation("ClimbUp", "Kirby_Normal_Left.png", 68, 70, 0.2f);
 	SpriteRenderer->CreateAnimation("ClimbDown", "Kirby_Normal_Left.png", 62, 62, 1.0f);
+
+	// Fall
+	SpriteRenderer->CreateAnimation("Falling_Left", "Kirby_Normal_Left.png", 15, 15, 1.0f);
+	SpriteRenderer->CreateAnimation("Falling_Right", "Kirby_Normal_Right.png", 15, 15, 1.0f);
+
 }
 
 void APlayer::SetAnimDir()
@@ -285,7 +290,7 @@ void APlayer::ChangeState(PlayerState _CurPlayerState)
 void APlayer::Idle(float _DeltaTime)
 {
 	SpriteRenderer->ChangeAnimation("Idle" + AnimDir);
-
+	
 	// 중력가속도를 기준으로 지면 체크
 	PlayerGroundCheck(GravityForce * _DeltaTime);
 	Gravity(_DeltaTime);
@@ -528,7 +533,7 @@ void APlayer::Fly(float _DeltaTime)
 
 	if (true == UEngineInput::GetInst().IsPress('X'))
 	{
-		//SpriteRenderer->ChangeAnimation("FlyEnd" + AnimDir);
+		SpriteRenderer->ChangeAnimation("FlyEnd" + AnimDir);
 		ChangeState(PlayerState::Idle);
 		return;
 	}
@@ -583,7 +588,18 @@ void APlayer::Bend(float _DeltaTime)
 {
 	SpriteRenderer->ChangeAnimation("Bend" + AnimDir);
 
-	if (false == UEngineInput::GetInst().IsPress(VK_DOWN))
+	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
+	{
+		PlayerGroundCheck(FVector2D::DOWN + FVector2D(0.0f, 20.0f) * _DeltaTime * Speed);
+		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
+
+		if (true == CheckYELLOW(DownColor))
+		{
+			ChangeState(PlayerState::Climb);
+			return;
+		}
+	}
+	else
 	{
 		ChangeState(PlayerState::Idle);
 		return;
@@ -631,7 +647,7 @@ void APlayer::Climb(float _DeltaTime)
 {	
 	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
 	{
-		PlayerGroundCheck(FVector2D::DOWN * Speed * _DeltaTime);
+		PlayerGroundCheck((FVector2D::DOWN * Speed * _DeltaTime));
 		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
 
 		if (false == CheckMAGENTA(DownColor))
@@ -641,7 +657,7 @@ void APlayer::Climb(float _DeltaTime)
 		}
 		else
 		{
-			ChangeState(PlayerState::Bend);
+			ChangeState(PlayerState::Idle);
 			return;
 		}
 	}
