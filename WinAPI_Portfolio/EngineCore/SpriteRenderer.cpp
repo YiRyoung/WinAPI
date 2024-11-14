@@ -15,59 +15,11 @@ USpriteRenderer::~USpriteRenderer()
 
 void USpriteRenderer::Render(float _DeltaTime)
 {
-	if (nullptr != CurAnimation)
-	{
-		CurAnimation->IsEnd = false;
-		std::vector<int>& Indexs = CurAnimation->FrameIndex;
-		std::vector<float>& Times = CurAnimation->FrameTime;
-
-		Sprite = CurAnimation->Sprite;
-
-
-		CurAnimation->CurTime += _DeltaTime;
-
-		float CurFrameTime = Times[CurAnimation->CurIndex];
-
-		if (CurAnimation->CurTime > CurFrameTime)
-		{
-			CurAnimation->CurTime -= CurFrameTime;
-			++CurAnimation->CurIndex;
-
-			if (CurAnimation->Events.contains(CurAnimation->CurIndex))
-			{
-				CurAnimation->Events[CurAnimation->CurIndex]();
-			}
-
-			if (CurAnimation->CurIndex >= Indexs.size())
-			{
-				if (true == CurAnimation->Loop)
-				{
-					CurAnimation->CurIndex = 0;
-
-					if (CurAnimation->Events.contains(CurAnimation->CurIndex))
-					{
-						CurAnimation->Events[CurAnimation->CurIndex]();
-					}
-
-				}
-				else
-				{
-					--CurAnimation->CurIndex;
-				}
-			}
-
-		}
-
-
-		CurIndex = Indexs[CurAnimation->CurIndex];
-	}
-
 	if (nullptr == Sprite)
 	{
 		MSGASSERT("스프라이트가 세팅되지 않은 액터를 랜더링을 할수 없습니다.");
 		return;
 	}
-
 	UEngineWindow& MainWindow = UEngineAPICore::GetCore()->GetMainWindow();
 	UEngineWinImage* BackBufferImage = MainWindow.GetBackBuffer();
 	UEngineSprite::USpriteData CurData = Sprite->GetSpriteData(CurIndex);
@@ -84,7 +36,14 @@ void USpriteRenderer::Render(float _DeltaTime)
 	Trans.Location += Pivot;
 
 
-	CurData.Image->CopyToTrans(BackBufferImage, Trans, CurData.Transform);
+	if (Alpha == 255)
+	{
+		CurData.Image->CopyToTrans(BackBufferImage, Trans, CurData.Transform);
+	}
+	else
+	{
+		CurData.Image->CopyToAlpha(BackBufferImage, Trans, CurData.Transform, Alpha);
+	}
 }
 
 void USpriteRenderer::BeginPlay()
@@ -101,6 +60,60 @@ void USpriteRenderer::BeginPlay()
 void USpriteRenderer::ComponentTick(float _DeltaTime)
 {
 	Super::ComponentTick(_DeltaTime);
+
+	if (nullptr != CurAnimation)
+	{
+		CurAnimation->IsEnd = false;
+		std::vector<int>& Indexs = CurAnimation->FrameIndex;
+		std::vector<float>& Times = CurAnimation->FrameTime;
+
+		Sprite = CurAnimation->Sprite;
+
+
+		CurAnimation->CurTime += _DeltaTime * AnimationSpeed;
+
+		float CurFrameTime = Times[CurAnimation->CurIndex];
+
+		if (CurAnimation->CurTime > CurFrameTime)
+		{
+
+			CurAnimation->CurTime -= CurFrameTime;
+			++CurAnimation->CurIndex;
+
+			if (CurAnimation->Events.contains(CurIndex))
+			{
+				CurAnimation->Events[CurIndex]();
+			}
+
+			if (CurAnimation->CurIndex >= Indexs.size())
+			{
+				CurAnimation->IsEnd = true;
+			}
+
+			if (CurAnimation->CurIndex >= Indexs.size())
+			{
+				if (true == CurAnimation->Loop)
+				{
+					CurAnimation->CurIndex = 0;
+
+					if (CurAnimation->Events.contains(CurIndex))
+					{
+						CurAnimation->Events[CurIndex]();
+					}
+				}
+				else
+				{
+					CurAnimation->IsEnd = true;
+					--CurAnimation->CurIndex;
+				}
+			}
+
+		}
+
+
+		CurIndex = Indexs[CurAnimation->CurIndex];
+	}
+
 }
 
 void USpriteRenderer::SetSprite(std::string_view _Name, int _CurIndex /*= 0*/)
@@ -122,6 +135,11 @@ void USpriteRenderer::SetOrder(int _Order)
 	int PrevOrder = Order;
 
 	Order = _Order;
+
+	if (PrevOrder == Order)
+	{
+		return;
+	}
 
 	ULevel* Level = GetActor()->GetWorld();
 
@@ -220,7 +238,7 @@ void USpriteRenderer::CreateAnimation(std::string_view _AnimationName, std::stri
 
 	if (nullptr == FindSprite)
 	{
-		MSGASSERT("로드하지 않은 스프라이트를 애니메이션 생성에 사용하려고 했습니다" + std::string(UpperName));
+		MSGASSERT("로드하지 않은 스프라이트를 애니메이션 생서에 사용하려고 했습니다" + std::string(UpperName));
 		return;
 	}
 
@@ -254,6 +272,7 @@ void USpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _For
 
 	CurAnimation = &FrameAnimations[UpperName];
 	CurAnimation->Reset();
+	CurIndex = CurAnimation->FrameIndex[CurAnimation->CurIndex];
 
 	if (CurAnimation->Events.contains(CurAnimation->CurIndex))
 	{
@@ -304,7 +323,7 @@ void USpriteRenderer::SetCameraEffectScale(float _Effect)
 
 void USpriteRenderer::SetPivotType(PivotType _Type)
 {
-	if (PivotType::CENTER == _Type)
+	if (PivotType::Center == _Type)
 	{
 		Pivot = FVector2D::ZERO;
 		return;
@@ -320,11 +339,11 @@ void USpriteRenderer::SetPivotType(PivotType _Type)
 
 	switch (_Type)
 	{
-	case PivotType::BOTTOM:
+	case PivotType::Bot:
 		Pivot.X = 0.0f;
 		Pivot.Y -= CurData.Transform.Scale.Y * 0.5f;
 		break;
-	case PivotType::TOP:
+	case PivotType::Top:
 		Pivot.X = 0.0f;
 		Pivot.Y += CurData.Transform.Scale.Y * 0.5f;
 		break;

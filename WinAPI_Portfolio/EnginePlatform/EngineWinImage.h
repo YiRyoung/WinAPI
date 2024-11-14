@@ -11,7 +11,6 @@ public:
 	UEngineWinImage();
 	~UEngineWinImage();
 
-	// delete Function
 	UEngineWinImage(const UEngineWinImage& _Other) = delete;
 	UEngineWinImage(UEngineWinImage&& _Other) noexcept = delete;
 	UEngineWinImage& operator=(const UEngineWinImage& _Other) = delete;
@@ -36,6 +35,12 @@ public:
 		const FTransform& _RenderTrans,
 		const FTransform& _LTImageTrans,
 		UColor _Color = UColor(255, 0, 255, 0));
+
+	void CopyToAlpha(UEngineWinImage* _TargetImage,
+		const FTransform& _RenderTrans,
+		const FTransform& _LTImageTrans,
+		unsigned char _Alpha);
+
 
 	void Load(UEngineWinImage* _TargetImage, std::string_view _Path);
 

@@ -19,7 +19,7 @@ APlayer::APlayer()
 		SetAnim();
 
 		SpriteRenderer->ChangeAnimation("Idle_Right");
-		SpriteRenderer->SetPivotType(PivotType::BOTTOM);
+		SpriteRenderer->SetPivotType(PivotType::Bot);
 	}
 
 	DebugOn();
@@ -47,7 +47,7 @@ void APlayer::Tick(float _DeltaTime)
 
 	// 좌우 방향 및 스피드 체크
 	SetAnimDir();
-	SetSpeed();
+	SetLimitSpeed();
 
 	// PlayerState FSM
 	switch (CurPlayerState)
@@ -72,6 +72,9 @@ void APlayer::Tick(float _DeltaTime)
 		break;
 	case PlayerState::Fly:
 		Fly(_DeltaTime);
+		break;
+	case PlayerState::Flying:
+		Flying(_DeltaTime);
 		break;
 	case PlayerState::Climb:
 		Climb(_DeltaTime);
@@ -360,9 +363,7 @@ void APlayer::Idle(float _DeltaTime)
 		DirForce.X = 0.0f;
 	}
 
-
 	AddActorLocation(DirForce * _DeltaTime);
-
 
 	// 점프
 	if (true == UEngineInput::GetInst().IsPress('Z') && CurPlayerState != PlayerState::Bend)
@@ -376,7 +377,7 @@ void APlayer::Move(float _DeltaTime)
 {
 	SpriteRenderer->ChangeAnimation("Walk" + AnimDir);
 
-	// 중력가속도를 기준으로 지면 체크
+	// 중력 가속도를 기준으로 지면 체크
 	PlayerGroundCheck(GravityForce * _DeltaTime);
 	Gravity(_DeltaTime);
 
@@ -443,7 +444,7 @@ void APlayer::Move(float _DeltaTime)
 	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
 
 	DirForce += Vector * _DeltaTime * AccSpeed;
-	SetSpeed();
+	SetLimitSpeed();
 	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
 		AddActorLocation(DirForce * _DeltaTime);
@@ -489,21 +490,24 @@ void APlayer::Dash(float _DeltaTime)
 		ChangeState(PlayerState::Jump);
 		return;
 	}
-	
+
+	DirForce += Vector * _DeltaTime * AccSpeed * 1.5f;
+	SetLimitSpeed();
+
 	// 이동할 위치 충돌 체크
 	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
 	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
 	
 	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
-		AddActorLocation(Vector * _DeltaTime);
+		AddActorLocation(DirForce * _DeltaTime);
 	}
 }
 
 void APlayer::Fly(float _DeltaTime)
 {
 
-	PlayerGroundCheck(FVector2D::UP * _DeltaTime * (Speed * 0.5f));
+	PlayerGroundCheck(FVector2D::UP * (Speed * 0.5f) * _DeltaTime);
 
 	SpriteRenderer->ChangeAnimation("FlyStart" + AnimDir);
 
@@ -518,12 +522,13 @@ void APlayer::Fly(float _DeltaTime)
 	// 올라가기
 	if (true == UEngineInput::GetInst().IsPress	(VK_UP))
 	{
+		GravityForce = FVector2D::ZERO;
 		Vector += FVector2D::UP;
 	}
 	else // 떨어지기
 	{
-		PlayerGroundCheck(GravityForce * 0.5f * _DeltaTime);
-		Gravity(_DeltaTime * 0.5f);
+		PlayerGroundCheck(GravityForce * 0.7f * _DeltaTime);
+		Gravity(_DeltaTime * 0.7f);
 	}
 
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
@@ -544,15 +549,9 @@ void APlayer::Fly(float _DeltaTime)
 	if (false == CheckMAGENTA(UpColor) && false == CheckMAGENTA(LeftColor) 
 		&& false == CheckMAGENTA(RightColor))
 	{
-		AddActorLocation(Vector * (Speed * 0.7f) * _DeltaTime);
+		AddActorLocation(DirForce * 0.7f *  _DeltaTime);
 	}
 
-	//if (true == UEngineInput::GetInst().IsPress('X'))
-	//{
-	//	SpriteRenderer->ChangeAnimation("FlyEnd" + AnimDir);
-	//	ChangeState(PlayerState::Idle);
-	//	return;
-	//}
 }
 
 void APlayer::Flying(float _DeltaTime)
@@ -566,12 +565,15 @@ void APlayer::Flying(float _DeltaTime)
 	// 올라가기
 	if (true == UEngineInput::GetInst().IsPress(VK_UP))
 	{
+		GravityForce = FVector2D::ZERO;
+		SpriteRenderer->SetAnimationSpeed(20.0f);
 		Vector += FVector2D::UP;
 	}
 	else // 떨어지기
 	{
-		PlayerGroundCheck(GravityForce * 0.5f * _DeltaTime);
-		Gravity(_DeltaTime * 0.5f);
+		SpriteRenderer->SetAnimationSpeed(1.0f);
+		PlayerGroundCheck(GravityForce * _DeltaTime);
+		Gravity(_DeltaTime);
 	}
 
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
@@ -655,7 +657,7 @@ void APlayer::Bend(float _DeltaTime)
 
 	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
 	{
-		PlayerGroundCheck(FVector2D::DOWN + FVector2D(0.0f, 20.0f) * _DeltaTime * Speed);
+		PlayerGroundCheck(FVector2D::DOWN + FVector2D(0.0f, 20.0f) * _DeltaTime);
 		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
 
 		if (true == CheckYELLOW(DownColor))
@@ -693,13 +695,13 @@ void APlayer::Slide(float _DeltaTime)
 		Vector += FVector2D::LEFT;
 	}
 
-	PlayerGroundCheck(Vector * _DeltaTime * Speed);
+	PlayerGroundCheck(Vector * Speed * _DeltaTime);
 	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
 	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
 
 	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
-		AddActorLocation(Vector * _DeltaTime * Speed);
+		AddActorLocation(DirForce * _DeltaTime);
 	}
 	else
 	{
@@ -712,13 +714,13 @@ void APlayer::Climb(float _DeltaTime)
 {	
 	if (true == UEngineInput::GetInst().IsPress(VK_DOWN))
 	{
-		PlayerGroundCheck((FVector2D::DOWN * Speed * _DeltaTime));
+		PlayerGroundCheck((FVector2D::DOWN * MaxSpeed * _DeltaTime));
 		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
 
 		if (false == CheckMAGENTA(DownColor))
 		{
 			SpriteRenderer->ChangeAnimation("ClimbDown");
-			AddActorLocation(FVector2D::DOWN * Speed * _DeltaTime);
+			AddActorLocation(FVector2D::DOWN * MaxSpeed * _DeltaTime);
 		}
 		else
 		{
@@ -728,13 +730,13 @@ void APlayer::Climb(float _DeltaTime)
 	}
 	if (true == UEngineInput::GetInst().IsPress(VK_UP))
 	{
-		PlayerGroundCheck(FVector2D::UP * Speed * _DeltaTime);
+		PlayerGroundCheck(FVector2D::UP * MaxSpeed * _DeltaTime);
 		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
 
 		if (true == CheckYELLOW(DownColor))
 		{
 			SpriteRenderer->ChangeAnimation("ClimbUp");
-			AddActorLocation(FVector2D::UP * Speed * _DeltaTime);
+			AddActorLocation(FVector2D::UP * MaxSpeed * _DeltaTime);
 		}
 		else
 		{

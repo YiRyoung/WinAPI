@@ -7,11 +7,10 @@
 
 enum class PivotType
 {
-	CENTER,
-	BOTTOM,
-	TOP,
+	Center,
+	Bot,
+	Top,
 };
-
 
 class USpriteRenderer : public USceneComponent
 {
@@ -105,6 +104,22 @@ public:
 		return CurAnimation->IsEnd;
 	}
 
+	void SetAnimationSpeed(float _Speed)
+	{
+		AnimationSpeed = _Speed;
+	}
+
+	void SetAlphaChar(unsigned char _Value)
+	{
+		Alpha = _Value;
+	}
+
+	void SetAlphafloat(float _Value)
+	{
+		_Value = UEngineMath::Clamp(_Value, 0.0f, 1.0f);
+		Alpha = static_cast<unsigned char>(_Value * 255.0f);
+	}
+
 protected:
 
 private:
@@ -112,6 +127,9 @@ private:
 	int CurIndex = 0;
 	bool IsCameraEffect = true;
 	float CameraEffectScale = 1.0f;
+	float AnimationSpeed = 1.0f;
+
+	unsigned char Alpha = 255;
 
 	FVector2D Pivot = FVector2D::ZERO;
 

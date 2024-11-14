@@ -68,12 +68,11 @@ public:
 		}
 	}
 
-	// 스피드(가속도)
-	inline void SetSpeed()
+	// 스피드(가속도 제한)
+	inline void SetLimitSpeed()
 	{
 		if (DirForce.Length() >= MaxSpeed)
 		{
-			// 길이를 1로 바꾼다.
 			DirForce.Normalize();
 			DirForce *= MaxSpeed;
 		}
@@ -136,11 +135,12 @@ public:
 protected:
 
 private:
+	float DeAccSpeed = 5.0f;
+	float AccSpeed  = 500.0f;
 	float Speed = 300.0f;
-
-	// 가속도
 	float MaxSpeed = 300.0f;
 	float MinSpeed = 0.1f;
+	FVector2D DirForce = FVector2D::ZERO;
 
 	float JumpForce = 300.0f;
 	int MySpriteIndex = 0;
@@ -148,10 +148,6 @@ private:
 
 	std::string AnimDir = "_Right";
 
-
-	float DeAccSpeed = 5.0f;
-	float AccSpeed  = 500.0f;
-	FVector2D DirForce = FVector2D::ZERO;
 	FVector2D GravityForce = FVector2D::ZERO;
 	UColor CheckColor[static_cast<int>(CheckDir::Max)];
 
