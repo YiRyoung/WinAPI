@@ -42,7 +42,7 @@ void APlayer::Tick(float _DeltaTime)
 
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
-	UEngineDebug::CoreOutPutString("DirAcc : " + std::to_string(DirAcc));
+	UEngineDebug::CoreOutPutString("DirAcc : " + DirForce.ToString());
 
 
 	// 좌우 방향 및 스피드 체크
@@ -352,6 +352,18 @@ void APlayer::Idle(float _DeltaTime)
 		}
 	}
 
+	// 감속
+	DirForce.X += -DirForce.X * DeAccSpeed * _DeltaTime;
+
+	if (DirForce.Length() < 0.01f)
+	{
+		DirForce.X = 0.0f;
+	}
+
+
+	AddActorLocation(DirForce * _DeltaTime);
+
+
 	// 점프
 	if (true == UEngineInput::GetInst().IsPress('Z') && CurPlayerState != PlayerState::Bend)
 	{
@@ -426,14 +438,15 @@ void APlayer::Move(float _DeltaTime)
 	Vector.Normalize();
 
 	// 이동할 위치 충돌 체크
-	PlayerGroundCheck(Vector * _DeltaTime * DirAcc);
+	PlayerGroundCheck(DirForce * _DeltaTime);
 	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
 	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
 
+	DirForce += Vector * _DeltaTime * AccSpeed;
+	SetSpeed();
 	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
-		AddActorLocation(Vector * _DeltaTime * DirAcc);
-		DirAcc *= 1.2f;
+		AddActorLocation(DirForce * _DeltaTime);
 	} 
 }
 
@@ -448,7 +461,7 @@ void APlayer::Dash(float _DeltaTime)
 
 	// 이동 방향 벡터 설정
 	FVector2D Vector = FVector2D::ZERO;
-	PlayerGroundCheck(Vector * _DeltaTime * (DirAcc * 1.2f));
+	PlayerGroundCheck(DirForce * _DeltaTime);
 
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
 	{
@@ -483,31 +496,34 @@ void APlayer::Dash(float _DeltaTime)
 	
 	if (false == CheckMAGENTA(LeftColor) && false == CheckMAGENTA(RightColor))
 	{
-		AddActorLocation(Vector * _DeltaTime * (DirAcc * 1.2f));
-		DirAcc *= 1.2f;
+		AddActorLocation(Vector * _DeltaTime);
 	}
 }
 
 void APlayer::Fly(float _DeltaTime)
 {
+
 	PlayerGroundCheck(FVector2D::UP * _DeltaTime * (Speed * 0.5f));
 
 	SpriteRenderer->ChangeAnimation("FlyStart" + AnimDir);
 
+	if (true == SpriteRenderer->IsCurAnimationEnd())
+	{
+		ChangeState(PlayerState::Flying);
+		return;
+	}
+
 	FVector2D Vector = FVector2D::ZERO;
 
+	// 올라가기
 	if (true == UEngineInput::GetInst().IsPress	(VK_UP))
 	{
 		Vector += FVector2D::UP;
 	}
-	else 
+	else // 떨어지기
 	{
-		PlayerGroundCheck(FVector2D::DOWN * _DeltaTime * (Speed));
-		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
-		if (false == CheckMAGENTA(DownColor) && false == CheckBLACK(DownColor))
-		{
-			AddActorLocation(FVector2D::DOWN * _DeltaTime * (Speed * 0.5f));
-		}
+		PlayerGroundCheck(GravityForce * 0.5f * _DeltaTime);
+		Gravity(_DeltaTime * 0.5f);
 	}
 
 	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
@@ -528,7 +544,55 @@ void APlayer::Fly(float _DeltaTime)
 	if (false == CheckMAGENTA(UpColor) && false == CheckMAGENTA(LeftColor) 
 		&& false == CheckMAGENTA(RightColor))
 	{
-		AddActorLocation(Vector * Speed * _DeltaTime * 0.5f);
+		AddActorLocation(Vector * (Speed * 0.7f) * _DeltaTime);
+	}
+
+	//if (true == UEngineInput::GetInst().IsPress('X'))
+	//{
+	//	SpriteRenderer->ChangeAnimation("FlyEnd" + AnimDir);
+	//	ChangeState(PlayerState::Idle);
+	//	return;
+	//}
+}
+
+void APlayer::Flying(float _DeltaTime)
+{
+	PlayerGroundCheck(FVector2D::UP * _DeltaTime * (Speed * 0.5f));
+
+	SpriteRenderer->ChangeAnimation("Flying" + AnimDir);
+
+	FVector2D Vector = FVector2D::ZERO;
+
+	// 올라가기
+	if (true == UEngineInput::GetInst().IsPress(VK_UP))
+	{
+		Vector += FVector2D::UP;
+	}
+	else // 떨어지기
+	{
+		PlayerGroundCheck(GravityForce * 0.5f * _DeltaTime);
+		Gravity(_DeltaTime * 0.5f);
+	}
+
+	if (true == UEngineInput::GetInst().IsPress(VK_LEFT))
+	{
+		Vector += FVector2D::LEFT;
+	}
+	if (true == UEngineInput::GetInst().IsPress(VK_RIGHT))
+	{
+		Vector += FVector2D::RIGHT;
+	}
+
+	Vector.Normalize();
+
+	UColor UpColor = CheckColor[static_cast<int>(CheckDir::Up)];
+	UColor LeftColor = CheckColor[static_cast<int>(CheckDir::LeftDown)];
+	UColor RightColor = CheckColor[static_cast<int>(CheckDir::RightDown)];
+
+	if (false == CheckMAGENTA(UpColor) && false == CheckMAGENTA(LeftColor)
+		&& false == CheckMAGENTA(RightColor))
+	{
+		AddActorLocation(Vector * (Speed * 0.7f) * _DeltaTime);
 	}
 
 	if (true == UEngineInput::GetInst().IsPress('X'))

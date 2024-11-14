@@ -21,6 +21,7 @@ enum class PlayerState
 	Move,
 	Dash,
 	Fly,
+	Flying,
 	Jump,
 	Bend,
 	Slide,
@@ -70,13 +71,11 @@ public:
 	// 스피드(가속도)
 	inline void SetSpeed()
 	{
-		if (DirAcc >= MaxSpeed)
+		if (DirForce.Length() >= MaxSpeed)
 		{
-			DirAcc = MaxSpeed;
-		}
-		else if (DirAcc <= MinSpeed)
-		{
-			DirAcc;
+			// 길이를 1로 바꾼다.
+			DirForce.Normalize();
+			DirForce *= MaxSpeed;
 		}
 	}
 	
@@ -140,7 +139,6 @@ private:
 	float Speed = 300.0f;
 
 	// 가속도
-	float DirAcc = 300.0f;
 	float MaxSpeed = 300.0f;
 	float MinSpeed = 0.1f;
 
@@ -150,6 +148,10 @@ private:
 
 	std::string AnimDir = "_Right";
 
+
+	float DeAccSpeed = 5.0f;
+	float AccSpeed  = 500.0f;
+	FVector2D DirForce = FVector2D::ZERO;
 	FVector2D GravityForce = FVector2D::ZERO;
 	UColor CheckColor[static_cast<int>(CheckDir::Max)];
 
@@ -162,6 +164,7 @@ private:
 	void Move(float _DeltaTime);
 	void Dash(float _DeltaTime);
 	void Fly(float _DeltaTime);
+	void Flying(float _DeltaTime);
 	void Jump(float _DeltaTime);
 	void Bend(float _DeltaTime);
 	void Slide(float _DeltaTime);
