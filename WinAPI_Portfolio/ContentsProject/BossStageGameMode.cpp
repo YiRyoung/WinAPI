@@ -28,7 +28,7 @@ void ABossStageGameMode::BeginPlay()
 
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackImage("Whispy Woods.png", "ColWhispy Woods.png");
-	Player->SetActorLocation({ 70, 146 });
+	Player->SetActorLocation({ 90, 116 });
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");

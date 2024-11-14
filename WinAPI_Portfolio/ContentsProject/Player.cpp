@@ -502,7 +502,7 @@ void APlayer::Fly(float _DeltaTime)
 	}
 	else 
 	{
-		PlayerGroundCheck(FVector2D::DOWN * _DeltaTime * (Speed * 0.5f));
+		PlayerGroundCheck(FVector2D::DOWN * _DeltaTime * (Speed));
 		UColor DownColor = CheckColor[static_cast<int>(CheckDir::Down)];
 		if (false == CheckMAGENTA(DownColor) && false == CheckBLACK(DownColor))
 		{
@@ -528,7 +528,7 @@ void APlayer::Fly(float _DeltaTime)
 	if (false == CheckMAGENTA(UpColor) && false == CheckMAGENTA(LeftColor) 
 		&& false == CheckMAGENTA(RightColor))
 	{
-		AddActorLocation(Vector * Speed * _DeltaTime * 0.6f);
+		AddActorLocation(Vector * Speed * _DeltaTime * 0.5f);
 	}
 
 	if (true == UEngineInput::GetInst().IsPress('X'))

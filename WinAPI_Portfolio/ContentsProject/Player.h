@@ -139,7 +139,7 @@ protected:
 private:
 	float Speed = 300.0f;
 
-	// 
+	// °¡¼Óµµ
 	float DirAcc = 300.0f;
 	float MaxSpeed = 300.0f;
 	float MinSpeed = 0.1f;
