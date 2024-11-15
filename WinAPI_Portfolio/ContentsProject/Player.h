@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include <EngineBase/EngineMath.h>
+#include <EnginePlatform/EngineInput.h>
 
 enum class CheckDir
 {
@@ -20,13 +21,14 @@ enum class PlayerState
 	Idle,
 	Move,
 	Dash,
-	Fly,
+	FlyStart,
 	Flying,
+	FlyEnd,
 	Jump,
 	Bend,
 	Slide,
 	Climb,
-	Attack
+	Fall
 };
 
 class APlayer : public AActor
@@ -52,9 +54,44 @@ public:
 	void CameraMove();
 
 	void Gravity(float _DeltaTime);
+	
+	// 키 입력
+	inline bool IsPressKey(int _KeyCode) const
+	{
+		if (UEngineInput::GetInst().IsPress(_KeyCode))
+		{
+			return true;
+		}
+		else if (!UEngineInput::GetInst().IsPress(_KeyCode))
+		{
+			return false;
+		}
+	}
+
+	inline bool IsDoubleKey(int _KeyCode, float _Count) const
+	{
+		if (UEngineInput::GetInst().IsDoubleClick(_KeyCode, _Count))
+		{
+			return true;
+		}
+		else if (!UEngineInput::GetInst().IsDoubleClick(_KeyCode, _Count))
+		{
+			return false;
+		}
+	}
 
 	// 좌우
-	void SetAnimDir();
+	inline void SetAnimDir()
+	{
+		if (UEngineInput::GetInst().IsPress(VK_LEFT))
+		{
+			AnimDir = "_Left";
+		}
+		else if (UEngineInput::GetInst().IsPress(VK_RIGHT))
+		{
+			AnimDir = "_Right";
+		}
+	};
 
 	inline bool GetDirLeft() const
 	{
@@ -69,15 +106,25 @@ public:
 	}
 
 	// 스피드(가속도 제한)
-	inline void SetLimitSpeed()
+	inline void SetLimitSpeed(bool _LimitType)
 	{
-		if (DirForce.Length() >= MaxSpeed)
+		switch (_LimitType)
 		{
-			DirForce.Normalize();
-			DirForce *= MaxSpeed;
+		case true:	// MaxSpeed
+			if (DirForce.Length() >= MaxSpeed)
+			{
+				DirForce.Normalize();
+				DirForce *= MaxSpeed;
+			}
+			break;
+		case false:	// ZeroSpeed
+			if (DirForce.Length() <= 0.01f)
+			{
+				DirForce.X = 0.0f;
+			}
+			break;
 		}
 	}
-	
 
 	// 충돌 색상 체크
 	void PlayerGroundCheck(FVector2D _MovePos);
@@ -132,14 +179,23 @@ public:
 
 	PlayerState CurPlayerState = PlayerState::Idle;
 
+	// 현재 상태 비교
+	inline bool CheckState(PlayerState _State)
+	{
+		if (CurPlayerState == _State)
+		{
+			return true;
+		}
+		return false;
+	}
+
 protected:
 
 private:
-	float DeAccSpeed = 5.0f;
+	float DeAccSpeed = 10.0f;
 	float AccSpeed  = 500.0f;
-	float Speed = 300.0f;
+	float Speed = 180.0;
 	float MaxSpeed = 300.0f;
-	float MinSpeed = 0.1f;
 	FVector2D DirForce = FVector2D::ZERO;
 
 	float JumpForce = 300.0f;
@@ -159,11 +215,13 @@ private:
 	void Idle(float _DeltaTime);
 	void Move(float _DeltaTime);
 	void Dash(float _DeltaTime);
-	void Fly(float _DeltaTime);
+	void FlyStart(float _DeltaTime);
 	void Flying(float _DeltaTime);
+	void FlyEnd(float _DeltaTime);
 	void Jump(float _DeltaTime);
 	void Bend(float _DeltaTime);
 	void Slide(float _DeltaTime);
 	void Climb(float _DeltaTime);
+	void Fall(float _DeltaTime);
 };
 

@@ -17,6 +17,7 @@ public:
 protected:
 
 private:
-
+	class USpriteRenderer* KirbyRenderer;
+	FVector2D KirbyScale = FVector2D::ZERO;
 };
 

@@ -196,10 +196,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TitleKirby.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="TitleMap.h">
       <SubType>
       </SubType>
@@ -251,10 +247,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleGameMode.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="TitleKirby.cpp">
       <SubType>
       </SubType>
     </ClCompile>

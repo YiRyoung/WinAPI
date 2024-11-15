@@ -7,17 +7,11 @@
     <ClCompile Include="Player.cpp">
       <Filter>ContentsObject\Global</Filter>
     </ClCompile>
-    <ClCompile Include="TitleMap.cpp">
-      <Filter>ContentsObject\Maps\Title</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsEnum.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleKirby.cpp">
-      <Filter>ContentsObject\Maps\Title</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ContentsObject\Maps</Filter>
@@ -43,6 +37,9 @@
     <ClCompile Include="BossStageGameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
+    <ClCompile Include="TitleMap.cpp">
+      <Filter>ContentsObject\Maps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -51,17 +48,11 @@
     <ClInclude Include="Player.h">
       <Filter>ContentsObject\Global</Filter>
     </ClInclude>
-    <ClInclude Include="TitleMap.h">
-      <Filter>ContentsObject\Maps\Title</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleKirby.h">
-      <Filter>ContentsObject\Maps\Title</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>ContentsObject\Maps</Filter>
@@ -87,6 +78,9 @@
     <ClInclude Include="HUI.h">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
+    <ClInclude Include="TitleMap.h">
+      <Filter>ContentsObject\Maps</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -106,9 +100,6 @@
     </Filter>
     <Filter Include="ContentsObject\Maps">
       <UniqueIdentifier>{f1357283-ff33-4a5e-803a-ab3d19e366b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ContentsObject\Maps\Title">
-      <UniqueIdentifier>{78a8595f-5914-481f-9723-cc2c0e5fe1e7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ContentsObject\GameMode">
       <UniqueIdentifier>{2a8bcfd1-b521-40f1-9b91-89dbc638bbc6}</UniqueIdentifier>

@@ -5,7 +5,6 @@
 #include <EngineCore/EngineAPICore.h>
 
 #include "TitleMap.h"
-#include "TitleKirby.h"
 
 ATitleGameMode::ATitleGameMode()
 {
@@ -19,7 +18,6 @@ void ATitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	TitleMap* NewMap = GetWorld()->SpawnActor<TitleMap>();
-	TitleKirby* NewActor = GetWorld()->SpawnActor<TitleKirby>();
 }
 
 
