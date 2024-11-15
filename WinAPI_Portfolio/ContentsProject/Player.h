@@ -198,7 +198,7 @@ private:
 	float MaxSpeed = 300.0f;
 	FVector2D DirForce = FVector2D::ZERO;
 
-	float JumpForce = 300.0f;
+	float JumpForce = 380.0f;
 	int MySpriteIndex = 0;
 
 
