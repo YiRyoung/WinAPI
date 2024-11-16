@@ -106,7 +106,7 @@ public:
 
 	void SetAnimationSpeed(float _Speed)
 	{
-		AnimationSpeed = _Speed;
+		CurAnimationSpeed = _Speed;
 	}
 
 	void SetAlphaChar(unsigned char _Value)
@@ -127,7 +127,7 @@ private:
 	int CurIndex = 0;
 	bool IsCameraEffect = true;
 	float CameraEffectScale = 1.0f;
-	float AnimationSpeed = 1.0f;
+	float CurAnimationSpeed = 1.0f;
 
 	unsigned char Alpha = 255;
 

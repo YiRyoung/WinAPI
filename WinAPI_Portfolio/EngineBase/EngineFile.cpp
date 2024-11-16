@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "EngineFile.h"
 #include "EngineDebug.h"
-#include "EngineSerializer.h"
 
 UEngineFile::UEngineFile()
 {
@@ -43,12 +42,6 @@ void UEngineFile::FileOpen(const char* _Mode)
 	}
 }
 
-
-void UEngineFile::Write(UEngineSerializer& _Ser)
-{
-	Write(_Ser.GetDataPtr(), _Ser.GetWriteOffset());
-}
-
 int UEngineFile::GetFileSize()
 {
 	if (false == IsFile())
@@ -58,16 +51,6 @@ int UEngineFile::GetFileSize()
 	}
 
 	return static_cast<int>(std::filesystem::file_size(Path));
-}
-
-void UEngineFile::Read(class UEngineSerializer& _Ser)
-{
-
-	int FileSize = GetFileSize();
-
-	_Ser.DataResize(FileSize);
-
-	Read(_Ser.GetDataPtr(), FileSize);
 }
 
 void UEngineFile::Write(const void* _Ptr, size_t _Size)
@@ -111,8 +94,6 @@ void UEngineFile::Read(void* _Ptr, size_t _Size)
 
 	fread(_Ptr, _Size, 1, File);
 }
-
-
 
 void UEngineFile::Close()
 {

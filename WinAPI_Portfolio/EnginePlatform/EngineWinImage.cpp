@@ -8,7 +8,6 @@
 #include <objidl.h>
 #include <gdiplus.h>
 
-
 // BMP 확장용 라이브러리
 #pragma comment(lib, "Msimg32.lib")
 

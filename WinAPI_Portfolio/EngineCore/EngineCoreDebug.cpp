@@ -14,9 +14,7 @@ namespace UEngineDebug
 
 	std::vector<DebugTextInfo> DebugTexts;
 
-// #ifdef _DEBUG
 	FVector2D EngineTextPos = FVector2D::ZERO;
-// #endif
 
 #ifdef _DEBUG
 	bool IsDebug = true;
@@ -36,17 +34,22 @@ namespace UEngineDebug
 
 	void CoreOutPutString(std::string_view _Text)
 	{
-// #ifdef _DEBUG
-		DebugTexts.push_back({ _Text.data(), EngineTextPos});
+		if (false == IsDebug)
+		{
+			return;
+		}
+
+		DebugTexts.push_back({ _Text.data(), EngineTextPos });
 		EngineTextPos.Y += 20;
-// endif 
 	}
 
 	void CoreOutPutString(std::string_view _Text, FVector2D _Pos)
 	{
-// #ifdef _DEBUG
+		if (false == IsDebug)
+		{
+			return;
+		}
 		DebugTexts.push_back({ _Text.data(), _Pos });
-// #endif
 	}
 
 	class DebugRenderInfo
@@ -61,6 +64,11 @@ namespace UEngineDebug
 
 	void CoreDebugRender(FTransform _Trans, EDebugPosType _Type)
 	{
+		if (false == IsDebug)
+		{
+			return;
+		}
+
 		DebugPoses.push_back({ _Trans, _Type });
 	}
 

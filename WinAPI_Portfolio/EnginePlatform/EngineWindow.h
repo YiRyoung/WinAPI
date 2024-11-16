@@ -1,15 +1,9 @@
 #pragma once
-// Os Header
-#include <Windows.h>
-
-// std Header
-#include <map>
-#include <string>
-#include <functional>
 
 // user header
 #include <EngineBase/EngineDelegate.h>
 #include <EngineBase/EngineMath.h>
+
 #include "EngineWinImage.h"
 
 class UEngineWindow

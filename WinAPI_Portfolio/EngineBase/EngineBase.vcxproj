@@ -186,7 +186,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TimeEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp" />
@@ -226,7 +225,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TimeEvent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

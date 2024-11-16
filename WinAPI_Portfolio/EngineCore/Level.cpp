@@ -60,7 +60,11 @@ void ULevel::BeginPlayCheck()
 
 		BeginPlayList.clear();
 
+		Renderers;
+
 		AActor::ComponentBeginPlay();
+
+		Renderers;
 	}
 
 
@@ -205,7 +209,6 @@ void ULevel::Collision(float _DeltaTime)
 		std::list<class U2DCollision*>::iterator StartLeftIter = LeftList.begin();
 		std::list<class U2DCollision*>::iterator EndLeftIter = LeftList.end();
 
-		std::list<class U2DCollision*>::iterator StartRightIter = RightList.begin();
 		std::list<class U2DCollision*>::iterator EndRightIter = RightList.end();
 
 		for (; StartLeftIter != EndLeftIter; ++StartLeftIter)
@@ -217,9 +220,16 @@ void ULevel::Collision(float _DeltaTime)
 				continue;
 			}
 
+			std::list<class U2DCollision*>::iterator StartRightIter = RightList.begin();
+
 			for (; StartRightIter != EndRightIter; ++StartRightIter)
 			{
 				U2DCollision* RightCollision = *StartRightIter;
+				if (LeftCollision == RightCollision)
+				{
+					continue;
+				}
+
 				if (false == RightCollision->IsActive())
 				{
 					continue;

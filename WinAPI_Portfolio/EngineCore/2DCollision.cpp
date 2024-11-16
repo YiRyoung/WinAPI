@@ -15,6 +15,7 @@ void U2DCollision::BeginPlay()
 {
 	Super::BeginPlay();
 
+
 	AActor* Actor = GetActor();
 	ULevel* Level = Actor->GetWorld();
 
@@ -62,16 +63,35 @@ void U2DCollision::ComponentTick(float _DeltaTime)
 
 bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Result, FVector2D _NextPos, unsigned int  _Limite)
 {
+	U2DCollision* ThisCollision = this;
+
+	if (false == ThisCollision->IsActive())
+	{
+		return false;
+	}
+
+
+
 	std::list<class U2DCollision*>& OtherCollisions = GetActor()->GetWorld()->Collisions[_OtherCollisionGroup];
+
 
 	std::list<class U2DCollision*>::iterator StartIter = OtherCollisions.begin();
 	std::list<class U2DCollision*>::iterator EndIter = OtherCollisions.end();
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
-		U2DCollision* ThisCollision = this;
 		U2DCollision* DestCollision = *StartIter;
-		 		FTransform ThisTrans = ThisCollision->GetActorTransform();
+
+		if (ThisCollision == DestCollision)
+		{
+			continue;
+		}
+
+		if (false == DestCollision->IsActive())
+		{
+			continue;
+		}
+		FTransform ThisTrans = ThisCollision->GetActorTransform();
 		FTransform DestTrans = DestCollision->GetActorTransform();
 
 		ThisTrans.Location += _NextPos;
@@ -81,7 +101,7 @@ bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Re
 
 		bool Result = FTransform::Collision(ThisType, ThisTrans, DestType, DestTrans);
 
-		 		if (true == Result)
+		if (true == Result)
 		{
 			_Result.push_back(DestCollision->GetActor());
 			--_Limite;
@@ -98,7 +118,7 @@ bool U2DCollision::Collision(int _OtherCollisionGroup, std::vector<AActor*>& _Re
 
 
 
- void U2DCollision::SetCollisionEnter(std::function<void(AActor*)> _Function)
+void U2DCollision::SetCollisionEnter(std::function<void(AActor*)> _Function)
 {
 	Enter = _Function;
 
@@ -136,11 +156,11 @@ void U2DCollision::SetCollisionEnd(std::function<void(AActor*)> _Function)
 
 }
 
-  void U2DCollision::CollisionEventCheck(class U2DCollision* _Other)
+void U2DCollision::CollisionEventCheck(class U2DCollision* _Other)
 {
-	 	 	 	U2DCollision* ThisCollision = this;
+	U2DCollision* ThisCollision = this;
 	U2DCollision* DestCollision = _Other;
-	 	FTransform ThisTrans = ThisCollision->GetActorTransform();
+	FTransform ThisTrans = ThisCollision->GetActorTransform();
 	FTransform DestTrans = DestCollision->GetActorTransform();
 
 	ECollisionType ThisType = ThisCollision->GetCollisionType();
@@ -148,7 +168,7 @@ void U2DCollision::SetCollisionEnd(std::function<void(AActor*)> _Function)
 
 	bool Result = FTransform::Collision(ThisType, ThisTrans, DestType, DestTrans);
 
-	 	if (true == Result)
+	if (true == Result)
 	{
 		if (false == CollisionCheckSet.contains(DestCollision))
 		{
@@ -159,7 +179,7 @@ void U2DCollision::SetCollisionEnd(std::function<void(AActor*)> _Function)
 
 			CollisionCheckSet.insert(DestCollision);
 		}
-		else 
+		else
 		{
 			if (nullptr != Stay)
 			{
@@ -167,9 +187,9 @@ void U2DCollision::SetCollisionEnd(std::function<void(AActor*)> _Function)
 			}
 		}
 	}
-	else 
+	else
 	{
-		 		 		if (true == CollisionCheckSet.contains(DestCollision))
+		if (true == CollisionCheckSet.contains(DestCollision))
 		{
 			if (nullptr != End)
 			{
