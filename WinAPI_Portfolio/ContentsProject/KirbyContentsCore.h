@@ -20,5 +20,8 @@ protected:
 	void Tick() override;
 
 private:
+	void LoadImages();
+	void CuttingImages();
+	void SetWorld();
 };
 

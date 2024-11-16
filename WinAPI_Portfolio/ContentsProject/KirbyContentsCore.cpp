@@ -27,7 +27,17 @@ KirbyContentsCore::~KirbyContentsCore()
 
 void KirbyContentsCore::BeginPlay()
 {
+	LoadImages();
+	CuttingImages();
+	SetWorld();
+}
 
+void KirbyContentsCore::Tick()
+{
+}
+
+void KirbyContentsCore::LoadImages()
+{
 	UEngineDirectory Dir;
 
 	if (false == Dir.MoveParentToDirectory("Resources"))
@@ -36,6 +46,7 @@ void KirbyContentsCore::BeginPlay()
 		return;
 	}
 
+	Dir.Append("Image");
 	std::vector<UEngineFile> ImageFiles = Dir.GetAllFile();
 
 	for (size_t i = 0; i < ImageFiles.size(); i++)
@@ -43,18 +54,28 @@ void KirbyContentsCore::BeginPlay()
 		std::string FilePath = ImageFiles[i].GetPathToString();
 		UImageManager::GetInst().Load(FilePath);
 	}
+}
 
-	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Left.png", {32, 32});
-	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Right.png", {32, 32});
-	UImageManager::GetInst().CuttingSprite("Lives.png", {41, 39});
-	UImageManager::GetInst().CuttingSprite("Score.png", {25, 26});
-	UImageManager::GetInst().CuttingSprite("Ability.png", {100, 125});
-	UImageManager::GetInst().CuttingSprite("HP.png", {25, 44});
+void KirbyContentsCore::CuttingImages()
+{
+	// Kirby
+	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Left.png", { 32, 32 });
+	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Right.png", { 32, 32 });
+	
+	// HUI
+	UImageManager::GetInst().CuttingSprite("Lives.png", { 41, 39 });
+	UImageManager::GetInst().CuttingSprite("Score.png", { 25, 26 });
+	UImageManager::GetInst().CuttingSprite("Ability.png", { 100, 125 });
+	UImageManager::GetInst().CuttingSprite("HP.png", { 25, 44 });
+}
 
+void KirbyContentsCore::SetWorld()
+{
+	// Window
 	UEngineAPICore::GetCore()->GetMainWindow().SetWindowTitle("Kirby's Adventure");
+	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, { 768, 720 });
 
-	UEngineAPICore::GetCore()->GetMainWindow().SetWindowPosAndScale({ 0, 0 }, {768, 720});
-
+	// Levels
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<AStage101GameMode, APlayer>("Stage101");
 	UEngineAPICore::GetCore()->CreateLevel<AStage102GameMode, APlayer>("Stage102");
@@ -62,10 +83,6 @@ void KirbyContentsCore::BeginPlay()
 	UEngineAPICore::GetCore()->CreateLevel<AStage104GameMode, APlayer>("Stage104");
 	UEngineAPICore::GetCore()->CreateLevel<ABossStageGameMode, APlayer>("BossStage");
 
+	// StartLevel
 	UEngineAPICore::GetCore()->OpenLevel("Stage101");
-
-}
-
-void KirbyContentsCore::Tick()
-{
 }
