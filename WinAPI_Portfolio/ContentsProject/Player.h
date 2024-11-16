@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineBase/EngineMath.h>
 #include <EnginePlatform/EngineInput.h>
+#include <EnginePlatform/EngineSound.h>
 
 enum class CheckDir
 {
@@ -223,5 +224,7 @@ private:
 	void Slide(float _DeltaTime);
 	void Climb(float _DeltaTime);
 	void Fall(float _DeltaTime);
+
+	USoundPlayer BGM;
 };
 

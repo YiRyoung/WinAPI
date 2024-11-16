@@ -22,6 +22,9 @@ protected:
 private:
 	void LoadImages();
 	void CuttingImages();
+
+	void LoadSounds();
+
 	void SetWorld();
 };
 

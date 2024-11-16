@@ -6,6 +6,7 @@
 
 #include <EnginePlatform/EngineWindow.h>
 #include <EnginePlatform/EngineInput.h>
+#include <EnginePlatform/EngineSound.h>
 
 UEngineAPICore* UEngineAPICore::MainCore = nullptr;
 UContentsCore* UEngineAPICore::UserCore = nullptr;
@@ -30,6 +31,7 @@ UEngineAPICore::~UEngineAPICore()
 	}
 
 	Levels.clear();
+	UEngineSound::Release();
 }
 
 
@@ -57,11 +59,6 @@ void UEngineAPICore::EngineBeginPlay()
 
 void UEngineAPICore::EngineTick()
 {
-
-
-
-
-
 	UserCore->Tick();
 
 	MainCore->Tick();
@@ -75,8 +72,6 @@ void UEngineAPICore::Tick()
 		CurLevel = nullptr;
 		IsCurLevelReset = false;
 	}
-
-
 
 	if (nullptr != NextLevel)
 	{

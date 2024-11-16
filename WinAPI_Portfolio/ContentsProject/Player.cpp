@@ -34,6 +34,8 @@ void APlayer::BeginPlay()
 	Super::BeginPlay();
 
 	GetWorld()->SetCameraToMainPawn(false);
+
+	//BGM = UEngineSound::Play("Vegetable Valley 2.mp3");
 }
 
 void APlayer::Tick(float _DeltaTime)
