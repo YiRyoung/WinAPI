@@ -4,9 +4,6 @@
     <ClCompile Include="KirbyContentsCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ContentsObject\Global</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsEnum.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -40,13 +37,16 @@
     <ClCompile Include="TitleMap.cpp">
       <Filter>ContentsObject\Maps</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ContentsObject\Global\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>ContentsObject\Global\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ContentsObject\Global</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h">
       <Filter>Global</Filter>
@@ -81,6 +81,12 @@
     <ClInclude Include="TitleMap.h">
       <Filter>ContentsObject\Maps</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ContentsObject\Global\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>ContentsObject\Global\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -106,6 +112,12 @@
     </Filter>
     <Filter Include="ContentsObject\Global\HUI">
       <UniqueIdentifier>{b6b1cb4d-f5e2-4919-9cae-bb55d80c85bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Player">
+      <UniqueIdentifier>{c198b54e-0753-445c-92f7-33b9f28f78e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Monster">
+      <UniqueIdentifier>{f17682d3-eeb7-45f2-a38e-e9d3c3aae8df}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
