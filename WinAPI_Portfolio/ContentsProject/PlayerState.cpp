@@ -98,14 +98,14 @@ void PlayerState::SetLimitSpeed(bool _IsAccel)
 {
 	switch (_IsAccel)
 	{
-	case false:  // MaxSpeed
+	case true:  // MaxSpeed
 		if (DirForce.Length() >= MaxSpeed)
 		{
 			DirForce.Normalize();
 			DirForce.X = MaxSpeed;
 		}
 		break;
-	case true: // ZeroSpeed
+	case false: // ZeroSpeed
 		if (DirForce.Length() <= 0.01f)
 		{
 			DirForce.X = 0.0f;
@@ -137,31 +137,31 @@ void PlayerState::Idle(float _DeltaTime)
 	}
 
 	// Jump
-	if (IsPressKey('Z'))
+	if (IsPressKey('Z') && (StateType::BEND != GetState()))
 	{
 		SetState(StateType::JUMP);
 		return;
 	}
 
 	// FlyStart
-	if (IsPressKey(VK_UP))
+	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::UP, UColor::YELLOW))
 	{
-		if (CheckColor(CheckDir::UP, UColor::YELLOW))
-		{
-			SetState(StateType::CLIMB);
-			return;
-		}
-		else
-		{
-			SetState(StateType::FLYSTART);
-			return;
-		}
+		SetState(StateType::FLYSTART);
+		return;
 	}
 	
-	// Slide
+	// Bend
 	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
 	{
 		SetState(StateType::BEND);
+		return;
+	}
+
+	// Climb
+	if ((IsPressKey(VK_UP) && CheckColor(CheckDir::UP, UColor::YELLOW))
+		|| (IsPressKey(VK_DOWN) && CheckColor(CheckDir::DOWN, UColor::YELLOW)))
+	{
+		SetState(StateType::CLIMB);
 		return;
 	}
 
@@ -170,7 +170,7 @@ void PlayerState::Idle(float _DeltaTime)
 		&& !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
 	{
 		DirForce.X += -DirForce.X * DeAccSpeed * _DeltaTime;
-		SetLimitSpeed(1);
+		SetLimitSpeed(false);
 		Move(DirForce * _DeltaTime);
 	}
 }
@@ -181,20 +181,35 @@ void PlayerState::Walk(float _DeltaTime)
 	Gravity(_DeltaTime);
 
 	// Jump
-	if (IsPressKey('Z'))
+	if (IsPressKey('Z') && StateType::BEND != GetState())
 	{
 		SetState(StateType::JUMP);
 		return;
 	}
 	
 	// FlyStart
-	if (IsPressKey(VK_UP))
+	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
 	{
 		SetState(StateType::FLYSTART);
 		return;
 	}
 
-	// MoveEnd
+	// Bend
+	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
+	{
+		SetState(StateType::BEND);
+		return;
+	}
+
+	// Climb
+	if ((IsPressKey(VK_UP) && CheckColor(CheckDir::UP, UColor::YELLOW))
+		|| (IsPressKey(VK_DOWN) && CheckColor(CheckDir::DOWN, UColor::YELLOW)))
+	{
+		SetState(StateType::CLIMB);
+		return;
+	}
+
+	// Idle
 	if (!IsPressKey(VK_LEFT) && !IsPressKey(VK_RIGHT))
 	{
 		SetState(StateType::IDLE);
@@ -224,7 +239,7 @@ void PlayerState::Dash(float _DeltaTime)
 	Gravity(_DeltaTime);
 
 	// Jump
-	if (IsPressKey('Z'))
+	if (IsPressKey('Z') && StateType::BEND != GetState())
 	{
 		DirForce = FVector2D::ZERO;
 		SetState(StateType::JUMP);
@@ -232,14 +247,29 @@ void PlayerState::Dash(float _DeltaTime)
 	}
 
 	// FlyStart
-	if (IsPressKey(VK_UP))
+	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::UP, UColor::YELLOW))
 	{
 		DirForce = FVector2D::ZERO;
 		SetState(StateType::FLYSTART);
 		return;
 	}
 
-	// DashEnd
+	// Bend
+	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
+	{
+		SetState(StateType::BEND);
+		return;
+	}
+
+	// Climb
+	if ((IsPressKey(VK_UP) && CheckColor(CheckDir::UP, UColor::YELLOW))
+		|| (IsPressKey(VK_DOWN) && CheckColor(CheckDir::DOWN, UColor::YELLOW)))
+	{
+		SetState(StateType::CLIMB);
+		return;
+	}
+
+	// Idle
 	if (!IsPressKey(VK_LEFT) && !IsPressKey(VK_RIGHT))
 	{
 		DirForce = FVector2D::ZERO;
@@ -248,18 +278,6 @@ void PlayerState::Dash(float _DeltaTime)
 	}
 
 	// Dashing
-	FVector2D Vector = FVector2D::ZERO;
-
-	if (IsPressKey(VK_LEFT))
-	{
-		Vector = FVector2D::LEFT;
-	}
-	if (IsPressKey(VK_RIGHT))
-	{
-		Vector = FVector2D::RIGHT;
-	}
-
-	// Accel
 	if (IsPressKey(VK_LEFT))
 	{
 		DirForce += FVector2D::LEFT * AccSpeed * _DeltaTime;
@@ -317,20 +335,15 @@ void PlayerState::Jump(float _DeltaTime)
 	if (IsPressKey(VK_LEFT))
 	{
 		DirForce += FVector2D::LEFT * _DeltaTime * AccSpeed;
-		SetLimitSpeed(1);
+		SetLimitSpeed(true);
 	}
 	if (IsPressKey(VK_RIGHT))
 	{
 		DirForce += FVector2D::RIGHT * _DeltaTime * AccSpeed;
-		SetLimitSpeed(1);
+		SetLimitSpeed(true);
 	}
 	DirForce.Normalize();
-
-	if (!CheckColor(CheckDir::UP, UColor::MAGENTA) && !CheckColor(CheckDir::LEFT, UColor::MAGENTA)
-		&& !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
-	{
-		Move(DirForce * JumpForce * _DeltaTime);
-	}
+	Move(DirForce * JumpForce * _DeltaTime);
 
 	if (CheckColor(CheckDir::DOWN, UColor::MAGENTA) || CheckColor(CheckDir::UP, UColor::MAGENTA)
 		|| CheckColor(CheckDir::DOWN, UColor::BLACK))
@@ -344,10 +357,12 @@ void PlayerState::FlyStart(float _DeltaTime)
 {
 	ChangeAnimation("FlyStart");
 
-	FVector2D Vector = FVector2D::UP;
+	FVector2D Vector = FVector2D::ZERO;
+
 	if (IsPressKey(VK_UP))
 	{
 		GravityForce = FVector2D::ZERO;
+		Vector += FVector2D::UP;
 	}
 	if (IsPressKey(VK_LEFT))
 	{
@@ -358,9 +373,13 @@ void PlayerState::FlyStart(float _DeltaTime)
 		Vector += FVector2D::RIGHT;
 	}
 	Vector.Normalize();
-	Move(Vector * Speed * _DeltaTime);
 
-	if (true == IsAnimFinish())
+	if (!CheckColor(CheckDir::UP, UColor::MAGENTA) && !CheckColor(CheckDir::DOWN, UColor::MAGENTA))
+	{
+		Move(Vector * Speed * _DeltaTime);
+	}
+
+	if (true == Player->IsAnimFinish())
 	{
 		SetState(StateType::FLYING);
 		return;
@@ -370,9 +389,8 @@ void PlayerState::FlyStart(float _DeltaTime)
 void PlayerState::Flying(float _DeltaTime)
 {
 	ChangeAnimation("Flying");
-	GravityForce = FVector2D::ZERO;
 
-	// Fall
+	// Falling
 	if (true == IsPressKey('X'))
 	{
 		SetAnimSpeed(1.0f);
@@ -382,8 +400,9 @@ void PlayerState::Flying(float _DeltaTime)
 
 	FVector2D Vector = FVector2D::ZERO;
 
-	if (true == IsPressKey(VK_UP))  // Fly High!
+	if (IsPressKey(VK_UP))  // Fly High!
 	{
+		GravityForce = FVector2D::ZERO;
 		SetAnimSpeed(5.0f);
 		Vector += FVector2D::UP;
 	}
@@ -396,11 +415,11 @@ void PlayerState::Flying(float _DeltaTime)
 		}
 	}
 
-	if (true == IsPressKey(VK_LEFT))
+	if (IsPressKey(VK_LEFT))
 	{
 		Vector += FVector2D::LEFT;
 	}
-	if (true == IsPressKey(VK_RIGHT))
+	if (IsPressKey(VK_RIGHT))
 	{
 		Vector += FVector2D::RIGHT;
 	}
@@ -416,7 +435,7 @@ void PlayerState::FlyEnd(float _DeltaTime)
 {
 	ChangeAnimation("FlyEnd");
 
-	if (true == IsAnimFinish())
+	if (true == Player->IsAnimFinish())
 	{
 		if (CheckColor(CheckDir::DOWN, UColor::MAGENTA))
 		{
@@ -442,9 +461,9 @@ void PlayerState::Falling(float _DeltaTime)
 		SetState(StateType::FLYSTART);
 		return;
 	}
+	// °¡¼Óµµ?
 
 	FVector2D Vector = FVector2D::ZERO;
-
 	if (IsPressKey(VK_LEFT))
 	{
 		Vector += FVector2D::LEFT;
@@ -453,13 +472,10 @@ void PlayerState::Falling(float _DeltaTime)
 	{
 		Vector += FVector2D::RIGHT;
 	}
-	Vector.Normalize();
+	Move(Vector * Speed * _DeltaTime);
 
-	if (!CheckColor(CheckDir::DOWN, UColor::MAGENTA) && !CheckColor(CheckDir::DOWN, UColor::BLACK))
-	{
-		Move(Vector * Speed * _DeltaTime);
-	}
-	else
+	//Idle
+	if (CheckColor(CheckDir::DOWN, UColor::MAGENTA))
 	{
 		DirForce = FVector2D::ZERO;
 		SetState(StateType::IDLE);
@@ -471,21 +487,21 @@ void PlayerState::Bend(float _DeltaTime)
 {
 	ChangeAnimation("Bend");
 
+	// Climb
+	if (IsPressKey(VK_DOWN) && CheckColor(CheckDir::DOWN, UColor::YELLOW))
+	{
+		SetState(StateType::CLIMB);
+		return;
+	}
+
+	// Slide
 	if (IsPressKey('Z') || IsPressKey('X'))
 	{
 		SetState(StateType::SLIDE);
 		return;
 	}
 
-	if (IsPressKey(VK_DOWN))
-	{
-		if (CheckColor(CheckDir::DOWN, UColor::YELLOW))
-		{
-			SetState(StateType::CLIMB);
-			return;
-		}
-	}
-
+	// Idle
 	if (!IsPressKey(VK_DOWN))
 	{
 		SetState(StateType::IDLE);
@@ -495,10 +511,10 @@ void PlayerState::Bend(float _DeltaTime)
 
 void PlayerState::Slide(float _DeltaTime)
 {
-	Gravity(_DeltaTime);
-
 	ChangeAnimation("Slide");
 	CurTime += _DeltaTime;
+	Gravity(_DeltaTime);
+
 	FVector2D Vector = FVector2D::ZERO;
 
 	if ("_Right" == Player->GetAnimDir())
@@ -510,12 +526,9 @@ void PlayerState::Slide(float _DeltaTime)
 		Vector += FVector2D::LEFT;
 	}
 
-	DirForce += Vector * AccSpeed * 1.2f * _DeltaTime;
-	SetLimitSpeed(1);
-
 	if (!CheckColor(CheckDir::LEFT, UColor::MAGENTA) && !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
 	{
-		Move(DirForce * _DeltaTime);
+		Move(Vector * Speed * _DeltaTime);
 	}
 	else
 	{
@@ -537,6 +550,33 @@ void PlayerState::Slide(float _DeltaTime)
 
 void PlayerState::Climb(float _DeltaTime)
 {
+	if (IsPressKey(VK_DOWN))
+	{
+		if (CheckColor(CheckDir::DOWN, UColor::MAGENTA))
+		{
+			ChangeAnimation("ClimbDown");
+			Move(FVector2D::DOWN * Speed * _DeltaTime);
+		}
+		else
+		{
+			SetState(StateType::IDLE);
+			return;
+		}
+	}
+	if (IsPressKey(VK_UP))
+	{
+		if (CheckColor(CheckDir::DOWN, UColor::YELLOW))
+		{
+			ChangeAnimation("ClimbUp");
+			Move(FVector2D::UP * Speed * _DeltaTime);
+		}
+		else
+		{
+			SetState(StateType::IDLE);
+			return;
+		}
+	}
+
 	//if (IsPressKey(VK_DOWN))
 	//{
 	//	if (CheckColor(CheckDir::DOWN, UColor::YELLOW))

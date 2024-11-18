@@ -34,6 +34,10 @@ private:
 	FVector2D GravityForce = FVector2D::ZERO;
 
 	APlayer* Player = nullptr;
+	StateType GetState() const
+	{
+		return Player->GetState();
+	}
 	void SetState(StateType _State);
 
 	// е╟ ют╥б
