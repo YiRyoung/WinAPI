@@ -40,9 +40,6 @@
     <ClCompile Include="WaddleDee.cpp">
       <Filter>ContentsObject\Global\Monster\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>ContentsObject\Global\Monster</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -83,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="WaddleDee.h">
       <Filter>ContentsObject\Global\Monster\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>ContentsObject\Global\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

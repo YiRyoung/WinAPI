@@ -1,10 +1,12 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+#include "ContentsEnum.h"
+
 enum class MonsterState
 {
 	PAUSE,
-	CHASE,
+	MOVE,
 	ATTACK,
 	DIED
 };
@@ -32,13 +34,28 @@ private:
 	class USpriteRenderer* SpriteRenderer;
 	class UEngineWinImage* ColImage = nullptr;
 	class U2DCollision* CollisionComponent;
+	std::string AnimDir = "_Left";
+
+	FVector2D GravityForce = FVector2D::ZERO;
+
 	MonsterState CurState = MonsterState::PAUSE;
 
+	// 몬스터 초기 설정
 	void SetMonster();
 	void SetMonsterAnimation();
+	void SetAnimDir();
 
+	// 픽셀 충돌
+	bool BottomPointCheck(UColor _Color);
+	bool LeftPointCheck(UColor _Color);
+	bool RightPointCheck(UColor _Color);
+	bool PointCheck(CheckDir _Dir, UColor _Color);
+
+	// FSM 관련
 	void MonsterFSM(float _DeltaTime);
 
+	void Gravity(float _DeltaTime);
+	void Move(float _DeltaTime);
 	void Died(float _DeltaTime);
 };
 

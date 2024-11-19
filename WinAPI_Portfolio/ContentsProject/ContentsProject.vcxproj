@@ -155,10 +155,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Monster.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PlayerState.h">
       <SubType>
       </SubType>
@@ -207,10 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HUI.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
       <SubType>
       </SubType>
     </ClCompile>

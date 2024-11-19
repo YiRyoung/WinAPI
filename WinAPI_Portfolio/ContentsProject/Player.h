@@ -3,13 +3,7 @@
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/2DCollision.h>
 
-enum class CheckDir
-{
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-};
+#include "ContentsEnum.h"
 
 enum class StateType
 {
@@ -26,14 +20,6 @@ enum class StateType
 	FALLING,
 	ATTACK,
 	HURT
-};
-
-enum class AbilityType
-{
-	NORMAL,
-	FIRE,
-	CUTTER,
-	SPARKY
 };
 
 class APlayer : public AActor
@@ -100,7 +86,7 @@ private:
 	U2DCollision* CollisionComponent;
 
 	StateType CurState = StateType::IDLE;
-	AbilityType CurAbility = AbilityType::NORMAL;
+	EAblityType CurType = EAblityType::NORMAL;
 
 	class PlayerState* State;
 	class UEngineWinImage* BackImage = nullptr;

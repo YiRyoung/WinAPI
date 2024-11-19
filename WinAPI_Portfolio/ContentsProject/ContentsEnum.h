@@ -18,3 +18,19 @@ enum class ECollisionGroup
 	MonsterSkill,
 	StarBlock
 };
+
+enum class EAblityType
+{
+	NORMAL,
+	FIRE,
+	CUTTER,
+	SPARK
+};
+
+enum class CheckDir
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+};
