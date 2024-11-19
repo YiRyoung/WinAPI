@@ -155,10 +155,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Monster.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PlayerState.h">
       <SubType>
       </SubType>
@@ -200,13 +196,13 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WaddleDee.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HUI.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -251,6 +247,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WaddleDee.cpp">
       <SubType>
       </SubType>
     </ClCompile>

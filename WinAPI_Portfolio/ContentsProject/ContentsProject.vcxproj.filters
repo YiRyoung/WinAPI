@@ -37,7 +37,7 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
+    <ClCompile Include="WaddleDee.cpp">
       <Filter>ContentsObject\Global\Monster</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,7 +78,7 @@
     <ClInclude Include="PlayerState.h">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Monster.h">
+    <ClInclude Include="WaddleDee.h">
       <Filter>ContentsObject\Global\Monster</Filter>
     </ClInclude>
   </ItemGroup>

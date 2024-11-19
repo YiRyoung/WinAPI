@@ -16,7 +16,9 @@ APlayer::APlayer()
 
 	SetPlayer();
 	SetAnimation();
+
 	State = new PlayerState(this);
+	
 	DebugOn();
 }
 
@@ -50,7 +52,6 @@ void APlayer::GetBackImage(std::string_view _ImageName, std::string_view _ColIma
 	BackImage = UImageManager::GetInst().FindImage(_ImageName);
 	ColImage = UImageManager::GetInst().FindImage(_ColImageName);
 }
-
 
 bool APlayer::UpperPointCheck(UColor _Color)
 {
@@ -183,9 +184,6 @@ bool APlayer::PixelLineColor(CheckDir _Dir, UColor _Color)
 
 void APlayer::SetPlayer()
 {
-	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Left.png", { 32, 32 });
-	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Right.png", { 32, 32 });
-
 	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 	SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
 	SpriteRenderer->SetComponentScale({ 94, 94 });

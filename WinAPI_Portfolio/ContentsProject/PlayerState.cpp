@@ -2,6 +2,7 @@
 #include "PlayerState.h"
 
 #include <EnginePlatform/EngineInput.h>
+#include <EngineCore/2DCollision.h>
 
 PlayerState::PlayerState()
 {
@@ -14,7 +15,6 @@ PlayerState::PlayerState(APlayer* _Player) : Player(_Player)
 PlayerState::~PlayerState()
 {
 }
-
 
 bool PlayerState::IsPressKey(int _KeyCode) const
 {
@@ -594,4 +594,3 @@ void PlayerState::Climb(float _DeltaTime)
 		}
 	}
 }
-

@@ -58,11 +58,19 @@ void KirbyContentsCore::LoadImages()
 
 void KirbyContentsCore::CuttingImages()
 {	
+	// Kirby
+	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Left.png", { 32, 32 });
+	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Right.png", { 32, 32 });
+
 	// HUI
 	UImageManager::GetInst().CuttingSprite("Lives.png", { 41, 39 });
 	UImageManager::GetInst().CuttingSprite("Score.png", { 25, 26 });
 	UImageManager::GetInst().CuttingSprite("Ability.png", { 100, 125 });
 	UImageManager::GetInst().CuttingSprite("HP.png", { 25, 44 });
+
+	// Monster
+	UImageManager::GetInst().CuttingSprite("Waddle Dee_Left.png", { 50, 50 });
+	UImageManager::GetInst().CuttingSprite("Waddle Dee_Right.png", { 50, 50 });
 }
 
 void KirbyContentsCore::LoadSounds()

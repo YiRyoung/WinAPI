@@ -6,7 +6,7 @@
 
 #include <EngineCore/Level.h>
 #include "Player.h"
-//#include "Monster.h"
+#include "WaddleDee.h"
 #include "Stage.h"
 #include "HUI.h"
 
@@ -36,8 +36,8 @@ void AStage101GameMode::BeginPlay()
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");
 
-	/*AMonster* Monster = GetWorld()->SpawnActor<AMonster>();
-	Monster->SetActorLocation({ 250, 350 });*/
+	AWaddleDee* NewWaddle = GetWorld()->SpawnActor<AWaddleDee>();
+	NewWaddle->SetActorLocation({ 300, 360 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)

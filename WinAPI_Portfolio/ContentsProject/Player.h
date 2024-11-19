@@ -26,6 +26,14 @@ enum class StateType
 	FALLING
 };
 
+enum class AbilityType
+{
+	NORMAL,
+	FIRE,
+	CUTTER,
+	SPARKY
+};
+
 class APlayer : public AActor
 {
 public:
@@ -49,11 +57,6 @@ public:
 		return AnimDir;
 	}
 
-	bool UpperPointCheck(UColor _Color);
-	bool BottomPointCheck(UColor _Color);
-
-	bool PixelLineColor(CheckDir _Dir, UColor _Color);
-
 	bool IsAnimFinish()
 	{
 		if (true == SpriteRenderer->IsCurAnimationEnd())
@@ -71,6 +74,10 @@ public:
 		SpriteRenderer->ChangeAnimation(_Anim);
 	}
 
+	bool UpperPointCheck(UColor _Color);
+	bool BottomPointCheck(UColor _Color);
+	bool PixelLineColor(CheckDir _Dir, UColor _Color);
+
 	StateType GetState() const
 	{
 		return CurState;
@@ -86,8 +93,10 @@ protected:
 private:
 	int MySpriteIndex = 0;
 	std::string AnimDir = "_Right";
-	StateType CurState = StateType::IDLE;
 	U2DCollision* CollisionComponent;
+
+	StateType CurState = StateType::IDLE;
+	AbilityType CurAbility = AbilityType::NORMAL;
 
 	class PlayerState* State;
 	class UEngineWinImage* BackImage = nullptr;

@@ -23,6 +23,8 @@ public:
 protected:
 
 private:
+	bool IsFull = false;
+
 	float CurTime = 0.0f;
 	float DeAccSpeed = 10.0f;	// 관성
 	float AccSpeed = 320.0f;	// 가속도
