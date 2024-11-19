@@ -63,6 +63,19 @@ bool PlayerState::IsAnimFinish()
 	}
 }
 
+bool PlayerState::CheckPointColor(CheckDir _Dir, UColor _Color)
+{
+	switch (_Dir)
+	{
+	case CheckDir::UP:
+		return Player->UpperPointCheck(_Color);
+		break;
+	case CheckDir::DOWN:
+		return Player->BottomPointCheck(_Color);
+		break;
+	}
+}
+
 bool PlayerState::CheckColor(CheckDir _Dir, UColor _Color)
 {
 	if (true == Player->PixelLineColor(_Dir, _Color))
@@ -158,10 +171,17 @@ void PlayerState::Idle(float _DeltaTime)
 	}
 
 	// Climb
-	if ((IsPressKey(VK_UP) && CheckColor(CheckDir::UP, UColor::YELLOW))
-		|| (IsPressKey(VK_DOWN) && CheckColor(CheckDir::DOWN, UColor::YELLOW)))
+	if ((IsPressKey(VK_UP) && CheckPointColor(CheckDir::UP, UColor::YELLOW))
+		|| (IsPressKey(VK_DOWN) && CheckPointColor(CheckDir::DOWN, UColor::YELLOW)))
 	{
 		SetState(StateType::CLIMB);
+		return;
+	}
+
+	// Falling
+	if (CheckColor(CheckDir::DOWN, UColor::WHITE) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
+	{
+		SetState(StateType::FALLING);
 		return;
 	}
 
@@ -202,8 +222,8 @@ void PlayerState::Walk(float _DeltaTime)
 	}
 
 	// Climb
-	if ((IsPressKey(VK_UP) && CheckColor(CheckDir::UP, UColor::YELLOW))
-		|| (IsPressKey(VK_DOWN) && CheckColor(CheckDir::DOWN, UColor::YELLOW)))
+	if ((IsPressKey(VK_UP) && CheckPointColor(CheckDir::UP, UColor::YELLOW))
+		|| (IsPressKey(VK_DOWN) && CheckPointColor(CheckDir::DOWN, UColor::YELLOW)))
 	{
 		SetState(StateType::CLIMB);
 		return;
@@ -262,8 +282,8 @@ void PlayerState::Dash(float _DeltaTime)
 	}
 
 	// Climb
-	if ((IsPressKey(VK_UP) && CheckColor(CheckDir::UP, UColor::YELLOW))
-		|| (IsPressKey(VK_DOWN) && CheckColor(CheckDir::DOWN, UColor::YELLOW)))
+	if ((IsPressKey(VK_UP) && CheckPointColor(CheckDir::UP, UColor::YELLOW))
+		|| (IsPressKey(VK_DOWN) && CheckPointColor(CheckDir::DOWN, UColor::YELLOW)))
 	{
 		SetState(StateType::CLIMB);
 		return;
@@ -454,6 +474,7 @@ void PlayerState::Falling(float _DeltaTime)
 {
 	ChangeAnimation("Falling");
 	Gravity(_DeltaTime);
+	// Black 및 Yellow 추가
 
 	// FlyStart
 	if (IsPressKey(VK_UP))
@@ -461,7 +482,6 @@ void PlayerState::Falling(float _DeltaTime)
 		SetState(StateType::FLYSTART);
 		return;
 	}
-	// 가속도?
 
 	FVector2D Vector = FVector2D::ZERO;
 	if (IsPressKey(VK_LEFT))
@@ -475,7 +495,8 @@ void PlayerState::Falling(float _DeltaTime)
 	Move(Vector * Speed * _DeltaTime);
 
 	//Idle
-	if (CheckColor(CheckDir::DOWN, UColor::MAGENTA))
+	if (CheckColor(CheckDir::DOWN, UColor::MAGENTA) 
+		|| CheckColor(CheckDir::DOWN, UColor::YELLOW) || CheckColor(CheckDir::DOWN, UColor::BLACK))
 	{
 		DirForce = FVector2D::ZERO;
 		SetState(StateType::IDLE);
@@ -486,13 +507,6 @@ void PlayerState::Falling(float _DeltaTime)
 void PlayerState::Bend(float _DeltaTime)
 {
 	ChangeAnimation("Bend");
-
-	// Climb
-	if (IsPressKey(VK_DOWN) && CheckColor(CheckDir::DOWN, UColor::YELLOW))
-	{
-		SetState(StateType::CLIMB);
-		return;
-	}
 
 	// Slide
 	if (IsPressKey('Z') || IsPressKey('X'))
@@ -550,63 +564,34 @@ void PlayerState::Slide(float _DeltaTime)
 
 void PlayerState::Climb(float _DeltaTime)
 {
-	if (IsPressKey(VK_DOWN))
-	{
-		if (CheckColor(CheckDir::DOWN, UColor::MAGENTA))
-		{
-			ChangeAnimation("ClimbDown");
-			Move(FVector2D::DOWN * Speed * _DeltaTime);
-		}
-		else
-		{
-			SetState(StateType::IDLE);
-			return;
-		}
-	}
 	if (IsPressKey(VK_UP))
 	{
-		if (CheckColor(CheckDir::DOWN, UColor::YELLOW))
+		ChangeAnimation("ClimbUp");
+
+		if (CheckPointColor(CheckDir::DOWN, UColor::MAGENTA) || CheckPointColor(CheckDir::DOWN, UColor::YELLOW))
 		{
-			ChangeAnimation("ClimbUp");
 			Move(FVector2D::UP * Speed * _DeltaTime);
 		}
-		else
+		if (!CheckPointColor(CheckDir::DOWN, UColor::YELLOW) && CheckPointColor(CheckDir::UP, UColor::WHITE))
 		{
 			SetState(StateType::IDLE);
 			return;
 		}
 	}
 
-	//if (IsPressKey(VK_DOWN))
-	//{
-	//	if (CheckColor(CheckDir::DOWN, UColor::YELLOW))
-	//	{
-	//		ChangeAnimation("ClimbDown");
-	//		Move(FVector2D::DOWN * MaxSpeed * _DeltaTime);
-	//	}
-	//	else
-	//	{
-	//		SetState(StateType::IDLE);
-	//		return;
-	//	}
-	//}
-	//if (IsPressKey(VK_UP))
-	//{
-	//	if (CheckColor(CheckDir::UP, UColor::YELLOW) || CheckColor(CheckDir::DOWN, UColor::YELLOW))
-	//	{
-	//		ChangeAnimation("ClimbUp");
-	//		Move(FVector2D::UP * MaxSpeed * _DeltaTime);
-	//	}
-	//	else if (!CheckColor(CheckDir::DOWN, UColor::YELLOW))
-	//	{
-	//		SetState(StateType::IDLE);
-	//		return;
-	//	}
-	//}
-	//if (IsPressKey(VK_LEFT) || IsPressKey(VK_RIGHT))
-	//{
-	//	SetState(StateType::IDLE);
-	//	return;
-	//}
+	if (IsPressKey(VK_DOWN))
+	{
+		ChangeAnimation("ClimbDown");
+
+		if (CheckPointColor(CheckDir::UP, UColor::WHITE) || CheckPointColor(CheckDir::UP, UColor::YELLOW))
+		{
+			Move(FVector2D::DOWN * Speed * _DeltaTime);
+		}
+		if (CheckPointColor(CheckDir::DOWN, UColor::MAGENTA))
+		{
+			SetState(StateType::IDLE);
+			return;
+		}
+	}
 }
 

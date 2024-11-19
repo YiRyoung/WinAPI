@@ -11,10 +11,8 @@
 
 #include "TitleGameMode.h"
 #include "Stage101GameMode.h"
-#include "Stage102GameMode.h"
-#include "Stage103GameMode.h"
-#include "Stage104GameMode.h"
-#include "BossStageGameMode.h"
+#include "MidBossGameMode.h"
+#include "BossGameMode.h"
 #include "Player.h"
 
 
@@ -93,10 +91,8 @@ void KirbyContentsCore::SetWorld()
 	// Levels
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<AStage101GameMode, APlayer>("Stage101");
-	UEngineAPICore::GetCore()->CreateLevel<AStage102GameMode, APlayer>("Stage102");
-	UEngineAPICore::GetCore()->CreateLevel<AStage103GameMode, APlayer>("Stage103");
-	UEngineAPICore::GetCore()->CreateLevel<AStage104GameMode, APlayer>("Stage104");
-	UEngineAPICore::GetCore()->CreateLevel<ABossStageGameMode, APlayer>("BossStage");
+	UEngineAPICore::GetCore()->CreateLevel<AMidBossGameMode, APlayer>("MidBoss");
+	UEngineAPICore::GetCore()->CreateLevel<ABossGameMode, APlayer>("Boss");
 
 	// StartLevel
 	UEngineAPICore::GetCore()->OpenLevel("Stage101");

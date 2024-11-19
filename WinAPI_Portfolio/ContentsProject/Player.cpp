@@ -17,7 +17,7 @@ APlayer::APlayer()
 	SetPlayer();
 	SetAnimation();
 	State = new PlayerState(this);
-	DebugOn();
+	//DebugOn();
 }
 
 APlayer::~APlayer()
@@ -49,6 +49,51 @@ void APlayer::GetBackImage(std::string_view _ImageName, std::string_view _ColIma
 {
 	BackImage = UImageManager::GetInst().FindImage(_ImageName);
 	ColImage = UImageManager::GetInst().FindImage(_ColImageName);
+}
+
+
+bool APlayer::UpperPointCheck(UColor _Color)
+{
+	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
+
+	FVector2D UpperPoint = GetActorLocation() + FVector2D({ 0.0f, PlayerScale.Y * -0.15f });
+	FTransform UpperTransform = GetTransform();
+	UpperTransform.Location += FVector2D({ 0.0f, PlayerScale.Y * -0.15f }) - GetWorld()->GetCameraPos();
+	UpperTransform.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(UpperTransform, UEngineDebug::EDebugPosType::Circle);
+
+	FVector2D NextUpperPoint = UpperPoint + FVector2D::UP;
+	UColor UpperColor = ColImage->GetColor(NextUpperPoint, UColor::MAGENTA);
+	if (_Color.operator==(UpperColor))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool APlayer::BottomPointCheck(UColor _Color)
+{
+	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
+
+	FVector2D BottomPoint = GetActorLocation() + FVector2D({ 0.0f, PlayerScale.Y * 0.3f });
+	FTransform BottomTransform = GetTransform();
+	BottomTransform.Location += FVector2D({ 0.0f, PlayerScale.Y * 0.3f }) - GetWorld()->GetCameraPos();
+	BottomTransform.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(BottomTransform, UEngineDebug::EDebugPosType::Circle);
+
+	FVector2D NextBottomPoint = BottomPoint + FVector2D::DOWN;
+	UColor BottomColor = ColImage->GetColor(NextBottomPoint, UColor::MAGENTA);
+	if (_Color.operator==(BottomColor))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 bool APlayer::PixelLineColor(CheckDir _Dir, UColor _Color)

@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "BossStageGameMode.h"
+#include "MidBossGameMode.h"
 
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineAPICore.h>
@@ -10,32 +10,39 @@
 #include "Stage.h"
 #include "HUI.h"
 
-ABossStageGameMode::ABossStageGameMode()
+AMidBossGameMode::AMidBossGameMode()
 {
 }
 
-ABossStageGameMode::~ABossStageGameMode()
+AMidBossGameMode::~AMidBossGameMode()
 {
 }
 
-void ABossStageGameMode::BeginPlay()
+void AMidBossGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	NewActor = GetWorld()->SpawnActor<AStage>();
-	NewActor->SetSprite("Whispy Woods.png");
-	NewActor->SetColSprite("ColWhispy Woods.png");
+	NewActor->SetSprite("MidBoss.png");
+	NewActor->SetColSprite("ColMidBoss.png");
 	NewActor->SwitchColSprite();
 
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
-	Player->GetBackImage("Whispy Woods.png", "ColWhispy Woods.png");
-	Player->SetActorLocation({ 90, 116 });
+	Player->GetBackImage("MidBoss.png", "ColMidBoss.png");
+	Player->SetActorLocation({ 185, 915 });
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");
 }
 
-void ABossStageGameMode::Tick(float _DeltaTime)
+void AMidBossGameMode::Tick(float _DeltaTime)
 {
+	Super::Tick(_DeltaTime);
+
+	if (true == UEngineInput::GetInst().IsDown('R'))
+	{
+		UEngineAPICore::GetCore()->OpenLevel("Boss");
+	}
+
 	if (true == UEngineInput::GetInst().IsDown('T'))
 	{
 		NewActor->SwitchColSprite();

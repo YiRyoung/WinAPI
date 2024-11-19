@@ -50,6 +50,7 @@ private:
 	bool IsAnimFinish();
 
 	// 충돌 확인
+	bool CheckPointColor(CheckDir _Dir, UColor _Color);
 	bool CheckColor(CheckDir _Dir, UColor _Color);
 
 	// 이동

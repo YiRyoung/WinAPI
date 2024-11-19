@@ -42,7 +42,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
-		UEngineAPICore::GetCore()->OpenLevel("Stage103");
+		UEngineAPICore::GetCore()->OpenLevel("MidBoss");
 	}
 
 	if (true == UEngineInput::GetInst().IsDown('T'))

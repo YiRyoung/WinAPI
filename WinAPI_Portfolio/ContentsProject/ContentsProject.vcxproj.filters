@@ -13,13 +13,7 @@
     <ClCompile Include="Stage.cpp">
       <Filter>ContentsObject\Maps</Filter>
     </ClCompile>
-    <ClCompile Include="Stage104GameMode.cpp">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage103GameMode.cpp">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage102GameMode.cpp">
+    <ClCompile Include="MidBossGameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
     <ClCompile Include="Stage101GameMode.cpp">
@@ -31,7 +25,7 @@
     <ClCompile Include="HUI.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
-    <ClCompile Include="BossStageGameMode.cpp">
+    <ClCompile Include="BossGameMode.cpp">
       <Filter>ContentsObject\GameMode</Filter>
     </ClCompile>
     <ClCompile Include="TitleMap.cpp">
@@ -57,16 +51,10 @@
     <ClInclude Include="Stage.h">
       <Filter>ContentsObject\Maps</Filter>
     </ClInclude>
-    <ClInclude Include="BossStageGameMode.h">
+    <ClInclude Include="BossGameMode.h">
       <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
-    <ClInclude Include="Stage104GameMode.h">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage103GameMode.h">
-      <Filter>ContentsObject\GameMode</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage102GameMode.h">
+    <ClInclude Include="MidBossGameMode.h">
       <Filter>ContentsObject\GameMode</Filter>
     </ClInclude>
     <ClInclude Include="Stage101GameMode.h">

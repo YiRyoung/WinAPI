@@ -49,6 +49,9 @@ public:
 		return AnimDir;
 	}
 
+	bool UpperPointCheck(UColor _Color);
+	bool BottomPointCheck(UColor _Color);
+
 	bool PixelLineColor(CheckDir _Dir, UColor _Color);
 
 	bool IsAnimFinish()

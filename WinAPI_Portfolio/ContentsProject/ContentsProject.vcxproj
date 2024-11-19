@@ -163,7 +163,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BossStageGameMode.h">
+    <ClInclude Include="BossGameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -184,15 +184,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
-    <ClInclude Include="Stage102GameMode.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Stage103GameMode.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Stage104GameMode.h">
+    <ClInclude Include="MidBossGameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -218,7 +210,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BossStageGameMode.cpp">
+    <ClCompile Include="BossGameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -242,15 +234,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Stage102GameMode.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Stage103GameMode.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Stage104GameMode.cpp">
+    <ClCompile Include="MidBossGameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>
