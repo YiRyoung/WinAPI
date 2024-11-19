@@ -179,7 +179,7 @@ void PlayerState::Idle(float _DeltaTime)
 	}
 
 	// Falling
-	if (CheckColor(CheckDir::DOWN, UColor::WHITE) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
+	if (!CheckColor(CheckDir::DOWN, UColor::MAGENTA) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
 	{
 		SetState(StateType::FALLING);
 		return;

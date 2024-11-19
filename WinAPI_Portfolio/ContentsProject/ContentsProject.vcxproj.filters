@@ -37,6 +37,9 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>ContentsObject\Global\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -74,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>ContentsObject\Global\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>ContentsObject\Global\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -34,6 +34,7 @@ public:
 			CurIndex = 0;
 			CurTime = 0;
 			ResultIndex = 0;
+			IsEnd = false;
 		}
 	};
 
