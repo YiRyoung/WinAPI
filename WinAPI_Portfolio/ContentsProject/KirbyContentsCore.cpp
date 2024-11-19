@@ -71,6 +71,9 @@ void KirbyContentsCore::CuttingImages()
 	// Monster
 	UImageManager::GetInst().CuttingSprite("Waddle Dee_Left.png", { 50, 50 });
 	UImageManager::GetInst().CuttingSprite("Waddle Dee_Right.png", { 50, 50 });
+
+	//Destroy
+	UImageManager::GetInst().CuttingSprite("Destory.png", { 51, 51 });
 }
 
 void KirbyContentsCore::LoadSounds()

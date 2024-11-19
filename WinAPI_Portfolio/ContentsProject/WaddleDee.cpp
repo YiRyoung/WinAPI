@@ -26,11 +26,7 @@ void AWaddleDee::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	AActor* Result = CollisionComponent->CollisionOnce(ECollisionGroup::PlayerBody);
-	if (nullptr != Result)
-	{
-		Destroy();
-	}
+	SetDestory();
 }
 
 void AWaddleDee::SetMonster()
@@ -45,7 +41,7 @@ void AWaddleDee::SetMonster()
 	CollisionComponent->SetCollisionGroup(ECollisionGroup::MonsterBody);
 	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
 
-	DebugOn();
+	//DebugOn();
 }
 
 void AWaddleDee::SetMonsterAnimation()
@@ -58,7 +54,25 @@ void AWaddleDee::SetMonsterAnimation()
 	SpriteRenderer->CreateAnimation("Walk_Left", "Waddle Dee_Left.png", 0, 1, 0.5f);
 	SpriteRenderer->CreateAnimation("Walk_Right", "Waddle Dee_Right.png", 0, 1, 0.5f);
 
+	// Destory
+	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 0, 6, 0.07f, false);
+
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Walk_Left");
+}
+
+void AWaddleDee::SetDestory()
+{
+	AActor* Result = CollisionComponent->CollisionOnce(ECollisionGroup::PlayerBody);
+	if (nullptr != Result)
+	{
+		// Play Hurt Animation
+		SpriteRenderer->ChangeAnimation("Destroy");
+
+		if (SpriteRenderer->IsCurAnimationEnd())
+		{
+			Destroy();
+		}
+	}
 }
 

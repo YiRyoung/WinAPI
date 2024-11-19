@@ -24,5 +24,6 @@ private:
 
 	void SetMonster();
 	void SetMonsterAnimation();
+	void SetDestory();
 };
 
