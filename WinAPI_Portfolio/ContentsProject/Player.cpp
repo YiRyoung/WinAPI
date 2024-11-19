@@ -17,7 +17,7 @@ APlayer::APlayer()
 	SetPlayer();
 	SetAnimation();
 	State = new PlayerState(this);
-	//DebugOn();
+	DebugOn();
 }
 
 APlayer::~APlayer()

@@ -14,11 +14,14 @@ public:
 	AMonster& operator=(const AMonster& _Other) = delete;
 	AMonster& operator=(AMonster&& _Other) noexcept = delete;
 
+	void SetMonsterType();
+	void SetMonsterAnim();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private:
-
+	class USpriteRenderer* SpriteRenderer;
 };
 
