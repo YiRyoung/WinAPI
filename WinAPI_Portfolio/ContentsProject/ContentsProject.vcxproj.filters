@@ -38,6 +38,9 @@
       <Filter>ContentsObject\Global\Player</Filter>
     </ClCompile>
     <ClCompile Include="WaddleDee.cpp">
+      <Filter>ContentsObject\Global\Monster\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
       <Filter>ContentsObject\Global\Monster</Filter>
     </ClCompile>
   </ItemGroup>
@@ -79,6 +82,9 @@
       <Filter>ContentsObject\Global\Player</Filter>
     </ClInclude>
     <ClInclude Include="WaddleDee.h">
+      <Filter>ContentsObject\Global\Monster\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
       <Filter>ContentsObject\Global\Monster</Filter>
     </ClInclude>
   </ItemGroup>
@@ -112,6 +118,9 @@
     </Filter>
     <Filter Include="ContentsObject\Global\Monster">
       <UniqueIdentifier>{f17682d3-eeb7-45f2-a38e-e9d3c3aae8df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Monster\Common">
+      <UniqueIdentifier>{93096a36-5e2a-47f9-a066-2635069e53be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

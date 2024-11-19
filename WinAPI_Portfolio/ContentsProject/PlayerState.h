@@ -19,6 +19,8 @@ public:
 	void Bend(float _DeltaTime);
 	void Slide(float _DeltaTime);
 	void Climb(float _DeltaTime);
+	void Attack(float _DeltaTime);
+	void Hurt(float _DeltaTime);
 
 protected:
 

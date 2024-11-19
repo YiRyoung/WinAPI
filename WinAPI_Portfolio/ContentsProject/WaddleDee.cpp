@@ -26,7 +26,7 @@ void AWaddleDee::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	SetDestory();
+	MonsterFSM(_DeltaTime);
 }
 
 void AWaddleDee::SetMonster()
@@ -41,7 +41,7 @@ void AWaddleDee::SetMonster()
 	CollisionComponent->SetCollisionGroup(ECollisionGroup::MonsterBody);
 	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
 
-	//DebugOn();
+	DebugOn();
 }
 
 void AWaddleDee::SetMonsterAnimation()
@@ -55,24 +55,41 @@ void AWaddleDee::SetMonsterAnimation()
 	SpriteRenderer->CreateAnimation("Walk_Right", "Waddle Dee_Right.png", 0, 1, 0.5f);
 
 	// Destory
-	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 0, 6, 0.07f, false);
+	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.07f, false);
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Walk_Left");
 }
 
-void AWaddleDee::SetDestory()
+void AWaddleDee::MonsterFSM(float _DeltaTime)
 {
-	AActor* Result = CollisionComponent->CollisionOnce(ECollisionGroup::PlayerBody);
-	if (nullptr != Result)
+	switch (CurState)
 	{
-		// Play Hurt Animation
-		SpriteRenderer->ChangeAnimation("Destroy");
-
-		if (SpriteRenderer->IsCurAnimationEnd())
-		{
-			Destroy();
-		}
+	case MonsterState::PAUSE:
+		break;
+	case MonsterState::CHASE:
+		break;
+	case MonsterState::ATTACK:
+		break;
+	case MonsterState::DIED:
+		Died(_DeltaTime);
+		break;
+	default:
+		break;
 	}
 }
 
+void AWaddleDee::Died(float _DeltaTime)
+{
+	SpriteRenderer->ChangeAnimation("Destroy");
+	if (SpriteRenderer->IsCurAnimationEnd())
+	{
+		Destroy();
+	}
+}
+
+void AWaddleDee::SetDestory()
+{
+	CurState = MonsterState::DIED;
+	return;
+}

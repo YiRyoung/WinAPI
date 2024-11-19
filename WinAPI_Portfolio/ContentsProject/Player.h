@@ -23,7 +23,9 @@ enum class StateType
 	BEND,
 	SLIDE,
 	CLIMB,
-	FALLING
+	FALLING,
+	ATTACK,
+	HURT
 };
 
 enum class AbilityType
@@ -87,6 +89,8 @@ public:
 	{
 		CurState = _NextState;
 	}
+
+	void CollisionEnter(AActor* _ColActor);
 
 protected:
 

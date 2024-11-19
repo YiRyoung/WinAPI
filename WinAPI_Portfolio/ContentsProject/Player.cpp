@@ -10,6 +10,7 @@
 
 #include "PlayerState.h"
 #include "ContentsEnum.h"
+#include "WaddleDee.h"
 
 APlayer::APlayer()
 {
@@ -182,6 +183,14 @@ bool APlayer::PixelLineColor(CheckDir _Dir, UColor _Color)
 	}
 }
 
+void APlayer::CollisionEnter(AActor* _ColActor)
+{
+	if (_ColActor != nullptr)
+	{
+		dynamic_cast<AWaddleDee*>(_ColActor)->SetDestory();
+	}
+}
+
 void APlayer::SetPlayer()
 {
 	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
@@ -195,6 +204,9 @@ void APlayer::SetPlayer()
 	CollisionComponent->SetComponentScale({ 64, 64 });
 	CollisionComponent->SetCollisionGroup(ECollisionGroup::PlayerBody);
 	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
+
+	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerBody, ECollisionGroup::MonsterBody);
+	CollisionComponent->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 }
 
 void APlayer::SetAnimation()
@@ -338,6 +350,12 @@ void APlayer::FSM(float _DeltaTime)
 		break;
 	case StateType::FALLING:
 		State->Falling(_DeltaTime);
+		break;
+	case StateType::ATTACK:
+		State->Attack(_DeltaTime);
+		break;
+	case StateType::HURT:
+		State->Hurt(_DeltaTime);
 		break;
 	default:
 		break;
