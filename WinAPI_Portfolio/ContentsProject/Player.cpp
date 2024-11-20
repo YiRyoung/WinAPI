@@ -191,18 +191,13 @@ bool APlayer::PixelLineColor(CheckDir _Dir, UColor _Color)
 
 void APlayer::CollisionEnter(AActor* _ColActor)
 {
-	if (_ColActor != nullptr)
-	{
-		dynamic_cast<AWaddleDee*>(_ColActor)->SetDestory();
-	}
+	dynamic_cast<AWaddleDee*>(_ColActor)->SetDestory();	
 }
 
 void APlayer::CollisionStay(AActor* _ColActor)
 {
-	if (_ColActor != nullptr && InhaleLeftCollision->CollisionOnce(ECollisionGroup::MonsterBody))
-	{
-		dynamic_cast<AWaddleDee*>(_ColActor)->AddActorLocation(FVector2D::LEFT * 10.0f);
-	}
+	float DeltaTime = UEngineAPICore::GetCore()->GetDeltaTime();
+	_ColActor->AddActorLocation(FVector2D::LEFT * 100.0f * DeltaTime);
 }
 
 void APlayer::SetPlayer()
@@ -266,9 +261,11 @@ void APlayer::SetAnimation()
 	SpriteRenderer->CreateAnimation("Falling_Left", "Kirby_Normal_Left.png", 15, 15, 1.0f);
 	SpriteRenderer->CreateAnimation("Falling_Right", "Kirby_Normal_Right.png", 15, 15, 1.0f);
 
-	// Attack_InhaleStart
+	// Attack_Inhale
 	SpriteRenderer->CreateAnimation("InhaleStart_Left", "Kirby_Normal_Left.png", 17, 19, 0.05f, false);
 	SpriteRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 17, 19, 0.05f, false);
+	SpriteRenderer->CreateAnimation("InhaleEnd_Left", "Kirby_Normal_Left.png", 24, 26, 0.05f, false);
+	SpriteRenderer->CreateAnimation("InhaleEnd_Right", "Kirby_Normal_Right.png", 24, 26, 0.05f, false);
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Idle_Right");

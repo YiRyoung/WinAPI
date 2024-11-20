@@ -23,23 +23,22 @@ private:
 	APlayer* Player = nullptr;
 
 	// Animation
-	std::string GetAnimDir()
-	{
-		return Player->GetAnimDir();
-	}
 	void ChangeAnimation(std::string _Anim)
 	{
 		Player->ChangeAnimation(_Anim + Player->GetAnimDir());
 	}
 
 	// Collision
-	void SetInhaleLeft(bool _OnOff)
+	void SetInhaleCollision(bool _OnOff)
 	{
-		Player->SetInhaleLeft(_OnOff);
-	}
-	void SetInhaleRight(bool _OnOff)
-	{
-		Player->SetInhaleRight(_OnOff);
+		if ("_Right" == Player->GetAnimDir())
+		{
+			Player->SetInhaleRight(_OnOff);
+		}
+		else
+		{
+			Player->SetInhaleLeft(_OnOff);
+		}
 	}
 
 	// Ability
@@ -48,7 +47,8 @@ private:
 		return Player->GetAbility();
 	}
 
-	void NormalAttack(float _DeltaTime);
+	void NormalAttackStart(float _DeltaTime);
+	void NormalAttackEnd(float _DeltaTime);
 	void FireAttack(float _DeltaTime);
 	void CutterAttack(float _DeltaTime);
 	void SparkAttack(float _DeltaTime);

@@ -22,7 +22,7 @@ void PlayerAbility::Attack(float _DeltaTime)
 		switch (GetAbility())
 		{
 		case EAblityType::NORMAL:
-			NormalAttack(_DeltaTime);
+			NormalAttackStart(_DeltaTime);
 			break;
 		case EAblityType::FIRE:
 			FireAttack(_DeltaTime);
@@ -40,32 +40,26 @@ void PlayerAbility::Attack(float _DeltaTime)
 	{
 		if (EAblityType::NORMAL == GetAbility())
 		{
-			//ChangeAnimation("InhaleEnd");
-			if ("_Right" == GetAnimDir())
-			{
-				SetInhaleRight(false);
-			}
-			else
-			{
-				SetInhaleLeft(false);
-			}
+			NormalAttackEnd(_DeltaTime);
 		}
-		//Player->SetState(StateType::IDLE);
-		//return;
 	}
 }
 
-void PlayerAbility::NormalAttack(float _DeltaTime)
+void PlayerAbility::NormalAttackStart(float _DeltaTime)
 {
 	ChangeAnimation("InhaleStart");
-	std::string Test = GetAnimDir();
-	if ("_Right" == GetAnimDir())
+	SetInhaleCollision(true);
+}
+
+void PlayerAbility::NormalAttackEnd(float _DeltaTime)
+{
+	ChangeAnimation("InhaleEnd");
+
+	if (Player->IsAnimFinish())
 	{
-		SetInhaleRight(true);
-	}
-	else
-	{
-		SetInhaleLeft(true);
+		SetInhaleCollision(false);
+		Player->SetState(StateType::IDLE);
+		return;
 	}
 }
 
