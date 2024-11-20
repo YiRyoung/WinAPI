@@ -39,6 +39,9 @@ void AStage101GameMode::BeginPlay()
 	AWaddleDee* NewWaddle = GetWorld()->SpawnActor<AWaddleDee>();
 	NewWaddle->GetBackImage("ColStage101.png");
 	NewWaddle->SetActorLocation({ 801, 400 });
+
+	// AMonster를 상속받은 그대로 호출하면 됨.
+	// AMonster NewWaddle = GetWorld()->SpawnActor<AWAddleDee>();
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)

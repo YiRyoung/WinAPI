@@ -191,7 +191,9 @@ bool APlayer::PixelLineColor(CheckDir _Dir, UColor _Color)
 
 void APlayer::CollisionEnter(AActor* _ColActor)
 {
-	dynamic_cast<AWaddleDee*>(_ColActor)->SetDestory();	
+	//dynamic_cast<AWaddleDee*>(_ColActor)->SetDestory();
+	// State->SetEatType = _ColActor->GetType();
+	// NorMal 타입이라면 State->IsFull = true;
 }
 
 void APlayer::CollisionStay(AActor* _ColActor)

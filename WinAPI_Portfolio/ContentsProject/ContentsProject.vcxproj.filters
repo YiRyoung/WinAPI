@@ -43,6 +43,9 @@
     <ClCompile Include="PlayerAbility.cpp">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>ContentsObject\Global\Monster\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="PlayerAbility.h">
       <Filter>ContentsObject\Global\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>ContentsObject\Global\Monster\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
