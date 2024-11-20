@@ -5,7 +5,7 @@ class PlayerState
 {
 public:
 	PlayerState();
-	PlayerState(APlayer * _Player);
+	PlayerState(APlayer* _Player);
 	~PlayerState();
 
 	void Idle(float _DeltaTime);
@@ -19,13 +19,13 @@ public:
 	void Bend(float _DeltaTime);
 	void Slide(float _DeltaTime);
 	void Climb(float _DeltaTime);
-	void Attack(float _DeltaTime);
 	void Hurt(float _DeltaTime);
 
 protected:
 
 private:
 	bool IsFull = false;
+	EAblityType EatType = EAblityType::NORMAL;
 
 	float CurTime = 0.0f;
 	float DeAccSpeed = 10.0f;	// °ü¼º
@@ -38,7 +38,6 @@ private:
 	FVector2D GravityForce = FVector2D::ZERO;
 
 	APlayer* Player = nullptr;
-	//class PlayerAbility* Skill = nullptr;
 	class U2DCollision* CollisionComponent;
 
 	StateType GetState() const

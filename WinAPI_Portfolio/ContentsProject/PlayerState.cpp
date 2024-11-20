@@ -602,13 +602,6 @@ void PlayerState::Climb(float _DeltaTime)
 	}
 }
 
-void PlayerState::Attack(float _DeltaTime)
-{
-	// 플레이어의 현재 어빌리티에 따라 공격이 달라짐
-	ChangeAnimation("InhaleStart");
-}
-
 void PlayerState::Hurt(float _DeltaTime)
 {
-	// 부딪힌 몬스터의 타입에 따라 재생되는 애니메이션이 달라짐
 }

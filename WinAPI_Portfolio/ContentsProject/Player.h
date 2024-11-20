@@ -66,18 +66,49 @@ public:
 	bool BottomPointCheck(UColor _Color);
 	bool PixelLineColor(CheckDir _Dir, UColor _Color);
 
+	void SetInhaleLeft(bool _OnOff)
+	{
+		if (_OnOff)
+		{
+			InhaleLeftCollision->SetActive(true);
+		}
+		else
+		{
+			InhaleLeftCollision->SetActive(false);
+		}
+	}
+	void SetInhaleRight(bool _OnOff)
+	{
+		if (_OnOff)
+		{
+			InhaleRightCollision->SetActive(true);
+		}
+		else
+		{
+			InhaleRightCollision->SetActive(false);
+		}
+	}
+
+	void CollisionEnter(AActor* _ColActor);
+	void CollisionStay(AActor* _ColActor);
+
 	StateType GetState() const
 	{
 		return CurState;
 	}
-
 	void SetState(StateType _NextState)
 	{
 		CurState = _NextState;
 	}
 
-	void CollisionEnter(AActor* _ColActor);
-	void CollisionStay(AActor* _ColActor);
+	EAblityType GetAbility() const
+	{
+		return CurType;
+	}
+	void SetAbility(EAblityType _NewTpye)
+	{
+		CurType = _NewTpye;
+	}
 
 protected:
 
@@ -89,6 +120,8 @@ private:
 	EAblityType CurType = EAblityType::NORMAL;
 
 	class PlayerState* State;
+	class PlayerAbility* Ability;
+
 	class UEngineWinImage* BackImage = nullptr;
 	class UEngineWinImage* ColImage = nullptr;
 	class USpriteRenderer* SpriteRenderer;

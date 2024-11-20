@@ -9,8 +9,10 @@
 
 #include <EnginePlatform/EngineInput.h>
 
-#include "PlayerState.h"
 #include "ContentsEnum.h"
+#include "PlayerState.h"
+#include "PlayerAbility.h"
+
 #include "WaddleDee.h"
 
 APlayer::APlayer()
@@ -21,13 +23,15 @@ APlayer::APlayer()
 	SetPlayerCollision();
 
 	State = new PlayerState(this);
-	
+	Ability = new PlayerAbility(this);
+
 	DebugOn();
 }
 
 APlayer::~APlayer()
 {
 	delete State;
+	delete Ability;
 }
 
 void APlayer::BeginPlay()
@@ -297,21 +301,23 @@ void APlayer::SetPlayerCollision()
 
 	// Inhale_Left Collision
 	InhaleLeftCollision = CreateDefaultSubObject<U2DCollision>();
-	InhaleLeftCollision->SetComponentLocation({ PlayerScale.X * 1.1f, 8.0f});
+	InhaleLeftCollision->SetComponentLocation({ PlayerScale.X * -1.1f, 8.0f});
 	InhaleLeftCollision->SetComponentScale({ 160, 50 });
 	InhaleLeftCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
 	InhaleLeftCollision->SetCollisionType(ECollisionType::Rect);
 	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerSkill, ECollisionGroup::MonsterBody);
-	InhaleLeftCollision->SetCollisionEnter(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
+	InhaleLeftCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
+	InhaleLeftCollision->SetActive(false);
 	
 	// Inhale_Right Collision
 	InhaleRightCollision = CreateDefaultSubObject<U2DCollision>();
-	InhaleRightCollision->SetComponentLocation({ PlayerScale.X * -1.1f, 8.0f });
+	InhaleRightCollision->SetComponentLocation({ PlayerScale.X * 1.1f, 8.0f });
 	InhaleRightCollision->SetComponentScale({ 160, 50 });
 	InhaleRightCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
 	InhaleRightCollision->SetCollisionType(ECollisionType::Rect);
 	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerSkill, ECollisionGroup::MonsterBody);
-	InhaleRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
+	InhaleRightCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
+	InhaleRightCollision->SetActive(false);
 
 }
 
@@ -389,11 +395,11 @@ void APlayer::FSM(float _DeltaTime)
 	case StateType::FALLING:
 		State->Falling(_DeltaTime);
 		break;
-	case StateType::ATTACK:
-		State->Attack(_DeltaTime);
-		break;
 	case StateType::HURT:
 		State->Hurt(_DeltaTime);
+		break;
+	case StateType::ATTACK:
+		Ability->Attack(_DeltaTime);
 		break;
 	default:
 		break;
