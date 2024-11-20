@@ -38,6 +38,9 @@ private:
 	FVector2D GravityForce = FVector2D::ZERO;
 
 	APlayer* Player = nullptr;
+	//class PlayerAbility* Skill = nullptr;
+	class U2DCollision* CollisionComponent;
+
 	StateType GetState() const
 	{
 		return Player->GetState();

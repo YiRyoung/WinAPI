@@ -37,7 +37,8 @@ void AStage101GameMode::BeginPlay()
 	NewUI->SetSprite("StageUI.png", "Lives.png");
 
 	AWaddleDee* NewWaddle = GetWorld()->SpawnActor<AWaddleDee>();
-	NewWaddle->SetActorLocation({ 300, 360 });
+	NewWaddle->GetBackImage("ColStage101.png");
+	NewWaddle->SetActorLocation({ 801, 400 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)

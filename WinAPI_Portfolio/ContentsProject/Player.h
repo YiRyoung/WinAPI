@@ -77,13 +77,13 @@ public:
 	}
 
 	void CollisionEnter(AActor* _ColActor);
+	void CollisionStay(AActor* _ColActor);
 
 protected:
 
 private:
 	int MySpriteIndex = 0;
 	std::string AnimDir = "_Right";
-	U2DCollision* CollisionComponent;
 
 	StateType CurState = StateType::IDLE;
 	EAblityType CurType = EAblityType::NORMAL;
@@ -93,9 +93,14 @@ private:
 	class UEngineWinImage* ColImage = nullptr;
 	class USpriteRenderer* SpriteRenderer;
 
+	class U2DCollision* CollisionComponent = nullptr;
+	class U2DCollision* InhaleLeftCollision = nullptr;
+	class U2DCollision* InhaleRightCollision = nullptr;
+
 	void SetPlayer();
 	void SetAnimation();
 	void SetAnimDir();
+	void SetPlayerCollision();
 	void CameraMove();
 
 	void FSM(float _DeltaTime);

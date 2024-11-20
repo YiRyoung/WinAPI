@@ -1,8 +1,6 @@
 #include "PreCompile.h"
 #include "WaddleDee.h"
 
-#include <EnginePlatform/EngineInput.h>
-
 #include <EngineCore/ImageManager.h>
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/2DCollision.h>
@@ -23,11 +21,13 @@ AWaddleDee::~AWaddleDee()
 void AWaddleDee::BeginPlay()
 {
 	Super::BeginPlay();
+	CurState = MonsterState::MOVE;
 }
 
 void AWaddleDee::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	UEngineDebug::CoreOutPutString("MonsterState: " + std::to_string(static_cast<int>(CurState)));
 
 	MonsterFSM(_DeltaTime);
 }
@@ -62,18 +62,6 @@ void AWaddleDee::SetMonsterAnimation()
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Walk_Left");
-}
-
-void AWaddleDee::SetAnimDir()
-{
-	if (UEngineInput::GetInst().IsPress(VK_LEFT))
-	{
-		AnimDir = "_Left";
-	}
-	else if (UEngineInput::GetInst().IsPress(VK_RIGHT))
-	{
-		AnimDir = "_Right";
-	}
 }
 
 bool AWaddleDee::BottomPointCheck(UColor _Color)
@@ -140,46 +128,6 @@ bool AWaddleDee::RightPointCheck(UColor _Color)
 	}
 }
 
-bool AWaddleDee::PointCheck(CheckDir _Dir, UColor _Color)
-{
-	switch (_Dir)
-	{
-	case CheckDir::LEFT:
-		if (true == LeftPointCheck(_Color))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-		break;
-	case CheckDir::RIGHT:
-		if (true == RightPointCheck(_Color))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-		break;
-	case CheckDir::DOWN:
-		if (true == BottomPointCheck(_Color))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-		break;
-	default:
-		break;
-	}
-
-}
-
 void AWaddleDee::MonsterFSM(float _DeltaTime)
 {
 	switch (CurState)
@@ -201,8 +149,8 @@ void AWaddleDee::MonsterFSM(float _DeltaTime)
 
 void AWaddleDee::Gravity(float _DeltaTime)
 {
-	if (!PointCheck(CheckDir::DOWN, UColor::MAGENTA)
-		&& !PointCheck(CheckDir::DOWN, UColor::BLACK) && !PointCheck(CheckDir::DOWN, UColor::YELLOW))
+	if (!BottomPointCheck(UColor::MAGENTA)
+		&& !BottomPointCheck(UColor::BLACK) && !BottomPointCheck(UColor::YELLOW))
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
 		GravityForce += FVector2D::DOWN * 500.0f * _DeltaTime;
@@ -215,18 +163,32 @@ void AWaddleDee::Gravity(float _DeltaTime)
 
 void AWaddleDee::Move(float _DeltaTime)
 {
-	// 앞이 벽이라면 방향 바꿔서 이동
-	Gravity(_DeltaTime);
-
 	SpriteRenderer->ChangeAnimation("Walk" + AnimDir);
 
-	if ("_Left" == AnimDir)
+	Gravity(_DeltaTime);
+;
+	if ("_Left" == AnimDir && !LeftPointCheck(UColor::MAGENTA))
 	{
-		if (PointCheck(CheckDir::LEFT, UColor::MAGENTA))
-		{
-			AddActorLocation(FVector2D::LEFT * 300.0f * _DeltaTime);
-		}
+		AddActorLocation(FVector2D::LEFT * Speed * _DeltaTime);
 	}
+	else
+	{
+		AnimDir = "_Right";
+	}
+
+	if ("_Right" == AnimDir && !RightPointCheck(UColor::MAGENTA))
+	{
+		AddActorLocation(FVector2D::RIGHT * Speed * _DeltaTime);
+	}
+	else
+	{
+		AnimDir = "_Left";
+	}
+}
+
+void AWaddleDee::Inhale(float _DeltaTime)
+{
+	
 }
 
 void AWaddleDee::Died(float _DeltaTime)
@@ -236,6 +198,11 @@ void AWaddleDee::Died(float _DeltaTime)
 	{
 		Destroy();
 	}
+}
+
+void AWaddleDee::GetBackImage(std::string_view _ColImageName)
+{
+	ColImage = UImageManager::GetInst().FindImage(_ColImageName);
 }
 
 void AWaddleDee::SetDestory()

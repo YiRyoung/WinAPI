@@ -5,6 +5,7 @@
 #include <EngineCore/ImageManager.h>
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/EngineCoreDebug.h>
+#include <EngineCore/2DCollision.h>
 
 #include <EnginePlatform/EngineInput.h>
 
@@ -17,6 +18,7 @@ APlayer::APlayer()
 
 	SetPlayer();
 	SetAnimation();
+	SetPlayerCollision();
 
 	State = new PlayerState(this);
 	
@@ -191,6 +193,14 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 	}
 }
 
+void APlayer::CollisionStay(AActor* _ColActor)
+{
+	if (_ColActor != nullptr && InhaleLeftCollision->CollisionOnce(ECollisionGroup::MonsterBody))
+	{
+		dynamic_cast<AWaddleDee*>(_ColActor)->AddActorLocation(FVector2D::LEFT * 10.0f);
+	}
+}
+
 void APlayer::SetPlayer()
 {
 	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
@@ -198,15 +208,6 @@ void APlayer::SetPlayer()
 	SpriteRenderer->SetComponentScale({ 94, 94 });
 	SpriteRenderer->SetPivotType(PivotType::Bot);
 	CurState = StateType::IDLE;
-
-	CollisionComponent = CreateDefaultSubObject<U2DCollision>();
-	CollisionComponent->SetComponentLocation({ 3, -5 });
-	CollisionComponent->SetComponentScale({ 64, 64 });
-	CollisionComponent->SetCollisionGroup(ECollisionGroup::PlayerBody);
-	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
-
-	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerBody, ECollisionGroup::MonsterBody);
-	CollisionComponent->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 }
 
 void APlayer::SetAnimation()
@@ -261,6 +262,10 @@ void APlayer::SetAnimation()
 	SpriteRenderer->CreateAnimation("Falling_Left", "Kirby_Normal_Left.png", 15, 15, 1.0f);
 	SpriteRenderer->CreateAnimation("Falling_Right", "Kirby_Normal_Right.png", 15, 15, 1.0f);
 
+	// Attack_InhaleStart
+	SpriteRenderer->CreateAnimation("InhaleStart_Left", "Kirby_Normal_Left.png", 17, 19, 0.05f, false);
+	SpriteRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 17, 19, 0.05f, false);
+
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Idle_Right");
 }
@@ -275,6 +280,39 @@ void APlayer::SetAnimDir()
 	{
 		AnimDir = "_Right";
 	}
+}
+
+void APlayer::SetPlayerCollision()
+{
+	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
+
+	// PlayerBody Collision
+	CollisionComponent = CreateDefaultSubObject<U2DCollision>();
+	CollisionComponent->SetComponentLocation({ 3, -10 });
+	CollisionComponent->SetComponentScale({ 64, 64 });
+	CollisionComponent->SetCollisionGroup(ECollisionGroup::PlayerBody);
+	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
+	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerBody, ECollisionGroup::MonsterBody);
+	CollisionComponent->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+
+	// Inhale_Left Collision
+	InhaleLeftCollision = CreateDefaultSubObject<U2DCollision>();
+	InhaleLeftCollision->SetComponentLocation({ PlayerScale.X * 1.1f, 8.0f});
+	InhaleLeftCollision->SetComponentScale({ 160, 50 });
+	InhaleLeftCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
+	InhaleLeftCollision->SetCollisionType(ECollisionType::Rect);
+	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerSkill, ECollisionGroup::MonsterBody);
+	InhaleLeftCollision->SetCollisionEnter(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
+	
+	// Inhale_Right Collision
+	InhaleRightCollision = CreateDefaultSubObject<U2DCollision>();
+	InhaleRightCollision->SetComponentLocation({ PlayerScale.X * -1.1f, 8.0f });
+	InhaleRightCollision->SetComponentScale({ 160, 50 });
+	InhaleRightCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
+	InhaleRightCollision->SetCollisionType(ECollisionType::Rect);
+	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerSkill, ECollisionGroup::MonsterBody);
+	InhaleRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
+
 }
 
 void APlayer::CameraMove()

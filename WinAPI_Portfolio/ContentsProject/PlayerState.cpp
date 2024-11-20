@@ -185,6 +185,13 @@ void PlayerState::Idle(float _DeltaTime)
 		return;
 	}
 
+	// Attack
+	if (IsPressKey('X'))
+	{
+		SetState(StateType::ATTACK);
+		return;
+	}
+
 	// DeAccel
 	if (!CheckColor(CheckDir::LEFT, UColor::MAGENTA)
 		&& !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
@@ -598,6 +605,7 @@ void PlayerState::Climb(float _DeltaTime)
 void PlayerState::Attack(float _DeltaTime)
 {
 	// 플레이어의 현재 어빌리티에 따라 공격이 달라짐
+	ChangeAnimation("InhaleStart");
 }
 
 void PlayerState::Hurt(float _DeltaTime)
