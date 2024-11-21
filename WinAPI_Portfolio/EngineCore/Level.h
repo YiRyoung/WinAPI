@@ -186,9 +186,6 @@ private:
 
 	void PushCheckCollision(class U2DCollision* _Collision);
 
-	void CollisionEventCheck(class U2DCollision* _Left, class U2DCollision* _Right);
-
-
 	class AGameMode* GameMode = nullptr;
 
 	class AActor* MainPawn = nullptr;

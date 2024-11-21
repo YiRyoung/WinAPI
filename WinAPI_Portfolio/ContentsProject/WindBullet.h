@@ -1,28 +1,37 @@
 #pragma once
-#include "Player.h"
+#include <EngineCore/Actor.h>
 
-class WindBullet : public APlayer
+class AWindBullet : public AActor
 {
 public:
 	// constrcuter destructer
-	WindBullet();
-	~WindBullet();
+	AWindBullet();
+	~AWindBullet();
 
 	// delete Function
-	WindBullet(const WindBullet& _Other) = delete;
-	WindBullet(WindBullet&& _Other) noexcept = delete;
-	WindBullet& operator=(const WindBullet& _Other) = delete;
-	WindBullet& operator=(WindBullet&& _Other) noexcept = delete;
+	AWindBullet(const AWindBullet& _Other) = delete;
+	AWindBullet(AWindBullet&& _Other) noexcept = delete;
+	AWindBullet& operator=(const AWindBullet& _Other) = delete;
+	AWindBullet& operator=(AWindBullet&& _Other) noexcept = delete;
 
-	void SetKirbyDir()
+	FVector2D GetSpawnPos() const
 	{
-		if ("_Right" == APlayer::GetAnimDir())
+		return SpawnPos;
+	}
+
+	void SetDir(std::string _KirbyDir)
+	{
+		AnimDir = _KirbyDir;
+
+		if ("_Left" == AnimDir)
 		{
-			KirbyDir = FVector2D::RIGHT;
+			Dir = FVector2D::LEFT;
+			SpawnPos = FVector2D({ -50, 0 });
 		}
 		else
 		{
-			KirbyDir = FVector2D::LEFT;
+			Dir = FVector2D::RIGHT;
+			SpawnPos = FVector2D({ 50, 0 });
 		}
 	}
 
@@ -30,9 +39,13 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
-	class USpriteRenderer* SpriteRenderer;
+	class USpriteRenderer* WindBulletRender = nullptr;
 	class UEngineWinImage* BackImage = nullptr;
-	FVector2D KirbyDir = FVector2D::ZERO;
+	class U2DCollision* WindBulletCollision = nullptr;
+
+	std::string AnimDir = "_Left";
+	FVector2D Dir = FVector2D::ZERO;
+	FVector2D SpawnPos = FVector2D::ZERO;
 
 	float Speed = 80.0f;
 	float Time = 0.0f;

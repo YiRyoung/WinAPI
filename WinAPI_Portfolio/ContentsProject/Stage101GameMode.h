@@ -20,7 +20,11 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	class APlayer* NewPlayer = nullptr;
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
+	class AWindBullet* NewBullet = nullptr;
+
+	std::string PlayerDir = " ";
 };
 

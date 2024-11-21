@@ -61,6 +61,7 @@ void KirbyContentsCore::CuttingImages()
 	// Kirby
 	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Left.png", { 32, 32 });
 	UImageManager::GetInst().CuttingSprite("Kirby_Normal_Right.png", { 32, 32 });
+	UImageManager::GetInst().CuttingSprite("WindBullet.png", { 51, 48 });
 
 	// HUI
 	UImageManager::GetInst().CuttingSprite("Lives.png", { 41, 39 });

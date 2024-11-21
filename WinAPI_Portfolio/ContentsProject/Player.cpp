@@ -12,6 +12,7 @@
 #include "ContentsEnum.h"
 #include "PlayerState.h"
 
+#include "WindBullet.h"
 #include "WaddleDee.h"
 
 APlayer::APlayer()
