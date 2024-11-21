@@ -5,7 +5,6 @@
 #include <EngineCore/2DCollision.h>
 
 #include "ContentsEnum.h"
-#include "Player.h"
 
 AWindBullet::AWindBullet()
 {

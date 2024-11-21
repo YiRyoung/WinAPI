@@ -7,6 +7,7 @@
 #include <EngineCore/Level.h>
 #include "Player.h"
 #include "WindBullet.h"
+#include "SpitBullet.h"
 #include "Monster.h"
 #include "WaddleDee.h"
 #include "Stage.h"
@@ -38,7 +39,6 @@ void AStage101GameMode::BeginPlay()
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");
 
-	// AMonster를 상속받은 그대로 호출하면 됨.
 	AMonster* NewWaddle = GetWorld()->SpawnActor<AWaddleDee>();
 	NewWaddle->SetActorLocation({ 300, 360 });
 }
@@ -65,6 +65,16 @@ void AStage101GameMode::Tick(float _DeltaTime)
 		NewBullet->SetDir(PlayerDir);
 		FVector2D Pos = NewBullet->GetSpawnPos();
 		NewBullet->SetActorLocation(NewPlayer->GetActorLocation() + Pos);
+	}
+
+	if (NewPlayer->GetFull() && true == UEngineInput::GetInst().IsDown('X'))
+	{
+		NewStar = GetWorld()->SpawnActor<ASpitBullet>();
+		PlayerDir = NewPlayer->GetAnimDir();
+		NewStar->SetDir(PlayerDir);
+		FVector2D Pos = NewStar->GetSpawnPos();
+		NewStar->SetActorLocation(NewPlayer->GetActorLocation() + Pos);
+
 	}
 }
  

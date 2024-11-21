@@ -1,18 +1,18 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
-class AWindBullet : public AActor
+class ASpitBullet : public AActor
 {
 public:
 	// constrcuter destructer
-	AWindBullet();
-	~AWindBullet();
+	ASpitBullet();
+	~ASpitBullet();
 
 	// delete Function
-	AWindBullet(const AWindBullet& _Other) = delete;
-	AWindBullet(AWindBullet&& _Other) noexcept = delete;
-	AWindBullet& operator=(const AWindBullet& _Other) = delete;
-	AWindBullet& operator=(AWindBullet&& _Other) noexcept = delete;
+	ASpitBullet(const ASpitBullet& _Other) = delete;
+	ASpitBullet(ASpitBullet&& _Other) noexcept = delete;
+	ASpitBullet& operator=(const ASpitBullet& _Other) = delete;
+	ASpitBullet& operator=(ASpitBullet&& _Other) noexcept = delete;
 
 	FVector2D GetSpawnPos() const
 	{
@@ -40,14 +40,14 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
-	class USpriteRenderer* WindBulletRender = nullptr;
-	class U2DCollision* WindBulletCollision = nullptr;
+	class USpriteRenderer* SpitBulletRender = nullptr;
+	class U2DCollision* SpitBulletCollision = nullptr;
 
 	std::string AnimDir = "_Left";
 	FVector2D Dir = FVector2D::ZERO;
 	FVector2D SpawnPos = FVector2D::ZERO;
 
-	float Speed = 80.0f;
+	float Speed = 200.0f;
 	float Time = 0.0f;
 };
 

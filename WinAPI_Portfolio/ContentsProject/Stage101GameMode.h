@@ -24,6 +24,7 @@ private:
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
 	class AWindBullet* NewBullet = nullptr;
+	class ASpitBullet* NewStar = nullptr;
 
 	std::string PlayerDir = " ";
 };
