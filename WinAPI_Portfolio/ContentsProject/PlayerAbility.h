@@ -1,12 +1,11 @@
 #pragma once
-#include "Player.h"
+#include "PlayerState.h"
 
-class PlayerAbility
+class PlayerAbility : public PlayerState
 {
 public:
 	// constrcuter destructer
 	PlayerAbility();
-	PlayerAbility(APlayer* _Player);
 	~PlayerAbility();
 
 	// delete Function
@@ -21,6 +20,14 @@ protected:
 
 private:
 	APlayer* Player = nullptr;
+	EStateType GetState()
+	{
+		return Player->GetState();
+	}
+	EAblityType GetAbility()
+	{
+		return Player->GetAbility();
+	}
 
 	// Animation
 	void ChangeAnimation(std::string _Anim)
@@ -28,27 +35,6 @@ private:
 		Player->ChangeAnimation(_Anim + Player->GetAnimDir());
 	}
 
-	// Collision
-	void SetInhaleCollision(bool _OnOff)
-	{
-		if ("_Right" == Player->GetAnimDir())
-		{
-			Player->SetInhaleRight(_OnOff);
-		}
-		else
-		{
-			Player->SetInhaleLeft(_OnOff);
-		}
-	}
-
-	// Ability
-	EAblityType GetAbility()
-	{
-		return Player->GetAbility();
-	}
-
-	void NormalAttackStart(float _DeltaTime);
-	void NormalAttackEnd(float _DeltaTime);
 	void FireAttack(float _DeltaTime);
 	void CutterAttack(float _DeltaTime);
 	void SparkAttack(float _DeltaTime);

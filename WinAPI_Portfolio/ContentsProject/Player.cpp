@@ -23,7 +23,6 @@ APlayer::APlayer()
 	SetPlayerCollision();
 
 	State = new PlayerState(this);
-	Ability = new PlayerAbility(this);
 
 	DebugOn();
 }
@@ -31,7 +30,6 @@ APlayer::APlayer()
 APlayer::~APlayer()
 {
 	delete State;
-	delete Ability;
 }
 
 void APlayer::BeginPlay()
@@ -48,6 +46,7 @@ void APlayer::Tick(float _DeltaTime)
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
 	UEngineDebug::CoreOutPutString("StateType : " + std::to_string(static_cast<int>(CurState)));
+	UEngineDebug::CoreOutPutString("IsFull : " + std::to_string(IsFull));
 
 	SetAnimDir();
 	FSM(_DeltaTime);
@@ -191,9 +190,6 @@ bool APlayer::PixelLineColor(CheckDir _Dir, UColor _Color)
 
 void APlayer::CollisionEnter(AActor* _ColActor)
 {
-	//dynamic_cast<AWaddleDee*>(_ColActor)->SetDestory();
-	// State->SetEatType = _ColActor->GetType();
-	// NorMal 타입이라면 State->IsFull = true;
 }
 
 void APlayer::CollisionStay(AActor* _ColActor)
@@ -208,7 +204,7 @@ void APlayer::SetPlayer()
 	SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
 	SpriteRenderer->SetComponentScale({ 94, 94 });
 	SpriteRenderer->SetPivotType(PivotType::Bot);
-	CurState = StateType::IDLE;
+	CurState = EStateType::IDLE;
 }
 
 void APlayer::SetAnimation()
@@ -263,6 +259,22 @@ void APlayer::SetAnimation()
 	SpriteRenderer->CreateAnimation("Falling_Left", "Kirby_Normal_Left.png", 15, 15, 1.0f);
 	SpriteRenderer->CreateAnimation("Falling_Right", "Kirby_Normal_Right.png", 15, 15, 1.0f);
 
+	// FullIdle
+	SpriteRenderer->CreateAnimation("IdleFull_Left", "Kirby_Normal_Left.png", 30, 30, 1.0f);
+	SpriteRenderer->CreateAnimation("IdleFull_Right", "Kirby_Normal_Right.png", 30, 30, 1.0f);
+
+	// FullWalk
+	SpriteRenderer->CreateAnimation("WalkFull_Left", "Kirby_Normal_Left.png", 30, 32, 0.1f);
+	SpriteRenderer->CreateAnimation("WalkFull_Right", "Kirby_Normal_Right.png", 30, 32, 0.1f);
+
+	// FullJumpStart
+	SpriteRenderer->CreateAnimation("JumpStartFull_Left", "Kirby_Normal_Left.png", { 31, 32, 31 }, 0.3f, false);
+	SpriteRenderer->CreateAnimation("JumpStartFull_Right", "Kirby_Normal_Right.png", {31, 32, 31}, 0.3f, false);
+
+	//FullJumpEnd
+	SpriteRenderer->CreateAnimation("JumpEndFull_Left", "Kirby_Normal_Left.png", 31, 31, 0.1f);
+	SpriteRenderer->CreateAnimation("JumpEndFull_Right", "Kirby_Normal_Right.png", 31, 31, 0.1f);
+
 	// Attack_Inhale
 	SpriteRenderer->CreateAnimation("InhaleStart_Left", "Kirby_Normal_Left.png", 17, 19, 0.05f, false);
 	SpriteRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 17, 19, 0.05f, false);
@@ -295,16 +307,32 @@ void APlayer::SetPlayerCollision()
 	CollisionComponent->SetComponentScale({ 64, 64 });
 	CollisionComponent->SetCollisionGroup(ECollisionGroup::PlayerBody);
 	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
-	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerBody, ECollisionGroup::MonsterBody);
 	CollisionComponent->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 
+	// Slide Left Collision
+	SlideLeftCollision = CreateDefaultSubObject<U2DCollision>();
+	SlideLeftCollision->SetComponentLocation({ PlayerScale.X * -0.35f, PlayerScale.Y * 0.2f });
+	SlideLeftCollision->SetComponentScale({ 20, 50 });
+	SlideLeftCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
+	SlideLeftCollision->SetCollisionType(ECollisionType::Rect);
+	SlideLeftCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+	SlideLeftCollision->SetActive(false);
+
+	// Slide Right Collision
+	SlideRightCollision = CreateDefaultSubObject<U2DCollision>();
+	SlideRightCollision->SetComponentLocation({ PlayerScale.X * 0.35f, PlayerScale.Y * 0.2f });
+	SlideRightCollision->SetComponentScale({ 20, 50 });
+	SlideRightCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
+	SlideRightCollision->SetCollisionType(ECollisionType::Rect);
+	SlideRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+	SlideRightCollision->SetActive(false);
+		
 	// Inhale_Left Collision
 	InhaleLeftCollision = CreateDefaultSubObject<U2DCollision>();
 	InhaleLeftCollision->SetComponentLocation({ PlayerScale.X * -1.1f, 8.0f});
 	InhaleLeftCollision->SetComponentScale({ 160, 50 });
 	InhaleLeftCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
 	InhaleLeftCollision->SetCollisionType(ECollisionType::Rect);
-	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerSkill, ECollisionGroup::MonsterBody);
 	InhaleLeftCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
 	InhaleLeftCollision->SetActive(false);
 	
@@ -314,10 +342,11 @@ void APlayer::SetPlayerCollision()
 	InhaleRightCollision->SetComponentScale({ 160, 50 });
 	InhaleRightCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
 	InhaleRightCollision->SetCollisionType(ECollisionType::Rect);
-	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerSkill, ECollisionGroup::MonsterBody);
 	InhaleRightCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
 	InhaleRightCollision->SetActive(false);
-
+	
+	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerBody, ECollisionGroup::MonsterBody);
+	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerSkill, ECollisionGroup::MonsterBody);
 }
 
 void APlayer::CameraMove()
@@ -361,44 +390,50 @@ void APlayer::FSM(float _DeltaTime)
 {
 	switch (CurState)
 	{
-	case StateType::IDLE:
+	case EStateType::IDLE:
 		State->Idle(_DeltaTime);
 		break;
-	case StateType::WALK:
+	case EStateType::WALK:
 		State->Walk(_DeltaTime);
 		break;
-	case StateType::DASH:
+	case EStateType::DASH:
 		State->Dash(_DeltaTime);
 		break;
-	case StateType::FLYSTART:
+	case EStateType::FLYSTART:
 		State->FlyStart(_DeltaTime);
 		break;
-	case StateType::FLYING:
+	case EStateType::FLYING:
 		State->Flying(_DeltaTime);
 		break;
-	case StateType::FLYEND:
+	case EStateType::FLYEND:
 		State->FlyEnd(_DeltaTime);
 		break;
-	case StateType::JUMP:
+	case EStateType::JUMP:
 		State->Jump(_DeltaTime);
 		break;
-	case StateType::BEND:
+	case EStateType::BEND:
 		State->Bend(_DeltaTime);
 		break;
-	case StateType::SLIDE:
+	case EStateType::SLIDE:
 		State->Slide(_DeltaTime);
 		break;
-	case StateType::CLIMB:
+	case EStateType::CLIMB:
 		State->Climb(_DeltaTime);
 		break;
-	case StateType::FALLING:
+	case EStateType::FALLING:
 		State->Falling(_DeltaTime);
 		break;
-	case StateType::HURT:
-		State->Hurt(_DeltaTime);
+	case EStateType::INHALESTART:
+		State->InhaleStart(_DeltaTime);
 		break;
-	case StateType::ATTACK:
+	case EStateType::INHALEEND:
+		State->InhaleEnd(_DeltaTime);
+		break;
+	case EStateType::SKILL:
 		Ability->Attack(_DeltaTime);
+		break;
+	case EStateType::HURT:
+		State->Hurt(_DeltaTime);
 		break;
 	default:
 		break;

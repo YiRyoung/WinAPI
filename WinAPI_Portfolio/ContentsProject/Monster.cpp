@@ -6,6 +6,7 @@
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/ImageManager.h>
 #include <EngineCore/2DCollision.h>
+#include <EngineCore/EngineCoreDebug.h>
 
 #include "ContentsEnum.h"
 
@@ -26,7 +27,8 @@ void AMonster::BeginPlay()
 void AMonster::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-	SetAnimDir();
+
+	MonsterFSM(_DeltaTime);
 }
 
 void AMonster::GetColImage(std::string _ColImageName)
@@ -48,6 +50,9 @@ void AMonster::SetCollision(FVector2D _CollisionScale)
 	CollisionComponent->SetComponentScale(_CollisionScale);
 	CollisionComponent->SetCollisionGroup(ECollisionGroup::MonsterBody);
 	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
+	CollisionComponent->SetCollisionEnter(std::bind(&AMonster::CollisionEnter, this, std::placeholders::_1));
+
+	GetWorld()->CollisionGroupLink(ECollisionGroup::MonsterBody, ECollisionGroup::PlayerSkill);
 }
 
 void AMonster::SetSkillCollision(FVector2D _CollisionScale, ECollisionType _CollisionType)
@@ -59,16 +64,9 @@ void AMonster::SetSkillCollision(FVector2D _CollisionScale, ECollisionType _Coll
 	SkillCollision->SetCollisionType(_CollisionType);
 }
 
-void AMonster::SetAnimDir()
+FVector2D AMonster::GetMonsterScale() const
 {
-	if (UEngineInput::GetInst().IsPress(VK_LEFT))
-	{
-		AnimDir = "_Left";
-	}
-	else if (UEngineInput::GetInst().IsPress(VK_RIGHT))
-	{
-		AnimDir = "_Right";
-	}
+	return SpriteRenderer->GetTransform().Scale;
 }
 
 void AMonster::ChangeMonsterAnim(std::string _AnimName)
@@ -78,17 +76,77 @@ void AMonster::ChangeMonsterAnim(std::string _AnimName)
 
 bool AMonster::BottomPixelCheck(UColor _Color)
 {
-	return false;
+	FVector2D Scale = GetMonsterScale();
+	FVector2D LeftPoint = GetActorLocation() + FVector2D({ Scale.X * -0.5f, 0.0f });
+	
+	FTransform LeftTransform = GetTransform();
+	LeftTransform.Location += FVector2D({ Scale.X * -0.5f, 0.0f }) - GetWorld()->GetCameraPos();
+	LeftTransform.Scale = { 6, 6 };
+	UEngineDebug::CoreDebugRender(LeftTransform, UEngineDebug::EDebugPosType::Circle);
+
+	FVector2D NextLeftPoint = LeftPoint + FVector2D::LEFT;
+	UColor LeftColor = ColImage->GetColor(NextLeftPoint, UColor::MAGENTA);
+	if (_Color.operator==(LeftColor))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
 }
 
 bool AMonster::LeftPixelCheck(UColor _Color)
 {
-	return false;
+	FVector2D Scale = GetMonsterScale();
+	FVector2D LeftPoint = GetActorLocation() + FVector2D({ Scale.X * -0.5f, 0.0f });
+
+	FTransform LeftTransform = GetTransform();
+	LeftTransform.Location += FVector2D({ Scale.X * -0.5f, 0.0f }) - GetWorld()->GetCameraPos();
+	LeftTransform.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(LeftTransform, UEngineDebug::EDebugPosType::Circle);
+
+	FVector2D NextLeftPoint = LeftPoint + FVector2D::LEFT;
+	UColor LeftColor = ColImage->GetColor(NextLeftPoint, UColor::MAGENTA);
+	if (_Color.operator==(LeftColor))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
 }
 
 bool AMonster::RightPixelCheck(UColor _Color)
 {
-	return false;
+	FVector2D Scale = GetMonsterScale();
+	FVector2D RightPoint = GetActorLocation() + FVector2D({ Scale.X * 0.5f, 0.0f });
+
+	FTransform RightTransform = GetTransform();
+	RightTransform.Location += FVector2D({ Scale.X * 0.5f, 0.0f }) - GetWorld()->GetCameraPos();
+	RightTransform.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(RightTransform, UEngineDebug::EDebugPosType::Circle);
+
+	FVector2D NextRightPoint = RightPoint + FVector2D::RIGHT;
+	UColor RightColor = ColImage->GetColor(NextRightPoint, UColor::MAGENTA);
+	if (_Color.operator==(RightColor))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+void AMonster::CollisionEnter(AActor* _ColActor)
+{
+	SetMonsterState(MonsterState::DIED);
+	return;
 }
 
 void AMonster::MonsterFSM(float _DeltaTime)
@@ -114,6 +172,28 @@ void AMonster::MonsterFSM(float _DeltaTime)
 }
 
 void AMonster::Gravity(float _DeltaTime)
+{
+
+}
+
+void AMonster::Pause(float _DeltaTime)
+{
+}
+
+void AMonster::Chase(float _DeltaTime)
+{
+}
+
+void AMonster::Attack(float _DeltaTime)
+{
+}
+
+void AMonster::Inhale(float _DeltaTime)
+{
+	
+}
+
+void AMonster::Died(float _DeltaTime)
 {
 }
 

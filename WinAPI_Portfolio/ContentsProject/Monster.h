@@ -23,6 +23,11 @@ public:
 	AMonster& operator=(const AMonster& _Other) = delete;
 	AMonster& operator=(AMonster&& _Other) noexcept = delete;
 
+	virtual void Pause(float _DeltaTime);
+	virtual void Chase(float _DeltaTime);
+	virtual void Attack(float _DeltaTime);
+	virtual void Inhale(float _DeltaTime);
+	virtual void Died(float _DeltaTime);
 
 protected:
 	void BeginPlay() override;
@@ -33,12 +38,14 @@ protected:
 	void SetCollision(FVector2D _CollisionScale);
 	void SetSkillCollision(FVector2D _CollisionScale, ECollisionType _CollisionType);
 
-	void SetAnimDir();
+	FVector2D GetMonsterScale() const;
 	void ChangeMonsterAnim(std::string _AnimName);
 
 	bool BottomPixelCheck(UColor _Color);
 	bool LeftPixelCheck(UColor _Color);
 	bool RightPixelCheck(UColor _Color);
+	void CollisionEnter(AActor* _ColActor);
+
 
 	void MonsterFSM(float _DeltaTime);
 	MonsterState GetMonsterState() const
@@ -51,19 +58,13 @@ protected:
 	}
 	void Gravity(float _DeltaTime);
 
-	virtual void Pause(float _DeltaTime) = 0;
-	virtual void Chase(float _DeltaTime) = 0;
-	virtual void Attack(float _DeltaTime) = 0;
-	virtual void Inhale(float _DeltaTime) = 0;
-	virtual void Died(float _DeltaTime) = 0;
-
-private:
 	class USpriteRenderer* SpriteRenderer = nullptr;
 	class USpriteRenderer* SkillRenderer = nullptr;
 	class U2DCollision* CollisionComponent = nullptr;
 	class U2DCollision* SkillCollision = nullptr;
 	class UEngineWinImage* ColImage = nullptr;
 
+private:
 	std::string AnimDir = "_Left";
 	MonsterState CurState = MonsterState::PAUSE;
 };

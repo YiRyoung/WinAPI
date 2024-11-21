@@ -19,14 +19,13 @@ public:
 	void Bend(float _DeltaTime);
 	void Slide(float _DeltaTime);
 	void Climb(float _DeltaTime);
+	void InhaleStart(float _DeltaTime);
+	void InhaleEnd(float _DeltaTime);
 	void Hurt(float _DeltaTime);
 
 protected:
 
 private:
-	bool IsFull = false;
-	EAblityType EatType = EAblityType::NORMAL;
-
 	float CurTime = 0.0f;
 	float DeAccSpeed = 10.0f;	// 관성
 	float AccSpeed = 320.0f;	// 가속도
@@ -40,11 +39,11 @@ private:
 	APlayer* Player = nullptr;
 	class U2DCollision* CollisionComponent;
 
-	StateType GetState() const
+	EStateType GetState() const
 	{
 		return Player->GetState();
 	}
-	void SetState(StateType _State);
+	void SetState(EStateType _State);
 
 	// 키 입력
 	bool IsPressKey(int _KeyCode) const;
@@ -63,5 +62,18 @@ private:
 	void Gravity(float _DeltaTime);
 	void Move(FVector2D _NextPos);
 	void SetLimitSpeed(bool _IsAccel);
+
+	// 공격타입 설정 (노말차입 격리)
+	void Attack();
+
+	// 공격 콜리전
+	void SetSlideCollision(bool _OnOff)
+	{
+		Player->SetSlide(_OnOff);
+	}
+	void SetInhaleCollision(bool _OnOff)
+	{
+		Player->SetInhale(_OnOff);
+	}
 };
 

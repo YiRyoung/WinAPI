@@ -5,7 +5,7 @@
 
 #include "ContentsEnum.h"
 
-enum class StateType
+enum class EStateType
 {
 	IDLE,
 	WALK,
@@ -18,7 +18,9 @@ enum class StateType
 	SLIDE,
 	CLIMB,
 	FALLING,
-	ATTACK,
+	INHALESTART,
+	INHALEEND,
+	SKILL,
 	HURT
 };
 
@@ -44,7 +46,6 @@ public:
 	{
 		return AnimDir;
 	}
-
 	bool IsAnimFinish()
 	{
 		if (true == SpriteRenderer->IsCurAnimationEnd())
@@ -66,37 +67,38 @@ public:
 	bool BottomPointCheck(UColor _Color);
 	bool PixelLineColor(CheckDir _Dir, UColor _Color);
 
-	void SetInhaleLeft(bool _OnOff)
+	// Collider
+	void SetSlide(bool _OnOff)
 	{
-		if (_OnOff)
+		if ("_Right" == AnimDir)
 		{
-			InhaleLeftCollision->SetActive(true);
+			SlideRightCollision->SetActive(_OnOff);
 		}
 		else
 		{
-			InhaleLeftCollision->SetActive(false);
+			SlideLeftCollision->SetActive(_OnOff);
 		}
 	}
-	void SetInhaleRight(bool _OnOff)
+	void SetInhale(bool _OnOff)
 	{
-		if (_OnOff)
+		if ("_Right" == AnimDir)
 		{
-			InhaleRightCollision->SetActive(true);
+			InhaleRightCollision->SetActive(_OnOff);
 		}
 		else
 		{
-			InhaleRightCollision->SetActive(false);
+			InhaleLeftCollision->SetActive(_OnOff);
 		}
 	}
 
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
 
-	StateType GetState() const
+	EStateType GetState() const
 	{
 		return CurState;
 	}
-	void SetState(StateType _NextState)
+	void SetState(EStateType _NextState)
 	{
 		CurState = _NextState;
 	}
@@ -110,14 +112,26 @@ public:
 		CurType = _NewTpye;
 	}
 
+	class U2DCollision* CollisionComponent = nullptr;
+
+	inline bool GetFull() const
+	{
+		return IsFull;
+	}
+	inline void SetFull(bool _IsFull)
+	{
+		IsFull = _IsFull;
+	}
+
 protected:
 
 private:
 	int MySpriteIndex = 0;
 	std::string AnimDir = "_Right";
 
-	StateType CurState = StateType::IDLE;
+	EStateType CurState = EStateType::IDLE;
 	EAblityType CurType = EAblityType::NORMAL;
+	EAblityType EatType = EAblityType::NORMAL;
 
 	class PlayerState* State;
 	class PlayerAbility* Ability;
@@ -126,7 +140,8 @@ private:
 	class UEngineWinImage* ColImage = nullptr;
 	class USpriteRenderer* SpriteRenderer;
 
-	class U2DCollision* CollisionComponent = nullptr;
+	class U2DCollision* SlideLeftCollision = nullptr;
+	class U2DCollision* SlideRightCollision = nullptr;
 	class U2DCollision* InhaleLeftCollision = nullptr;
 	class U2DCollision* InhaleRightCollision = nullptr;
 
@@ -137,5 +152,8 @@ private:
 	void CameraMove();
 
 	void FSM(float _DeltaTime);
+
+	// Attack
+	bool IsFull = false;
 };
 

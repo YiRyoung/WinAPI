@@ -6,6 +6,7 @@
 
 #include <EngineCore/Level.h>
 #include "Player.h"
+#include "Monster.h"
 #include "WaddleDee.h"
 #include "Stage.h"
 #include "HUI.h"
@@ -36,12 +37,10 @@ void AStage101GameMode::BeginPlay()
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");
 
-	AWaddleDee* NewWaddle = GetWorld()->SpawnActor<AWaddleDee>();
-	NewWaddle->GetBackImage("ColStage101.png");
-	NewWaddle->SetActorLocation({ 801, 400 });
-
+	
 	// AMonster를 상속받은 그대로 호출하면 됨.
-	// AMonster NewWaddle = GetWorld()->SpawnActor<AWAddleDee>();
+	AMonster* NewWaddle = GetWorld()->SpawnActor<AWaddleDee>();
+	NewWaddle->SetActorLocation({ 300, 360 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
