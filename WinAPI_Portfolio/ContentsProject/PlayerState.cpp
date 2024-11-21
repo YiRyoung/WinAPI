@@ -200,7 +200,8 @@ void PlayerState::Idle(float _DeltaTime)
 	}
 
 	// FlyStart
-	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::UP, UColor::YELLOW))
+	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::UP, UColor::YELLOW)
+		&& !Player->GetFull())
 	{
 		SetState(EStateType::FLYSTART);
 		return;
@@ -209,8 +210,16 @@ void PlayerState::Idle(float _DeltaTime)
 	// Bend
 	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
 	{
-		SetState(EStateType::BEND);
-		return;
+		if (!Player->GetFull())
+		{
+			SetState(EStateType::BEND);
+			return;
+		}
+		else
+		{
+			SetState(EStateType::EAT);
+			return;
+		}
 	}
 
 	// Climb
@@ -265,7 +274,8 @@ void PlayerState::Walk(float _DeltaTime)
 	}
 	
 	// FlyStart
-	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
+	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::DOWN, UColor::YELLOW)
+		&& !Player->GetFull())
 	{
 		SetState(EStateType::FLYSTART);
 		return;
@@ -274,8 +284,16 @@ void PlayerState::Walk(float _DeltaTime)
 	// Bend
 	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
 	{
-		SetState(EStateType::BEND);
-		return;
+		if (!Player->GetFull())
+		{
+			SetState(EStateType::BEND);
+			return;
+		}
+		else
+		{
+			SetState(EStateType::EAT);
+			return;
+		}
 	}
 
 	// Climb
@@ -341,7 +359,8 @@ void PlayerState::Dash(float _DeltaTime)
 	}
 
 	// FlyStart
-	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::UP, UColor::YELLOW))
+	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::UP, UColor::YELLOW)
+		&& !Player->GetFull())
 	{
 		DirForce = FVector2D::ZERO;
 		SetState(EStateType::FLYSTART);
@@ -351,8 +370,16 @@ void PlayerState::Dash(float _DeltaTime)
 	// Bend
 	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
 	{
-		SetState(EStateType::BEND);
-		return;
+		if (!Player->GetFull())
+		{
+			SetState(EStateType::BEND);
+			return;
+		}
+		else
+		{
+			SetState(EStateType::EAT);
+			return;
+		}
 	}
 
 	// Climb
@@ -434,7 +461,7 @@ void PlayerState::Jump(float _DeltaTime)
 	}
 
 	// FlyStart
-	if (IsPressKey(VK_UP))
+	if (IsPressKey(VK_UP) && !Player->GetFull())
 	{
 		SetState(EStateType::FLYSTART);
 		return;
@@ -442,6 +469,17 @@ void PlayerState::Jump(float _DeltaTime)
 
 	// Jumping
 	DirForce += FVector2D::UP;
+	float PushForce = 0.0f;
+
+	if (Player->GetFull())
+	{
+		PushForce = JumpForce * 0.8f;
+	}
+	else
+	{
+		PushForce = JumpForce;
+	}
+
 	if (IsPressKey(VK_LEFT))
 	{
 		DirForce += FVector2D::LEFT * _DeltaTime * AccSpeed;
@@ -453,7 +491,7 @@ void PlayerState::Jump(float _DeltaTime)
 		SetLimitSpeed(true);
 	}
 	DirForce.Normalize();
-	Move(DirForce * JumpForce * _DeltaTime);
+	Move(DirForce * PushForce * _DeltaTime);
 
 	if (CheckColor(CheckDir::DOWN, UColor::MAGENTA) || CheckColor(CheckDir::UP, UColor::MAGENTA)
 		|| CheckColor(CheckDir::DOWN, UColor::BLACK))
@@ -562,7 +600,15 @@ void PlayerState::FlyEnd(float _DeltaTime)
 
 void PlayerState::Falling(float _DeltaTime)
 {
-	ChangeAnimation("Falling");
+	if (!Player->GetFull())
+	{
+		ChangeAnimation("Falling");
+	}
+	else
+	{
+		ChangeAnimation("JumpEndFull");
+	}
+
 	Gravity(_DeltaTime);
 	// Black ¹× Yellow Ãß°¡
 
@@ -706,6 +752,18 @@ void PlayerState::InhaleEnd(float _DeltaTime)
 {
 	ChangeAnimation("InhaleEnd");
 	SetInhaleCollision(false);
+
+	if (IsAnimFinish())
+	{
+		Player->SetFull(false);
+		SetState(EStateType::IDLE);
+		return;
+	}
+}
+
+void PlayerState::Eat(float _DeltaTime)
+{
+	ChangeAnimation("Eat");
 
 	if (IsAnimFinish())
 	{

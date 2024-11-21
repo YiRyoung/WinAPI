@@ -284,7 +284,7 @@ void APlayer::SetAnimation()
 	SpriteRenderer->CreateAnimation("JumpStartFull_Left", "Kirby_Normal_Left.png", { 31, 32, 31 }, 0.3f, false);
 	SpriteRenderer->CreateAnimation("JumpStartFull_Right", "Kirby_Normal_Right.png", {31, 32, 31}, 0.3f, false);
 
-	//FullJumpEnd
+	//FullJumpEnd (&FullFalling)
 	SpriteRenderer->CreateAnimation("JumpEndFull_Left", "Kirby_Normal_Left.png", 31, 31, 0.1f);
 	SpriteRenderer->CreateAnimation("JumpEndFull_Right", "Kirby_Normal_Right.png", 31, 31, 0.1f);
 
@@ -293,6 +293,10 @@ void APlayer::SetAnimation()
 	SpriteRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 17, 19, 0.05f, false);
 	SpriteRenderer->CreateAnimation("InhaleEnd_Left", "Kirby_Normal_Left.png", 24, 26, 0.05f, false);
 	SpriteRenderer->CreateAnimation("InhaleEnd_Right", "Kirby_Normal_Right.png", 24, 26, 0.05f, false);
+
+	// Eat
+	SpriteRenderer->CreateAnimation("Eat_Left", "Kirby_Normal_Left.png", 45, 47, 0.1f, false);
+	SpriteRenderer->CreateAnimation("Eat_Right", "Kirby_Normal_Right.png", 45, 47, 0.1f, false);
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Idle_Right");
@@ -441,6 +445,9 @@ void APlayer::FSM(float _DeltaTime)
 		break;
 	case EStateType::INHALEEND:
 		State->InhaleEnd(_DeltaTime);
+		break;
+	case EStateType::EAT:
+		State->Eat(_DeltaTime);
 		break;
 	case EStateType::HURT:
 		State->Hurt(_DeltaTime);

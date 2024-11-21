@@ -41,6 +41,9 @@ void AStage101GameMode::BeginPlay()
 
 	AMonster* NewWaddle = GetWorld()->SpawnActor<AWaddleDee>();
 	NewWaddle->SetActorLocation({ 300, 360 });
+
+	AMonster* NewWaddle1 = GetWorld()->SpawnActor<AWaddleDee>();
+	NewWaddle1->SetActorLocation({ 450, 360 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)

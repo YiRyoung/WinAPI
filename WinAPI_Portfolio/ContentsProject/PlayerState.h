@@ -21,6 +21,7 @@ public:
 	void Climb(float _DeltaTime);
 	void InhaleStart(float _DeltaTime);
 	void InhaleEnd(float _DeltaTime);
+	void Eat(float _DeltaTime);
 	void Hurt(float _DeltaTime);
 
 protected:

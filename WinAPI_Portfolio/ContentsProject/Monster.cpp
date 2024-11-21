@@ -165,6 +165,9 @@ void AMonster::MonsterFSM(float _DeltaTime)
 	case MonsterState::ATTACK:
 		Attack(_DeltaTime);
 		break;
+	case MonsterState::HURT:
+		Hurt(_DeltaTime);
+		break;
 	case MonsterState::INHALE:
 		Inhale(_DeltaTime);
 		break;
@@ -194,7 +197,12 @@ void AMonster::Attack(float _DeltaTime)
 
 void AMonster::Hurt(float _DeltaTime)
 {
-
+	AActor* HurtedActor = CollisionComponent->CollisionOnce(ECollisionGroup::PlayerSkill);
+	if (nullptr != HurtedActor)
+	{
+		SetMonsterState(MonsterState::DIED);
+		return;
+	}
 }
 
 void AMonster::Inhale(float _DeltaTime)

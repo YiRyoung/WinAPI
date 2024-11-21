@@ -20,6 +20,7 @@ enum class EStateType
 	FALLING,
 	INHALESTART,
 	INHALEEND,	// Spit
+	EAT,
 	SKILL,
 	HURT
 };
