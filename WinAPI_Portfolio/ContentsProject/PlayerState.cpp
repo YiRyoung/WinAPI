@@ -744,7 +744,7 @@ void PlayerState::InhaleStart(float _DeltaTime)
 {
 	ChangeAnimation("InhaleStart");
 	SetInhaleCollision(true);
-
+	GravityForce = FVector2D::ZERO;
 
 	if (!IsPressKey('X'))
 	{
