@@ -27,7 +27,7 @@ void AMonster::BeginPlay()
 void AMonster::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-
+	Time += _DeltaTime;
 	MonsterFSM(_DeltaTime);
 }
 
@@ -36,11 +36,30 @@ void AMonster::GetColImage(std::string _ColImageName)
 	ColImage = UImageManager::GetInst().FindImage(_ColImageName);
 }
 
+void AMonster::SetAnimDir(FVector2D _PlayerLocation)
+{	
+	SetPos(_PlayerLocation);
+
+	if (Pos.X <= 0)
+	{
+		AnimDir = "_Left";
+	}
+	else
+	{
+		AnimDir = "_Right";
+	}
+}
+
 void AMonster::SetMonster(std::string _SpriteName, FVector2D _SpriteScale)
 {
 	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 	SpriteRenderer->SetSprite(_SpriteName);
 	SpriteRenderer->SetComponentScale(_SpriteScale);
+}
+
+void AMonster::SetPos(FVector2D _PlayerLocation)
+{
+	Pos = GetActorLocation() - _PlayerLocation;
 }
 
 void AMonster::SetCollision(FVector2D _CollisionScale)
@@ -55,13 +74,22 @@ void AMonster::SetCollision(FVector2D _CollisionScale)
 	GetWorld()->CollisionGroupLink(ECollisionGroup::MonsterBody, ECollisionGroup::PlayerSkill);
 }
 
-void AMonster::SetSkillCollision(FVector2D _CollisionScale, ECollisionType _CollisionType)
+void AMonster::SetLeftSkillCollision(FVector2D _CollisionScale, ECollisionType _CollisionType)
 {
-	SkillCollision = CreateDefaultSubObject<U2DCollision>();
-	SkillCollision->SetComponentLocation({ 0, 0 });
-	SkillCollision->SetComponentScale(_CollisionScale);
-	SkillCollision->SetCollisionGroup(ECollisionGroup::MonsterSkill);
-	SkillCollision->SetCollisionType(_CollisionType);
+	LeftSkillCollision = CreateDefaultSubObject<U2DCollision>();
+	LeftSkillCollision->SetComponentLocation({ 0, 0 });
+	LeftSkillCollision->SetComponentScale(_CollisionScale);
+	LeftSkillCollision->SetCollisionGroup(ECollisionGroup::MonsterSkill);
+	LeftSkillCollision->SetCollisionType(_CollisionType);
+}
+
+void AMonster::SetRightSkillCollision(FVector2D _CollisionScale, ECollisionType _CollisionType)
+{
+	RightSkillCollision = CreateDefaultSubObject<U2DCollision>();
+	RightSkillCollision->SetComponentLocation({ 0, 0 });
+	RightSkillCollision->SetComponentScale(_CollisionScale);
+	RightSkillCollision->SetCollisionGroup(ECollisionGroup::MonsterSkill);
+	RightSkillCollision->SetCollisionType(_CollisionType);
 }
 
 FVector2D AMonster::GetMonsterScale() const
@@ -74,73 +102,90 @@ void AMonster::ChangeMonsterAnim(std::string _AnimName)
 	SpriteRenderer->ChangeAnimation(_AnimName + AnimDir);
 }
 
-bool AMonster::BottomPixelCheck(UColor _Color)
+bool AMonster::PixelLineCheck(CheckDir _Dir, UColor _Color)
 {
-	FVector2D Scale = GetMonsterScale();
-	FVector2D LeftPoint = GetActorLocation() + FVector2D({ Scale.X * -0.5f, 0.0f });
-	
-	FTransform LeftTransform = GetTransform();
-	LeftTransform.Location += FVector2D({ Scale.X * -0.5f, 0.0f }) - GetWorld()->GetCameraPos();
-	LeftTransform.Scale = { 6, 6 };
-	UEngineDebug::CoreDebugRender(LeftTransform, UEngineDebug::EDebugPosType::Circle);
+	FVector2D MonsterScale = SpriteRenderer->GetTransform().Scale;
 
-	FVector2D NextLeftPoint = LeftPoint + FVector2D::LEFT;
-	UColor LeftColor = ColImage->GetColor(NextLeftPoint, UColor::MAGENTA);
-	if (_Color.operator==(LeftColor))
+	FVector2D LeftUpperPoint = GetActorLocation() + FVector2D({ MonsterScale.X * -0.5f, MonsterScale.Y * -0.5f });
+	FTransform PlayerTransform0 = GetTransform();
+	PlayerTransform0.Location += FVector2D({ MonsterScale.X * -0.5f, MonsterScale.Y * -0.5f }) - GetWorld()->GetCameraPos();
+	PlayerTransform0.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform0, UEngineDebug::EDebugPosType::Circle);
+
+	FVector2D RightUpperPoint = GetActorLocation() + FVector2D({ MonsterScale.X * 0.5f, MonsterScale.Y * -0.5f });
+	FTransform PlayerTransform1 = GetTransform();
+	PlayerTransform1.Location += FVector2D({ MonsterScale.X * 0.5f, MonsterScale.Y * -0.5f }) - GetWorld()->GetCameraPos();
+	PlayerTransform1.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform1, UEngineDebug::EDebugPosType::Circle);
+
+	FVector2D LeftBottomPoint = GetActorLocation() + FVector2D({ MonsterScale.X * -0.5f, MonsterScale.Y * 0.5f });
+	FTransform PlayerTransform2 = GetTransform();
+	PlayerTransform2.Location += FVector2D({ MonsterScale.X * -0.5f, MonsterScale.Y * 0.5f }) - GetWorld()->GetCameraPos();
+	PlayerTransform2.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform2, UEngineDebug::EDebugPosType::Circle);
+
+	FVector2D RightBottomPoint = GetActorLocation() + FVector2D({ MonsterScale.X * 0.5f, MonsterScale.Y * 0.5f });
+	FTransform PlayerTransform3 = GetTransform();
+	PlayerTransform3.Location += FVector2D({ MonsterScale.X * 0.5f, MonsterScale.Y * 0.5f }) - GetWorld()->GetCameraPos();
+	PlayerTransform3.Scale = { 6,6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform3, UEngineDebug::EDebugPosType::Circle);
+
+	switch (_Dir)
 	{
-		return true;
-	}
-	else
-	{
+	case CheckDir::UP:
+		for (float i = 0.0f; i <= (RightUpperPoint.X - LeftUpperPoint.X); i++)
+		{
+			FVector2D Point = { (RightUpperPoint.X - i), RightUpperPoint.Y };
+			FVector2D PointUp = Point + FVector2D::UP;
+			UColor CheckColor = ColImage->GetColor(PointUp, UColor::MAGENTA);
+			if (_Color.operator==(CheckColor))
+			{
+				return true;
+			}
+		}
 		return false;
-	}
-
-}
-
-bool AMonster::LeftPixelCheck(UColor _Color)
-{
-	FVector2D Scale = GetMonsterScale();
-	FVector2D LeftPoint = GetActorLocation() + FVector2D({ Scale.X * -0.5f, 0.0f });
-
-	FTransform LeftTransform = GetTransform();
-	LeftTransform.Location += FVector2D({ Scale.X * -0.5f, 0.0f }) - GetWorld()->GetCameraPos();
-	LeftTransform.Scale = { 6,6 };
-	UEngineDebug::CoreDebugRender(LeftTransform, UEngineDebug::EDebugPosType::Circle);
-
-	FVector2D NextLeftPoint = LeftPoint + FVector2D::LEFT;
-	UColor LeftColor = ColImage->GetColor(NextLeftPoint, UColor::MAGENTA);
-	if (_Color.operator==(LeftColor))
-	{
-		return true;
-	}
-	else
-	{
+		break;
+	case CheckDir::DOWN:
+		for (float i = 0.0f; i <= (RightBottomPoint.X - LeftBottomPoint.X); i++)
+		{
+			FVector2D Point = { (RightBottomPoint.X - i), RightBottomPoint.Y };
+			FVector2D PointDown = Point + FVector2D::DOWN;
+			UColor CheckColor = ColImage->GetColor(PointDown, UColor::MAGENTA);
+			if (_Color.operator==(CheckColor))
+			{
+				return true;
+			}
+		}
 		return false;
-	}
-
-}
-
-bool AMonster::RightPixelCheck(UColor _Color)
-{
-	FVector2D Scale = GetMonsterScale();
-	FVector2D RightPoint = GetActorLocation() + FVector2D({ Scale.X * 0.5f, 0.0f });
-
-	FTransform RightTransform = GetTransform();
-	RightTransform.Location += FVector2D({ Scale.X * 0.5f, 0.0f }) - GetWorld()->GetCameraPos();
-	RightTransform.Scale = { 6,6 };
-	UEngineDebug::CoreDebugRender(RightTransform, UEngineDebug::EDebugPosType::Circle);
-
-	FVector2D NextRightPoint = RightPoint + FVector2D::RIGHT;
-	UColor RightColor = ColImage->GetColor(NextRightPoint, UColor::MAGENTA);
-	if (_Color.operator==(RightColor))
-	{
-		return true;
-	}
-	else
-	{
+		break;
+	case CheckDir::LEFT:
+		for (float i = 0; i <= (LeftBottomPoint.Y - LeftUpperPoint.Y); i++)
+		{
+			FVector2D Point = { LeftUpperPoint.X,(LeftBottomPoint.Y - i) };
+			FVector2D PointLeft = Point + FVector2D::LEFT;
+			UColor CheckColor = ColImage->GetColor(PointLeft, UColor::MAGENTA);
+			if (_Color.operator==(CheckColor))
+			{
+				return true;
+			}
+		}
 		return false;
+		break;
+	case CheckDir::RIGHT:
+		for (float i = 0; i <= (RightBottomPoint.Y - RightUpperPoint.Y); i++)
+		{
+			FVector2D Point = { RightUpperPoint.X,(RightBottomPoint.Y - i) };
+			FVector2D PointRight = Point + FVector2D::RIGHT;
+			UColor CheckColor = ColImage->GetColor(PointRight, UColor::MAGENTA);
+			if (_Color.operator==(CheckColor))
+			{
+				return true;
+			}
+		}
+		return false;
+		break;
 	}
-
+	return false;
 }
 
 void AMonster::CollisionEnter(AActor* _ColActor)
@@ -179,6 +224,16 @@ void AMonster::MonsterFSM(float _DeltaTime)
 
 void AMonster::Gravity(float _DeltaTime)
 {
+	if (!PixelLineCheck(CheckDir::DOWN, UColor::MAGENTA)
+		&& !PixelLineCheck(CheckDir::DOWN, UColor::BLACK) && !PixelLineCheck(CheckDir::DOWN, UColor::YELLOW))
+	{
+		AddActorLocation(GravityForce * _DeltaTime);
+		GravityForce += FVector2D::DOWN * 500.0f * _DeltaTime;
+	}
+	else
+	{
+		GravityForce = FVector2D::ZERO;
+	}
 
 }
 
@@ -188,6 +243,25 @@ void AMonster::Pause(float _DeltaTime)
 
 void AMonster::Chase(float _DeltaTime)
 {
+	Gravity(_DeltaTime);
+
+	if ("_Left" == AnimDir && !PixelLineCheck(CheckDir::LEFT, UColor::MAGENTA))
+	{
+		AddActorLocation(FVector2D::LEFT * Speed * _DeltaTime);
+	}
+	else
+	{
+		AnimDir = "_Right";
+	}
+
+	if ("_Right" == AnimDir && !PixelLineCheck(CheckDir::RIGHT, UColor::MAGENTA))
+	{
+		AddActorLocation(FVector2D::RIGHT * Speed * _DeltaTime);
+	}
+	else
+	{
+		AnimDir = "_Left";
+	}
 
 }
 

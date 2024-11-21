@@ -206,7 +206,6 @@ void APlayer::CollisionStay(AActor* _ColActor)
 {
 	if (CurState == EStateType::INHALESTART)
 	{
-		dynamic_cast<AMonster*>(_ColActor)->SetKirbyDir(AnimDir);
 		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(MonsterState::INHALE);
 	}
 }

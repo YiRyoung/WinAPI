@@ -8,7 +8,6 @@ AWaddleDee::AWaddleDee()
 	SetMonster("Waddle Dee_Left.png", { 50, 50 });
 	SetCollision({ 54, 54 });
 	SetAnimation();
-
 	DebugOn();
 }
 
@@ -42,11 +41,6 @@ void AWaddleDee::Chase(float _DeltaTime)
 	AMonster::Chase(_DeltaTime);
 
 	ChangeMonsterAnim("Walk");
-}
-
-void AWaddleDee::Attack(float _DeltaTime)
-{
-	AMonster::Attack(_DeltaTime);
 }
 
 void AWaddleDee::Died(float _DeltaTime)

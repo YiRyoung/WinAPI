@@ -10,6 +10,7 @@
 #include "SpitBullet.h"
 #include "Monster.h"
 #include "WaddleDee.h"
+#include "HotHead.h"
 #include "Stage.h"
 #include "HUI.h"
 
@@ -40,10 +41,14 @@ void AStage101GameMode::BeginPlay()
 	NewUI->SetSprite("StageUI.png", "Lives.png");
 
 	AMonster* NewWaddle = GetWorld()->SpawnActor<AWaddleDee>();
-	NewWaddle->SetActorLocation({ 300, 360 });
+	NewWaddle->GetColImage("ColStage101.png");
+	NewWaddle->SetAnimDir(NewPlayer->GetActorLocation());
+	NewWaddle->SetActorLocation({ 1191, 280 });
 
-	AMonster* NewWaddle1 = GetWorld()->SpawnActor<AWaddleDee>();
-	NewWaddle1->SetActorLocation({ 450, 360 });
+	NewHotHead = GetWorld()->SpawnActor<AHotHead>();
+	NewHotHead->GetColImage("ColStage101.png");
+	NewHotHead->SetAnimDir(NewPlayer->GetActorLocation());
+	NewHotHead->SetActorLocation({ 300, 360 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
@@ -77,7 +82,12 @@ void AStage101GameMode::Tick(float _DeltaTime)
 		NewStar->SetDir(PlayerDir);
 		FVector2D Pos = NewStar->GetSpawnPos();
 		NewStar->SetActorLocation(NewPlayer->GetActorLocation() + Pos);
+	}
 
+	if (MonsterState::PAUSE == NewHotHead->GetMonsterState())
+	{
+		// Pause일 때 갱신
+		NewHotHead->SetPos(NewPlayer->GetActorLocation());
 	}
 }
  

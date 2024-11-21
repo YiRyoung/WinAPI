@@ -8,6 +8,7 @@
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/ImageManager.h>
 #include <EnginePlatform/EngineSound.h>
+#include <EnginePlatform/EngineWinImage.h>
 
 #include "TitleGameMode.h"
 #include "Stage101GameMode.h"
@@ -30,6 +31,12 @@ void KirbyContentsCore::BeginPlay()
 	CuttingImages();
 	LoadSounds();
 	SetWorld();
+
+	UEngineWinImage* BackBufferImage = UEngineAPICore::GetCore()->GetMainWindow().GetBackBuffer();
+	HBRUSH OldBrush = static_cast<HBRUSH>(SelectObject(BackBufferImage->GetDC(), GetStockObject(NULL_BRUSH)));
+	HPEN OldPen = static_cast<HPEN>(SelectObject(BackBufferImage->GetDC(), GetStockObject(WHITE_PEN)));
+	DeleteObject(OldBrush);
+	DeleteObject(OldPen);
 }
 
 void KirbyContentsCore::Tick()
@@ -73,6 +80,8 @@ void KirbyContentsCore::CuttingImages()
 	// Monster
 	UImageManager::GetInst().CuttingSprite("Waddle Dee_Left.png", { 50, 50 });
 	UImageManager::GetInst().CuttingSprite("Waddle Dee_Right.png", { 50, 50 });
+	UImageManager::GetInst().CuttingSprite("HotHead_Left.png", { 50, 51 });
+	UImageManager::GetInst().CuttingSprite("HotHead_Right.png", { 50, 51 });
 
 	//Destroy
 	UImageManager::GetInst().CuttingSprite("Destory.png", { 51, 51 });

@@ -151,6 +151,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="HotHead.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HUI.h">
       <SubType>
       </SubType>
@@ -214,6 +218,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HotHead.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HUI.cpp">
       <SubType>
       </SubType>

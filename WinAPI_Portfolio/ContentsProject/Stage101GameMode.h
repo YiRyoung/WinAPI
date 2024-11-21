@@ -25,6 +25,7 @@ private:
 	class AHUI* NewUI = nullptr;
 	class AWindBullet* NewBullet = nullptr;
 	class ASpitBullet* NewStar = nullptr;
+	class AMonster* NewHotHead = nullptr;
 
 	std::string PlayerDir = " ";
 };

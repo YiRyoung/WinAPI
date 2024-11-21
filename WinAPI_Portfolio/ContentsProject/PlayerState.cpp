@@ -106,8 +106,7 @@ bool PlayerState::CheckColor(CheckDir _Dir, UColor _Color)
 
 void PlayerState::Gravity(float _DeltaTime)
 {
-	if (!CheckColor(CheckDir::DOWN, UColor::MAGENTA) 
-		&& !CheckColor(CheckDir::DOWN, UColor::BLACK) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
+	if (!CheckColor(CheckDir::DOWN, UColor::MAGENTA) && !CheckColor(CheckDir::DOWN, UColor::BLACK))
 	{
 		Move(GravityForce * _DeltaTime);
 		GravityForce += FVector2D::DOWN * 500.0f * _DeltaTime;
@@ -703,11 +702,18 @@ void PlayerState::Slide(float _DeltaTime)
 
 void PlayerState::Climb(float _DeltaTime)
 {
+	if (IsPressKey(VK_LEFT) || IsPressKey(VK_RIGHT))
+	{
+		SetState(EStateType::FALLING);
+		return;
+	}
+
 	if (IsPressKey(VK_UP))
 	{
 		ChangeAnimation("ClimbUp");
 
-		if (CheckPointColor(CheckDir::DOWN, UColor::MAGENTA) || CheckPointColor(CheckDir::DOWN, UColor::YELLOW))
+		if (CheckPointColor(CheckDir::DOWN, UColor::MAGENTA) || CheckPointColor(CheckDir::DOWN, UColor::YELLOW)
+			|| CheckPointColor(CheckDir::DOWN, UColor::BLACK))
 		{
 			Move(FVector2D::UP * Speed * _DeltaTime);
 		}
