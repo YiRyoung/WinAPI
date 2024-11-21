@@ -50,6 +50,8 @@ void AWaddleDee::Attack(float _DeltaTime)
 
 void AWaddleDee::Inhale(float _DeltaTime)
 {
+	AMonster::Inhale(_DeltaTime);
+	int a = 0;
 }
 
 void AWaddleDee::Died(float _DeltaTime)

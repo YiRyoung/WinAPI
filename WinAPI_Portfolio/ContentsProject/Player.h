@@ -19,7 +19,7 @@ enum class EStateType
 	CLIMB,
 	FALLING,
 	INHALESTART,
-	INHALEEND,
+	INHALEEND,	// Spit
 	SKILL,
 	HURT
 };

@@ -145,8 +145,6 @@ bool AMonster::RightPixelCheck(UColor _Color)
 
 void AMonster::CollisionEnter(AActor* _ColActor)
 {
-	SetMonsterState(MonsterState::DIED);
-	return;
 }
 
 void AMonster::MonsterFSM(float _DeltaTime)
@@ -182,6 +180,7 @@ void AMonster::Pause(float _DeltaTime)
 
 void AMonster::Chase(float _DeltaTime)
 {
+
 }
 
 void AMonster::Attack(float _DeltaTime)
@@ -190,7 +189,17 @@ void AMonster::Attack(float _DeltaTime)
 
 void AMonster::Inhale(float _DeltaTime)
 {
-	
+	FVector2D Vector = FVector2D::ZERO;
+
+	if ("_Right" == KirbyDir)
+	{
+		Vector = FVector2D::LEFT;
+	}
+	else
+	{
+		Vector = FVector2D::RIGHT;
+	}
+	AddActorLocation(Vector * 100.0f * _DeltaTime);
 }
 
 void AMonster::Died(float _DeltaTime)

@@ -11,7 +11,6 @@
 
 #include "ContentsEnum.h"
 #include "PlayerState.h"
-#include "PlayerAbility.h"
 
 #include "WaddleDee.h"
 
@@ -186,16 +185,29 @@ bool APlayer::PixelLineColor(CheckDir _Dir, UColor _Color)
 		return false;
 		break;
 	}
+	return false;
 }
 
 void APlayer::CollisionEnter(AActor* _ColActor)
 {
+	if (CurState == EStateType::INHALESTART)
+	{
+		IsFull = true;
+		_ColActor->Destroy();
+	}
+	else
+	{
+		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(MonsterState::DIED);
+	}
 }
 
 void APlayer::CollisionStay(AActor* _ColActor)
 {
-	float DeltaTime = UEngineAPICore::GetCore()->GetDeltaTime();
-	_ColActor->AddActorLocation(FVector2D::LEFT * 100.0f * DeltaTime);
+	if (CurState == EStateType::INHALESTART)
+	{
+		dynamic_cast<AMonster*>(_ColActor)->SetKirbyDir(AnimDir);
+		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(MonsterState::INHALE);
+	}
 }
 
 void APlayer::SetPlayer()
@@ -428,9 +440,6 @@ void APlayer::FSM(float _DeltaTime)
 		break;
 	case EStateType::INHALEEND:
 		State->InhaleEnd(_DeltaTime);
-		break;
-	case EStateType::SKILL:
-		Ability->Attack(_DeltaTime);
 		break;
 	case EStateType::HURT:
 		State->Hurt(_DeltaTime);

@@ -15,6 +15,7 @@ enum class ECollisionGroup
 {
 	PlayerBody,
 	PlayerSkill,
+	InhaleBox,
 	MonsterBody,
 	MonsterSkill,
 	StarBlock

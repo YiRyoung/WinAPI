@@ -16,6 +16,19 @@ PlayerState::~PlayerState()
 {
 }
 
+bool PlayerState::IsDownKey(int _KeyCode) const
+{
+	if (UEngineInput::GetInst().IsDown(_KeyCode))
+	{
+		return true;
+	}
+	else if (!UEngineInput::GetInst().IsDown(_KeyCode))
+	{
+		return false;
+	}
+	return false;
+}
+
 bool PlayerState::IsPressKey(int _KeyCode) const
 {
 	if (UEngineInput::GetInst().IsPress(_KeyCode))
@@ -26,6 +39,7 @@ bool PlayerState::IsPressKey(int _KeyCode) const
 	{
 		return false;
 	}
+	return false;
 }
 
 bool PlayerState::IsDoubleKey(int _KeyCode, float _Count) const
@@ -38,6 +52,7 @@ bool PlayerState::IsDoubleKey(int _KeyCode, float _Count) const
 	{
 		return false;
 	}
+	return false;
 }
 
 void PlayerState::ChangeAnimation(std::string _Anim)
@@ -74,6 +89,7 @@ bool PlayerState::CheckPointColor(CheckDir _Dir, UColor _Color)
 		return Player->BottomPointCheck(_Color);
 		break;
 	}
+	return false;
 }
 
 bool PlayerState::CheckColor(CheckDir _Dir, UColor _Color)
@@ -129,10 +145,14 @@ void PlayerState::SetLimitSpeed(bool _IsAccel)
 
 void PlayerState::Attack()
 {
-	// 현재 플레이어의 Ability가 Normal인지 확인
-	if (Player->GetAbility() == EAblityType::NORMAL)
+	if (Player->GetAbility() == EAblityType::NORMAL && !Player->GetFull())
 	{
 		SetState(EStateType::INHALESTART);
+		return;
+	}
+	else if (Player->GetAbility() == EAblityType::NORMAL && Player->GetFull())
+	{
+		SetState(EStateType::INHALEEND);
 		return;
 	}
 	else
@@ -209,7 +229,7 @@ void PlayerState::Idle(float _DeltaTime)
 	}
 
 	// Attack
-	if (IsPressKey('X'))
+	if (IsDownKey('X'))
 	{
 		Attack();
 	}
@@ -676,7 +696,8 @@ void PlayerState::InhaleStart(float _DeltaTime)
 
 	if (!IsPressKey('X'))
 	{
-		SetState(EStateType::INHALEEND);
+		SetInhaleCollision(false);
+		SetState(EStateType::IDLE);
 		return;
 	}
 }
@@ -688,6 +709,7 @@ void PlayerState::InhaleEnd(float _DeltaTime)
 
 	if (IsAnimFinish())
 	{
+		Player->SetFull(false);
 		SetState(EStateType::IDLE);
 		return;
 	}

@@ -37,7 +37,7 @@ private:
 	FVector2D GravityForce = FVector2D::ZERO;
 
 	APlayer* Player = nullptr;
-	class U2DCollision* CollisionComponent;
+	class U2DCollision* CollisionComponent = nullptr;
 
 	EStateType GetState() const
 	{
@@ -46,6 +46,7 @@ private:
 	void SetState(EStateType _State);
 
 	// Å° ÀÔ·Â
+	bool IsDownKey(int _KeyCode) const;
 	bool IsPressKey(int _KeyCode) const;
 	bool IsDoubleKey(int _KeyCode, float _Count) const;
 

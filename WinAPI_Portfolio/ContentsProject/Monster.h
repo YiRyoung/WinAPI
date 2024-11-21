@@ -23,6 +23,19 @@ public:
 	AMonster& operator=(const AMonster& _Other) = delete;
 	AMonster& operator=(AMonster&& _Other) noexcept = delete;
 
+	MonsterState GetMonsterState() const
+	{
+		return CurState;
+	}
+	void SetMonsterState(MonsterState _State)
+	{
+		CurState = _State;
+	}
+	void SetKirbyDir(std::string _Dir)
+	{
+		KirbyDir = _Dir;
+	}
+
 	virtual void Pause(float _DeltaTime);
 	virtual void Chase(float _DeltaTime);
 	virtual void Attack(float _DeltaTime);
@@ -44,19 +57,11 @@ protected:
 	bool BottomPixelCheck(UColor _Color);
 	bool LeftPixelCheck(UColor _Color);
 	bool RightPixelCheck(UColor _Color);
+
 	void CollisionEnter(AActor* _ColActor);
-
-
 	void MonsterFSM(float _DeltaTime);
-	MonsterState GetMonsterState() const
-	{
-		return CurState;
-	}
-	void SetMonsterState(MonsterState _State)
-	{
-		CurState = _State;
-	}
 	void Gravity(float _DeltaTime);
+
 
 	class USpriteRenderer* SpriteRenderer = nullptr;
 	class USpriteRenderer* SkillRenderer = nullptr;
@@ -64,8 +69,10 @@ protected:
 	class U2DCollision* SkillCollision = nullptr;
 	class UEngineWinImage* ColImage = nullptr;
 
+
 private:
 	std::string AnimDir = "_Left";
+	std::string KirbyDir = "_Right";
 	MonsterState CurState = MonsterState::PAUSE;
 };
 

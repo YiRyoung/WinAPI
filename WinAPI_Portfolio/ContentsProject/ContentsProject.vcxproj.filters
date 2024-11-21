@@ -37,9 +37,6 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAbility.cpp">
-      <Filter>ContentsObject\Global\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>ContentsObject\Global\Monster</Filter>
     </ClCompile>
@@ -85,9 +82,6 @@
       <Filter>ContentsObject\Global\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
-      <Filter>ContentsObject\Global\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAbility.h">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
