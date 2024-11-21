@@ -145,6 +145,12 @@ bool AMonster::RightPixelCheck(UColor _Color)
 
 void AMonster::CollisionEnter(AActor* _ColActor)
 {
+	if (nullptr != _ColActor)
+	{
+		_ColActor->Destroy();
+		SetMonsterState(MonsterState::DIED);
+		return;
+	}
 }
 
 void AMonster::MonsterFSM(float _DeltaTime)

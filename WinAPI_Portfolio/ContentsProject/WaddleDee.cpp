@@ -56,6 +56,8 @@ void AWaddleDee::Inhale(float _DeltaTime)
 
 void AWaddleDee::Died(float _DeltaTime)
 {
+	AMonster::Died(_DeltaTime);
+
 	SpriteRenderer->ChangeAnimation("Destroy");
 
 	if (SpriteRenderer->IsCurAnimationEnd())
