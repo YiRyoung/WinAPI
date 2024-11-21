@@ -147,8 +147,7 @@ void AMonster::CollisionEnter(AActor* _ColActor)
 {
 	if (nullptr != _ColActor)
 	{
-		_ColActor->Destroy();
-		SetMonsterState(MonsterState::DIED);
+		SetMonsterState(MonsterState::HURT);
 		return;
 	}
 }
@@ -193,6 +192,11 @@ void AMonster::Attack(float _DeltaTime)
 {
 }
 
+void AMonster::Hurt(float _DeltaTime)
+{
+
+}
+
 void AMonster::Inhale(float _DeltaTime)
 {
 	FVector2D Vector = FVector2D::ZERO;
@@ -206,6 +210,21 @@ void AMonster::Inhale(float _DeltaTime)
 		Vector = FVector2D::RIGHT;
 	}
 	AddActorLocation(Vector * 100.0f * _DeltaTime);
+
+	AActor* InhaledActor = CollisionComponent->CollisionOnce(ECollisionGroup::InhaleBox);
+	if (nullptr != InhaledActor)
+	{
+		SetMonsterState(MonsterState::INHALE);
+		return;
+	}
+
+
+	AActor* Result = CollisionComponent->CollisionOnce(ECollisionGroup::InhaleBox);
+	if (Result == nullptr)
+	{
+		SetMonsterState(MonsterState::PAUSE);
+		return;
+	}
 }
 
 void AMonster::Died(float _DeltaTime)

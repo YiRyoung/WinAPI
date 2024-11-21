@@ -6,6 +6,7 @@ enum class MonsterState
 	PAUSE,
 	CHASE,
 	ATTACK,
+	HURT,
 	INHALE,
 	DIED
 };
@@ -39,6 +40,7 @@ public:
 	virtual void Pause(float _DeltaTime);
 	virtual void Chase(float _DeltaTime);
 	virtual void Attack(float _DeltaTime);
+	virtual void Hurt(float _DeltaTime);
 	virtual void Inhale(float _DeltaTime);
 	virtual void Died(float _DeltaTime);
 

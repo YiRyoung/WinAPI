@@ -47,8 +47,6 @@ void AStage101GameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	PlayerDir = NewPlayer->GetAnimDir();
-
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
 		UEngineAPICore::GetCore()->OpenLevel("MidBoss");
@@ -63,6 +61,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 		true == UEngineInput::GetInst().IsDown('X'))
 	{
 		NewBullet = GetWorld()->SpawnActor<AWindBullet>();
+		PlayerDir = NewPlayer->GetAnimDir();
 		NewBullet->SetDir(PlayerDir);
 		FVector2D Pos = NewBullet->GetSpawnPos();
 		NewBullet->SetActorLocation(NewPlayer->GetActorLocation() + Pos);

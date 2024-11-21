@@ -46,12 +46,7 @@ void AWaddleDee::Chase(float _DeltaTime)
 
 void AWaddleDee::Attack(float _DeltaTime)
 {
-}
-
-void AWaddleDee::Inhale(float _DeltaTime)
-{
-	AMonster::Inhale(_DeltaTime);
-	int a = 0;
+	AMonster::Attack(_DeltaTime);
 }
 
 void AWaddleDee::Died(float _DeltaTime)

@@ -14,11 +14,10 @@ public:
 	AWaddleDee& operator=(const AWaddleDee& _Other) = delete;
 	AWaddleDee& operator=(AWaddleDee&& _Other) noexcept = delete;
 
-	void Pause(float _DeltaTime);
-	void Chase(float _DeltaTime);
-	void Attack(float _DeltaTime);
-	void Inhale(float _DeltaTime);
-	void Died(float _DeltaTime);
+	void Pause(float _DeltaTime) override;
+	void Chase(float _DeltaTime) override;
+	void Attack(float _DeltaTime) override;
+	void Died(float _DeltaTime) override;
 
 protected:
 
