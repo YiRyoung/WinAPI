@@ -245,6 +245,12 @@ void AMonster::MonsterFSM(float _DeltaTime)
 	}
 }
 
+void AMonster::SetMonsterState(MonsterState _State)
+{
+	CurState = _State;
+}
+
+
 void AMonster::Gravity(float _DeltaTime)
 {
 	if (!PixelLineCheck(CheckDir::DOWN, UColor::MAGENTA)

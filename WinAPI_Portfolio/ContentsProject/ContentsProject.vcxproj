@@ -212,7 +212,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WaddleBeam.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WaddleDee.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WaddleDoo.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -286,7 +294,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WaddleBeam.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WaddleDee.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WaddleDoo.cpp">
       <SubType>
       </SubType>
     </ClCompile>

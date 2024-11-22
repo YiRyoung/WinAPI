@@ -34,15 +34,17 @@ public:
 	{
 		return CurState;
 	}
-	void SetMonsterState(MonsterState _State)
-	{
-		CurState = _State;
-	}
+	void SetMonsterState(MonsterState _State);
 	void SetKirbyDir(std::string _Dir)
 	{
 		KirbyDir = _Dir;
 	}
 	void GetColImage(std::string _ColImageName);
+
+	std::string GetAnimDir() const
+	{
+		return AnimDir;
+	}
 	void SetAnimDir(bool _IsLeft)
 	{
 		AnimDir = _IsLeft;
@@ -86,11 +88,6 @@ protected:
 	void CollisionEnter(AActor* _ColActor);
 	void MonsterFSM(float _DeltaTime);
 	void Gravity(float _DeltaTime);
-
-	std::string GetAnimDir() const
-	{
-		return AnimDir;
-	}
 
 	class USpriteRenderer* SpriteRenderer = nullptr;
 	class USpriteRenderer* SkillRenderer = nullptr;

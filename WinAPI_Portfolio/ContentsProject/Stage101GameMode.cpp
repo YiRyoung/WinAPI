@@ -11,6 +11,8 @@
 #include "Monster.h"
 #include "WaddleDee.h"
 #include "HotHead.h"
+#include "WaddleDoo.h"
+#include "WaddleBeam.h"
 #include "Stage.h"
 #include "HUI.h"
 
@@ -45,17 +47,24 @@ void AStage101GameMode::BeginPlay()
 	NewWaddle->SetAnimDir(NewPlayer->GetActorLocation());
 	NewWaddle->SetActorLocation({ 1191, 280 });
 
-	NewHotHead = GetWorld()->SpawnActor<AHotHead>();
-	NewHotHead->GetColImage("ColStage101.png");
-	NewHotHead->SetAnimDir(NewPlayer->GetActorLocation());
-	NewHotHead->SetPos(NewPlayer->GetActorLocation());
-	NewHotHead->SetActorLocation({ 400, 360 });
+	//NewHotHead = GetWorld()->SpawnActor<AHotHead>();
+	//NewHotHead->GetColImage("ColStage101.png");
+	//NewHotHead->SetAnimDir(NewPlayer->GetActorLocation());
+	//NewHotHead->SetPos(NewPlayer->GetActorLocation());
+	//NewHotHead->SetActorLocation({ 400, 360 });
+
+	NewWaddleDoo = GetWorld()->SpawnActor<AWaddleDoo>();
+	NewWaddleDoo->GetColImage("ColStage101.png");
+	NewWaddleDoo->SetAnimDir(NewPlayer->GetActorLocation());
+	NewWaddleDoo->SetPos(NewPlayer->GetActorLocation());
+	NewWaddleDoo->SetActorLocation({ 400, 360 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-	NewHotHead->SetPos(NewPlayer->GetActorLocation());
+	//NewHotHead->SetPos(NewPlayer->GetActorLocation());
+	NewWaddleDoo->SetPos(NewPlayer->GetActorLocation());
 
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
@@ -85,6 +94,5 @@ void AStage101GameMode::Tick(float _DeltaTime)
 		FVector2D Pos = NewStar->GetSpawnPos();
 		NewStar->SetActorLocation(NewPlayer->GetActorLocation() + Pos);
 	}
-
 }
  

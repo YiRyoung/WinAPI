@@ -55,6 +55,12 @@
     <ClCompile Include="HotFireBall.cpp">
       <Filter>ContentsObject\Global\Monster\Ability</Filter>
     </ClCompile>
+    <ClCompile Include="WaddleDoo.cpp">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClCompile>
+    <ClCompile Include="WaddleBeam.cpp">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -109,6 +115,12 @@
       <Filter>ContentsObject\Global\Monster\Ability</Filter>
     </ClInclude>
     <ClInclude Include="HotFireBall.h">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClInclude>
+    <ClInclude Include="WaddleDoo.h">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClInclude>
+    <ClInclude Include="WaddleBeam.h">
       <Filter>ContentsObject\Global\Monster\Ability</Filter>
     </ClInclude>
   </ItemGroup>

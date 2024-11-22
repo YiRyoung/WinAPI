@@ -26,6 +26,8 @@ private:
 	class AWindBullet* NewBullet = nullptr;
 	class ASpitBullet* NewStar = nullptr;
 	class AMonster* NewHotHead = nullptr;
+	class AMonster* NewWaddleDoo = nullptr;
+	class AWaddleBeam* NewWaddleBeam = nullptr;
 
 	std::string PlayerDir = " ";
 };
