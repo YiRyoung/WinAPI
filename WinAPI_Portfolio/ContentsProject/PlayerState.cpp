@@ -479,12 +479,12 @@ void PlayerState::Jump(float _DeltaTime)
 		PushForce = JumpForce;
 	}
 
-	if (IsPressKey(VK_LEFT))
+	if (IsPressKey(VK_LEFT) && !CheckColor(CheckDir::LEFT, UColor::MAGENTA))
 	{
 		DirForce += FVector2D::LEFT * _DeltaTime * AccSpeed;
 		SetLimitSpeed(true);
 	}
-	if (IsPressKey(VK_RIGHT))
+	if (IsPressKey(VK_RIGHT) && !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
 	{
 		DirForce += FVector2D::RIGHT * _DeltaTime * AccSpeed;
 		SetLimitSpeed(true);
