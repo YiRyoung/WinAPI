@@ -27,7 +27,10 @@ void AMonster::BeginPlay()
 void AMonster::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-	Time += _DeltaTime;
+
+	UEngineDebug::CoreOutPutString("State : " + std::to_string(static_cast<int>(GetMonsterState())));
+	UEngineDebug::CoreOutPutString("Pos : " + std::to_string(abs(Pos.X)));
+	
 	MonsterFSM(_DeltaTime);
 }
 
@@ -74,22 +77,24 @@ void AMonster::SetCollision(FVector2D _CollisionScale)
 	GetWorld()->CollisionGroupLink(ECollisionGroup::MonsterBody, ECollisionGroup::PlayerSkill);
 }
 
-void AMonster::SetLeftSkillCollision(FVector2D _CollisionScale, ECollisionType _CollisionType)
+void AMonster::SetLeftSkillCollision(FVector2D _CollisionLocation, FVector2D _CollisionScale, ECollisionType _CollisionType)
 {
 	LeftSkillCollision = CreateDefaultSubObject<U2DCollision>();
-	LeftSkillCollision->SetComponentLocation({ 0, 0 });
+	LeftSkillCollision->SetComponentLocation(_CollisionLocation);
 	LeftSkillCollision->SetComponentScale(_CollisionScale);
 	LeftSkillCollision->SetCollisionGroup(ECollisionGroup::MonsterSkill);
 	LeftSkillCollision->SetCollisionType(_CollisionType);
+	LeftSkillCollision->SetActive(false);
 }
 
-void AMonster::SetRightSkillCollision(FVector2D _CollisionScale, ECollisionType _CollisionType)
+void AMonster::SetRightSkillCollision(FVector2D _CollisionLocation, FVector2D _CollisionScale, ECollisionType _CollisionType)
 {
 	RightSkillCollision = CreateDefaultSubObject<U2DCollision>();
-	RightSkillCollision->SetComponentLocation({ 0, 0 });
+	RightSkillCollision->SetComponentLocation(_CollisionLocation);
 	RightSkillCollision->SetComponentScale(_CollisionScale);
 	RightSkillCollision->SetCollisionGroup(ECollisionGroup::MonsterSkill);
 	RightSkillCollision->SetCollisionType(_CollisionType);
+	RightSkillCollision->SetActive(false);
 }
 
 FVector2D AMonster::GetMonsterScale() const
@@ -100,6 +105,18 @@ FVector2D AMonster::GetMonsterScale() const
 void AMonster::ChangeMonsterAnim(std::string _AnimName)
 {
 	SpriteRenderer->ChangeAnimation(_AnimName + AnimDir);
+}
+
+bool AMonster::MonsterAnimFinish()
+{
+	if (SpriteRenderer->IsCurAnimationEnd() == true)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 bool AMonster::PixelLineCheck(CheckDir _Dir, UColor _Color)
@@ -207,8 +224,14 @@ void AMonster::MonsterFSM(float _DeltaTime)
 	case MonsterState::CHASE:
 		Chase(_DeltaTime);
 		break;
+	case MonsterState::ATTACKSTART:
+		AttackStart(_DeltaTime);
+		break;
 	case MonsterState::ATTACK:
 		Attack(_DeltaTime);
+		break;
+	case MonsterState::ATTACKEND:
+		AttackEnd(_DeltaTime);
 		break;
 	case MonsterState::HURT:
 		Hurt(_DeltaTime);
@@ -265,7 +288,17 @@ void AMonster::Chase(float _DeltaTime)
 
 }
 
+void AMonster::AttackStart(float _DeltaTime)
+{
+	SetMonsterState(MonsterState::ATTACK);
+	return;
+}
+
 void AMonster::Attack(float _DeltaTime)
+{
+}
+
+void AMonster::AttackEnd(float _DeltaTime)
 {
 }
 
@@ -311,5 +344,11 @@ void AMonster::Inhale(float _DeltaTime)
 
 void AMonster::Died(float _DeltaTime)
 {
+	SpriteRenderer->ChangeAnimation("Destroy");
+
+	if (SpriteRenderer->IsCurAnimationEnd())
+	{
+		Destroy();
+	}
 }
 

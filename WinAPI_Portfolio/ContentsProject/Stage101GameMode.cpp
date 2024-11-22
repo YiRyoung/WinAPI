@@ -48,12 +48,14 @@ void AStage101GameMode::BeginPlay()
 	NewHotHead = GetWorld()->SpawnActor<AHotHead>();
 	NewHotHead->GetColImage("ColStage101.png");
 	NewHotHead->SetAnimDir(NewPlayer->GetActorLocation());
-	NewHotHead->SetActorLocation({ 300, 360 });
+	NewHotHead->SetPos(NewPlayer->GetActorLocation());
+	NewHotHead->SetActorLocation({ 400, 360 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	NewHotHead->SetPos(NewPlayer->GetActorLocation());
 
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
@@ -84,10 +86,5 @@ void AStage101GameMode::Tick(float _DeltaTime)
 		NewStar->SetActorLocation(NewPlayer->GetActorLocation() + Pos);
 	}
 
-	if (MonsterState::PAUSE == NewHotHead->GetMonsterState())
-	{
-		// Pause일 때 갱신
-		NewHotHead->SetPos(NewPlayer->GetActorLocation());
-	}
 }
  

@@ -42,15 +42,3 @@ void AWaddleDee::Chase(float _DeltaTime)
 
 	ChangeMonsterAnim("Walk");
 }
-
-void AWaddleDee::Died(float _DeltaTime)
-{
-	AMonster::Died(_DeltaTime);
-
-	SpriteRenderer->ChangeAnimation("Destroy");
-
-	if (SpriteRenderer->IsCurAnimationEnd())
-	{
-		Destroy();
-	}
-}
