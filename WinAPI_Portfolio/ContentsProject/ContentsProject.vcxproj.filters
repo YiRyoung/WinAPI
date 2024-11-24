@@ -37,30 +37,6 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>ContentsObject\Global\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="WaddleDee.cpp">
-      <Filter>ContentsObject\Global\Monster\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="WindBullet.cpp">
-      <Filter>ContentsObject\Global\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="SpitBullet.cpp">
-      <Filter>ContentsObject\Global\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="HotHead.cpp">
-      <Filter>ContentsObject\Global\Monster\Ability</Filter>
-    </ClCompile>
-    <ClCompile Include="HotFireBall.cpp">
-      <Filter>ContentsObject\Global\Monster\Ability</Filter>
-    </ClCompile>
-    <ClCompile Include="WaddleDoo.cpp">
-      <Filter>ContentsObject\Global\Monster\Ability</Filter>
-    </ClCompile>
-    <ClCompile Include="WaddleBeam.cpp">
-      <Filter>ContentsObject\Global\Monster\Ability</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -98,30 +74,6 @@
     </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>ContentsObject\Global\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>ContentsObject\Global\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="WaddleDee.h">
-      <Filter>ContentsObject\Global\Monster\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="WindBullet.h">
-      <Filter>ContentsObject\Global\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="SpitBullet.h">
-      <Filter>ContentsObject\Global\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="HotHead.h">
-      <Filter>ContentsObject\Global\Monster\Ability</Filter>
-    </ClInclude>
-    <ClInclude Include="HotFireBall.h">
-      <Filter>ContentsObject\Global\Monster\Ability</Filter>
-    </ClInclude>
-    <ClInclude Include="WaddleDoo.h">
-      <Filter>ContentsObject\Global\Monster\Ability</Filter>
-    </ClInclude>
-    <ClInclude Include="WaddleBeam.h">
-      <Filter>ContentsObject\Global\Monster\Ability</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

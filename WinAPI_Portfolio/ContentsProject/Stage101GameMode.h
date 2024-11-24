@@ -23,12 +23,5 @@ private:
 	class APlayer* NewPlayer = nullptr;
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
-	class AWindBullet* NewBullet = nullptr;
-	class ASpitBullet* NewStar = nullptr;
-	class AMonster* NewHotHead = nullptr;
-	class AMonster* NewWaddleDoo = nullptr;
-	class AWaddleBeam* NewWaddleBeam = nullptr;
-
-	std::string PlayerDir = " ";
 };
 

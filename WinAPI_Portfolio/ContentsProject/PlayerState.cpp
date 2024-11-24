@@ -1,8 +1,7 @@
 #include "PreCompile.h"
 #include "PlayerState.h"
 
-#include <EnginePlatform/EngineInput.h>
-#include <EngineCore/2DCollision.h>
+#include <EngineBase/TimeEvent.h>
 
 PlayerState::PlayerState()
 {
@@ -16,100 +15,33 @@ PlayerState::~PlayerState()
 {
 }
 
-bool PlayerState::IsDownKey(int _KeyCode) const
+void PlayerState::SetLimitAccel(bool _IsDeAcc, float MaxSpeed)
 {
-	if (UEngineInput::GetInst().IsDown(_KeyCode))
+	switch (_IsDeAcc)
 	{
-		return true;
-	}
-	else if (!UEngineInput::GetInst().IsDown(_KeyCode))
-	{
-		return false;
-	}
-	return false;
-}
-
-bool PlayerState::IsPressKey(int _KeyCode) const
-{
-	if (UEngineInput::GetInst().IsPress(_KeyCode))
-	{
-		return true;
-	}
-	else if (!UEngineInput::GetInst().IsPress(_KeyCode))
-	{
-		return false;
-	}
-	return false;
-}
-
-bool PlayerState::IsDoubleKey(int _KeyCode, float _Count) const
-{
-	if (UEngineInput::GetInst().IsDoubleClick(_KeyCode, _Count))
-	{
-		return true;
-	}
-	else if (!UEngineInput::GetInst().IsDoubleClick(_KeyCode, _Count))
-	{
-		return false;
-	}
-	return false;
-}
-
-void PlayerState::ChangeAnimation(std::string _Anim)
-{
-	std::string Text = _Anim + Player->GetAnimDir();
-	Player->ChangeAnimation(Text);
-}
-
-void PlayerState::SetAnimSpeed(float _Speed)
-{
-	Player->SetAnimSpeed(_Speed);
-}
-
-bool PlayerState::IsAnimFinish()
-{
-	if (true == Player->IsAnimFinish())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-bool PlayerState::CheckPointColor(CheckDir _Dir, UColor _Color)
-{
-	switch (_Dir)
-	{
-	case CheckDir::UP:
-		return Player->UpperPointCheck(_Color);
+	case true:	// ZeroSpeed
+		if (DirForce.Length() <= 0.01f)
+		{
+			DirForce.X = 0.0f;
+		}
 		break;
-	case CheckDir::DOWN:
-		return Player->BottomPointCheck(_Color);
+	case false:	// MaxSpeed
+		if (DirForce.Length() >= MaxSpeed)
+		{
+			DirForce.Normalize();
+			DirForce.X *= MaxSpeed;
+		}
 		break;
-	}
-	return false;
-}
-
-bool PlayerState::CheckColor(CheckDir _Dir, UColor _Color)
-{
-	if (true == Player->PixelLineColor(_Dir, _Color))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
 	}
 }
 
 void PlayerState::Gravity(float _DeltaTime)
 {
-	if (!CheckColor(CheckDir::DOWN, UColor::MAGENTA) && !CheckColor(CheckDir::DOWN, UColor::BLACK))
+	if (!PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
+		&& !PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
 	{
-		Move(GravityForce * _DeltaTime);
-		GravityForce += FVector2D::DOWN * 500.0f * _DeltaTime;
+		AddActorLocation(GravityForce * _DeltaTime);
+		GravityForce += FVector2D::DOWN * GravityPower * _DeltaTime;
 	}
 	else
 	{
@@ -117,60 +49,15 @@ void PlayerState::Gravity(float _DeltaTime)
 	}
 }
 
-void PlayerState::Move(FVector2D _NextPos)
+void PlayerState::IdleStart(float _DeltaTime)
 {
-	Player->AddActorLocation(_NextPos);
-}
-
-void PlayerState::SetLimitSpeed(bool _IsAccel)
-{
-	switch (_IsAccel)
+	if (GetPlayerFull() && "_Left" == Player->GetAnimDir())
 	{
-	case true:  // MaxSpeed
-		if (DirForce.Length() >= MaxSpeed)
-		{
-			DirForce.Normalize();
-			DirForce.X *= MaxSpeed;
-		}
-		break;
-	case false: // ZeroSpeed
-		if (DirForce.Length() <= 0.01f)
-		{
-			DirForce.X = 0.0f;
-		}
-		break;
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 30);
 	}
-}
-
-void PlayerState::Attack()
-{
-	if (Player->GetAbility() == EAblityType::NORMAL && !Player->GetFull())
+	else if (GetPlayerFull() && "_Right" == Player->GetAnimDir())
 	{
-		SetState(EStateType::INHALESTART);
-		return;
-	}
-	else if (Player->GetAbility() == EAblityType::NORMAL && Player->GetFull())
-	{
-		SetState(EStateType::INHALEEND);
-		return;
-	}
-	else
-	{
-		SetState(EStateType::SKILL);
-		return;
-	}
-}
-
-void PlayerState::SetState(EStateType _State)
-{
-	Player->SetState(_State);
-}
-
-void PlayerState::Idle(float _DeltaTime)
-{
-	if (Player->GetFull())
-	{
-		ChangeAnimation("IdleFull");
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Right.png", 30);
 	}
 	else
 	{
@@ -178,83 +65,32 @@ void PlayerState::Idle(float _DeltaTime)
 	}
 
 	Gravity(_DeltaTime);
+	Idle(_DeltaTime);
+}
 
-	// Move & Dash
-	if (IsDoubleKey(VK_LEFT, 0.2f) || IsDoubleKey(VK_RIGHT, 0.2f) && !Player->GetFull())
-	{
-		SetState(EStateType::DASH);
-		return;
-	}
-	else if (IsPressKey(VK_LEFT) || IsPressKey(VK_RIGHT))
-	{
-		SetState(EStateType::WALK);
-		return;
-	}
-
-	// Jump
-	if (IsPressKey('Z') && (EStateType::BEND != GetState()))
-	{
-		SetState(EStateType::JUMP);
-		return;
-	}
-
-	// FlyStart
-	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::UP, UColor::YELLOW)
-		&& !Player->GetFull())
-	{
-		SetState(EStateType::FLYSTART);
-		return;
-	}
-	
-	// Bend
-	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
-	{
-		if (!Player->GetFull())
-		{
-			SetState(EStateType::BEND);
-			return;
-		}
-		else
-		{
-			SetState(EStateType::EAT);
-			return;
-		}
-	}
-
-	// Climb
-	if ((IsPressKey(VK_UP) && CheckPointColor(CheckDir::UP, UColor::YELLOW))
-		|| (IsPressKey(VK_DOWN) && CheckPointColor(CheckDir::DOWN, UColor::YELLOW)))
-	{
-		SetState(EStateType::CLIMB);
-		return;
-	}
-
-	// Falling
-	if (!CheckColor(CheckDir::DOWN, UColor::MAGENTA) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
-	{
-		SetState(EStateType::FALLING);
-		return;
-	}
-
-	// Attack
-	if (IsDownKey('X'))
-	{
-		Attack();
-	}
+void PlayerState::Idle(float _DeltaTime)
+{
+	ChangeWalkAndDash();
+	ChangeJump();
+	ChangeFly();
+	ChangeBend();
+	ChangeClimb();
+	ChangeFall();
+	ChangeEat();
+	ChangeAttack();
 
 	// DeAccel
-	if (!CheckColor(CheckDir::LEFT, UColor::MAGENTA)
-		&& !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
+	if (!PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
 		DirForce.X += -DirForce.X * DeAccSpeed * _DeltaTime;
-		SetLimitSpeed(false);
-		Move(DirForce * _DeltaTime);
+		SetLimitAccel(true);
+		AddActorLocation(DirForce * _DeltaTime);
 	}
 }
 
-void PlayerState::Walk(float _DeltaTime)
+void PlayerState::WalkStart(float _DeltaTime)
 {
-	if (Player->GetFull())
+	if (GetPlayerFull())
 	{
 		ChangeAnimation("WalkFull");
 	}
@@ -264,239 +100,169 @@ void PlayerState::Walk(float _DeltaTime)
 	}
 
 	Gravity(_DeltaTime);
+	Walk(_DeltaTime);
+}
 
-	// Jump
-	if (IsPressKey('Z') && EStateType::BEND != GetState())
-	{
-		SetState(EStateType::JUMP);
-		return;
-	}
-	
-	// FlyStart
-	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::DOWN, UColor::YELLOW)
-		&& !Player->GetFull())
-	{
-		SetState(EStateType::FLYSTART);
-		return;
-	}
+void PlayerState::Walk(float _DeltaTime)
+{
+	ChangeJump();
+	ChangeFly();
+	ChangeBend();
+	ChangeClimb();
+	ChangeIdle();
+	ChangeEat();
+	ChangeAttack();
 
-	// Bend
-	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
+	// Walk
 	{
-		if (!Player->GetFull())
+		float NewSpeed = (true == GetPlayerFull()) ? Speed * 0.5f : Speed;
+		FVector2D Vector = FVector2D::ZERO;
+		ECheckDir Direction = ECheckDir::MAX;
+
+		if (IsPressKey(VK_LEFT))
 		{
-			SetState(EStateType::BEND);
-			return;
+			Vector = FVector2D::LEFT;
+			Direction = ECheckDir::LEFT;
+
+			if (!PixelLineCheck(Direction, UColor::MAGENTA))
+			{
+				AddActorLocation(Vector * NewSpeed * _DeltaTime);
+			}
 		}
-		else
+		if (IsPressKey(VK_RIGHT))
 		{
-			SetState(EStateType::EAT);
-			return;
+			Vector = FVector2D::RIGHT;
+			Direction = ECheckDir::RIGHT;
+
+			if (!PixelLineCheck(Direction, UColor::MAGENTA))
+			{
+				AddActorLocation(Vector * NewSpeed * _DeltaTime);
+			}
 		}
 	}
+}
 
-	// Climb
-	if ((IsPressKey(VK_UP) && CheckPointColor(CheckDir::UP, UColor::YELLOW))
-		|| (IsPressKey(VK_DOWN) && CheckPointColor(CheckDir::DOWN, UColor::YELLOW)))
+void PlayerState::DashStart(float _DeltaTime)
+{
+	if (GetPlayerFull())
 	{
-		SetState(EStateType::CLIMB);
-		return;
-	}
-
-	// Idle
-	if (!IsPressKey(VK_LEFT) && !IsPressKey(VK_RIGHT))
-	{
-		SetState(EStateType::IDLE);
-		return;
-	}
-
-	// Moving
-	float NewSpeed = 0;
-	if (Player->GetFull())
-	{
-		NewSpeed = Speed * 0.5f;
+		ChangeAnimation("DashFull");
 	}
 	else
 	{
-		NewSpeed = Speed;
+		ChangeAnimation("Dash");
 	}
 
-	// Attack
-	if (IsPressKey('X'))
-	{
-		Attack();
-	}
-
-
-	if (IsPressKey(VK_LEFT))
-	{
-		if (!CheckColor(CheckDir::LEFT, UColor::MAGENTA))
-		{
-			Move(FVector2D::LEFT * NewSpeed * _DeltaTime);
-		}
-	}
-	if (IsPressKey(VK_RIGHT))
-	{
-		if (!CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
-		{
-			Move(FVector2D::RIGHT * NewSpeed * _DeltaTime);
-		}
-	}
+	IsAccel = true;
+	Gravity(_DeltaTime);
+	Dash(_DeltaTime);
 }
 
 void PlayerState::Dash(float _DeltaTime)
 {
-	ChangeAnimation("Dash");
-	Gravity(_DeltaTime);
+	ChangeJump();
+	ChangeClimb();
+	ChangeFly();
+	ChangeBend();
+	ChangeIdle();
+	ChangeEat();
+	ChangeAttack();
 
-	// Jump
-	if (IsPressKey('Z') && EStateType::BEND != GetState())
+	// Dash
 	{
-		DirForce = FVector2D::ZERO;
-		SetState(EStateType::JUMP);
-		return;
-	}
-
-	// FlyStart
-	if (IsPressKey(VK_UP) && !CheckColor(CheckDir::UP, UColor::YELLOW)
-		&& !Player->GetFull())
-	{
-		DirForce = FVector2D::ZERO;
-		SetState(EStateType::FLYSTART);
-		return;
-	}
-
-	// Bend
-	if (IsPressKey(VK_DOWN) && !CheckColor(CheckDir::DOWN, UColor::YELLOW))
-	{
-		if (!Player->GetFull())
+		float NewMaxSpeed = (true == GetPlayerFull()) ? MaxSpeed * 0.7f : MaxSpeed;
+		FVector2D Vector = FVector2D::ZERO;
+		
+		if (IsPressKey(VK_LEFT))
 		{
-			SetState(EStateType::BEND);
-			return;
+			Vector = FVector2D::LEFT;
+		}
+		if (IsPressKey(VK_RIGHT))
+		{
+			Vector = FVector2D::RIGHT;
+		}
+
+		DirForce += Vector * AccSpeed * _DeltaTime;
+		SetLimitAccel(false, NewMaxSpeed);
+
+		if (!PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+		{
+			AddActorLocation(DirForce * _DeltaTime);
+		}
+	}
+}
+
+void PlayerState::JumpStart(float _DeltaTime)
+{
+	float Force = JumpPower - GravityForce.Y;
+
+	if (0.0f < Force)
+	{
+		if (GetPlayerFull())
+		{
+			if ("_Left" == Player->GetAnimDir())
+			{
+				Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 31);
+			}
+			else if ("_Right" == Player->GetAnimDir())
+			{
+				Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Right.png", 31);
+			}
 		}
 		else
 		{
-			SetState(EStateType::EAT);
-			return;
+			if ("_Left" == Player->GetAnimDir())
+			{
+				Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 11);
+			}
+			else if ("_Right" == Player->GetAnimDir())
+			{
+				Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Right.png", 11);
+			}
+		}
+	}
+	else
+	{
+		if (GetPlayerFull())
+		{
+			ChangeAnimation("JumpFull");
+		}
+		else
+		{
+			ChangeAnimation("Jump");
 		}
 	}
 
-	// Climb
-	if ((IsPressKey(VK_UP) && CheckPointColor(CheckDir::UP, UColor::YELLOW))
-		|| (IsPressKey(VK_DOWN) && CheckPointColor(CheckDir::DOWN, UColor::YELLOW)))
-	{
-		SetState(EStateType::CLIMB);
-		return;
-	}
-
-	// Idle
-	if (!IsPressKey(VK_LEFT) && !IsPressKey(VK_RIGHT))
-	{
-		DirForce = FVector2D::ZERO;
-		SetState(EStateType::IDLE);
-		return;
-	}
-
-	// Attack
-	if (IsPressKey('X'))
-	{
-		Attack();
-	}
-
-	// Dashing
-	FVector2D Vector = FVector2D::ZERO;
-
-	if (IsPressKey(VK_LEFT))
-	{
-		Vector = FVector2D::LEFT;
-	}
-	if (IsPressKey(VK_RIGHT))
-	{
-		Vector += FVector2D::RIGHT;
-	}
-
-	DirForce += Vector * AccSpeed * _DeltaTime;
-	SetLimitSpeed(true);
-
-	if (!CheckColor(CheckDir::LEFT, UColor::MAGENTA) && !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
-	{
-		Move(DirForce * _DeltaTime);
-	}
+	Gravity(_DeltaTime);
+	Jump(_DeltaTime);
 }
 
 void PlayerState::Jump(float _DeltaTime)
 {
-	float Force = JumpForce - GravityForce.Y;
-
-	if (0.0f < Force)
-	{
-		if (Player->GetFull())
-		{
-			ChangeAnimation("JumpStartFull");
-		}
-		else
-		{
-			ChangeAnimation("JumpStart");
-		}
-	}
-	else
-	{
-		if (Player->GetFull())
-		{
-			ChangeAnimation("JumpEndFull");
-		}
-		else
-		{
-			ChangeAnimation("JumpEnd");
-		}
-	}
-
-	Gravity(_DeltaTime);
-
-	// Attack
-	if (IsPressKey('X'))
-	{
-		Attack();
-	}
-
-	// FlyStart
-	if (IsPressKey(VK_UP) && !Player->GetFull())
-	{
-		SetState(EStateType::FLYSTART);
-		return;
-	}
+	ChangeFly();
+	ChangeAttack();
 
 	// Jumping
-	DirForce += FVector2D::UP;
-	float PushForce = 0.0f;
+	{
+		FVector2D Vector = FVector2D::UP;
 
-	if (Player->GetFull())
-	{
-		PushForce = JumpForce * 0.8f;
-	}
-	else
-	{
-		PushForce = JumpForce;
-	}
+		if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
+		{
+			Vector += FVector2D::LEFT * 0.5f;
+		}
+		if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+		{
+			Vector += FVector2D::RIGHT * 0.5f;
+		}
+		DirForce.Normalize();
+		AddActorLocation(Vector * JumpPower * _DeltaTime);
 
-	if (IsPressKey(VK_LEFT) && !CheckColor(CheckDir::LEFT, UColor::MAGENTA))
-	{
-		DirForce += FVector2D::LEFT * _DeltaTime * AccSpeed;
-		SetLimitSpeed(true);
-	}
-	if (IsPressKey(VK_RIGHT) && !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
-	{
-		DirForce += FVector2D::RIGHT * _DeltaTime * AccSpeed;
-		SetLimitSpeed(true);
-	}
-	DirForce.Normalize();
-	Move(DirForce * PushForce * _DeltaTime);
-
-	if (CheckColor(CheckDir::DOWN, UColor::MAGENTA) || CheckColor(CheckDir::UP, UColor::MAGENTA)
-		|| CheckColor(CheckDir::DOWN, UColor::BLACK))
-	{
-		SetState(EStateType::IDLE);
-		return;
+		if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::UP, UColor::MAGENTA)
+			|| PixelLineCheck(ECheckDir::DOWN, UColor::BLACK) || PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
+		{
+			SetPlayerState(EPlayerState::IDLE);
+			return;
+		}
 	}
 }
 
@@ -511,274 +277,407 @@ void PlayerState::FlyStart(float _DeltaTime)
 		GravityForce = FVector2D::ZERO;
 		Vector += FVector2D::UP;
 	}
-	if (IsPressKey(VK_LEFT))
+	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::LEFT;
 	}
-	if (IsPressKey(VK_RIGHT))
+	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::RIGHT;
 	}
 	Vector.Normalize();
 
-	if (!CheckColor(CheckDir::UP, UColor::MAGENTA) && !CheckColor(CheckDir::DOWN, UColor::MAGENTA))
+	if (!PixelLineCheck(ECheckDir::UP, UColor::MAGENTA))
 	{
-		Move(Vector * Speed * _DeltaTime);
+		AddActorLocation(Vector * (Speed * 0.7f) * _DeltaTime);
 	}
 
-	if (true == Player->IsAnimFinish())
+	if (IsAnimFinish())
 	{
-		SetState(EStateType::FLYING);
+		SetPlayerState(EPlayerState::FLY);
 		return;
 	}
 }
 
-void PlayerState::Flying(float _DeltaTime)
+void PlayerState::Fly(float _DeltaTime)
 {
 	ChangeAnimation("Flying");
 
-	// Falling
-	if (true == IsPressKey('X'))
+	if (IsPressKey('X'))
 	{
-		SetAnimSpeed(1.0f);
-		SetState(EStateType::FLYEND);
+		Player->GetPlayerRenderer()->ResetAnimationSpeed();
+		ChangeAnimation("FlyEnd");
+		SetPlayerState(EPlayerState::FLYEND);
 		return;
 	}
 
 	FVector2D Vector = FVector2D::ZERO;
 
-	if (IsPressKey(VK_UP))  // Fly High!
+	if (IsPressKey(VK_UP) && !PixelLineCheck(ECheckDir::UP, UColor::MAGENTA))	// Fly High!
 	{
 		GravityForce = FVector2D::ZERO;
-		SetAnimSpeed(5.0f);
+		Player->GetPlayerRenderer()->SetAnimationSpeed(5.0f);
 		Vector += FVector2D::UP;
 	}
-	else // Landing
+	else					// Landing
 	{
-		SetAnimSpeed(1.0f);
-		if (!CheckColor(CheckDir::DOWN, UColor::MAGENTA) && !CheckColor(CheckDir::DOWN, UColor::BLACK))
+		Player->GetPlayerRenderer()->ResetAnimationSpeed();
+		if (!PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
+			&& !PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
-			Move(FVector2D::DOWN * (Speed * 0.7f) * _DeltaTime);
+			Vector += FVector2D::DOWN;
 		}
 	}
 
-	if (IsPressKey(VK_LEFT))
+	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::LEFT;
 	}
-	if (IsPressKey(VK_RIGHT))
+	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::RIGHT;
 	}
+
 	Vector.Normalize();
 
-	if (!CheckColor(CheckDir::UP, UColor::MAGENTA))
-	{
-		Move(Vector * (Speed * 0.7f) * _DeltaTime);
-	}
+	AddActorLocation(Vector * (Speed * 0.7f) * _DeltaTime);
 }
 
 void PlayerState::FlyEnd(float _DeltaTime)
 {
-	ChangeAnimation("FlyEnd");
+	// 바람 발사 추가
 
-	if (true == Player->IsAnimFinish())
+	if (IsAnimFinish())
 	{
-		if (CheckColor(CheckDir::DOWN, UColor::MAGENTA))
+		if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
+			|| PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
-			SetState(EStateType::IDLE);
+			SetPlayerState(EPlayerState::IDLE);
 			return;
 		}
 		else
 		{
-			SetState(EStateType::FALLING);
+			SetPlayerState(EPlayerState::FALL);
 			return;
 		}
 	}
 }
 
-void PlayerState::Falling(float _DeltaTime)
+void PlayerState::FallStart(float _DeltaTime)
 {
-	if (!Player->GetFull())
+	if (!GetPlayerFull())
 	{
-		ChangeAnimation("Falling");
+		if ("_Left" == Player->GetAnimDir())
+		{
+			Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 15);
+		}
+		else
+		{
+			Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Right.png", 15);
+		}
 	}
 	else
 	{
-		ChangeAnimation("JumpEndFull");
+		if ("_Left" == Player->GetAnimDir())
+		{
+			Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 31);
+		}
+		else
+		{
+			Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Right.png", 31);
+		}
 	}
 
 	Gravity(_DeltaTime);
-	// Black 및 Yellow 추가
+	Fall(_DeltaTime);
+}
 
-	// FlyStart
-	if (IsPressKey(VK_UP))
+void PlayerState::Fall(float _DeltaTime)
+{
+	ChangeFly();
+
+	if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
+		|| PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW) || PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA)
+		|| PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
-		SetState(EStateType::FLYSTART);
+		SetPlayerState(EPlayerState::IDLE);
 		return;
 	}
 
 	FVector2D Vector = FVector2D::ZERO;
-	if (IsPressKey(VK_LEFT))
+
+	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::LEFT;
 	}
-	if (IsPressKey(VK_RIGHT))
+	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::RIGHT;
 	}
-	Move(Vector * Speed * _DeltaTime);
+	Vector.Normalize();	
+	AddActorLocation(Vector * Speed * _DeltaTime);
+}
 
-	//Idle
-	if (CheckColor(CheckDir::DOWN, UColor::MAGENTA) 
-		|| CheckColor(CheckDir::DOWN, UColor::YELLOW) || CheckColor(CheckDir::DOWN, UColor::BLACK))
+void PlayerState::BendStart(float _DeltaTime)
+{
+	if ("_Left" == Player->GetAnimDir())
 	{
-		DirForce = FVector2D::ZERO;
-		SetState(EStateType::IDLE);
-		return;
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 47);
 	}
+	else
+	{
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Right.png", 47);
+	}
+
+	Bend(_DeltaTime);
 }
 
 void PlayerState::Bend(float _DeltaTime)
 {
-	ChangeAnimation("Bend");
-
-	// Slide
-	if (IsPressKey('Z') || IsPressKey('X'))
+	if (!IsPressKey(VK_DOWN))
 	{
-		SetState(EStateType::SLIDE);
+		SetPlayerState(EPlayerState::IDLE);
 		return;
 	}
 
-	// Idle
-	if (!IsPressKey(VK_DOWN))
+	if (IsPressKey('Z') || IsPressKey('X'))
 	{
-		SetState(EStateType::IDLE);
-		return; 
+		SetPlayerState(EPlayerState::SLIDE);
+		return;
 	}
+
+	// DeAccel
+	if (!PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	{
+		DirForce.X += -DirForce.X * DeAccSpeed * _DeltaTime;
+		SetLimitAccel(true);
+		AddActorLocation(DirForce * _DeltaTime);
+	}
+}
+
+void PlayerState::SlideStart(float _DeltaTime)
+{
+	if ("_Left" == Player->GetAnimDir())
+	{
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 7);
+	}
+	else
+	{
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Right.png", 7);
+	}
+
+	CurTime += _DeltaTime;
+	Player->SliderCollisionSwitch(true);
+	Gravity(_DeltaTime);
+	Slide(_DeltaTime);
 }
 
 void PlayerState::Slide(float _DeltaTime)
 {
-	ChangeAnimation("Slide");
-	SetSlideCollision(true);
-	CurTime += _DeltaTime;
-	Gravity(_DeltaTime);
-
-	FVector2D Vector = FVector2D::ZERO;
+	if ("_Left" == Player->GetAnimDir())
+	{
+		AddActorLocation(FVector2D::LEFT * Speed * _DeltaTime);
+	}
 
 	if ("_Right" == Player->GetAnimDir())
 	{
-		Vector += FVector2D::RIGHT;
+		AddActorLocation(FVector2D::RIGHT * Speed * _DeltaTime);
+	}
+
+	if (CurTime >= 0.8f || PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA) || PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	{
+		CurTime = 0.0f;
+		Player->SliderCollisionSwitch(false);
+		SetPlayerState(EPlayerState::IDLE);
+		return;
+	}
+}
+
+void PlayerState::ClimbStart(float _DeltaTime)
+{
+	if (IsPressKey(VK_UP))
+	{
+		ChangeAnimation("ClimbUp");
 	}
 	else
 	{
-		Vector += FVector2D::LEFT;
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 52);
 	}
 
-	if (!CheckColor(CheckDir::LEFT, UColor::MAGENTA) && !CheckColor(CheckDir::RIGHT, UColor::MAGENTA))
+	if (IsPressKey(VK_DOWN))
 	{
-		Move(Vector * Speed * _DeltaTime);
-	}
-	else
-	{
-		CurTime = 0.0f;
-		DirForce = FVector2D::ZERO;
-		SetSlideCollision(false);
-		SetState(EStateType::IDLE);
-		return;
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 54);
 	}
 
-	if (CurTime >= 0.8f)
-	{
-		CurTime = 0.0f;
-		DirForce = FVector2D::ZERO;
-		SetSlideCollision(false);
-		SetState(EStateType::IDLE);
-		return;
-	}
-
+	Climb(_DeltaTime);
 }
 
 void PlayerState::Climb(float _DeltaTime)
 {
 	if (IsPressKey(VK_LEFT) || IsPressKey(VK_RIGHT))
 	{
-		SetState(EStateType::FALLING);
+		SetPlayerState(EPlayerState::FALL);
 		return;
 	}
 
 	if (IsPressKey(VK_UP))
 	{
-		ChangeAnimation("ClimbUp");
-
-		if (CheckPointColor(CheckDir::DOWN, UColor::MAGENTA) || CheckPointColor(CheckDir::DOWN, UColor::YELLOW)
-			|| CheckPointColor(CheckDir::DOWN, UColor::BLACK))
+		if (PixelPointCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW)
+			|| PixelPointCheck(ECheckDir::DOWN, UColor::BLACK))
 		{
-			Move(FVector2D::UP * Speed * _DeltaTime);
+			AddActorLocation(FVector2D::UP * Speed * _DeltaTime);
 		}
-		if (!CheckPointColor(CheckDir::DOWN, UColor::YELLOW) && CheckPointColor(CheckDir::UP, UColor::WHITE))
+		if (!PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW) && PixelPointCheck(ECheckDir::UP, UColor::WHITE))
 		{
-			SetState(EStateType::IDLE);
+			SetPlayerState(EPlayerState::IDLE);
 			return;
 		}
 	}
 
 	if (IsPressKey(VK_DOWN))
 	{
-		ChangeAnimation("ClimbDown");
-
-		if (CheckPointColor(CheckDir::UP, UColor::WHITE) || CheckPointColor(CheckDir::UP, UColor::YELLOW))
+		if (PixelPointCheck(ECheckDir::UP, UColor::WHITE) || PixelPointCheck(ECheckDir::UP, UColor::YELLOW))
 		{
-			Move(FVector2D::DOWN * Speed * _DeltaTime);
+			AddActorLocation(FVector2D::DOWN * Speed * _DeltaTime);
 		}
-		if (CheckPointColor(CheckDir::DOWN, UColor::MAGENTA))
+		if (PixelPointCheck(ECheckDir::DOWN, UColor::MAGENTA))
 		{
-			SetState(EStateType::IDLE);
+			SetPlayerState(EPlayerState::IDLE);
 			return;
 		}
 	}
 }
 
-void PlayerState::InhaleStart(float _DeltaTime)
-{
-	ChangeAnimation("InhaleStart");
-	SetInhaleCollision(true);
-	GravityForce = FVector2D::ZERO;
-
-	if (!IsPressKey('X'))
-	{
-		SetInhaleCollision(false);
-		SetState(EStateType::IDLE);
-		return;
-	}
-}
-
-void PlayerState::InhaleEnd(float _DeltaTime)
-{
-	ChangeAnimation("InhaleEnd");
-	SetInhaleCollision(false);
-
-	if (IsAnimFinish())
-	{
-		Player->SetFull(false);
-		SetState(EStateType::IDLE);
-		return;
-	}
-}
-
-void PlayerState::Eat(float _DeltaTime)
+void PlayerState::EatStart(float _DeltaTime)
 {
 	ChangeAnimation("Eat");
 
 	if (IsAnimFinish())
 	{
-		Player->SetFull(false);
-		SetState(EStateType::IDLE);
-		return;
+		Eat(_DeltaTime);
 	}
+}
+
+void PlayerState::AttackStart(float _DeltaTime)
+{
+}
+
+void PlayerState::Eat(float _DeltaTime)
+{
+	SetPlayerFull(false);
+	SetPlayerState(EPlayerState::IDLE);
+	return;
+}
+
+void PlayerState::HurtStart(float _DeltaTime)
+{
 }
 
 void PlayerState::Hurt(float _DeltaTime)
 {
 }
+
+void PlayerState::Attack(float _DeltaTime)
+{
+	
+}
+
+void PlayerState::ChangeIdle()
+{
+	if (!IsPressKey(VK_LEFT) && !IsPressKey(VK_RIGHT))
+	{
+		ResetDirForce();
+		SetPlayerState(EPlayerState::IDLE);
+		return;
+	}
+}
+
+void PlayerState::ChangeWalkAndDash()
+{
+	// Move & Dash
+	if (IsDoubleKey(VK_LEFT, 0.2f) || IsDoubleKey(VK_RIGHT, 0.2f))
+	{
+		SetPlayerState(EPlayerState::DASH);
+		return;
+	}
+	else if (IsPressKey(VK_LEFT) || IsPressKey(VK_RIGHT))
+	{
+		SetPlayerState(EPlayerState::WALK);
+		return;
+	}
+}
+
+void PlayerState::ChangeJump()
+{
+	// Jump
+	if (EPlayerState::BEND != GetPlayerState() && IsPressKey('Z'))
+	{
+		ResetDirForce();
+		SetPlayerState(EPlayerState::JUMP);
+		return;
+	}
+}
+
+void PlayerState::ChangeFly()
+{
+	// Fly
+	if (IsPressKey(VK_UP) && !GetPlayerFull())
+	{
+		ResetDirForce();
+		SetPlayerState(EPlayerState::FLYSTART);
+		return;
+	}
+}
+
+void PlayerState::ChangeFall()
+{
+	// Fall
+	if (!PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK) 
+		&& !PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
+	{
+		ResetDirForce();
+		SetPlayerState(EPlayerState::FALL);
+		return;
+	}
+}
+
+void PlayerState::ChangeBend()
+{
+	// Bend
+	if (IsPressKey(VK_DOWN) && !GetPlayerFull()
+		&& !PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
+	{
+		SetPlayerState(EPlayerState::BEND);
+		return;
+	}
+}
+
+void PlayerState::ChangeClimb()
+{
+	if ((IsPressKey(VK_UP) && PixelPointCheck(ECheckDir::UP, UColor::YELLOW))
+		|| (IsPressKey(VK_DOWN) && PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW)))
+	{
+		SetPlayerState(EPlayerState::CLIMB);
+		return;
+	}
+}
+
+void PlayerState::ChangeEat()
+{
+	// Eat
+	if (IsPressKey(VK_DOWN) && GetPlayerFull())
+	{
+		SetPlayerState(EPlayerState::EAT);
+		return;
+	}
+}
+
+void PlayerState::ChangeAttack()
+{
+	if (IsPressKey('X'))
+	{
+		SetPlayerState(EPlayerState::ATTACK);
+		return;
+	}
+}
+

@@ -27,7 +27,7 @@ void AMidBossGameMode::BeginPlay()
 	NewActor->SwitchColSprite();
 
 	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
-	Player->GetBackImage("MidBoss.png", "ColMidBoss.png");
+	Player->GetBackgroundImage("MidBoss.png", "ColMidBoss.png");
 	Player->SetActorLocation({ 185, 915 });
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();

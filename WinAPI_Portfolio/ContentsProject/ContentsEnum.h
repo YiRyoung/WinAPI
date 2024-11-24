@@ -14,26 +14,66 @@ enum class ERenderOrder
 
 enum class ECollisionGroup
 {
-	PlayerBody,
-	PlayerSkill,
-	InhaleBox,
-	MonsterBody,
-	MonsterSkill,
-	StarBlock
+	PLAYERBODY,
+	PLAYERSKILL,
+	INHALEBOX,
+	MONSTERBODY,
+	MONSTERSKILL,
+	BLOCK
 };
 
 enum class EAblityType
 {
 	NORMAL,
+	BEAM,
 	FIRE,
-	CUTTER,
-	SPARK
+	CUTTER
 };
 
-enum class CheckDir
+enum class ECheckDir
 {
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	MAX
+};
+
+enum class EAbilityType
+{
+	NORMAL,
+	BEAM,
+	FIRE,
+	CUTTER
+};
+
+enum class EPlayerState
+{
+	IDLE,
+	WALK,
+	DASH,
+	FLYSTART,
+	FLY,
+	FLYEND,
+	JUMP,
+	BEND,
+	SLIDE,
+	CLIMB,
+	FALL,
+	EAT,
+	ATTACK,
+	HURT,
+	DIE
+};
+
+enum class EMonsterState
+{
+	PAUSE,
+	CHASE,
+	ATTACKSTART,
+	ATTACK,
+	ATTACKEND,
+	INHALE,
+	HURT,
+	DIE
 };

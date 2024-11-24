@@ -5,26 +5,6 @@
 
 #include "ContentsEnum.h"
 
-enum class EStateType
-{
-	IDLE,
-	WALK,
-	DASH,
-	FLYSTART,
-	FLYING,
-	FLYEND,
-	JUMP,
-	BEND,
-	SLIDE,
-	CLIMB,
-	FALLING,
-	INHALESTART,
-	INHALEEND,	// Spit
-	EAT,
-	SKILL,
-	HURT
-};
-
 class APlayer : public AActor
 {
 public:
@@ -38,123 +18,93 @@ public:
 	APlayer& operator=(const APlayer& _Other) = delete;
 	APlayer& operator=(APlayer&& _Other) noexcept = delete;
 
-	void BeginPlay() override;
-	void Tick(float _DeltaTime) override;
-
-	void GetBackImage(std::string_view _ImageName, std::string_view _ColImageName);
-
-	inline std::string GetAnimDir() const
+	// SpriteRenderer
+	FVector2D GetDir() const;
+	std::string GetAnimDir() const;
+	USpriteRenderer* GetPlayerRenderer() const
 	{
-		return AnimDir;
-	}
-	bool IsAnimFinish()
-	{
-		if (true == SpriteRenderer->IsCurAnimationEnd())
-		{
-			return true;
-		}
-		return false;
-	}
-	void SetAnimSpeed(float _Speed)
-	{
-		SpriteRenderer->SetAnimationSpeed(_Speed);
-	}
-	void ChangeAnimation(std::string _Anim)
-	{
-		SpriteRenderer->ChangeAnimation(_Anim);
+		return PlayerRenderer;
 	}
 
-	bool UpperPointCheck(UColor _Color);
-	bool BottomPointCheck(UColor _Color);
-	bool PixelLineColor(CheckDir _Dir, UColor _Color);
+	void ChangeAnimation(std::string _Anim);
 
-	// Collider
-	void SetSlide(bool _OnOff)
-	{
-		if ("_Right" == AnimDir)
-		{
-			SlideRightCollision->SetActive(_OnOff);
-		}
-		else
-		{
-			SlideLeftCollision->SetActive(_OnOff);
-		}
-	}
-	void SetInhale(bool _OnOff)
-	{
-		if ("_Right" == AnimDir)
-		{
-			InhaleRightCollision->SetActive(_OnOff);
-		}
-		else
-		{
-			InhaleLeftCollision->SetActive(_OnOff);
-		}
-	}
-
-	void CollisionEnter(AActor* _ColActor);
-	void CollisionStay(AActor* _ColActor);
-
-	EStateType GetState() const
+	// PlayerState
+	inline EPlayerState GetCurState() const
 	{
 		return CurState;
 	}
-	void SetState(EStateType _NextState)
+	inline void SetCurState(EPlayerState _ChangeState)
 	{
-		CurState = _NextState;
+		CurState = _ChangeState;
 	}
 
-	EAblityType GetAbility() const
+	// PlayerAbility
+	inline EAbilityType GetCurAbility() const
 	{
-		return CurType;
+		return CurAbility;
 	}
-	void SetAbility(EAblityType _NewTpye)
+	inline void SetCurAbility(EAbilityType _NewAbility)
 	{
-		CurType = _NewTpye;
+		CurAbility = _NewAbility;
 	}
 
-	class U2DCollision* CollisionComponent = nullptr;
+	// Pixel Collision
+	void GetBackgroundImage(std::string_view _BackImage, std::string_view _ColImage);
 
-	inline bool GetFull() const
+	inline bool GetIsFull() const
 	{
 		return IsFull;
 	}
-	inline void SetFull(bool _IsFull)
+	inline void SetIsFull(bool _Full)
 	{
-		IsFull = _IsFull;
+		IsFull = _Full;
 	}
 
+	void SetAdjustSize();
+	void DrawDebugPoint(FVector2D _Point);
+	bool PixelPointCheck(ECheckDir _Dir, UColor _Color);
+	bool PixelLineCheck(ECheckDir _Dir, UColor _Color);
+
+	// Collision Switch
+	void SliderCollisionSwitch(bool _IsOn);
+	void SkillBoxCollisionSwitch(bool _IsOn);
+
+	// Collision
+
 protected:
+	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
 
 private:
+	bool IsFull = false;
 	int MySpriteIndex = 0;
 	std::string AnimDir = "_Right";
+	FVector2D PlayerScale = FVector2D::ZERO;
+	FVector2D AdjustValue = FVector2D::ZERO;
 
-	EStateType CurState = EStateType::IDLE;
-	EAblityType CurType = EAblityType::NORMAL;
-	EAblityType EatType = EAblityType::NORMAL;
+	class PlayerState* State = nullptr;
+	class PlayerState* Ability = nullptr;
+	class UEngineWinImage* BackgroundImage = nullptr;
+	class UEngineWinImage* ColliderImage = nullptr;
+	USpriteRenderer* PlayerRenderer = nullptr;
 
-	class PlayerState* State;
-	class PlayerAbility* Ability;
+	EPlayerState CurState = EPlayerState::IDLE;
+	EAbilityType CurAbility = EAbilityType::NORMAL;
+	void FSM(float _DeltaTime);
 
-	class UEngineWinImage* BackImage = nullptr;
-	class UEngineWinImage* ColImage = nullptr;
-	class USpriteRenderer* SpriteRenderer;
+	U2DCollision* PlayerCollision = nullptr;
+	U2DCollision* SlideLeftCollision = nullptr;
+	U2DCollision* SlideRightCollision = nullptr;
+	U2DCollision* SkillBoxLeftCollision = nullptr;
+	U2DCollision* SkillBoxRightCollision = nullptr;
 
-	class U2DCollision* SlideLeftCollision = nullptr;
-	class U2DCollision* SlideRightCollision = nullptr;
-	class U2DCollision* InhaleLeftCollision = nullptr;
-	class U2DCollision* InhaleRightCollision = nullptr;
+	void CollisionEnter(AActor* _ColActor);
+	void CollisionStay(AActor* _ColActor);
 
 	void SetPlayer();
 	void SetAnimation();
 	void SetAnimDir();
 	void SetPlayerCollision();
 	void CameraMove();
-
-	void FSM(float _DeltaTime);
-
-	// Attack
-	bool IsFull = false;
 };
 

@@ -1,29 +1,22 @@
 #include "PreCompile.h"
 #include "Player.h"
 
-#include <EngineCore/EngineAPICore.h>
-#include <EngineCore/ImageManager.h>
-#include <EngineCore/SpriteRenderer.h>
-#include <EngineCore/EngineCoreDebug.h>
-#include <EngineCore/2DCollision.h>
-
 #include <EnginePlatform/EngineInput.h>
 
-#include "ContentsEnum.h"
-#include "PlayerState.h"
+#include <EngineCore/EngineAPICore.h>
+#include <EngineCore/EngineCoreDebug.h>
+#include <EngineCore/ImageManager.h>
 
-#include "WindBullet.h"
-#include "WaddleDee.h"
+#include "PlayerState.h"
+#include "ContentsEnum.h"
 
 APlayer::APlayer()
 {
-
 	SetPlayer();
 	SetAnimation();
 	SetPlayerCollision();
 
 	State = new PlayerState(this);
-
 	DebugOn();
 }
 
@@ -35,7 +28,7 @@ APlayer::~APlayer()
 void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
-
+	PlayerRenderer->SetPivotType(PivotType::Bot);
 	GetWorld()->SetCameraToMainPawn(false);
 }
 
@@ -43,338 +36,194 @@ void APlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
+	// Debug Log
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
-	UEngineDebug::CoreOutPutString("StateType : " + std::to_string(static_cast<int>(CurState)));
-	UEngineDebug::CoreOutPutString("IsFull : " + std::to_string(IsFull));
+	UEngineDebug::CoreOutPutString("PlayerState : " + std::to_string(static_cast<int>(CurState)));
+	UEngineDebug::CoreOutPutString("PlayerDir : " + AnimDir);
+	UEngineDebug::CoreOutPutString("AdjustValue : " + std::to_string(AdjustValue.X) + ", " + std::to_string(AdjustValue.Y));
 
 	SetAnimDir();
+	SetAdjustSize();
 	FSM(_DeltaTime);
 	CameraMove();
 }
 
-void APlayer::GetBackImage(std::string_view _ImageName, std::string_view _ColImageName)
-{
-	BackImage = UImageManager::GetInst().FindImage(_ImageName);
-	ColImage = UImageManager::GetInst().FindImage(_ColImageName);
-}
-
-bool APlayer::UpperPointCheck(UColor _Color)
-{
-	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
-
-	FVector2D UpperPoint = GetActorLocation() + FVector2D({ 0.0f, PlayerScale.Y * -0.15f });
-	FTransform UpperTransform = GetTransform();
-	UpperTransform.Location += FVector2D({ 0.0f, PlayerScale.Y * -0.15f }) - GetWorld()->GetCameraPos();
-	UpperTransform.Scale = { 6,6 };
-	UEngineDebug::CoreDebugRender(UpperTransform, UEngineDebug::EDebugPosType::Circle);
-
-	FVector2D NextUpperPoint = UpperPoint + FVector2D::UP;
-	UColor UpperColor = ColImage->GetColor(NextUpperPoint, UColor::MAGENTA);
-	if (_Color.operator==(UpperColor))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-bool APlayer::BottomPointCheck(UColor _Color)
-{
-	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
-
-	FVector2D BottomPoint = GetActorLocation() + FVector2D({ 0.0f, PlayerScale.Y * 0.3f });
-	FTransform BottomTransform = GetTransform();
-	BottomTransform.Location += FVector2D({ 0.0f, PlayerScale.Y * 0.3f }) - GetWorld()->GetCameraPos();
-	BottomTransform.Scale = { 6,6 };
-	UEngineDebug::CoreDebugRender(BottomTransform, UEngineDebug::EDebugPosType::Circle);
-
-	FVector2D NextBottomPoint = BottomPoint + FVector2D::DOWN;
-	UColor BottomColor = ColImage->GetColor(NextBottomPoint, UColor::MAGENTA);
-	if (_Color.operator==(BottomColor))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-bool APlayer::PixelLineColor(CheckDir _Dir, UColor _Color)
-{
-	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
-
-	FVector2D LeftUpperPoint = GetActorLocation() + FVector2D({ PlayerScale.X * -0.25f, PlayerScale.Y * -0.15f });
-	FTransform PlayerTransform0 = GetTransform();
-	PlayerTransform0.Location += FVector2D({ PlayerScale.X * -0.25f, PlayerScale.Y * -0.15f }) - GetWorld()->GetCameraPos();
-	PlayerTransform0.Scale = { 6,6 };
-	UEngineDebug::CoreDebugRender(PlayerTransform0, UEngineDebug::EDebugPosType::Circle);
-
-	FVector2D RightUpperPoint = GetActorLocation() + FVector2D({ PlayerScale.X * 0.25f, PlayerScale.Y * -0.15f });
-	FTransform PlayerTransform1 = GetTransform();
-	PlayerTransform1.Location += FVector2D({ PlayerScale.X * 0.25f, PlayerScale.Y * -0.15f }) - GetWorld()->GetCameraPos();
-	PlayerTransform1.Scale = { 6,6 };
-	UEngineDebug::CoreDebugRender(PlayerTransform1, UEngineDebug::EDebugPosType::Circle);
-
-	FVector2D LeftBottomPoint = GetActorLocation() + FVector2D({ PlayerScale.X * -0.25f, PlayerScale.Y * 0.3f });
-	FTransform PlayerTransform2 = GetTransform();
-	PlayerTransform2.Location += FVector2D({ PlayerScale.X * -0.25f, PlayerScale.Y * 0.3f }) - GetWorld()->GetCameraPos();
-	PlayerTransform2.Scale = { 6,6 };
-	UEngineDebug::CoreDebugRender(PlayerTransform2, UEngineDebug::EDebugPosType::Circle);
-
-	FVector2D RightBottomPoint = GetActorLocation() + FVector2D({ PlayerScale.X * 0.25f, PlayerScale.Y * 0.3f });
-	FTransform PlayerTransform3 = GetTransform();
-	PlayerTransform3.Location += FVector2D({ PlayerScale.X * 0.25f, PlayerScale.Y * 0.3f }) - GetWorld()->GetCameraPos();
-	PlayerTransform3.Scale = { 6,6 };
-	UEngineDebug::CoreDebugRender(PlayerTransform3, UEngineDebug::EDebugPosType::Circle);
-
-	switch (_Dir)
-	{
-	case CheckDir::UP:
-		for (float i = 0.0f; i <= (RightUpperPoint.X - LeftUpperPoint.X); i++)
-		{
-			FVector2D Point = { (RightUpperPoint.X - i), RightUpperPoint.Y };
-			FVector2D PointUp = Point + FVector2D::UP;
-			UColor CheckColor = ColImage->GetColor(PointUp, UColor::MAGENTA);
-			if (_Color.operator==(CheckColor))
-			{
-				return true;
-			}
-		}
-		return false;
-		break;
-	case CheckDir::DOWN:
-		for (float i = 0.0f; i <= (RightBottomPoint.X - LeftBottomPoint.X); i++)
-		{
-			FVector2D Point = { (RightBottomPoint.X - i), RightBottomPoint.Y };
-			FVector2D PointDown = Point + FVector2D::DOWN;
-			UColor CheckColor = ColImage->GetColor(PointDown, UColor::MAGENTA);
-			if (_Color.operator==(CheckColor))
-			{
-				return true;
-			}
-		}
-		return false;
-		break;
-	case CheckDir::LEFT:
-		for (float i = 0; i <= (LeftBottomPoint.Y - LeftUpperPoint.Y); i++)
-		{
-			FVector2D Point = { LeftUpperPoint.X,(LeftBottomPoint.Y - i) };
-			FVector2D PointLeft = Point + FVector2D::LEFT;
-			UColor CheckColor = ColImage->GetColor(PointLeft, UColor::MAGENTA);
-			if (_Color.operator==(CheckColor))
-			{
-				return true;
-			}
-		}
-		return false;
-		break;
-	case CheckDir::RIGHT:
-		for (float i = 0; i <= (RightBottomPoint.Y - RightUpperPoint.Y); i++)
-		{
-			FVector2D Point = { RightUpperPoint.X,(RightBottomPoint.Y - i) };
-			FVector2D PointRight = Point + FVector2D::RIGHT;
-			UColor CheckColor = ColImage->GetColor(PointRight, UColor::MAGENTA);
-			if (_Color.operator==(CheckColor))
-			{
-				return true;
-			}
-		}
-		return false;
-		break;
-	}
-	return false;
-}
-
 void APlayer::CollisionEnter(AActor* _ColActor)
 {
-	if (CurState == EStateType::INHALESTART)
-	{
-		IsFull = true;
-		_ColActor->Destroy();
-	}
-	else
-	{
-		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(MonsterState::DIED);
-	}
 }
 
 void APlayer::CollisionStay(AActor* _ColActor)
 {
-	if (CurState == EStateType::INHALESTART)
-	{
-		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(MonsterState::INHALE);
-	}
 }
 
 void APlayer::SetPlayer()
 {
-	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
-	SpriteRenderer->SetSprite("Kirby_Normal_Right.png");
-	SpriteRenderer->SetComponentScale({ 94, 94 });
-	SpriteRenderer->SetPivotType(PivotType::Bot);
-	CurState = EStateType::IDLE;
+	PlayerRenderer = CreateDefaultSubObject<USpriteRenderer>();
+	PlayerRenderer->SetSprite("Kirby_Normal_Left.png");
+	PlayerRenderer->SetComponentScale({ 100, 100 });
+	PlayerScale = PlayerRenderer->GetTransform().Scale;
+	CurState = EPlayerState::IDLE;
 }
 
 void APlayer::SetAnimation()
 {
-	// Idle
-	SpriteRenderer->CreateAnimation("Idle_Left", "Kirby_Normal_Left.png", 0, 1, 1.0f);
-	SpriteRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
+	// IDLE_UNFULLED
+	PlayerRenderer->CreateAnimation("Idle_Left", "Kirby_Normal_Left.png", 0, 1, 1.0f);
+	PlayerRenderer->CreateAnimation("Idle_Right", "Kirby_Normal_Right.png", 0, 1, 1.0f);
 
-	// Walk
-	SpriteRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
-	SpriteRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
+	// IDLE_FULLED
+	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 30);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Right.png", 30);
 
-	// Dash
-	SpriteRenderer->CreateAnimation("Dash_Left", "Kirby_Normal_Left.png", 2, 5, 0.07f);
-	SpriteRenderer->CreateAnimation("Dash_Right", "Kirby_Normal_Right.png", 2, 5, 0.07f);
+	// WALK_UNFULLED
+	PlayerRenderer->CreateAnimation("Walk_Left", "Kirby_Normal_Left.png", 2, 5, 0.1f);
+	PlayerRenderer->CreateAnimation("Walk_Right", "Kirby_Normal_Right.png", 2, 5, 0.1f);
 
-	// Bend
-	SpriteRenderer->CreateAnimation("Bend_Left", "Kirby_Normal_Left.png", 7, 7, 1.0f);
-	SpriteRenderer->CreateAnimation("Bend_Right", "Kirby_Normal_Right.png", 7, 7, 1.0f);
+	// WALK_FULLED
+	PlayerRenderer->CreateAnimation("WalkFull_Left", "Kirby_Normal_Left.png", 31, 33, 0.1f);
+	PlayerRenderer->CreateAnimation("WalkFull_Right", "Kirby_Normal_Right.png", 31, 33, 0.1f);
+
+	// DASH_UNFULLED
+	PlayerRenderer->CreateAnimation("Dash_Left", "Kirby_Normal_Left.png", 2, 5, 0.07f);
+	PlayerRenderer->CreateAnimation("Dash_Right", "Kirby_Normal_Right.png", 2, 5, 0.07f);
+
+	// DASH_FULLED
+	PlayerRenderer->CreateAnimation("DashFull_Left", "Kirby_Normal_Left.png", 31, 33, 0.1f);
+	PlayerRenderer->CreateAnimation("DashFull_Right", "Kirby_Normal_Right.png", 31, 33, 0.1f);
+
+	// JUMP_UNFULLED
+	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 11);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Right.png", 11);
+	PlayerRenderer->CreateAnimation("Jump_Left", "Kirby_Normal_Left.png", 12, 15, 0.07f, false);
+	PlayerRenderer->CreateAnimation("Jump_Right", "Kirby_Normal_Right.png", 12, 15, 0.07f, false);
+
+	// JUMP_FULLED
+	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 31);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Right.png", 31);
+	PlayerRenderer->CreateAnimation("JumpFull_Left", "Kirby_Normal_Left.png", { 31, 32, 31 }, 0.1f, false);
+	PlayerRenderer->CreateAnimation("JumpFull_Right", "Kirby_Normal_Right.png", { 31, 32, 31 }, 0.1f, false);
+
+	// FLY_UNFULLED
+	PlayerRenderer->CreateAnimation("FlyStart_Left", "Kirby_Normal_Left.png", 17, 21, 0.07f, false);
+	PlayerRenderer->CreateAnimation("FlyStart_Right", "Kirby_Normal_Right.png", 17, 21, 0.07f, false);
+	PlayerRenderer->CreateAnimation("Flying_Left", "Kirby_Normal_Left.png", 21, 22, 0.7f);
+	PlayerRenderer->CreateAnimation("Flying_Right", "Kirby_Normal_Right.png", 21, 22, 0.7f);
+	PlayerRenderer->CreateAnimation("FlyEnd_Left", "Kirby_Normal_Left.png", 23, 26, 0.07f, false);
+	PlayerRenderer->CreateAnimation("FlyEnd_Right", "Kirby_Normal_Right.png", 23, 26, 0.07f, false);
+
+	// FALL_UNFULLED
+	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 15);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Right.png", 15);
+
+	// FALL_FULLED
+	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 31);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Right.png", 31);
+
+	// BEND
+	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 47);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Right.png", 47);
 
 	// Slide
-	SpriteRenderer->CreateAnimation("Slide_Left", "Kirby_Normal_Left.png", 8, 8, 1.0f);
-	SpriteRenderer->CreateAnimation("Slide_Right", "Kirby_Normal_Right.png", 8, 8, 1.0f);
-
-	// FlyStart
-	SpriteRenderer->CreateAnimation("FlyStart_Left", "Kirby_Normal_Left.png", 17, 21, 0.1f, false);
-	SpriteRenderer->CreateAnimation("FlyStart_Right", "Kirby_Normal_Right.png", 17, 21, 0.1f, false);
-
-	// Flying
-	SpriteRenderer->CreateAnimation("Flying_Left", "Kirby_Normal_Left.png", 21, 22, 0.5f);
-	SpriteRenderer->CreateAnimation("Flying_Right", "Kirby_Normal_Right.png", 21, 22, 0.5f);
-
-	// FlyEnd
-	SpriteRenderer->CreateAnimation("FlyEnd_Left", "Kirby_Normal_Left.png", 23, 26, 0.07f, false);
-	SpriteRenderer->CreateAnimation("FlyEnd_Right", "Kirby_Normal_Right.png", 23, 26, 0.07f, false);
-
-	// JumpStart
-	SpriteRenderer->CreateAnimation("JumpStart_Left", "Kirby_Normal_Left.png", 11, 11, 1.0f);
-	SpriteRenderer->CreateAnimation("JumpStart_Right", "Kirby_Normal_Right.png", 11, 11, 1.0f);
-
-	// JumpEnd
-	SpriteRenderer->CreateAnimation("JumpEnd_Left", "Kirby_Normal_Left.png", 11, 15, 0.07f, false);
-	SpriteRenderer->CreateAnimation("JumpEnd_Right", "Kirby_Normal_Right.png", 11, 15, 0.07f, false);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 7);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Right.png", 7);
 
 	// Climb
-	SpriteRenderer->CreateAnimation("ClimbUp_Left", "Kirby_Normal_Left.png", 68, 70, 0.2f);
-	SpriteRenderer->CreateAnimation("ClimbUp_Right", "Kirby_Normal_Left.png", 68, 70, 0.2f);
-	SpriteRenderer->CreateAnimation("ClimbDown_Left", "Kirby_Normal_Left.png", 62, 62, 1.0f);
-	SpriteRenderer->CreateAnimation("ClimbDown_Right", "Kirby_Normal_Left.png", 62, 62, 1.0f);
-
-	// Falling
-	SpriteRenderer->CreateAnimation("Falling_Left", "Kirby_Normal_Left.png", 15, 15, 1.0f);
-	SpriteRenderer->CreateAnimation("Falling_Right", "Kirby_Normal_Right.png", 15, 15, 1.0f);
-
-	// FullIdle
-	SpriteRenderer->CreateAnimation("IdleFull_Left", "Kirby_Normal_Left.png", 30, 30, 1.0f);
-	SpriteRenderer->CreateAnimation("IdleFull_Right", "Kirby_Normal_Right.png", 30, 30, 1.0f);
-
-	// FullWalk
-	SpriteRenderer->CreateAnimation("WalkFull_Left", "Kirby_Normal_Left.png", 30, 32, 0.1f);
-	SpriteRenderer->CreateAnimation("WalkFull_Right", "Kirby_Normal_Right.png", 30, 32, 0.1f);
-
-	// FullJumpStart
-	SpriteRenderer->CreateAnimation("JumpStartFull_Left", "Kirby_Normal_Left.png", { 31, 32, 31 }, 0.3f, false);
-	SpriteRenderer->CreateAnimation("JumpStartFull_Right", "Kirby_Normal_Right.png", {31, 32, 31}, 0.3f, false);
-
-	//FullJumpEnd (&FullFalling)
-	SpriteRenderer->CreateAnimation("JumpEndFull_Left", "Kirby_Normal_Left.png", 31, 31, 0.1f);
-	SpriteRenderer->CreateAnimation("JumpEndFull_Right", "Kirby_Normal_Right.png", 31, 31, 0.1f);
-
-	// Attack_Inhale
-	SpriteRenderer->CreateAnimation("InhaleStart_Left", "Kirby_Normal_Left.png", 17, 19, 0.05f, false);
-	SpriteRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 17, 19, 0.05f, false);
-	SpriteRenderer->CreateAnimation("InhaleEnd_Left", "Kirby_Normal_Left.png", 24, 26, 0.05f, false);
-	SpriteRenderer->CreateAnimation("InhaleEnd_Right", "Kirby_Normal_Right.png", 24, 26, 0.05f, false);
+	PlayerRenderer->CreateAnimation("ClimbUp_Left", "Kirby_Normal_Left.png", { 51, 52, 53, 52 }, 0.3f);
+	PlayerRenderer->CreateAnimation("ClimbUp_Right", "Kirby_Normal_Right.png", { 51, 52, 53, 52 }, 0.3f);
+	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 52);
 
 	// Eat
-	SpriteRenderer->CreateAnimation("Eat_Left", "Kirby_Normal_Left.png", 45, 47, 0.1f, false);
-	SpriteRenderer->CreateAnimation("Eat_Right", "Kirby_Normal_Right.png", 45, 47, 0.1f, false);
+	PlayerRenderer->CreateAnimation("Eat_Left", "Kirby_Normal_Left.png", 45, 47, 0.1f, false);
+	PlayerRenderer->CreateAnimation("Eat_Right", "Kirby_Normal_Right.png", 45, 47, 0.1f, false);
 
-	// Start Animation
-	SpriteRenderer->ChangeAnimation("Idle_Right");
+	// Inhale
+	PlayerRenderer->CreateAnimation("InhaleStart_Left", "Kirby_Normal_Left.png", 28, 29, 0.1f, false);
+	PlayerRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 28, 29, 0.1f, false);
+
+	// Spit
+	PlayerRenderer->CreateAnimation("Spit_Left", "Kirby_Normal_Left.png", 34, 37, 0.1f, false);
+	PlayerRenderer->CreateAnimation("Spit_Right", "Kirby_Normal_Right.png", 34, 37, 0.1f, false);
+
+	PlayerRenderer->ChangeAnimation("WalkFull_Right");
 }
 
 void APlayer::SetAnimDir()
 {
-	if (UEngineInput::GetInst().IsPress(VK_LEFT))
+	if (EPlayerState::SLIDE != CurState)
 	{
-		AnimDir = "_Left";
-	}
-	else if (UEngineInput::GetInst().IsPress(VK_RIGHT))
-	{
-		AnimDir = "_Right";
+		if (UEngineInput::GetInst().IsPress(VK_LEFT))
+		{
+			AnimDir = "_Left";
+		}
+		else if (UEngineInput::GetInst().IsPress(VK_RIGHT))
+		{
+			AnimDir = "_Right";
+		}
 	}
 }
 
 void APlayer::SetPlayerCollision()
 {
-	FVector2D PlayerScale = SpriteRenderer->GetTransform().Scale;
-
-	// PlayerBody Collision
-	CollisionComponent = CreateDefaultSubObject<U2DCollision>();
-	CollisionComponent->SetComponentLocation({ 3, -10 });
-	CollisionComponent->SetComponentScale({ 64, 64 });
-	CollisionComponent->SetCollisionGroup(ECollisionGroup::PlayerBody);
-	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
-	CollisionComponent->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+	// PlayerCollision
+	PlayerCollision = CreateDefaultSubObject<U2DCollision>();
+	PlayerCollision->SetComponentLocation({ 0.0f , -(PlayerScale.Y * 0.3f)});
+	PlayerCollision->SetComponentScale({ 68, 68 });
+	PlayerCollision->SetCollisionGroup(ECollisionGroup::PLAYERBODY);
+	PlayerCollision->SetCollisionType(ECollisionType::CirCle);
+	PlayerCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 
 	// Slide Left Collision
 	SlideLeftCollision = CreateDefaultSubObject<U2DCollision>();
-	SlideLeftCollision->SetComponentLocation({ PlayerScale.X * -0.35f, PlayerScale.Y * 0.2f });
+	SlideLeftCollision->SetComponentLocation({ PlayerScale.X * -0.35f, PlayerScale.Y * -0.2f});
 	SlideLeftCollision->SetComponentScale({ 20, 50 });
-	SlideLeftCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
+	SlideLeftCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 	SlideLeftCollision->SetCollisionType(ECollisionType::Rect);
 	SlideLeftCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 	SlideLeftCollision->SetActive(false);
 
-	// Slide Right Collision
+	// Slide Right Collison
 	SlideRightCollision = CreateDefaultSubObject<U2DCollision>();
-	SlideRightCollision->SetComponentLocation({ PlayerScale.X * 0.35f, PlayerScale.Y * 0.2f });
+	SlideRightCollision->SetComponentLocation({ PlayerScale.X * 0.35f, PlayerScale.Y * -0.2f });
 	SlideRightCollision->SetComponentScale({ 20, 50 });
-	SlideRightCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
+	SlideRightCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 	SlideRightCollision->SetCollisionType(ECollisionType::Rect);
 	SlideRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 	SlideRightCollision->SetActive(false);
-		
-	// Inhale_Left Collision
-	InhaleLeftCollision = CreateDefaultSubObject<U2DCollision>();
-	InhaleLeftCollision->SetComponentLocation({ PlayerScale.X * -1.1f, 8.0f});
-	InhaleLeftCollision->SetComponentScale({ 160, 50 });
-	InhaleLeftCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
-	InhaleLeftCollision->SetCollisionType(ECollisionType::Rect);
-	InhaleLeftCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
-	InhaleLeftCollision->SetActive(false);
-	
-	// Inhale_Right Collision
-	InhaleRightCollision = CreateDefaultSubObject<U2DCollision>();
-	InhaleRightCollision->SetComponentLocation({ PlayerScale.X * 1.1f, 8.0f });
-	InhaleRightCollision->SetComponentScale({ 160, 50 });
-	InhaleRightCollision->SetCollisionGroup(ECollisionGroup::PlayerSkill);
-	InhaleRightCollision->SetCollisionType(ECollisionType::Rect);
-	InhaleRightCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
-	InhaleRightCollision->SetActive(false);
-	
-	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerBody, ECollisionGroup::MonsterBody);
-	GetWorld()->CollisionGroupLink(ECollisionGroup::PlayerSkill, ECollisionGroup::MonsterBody);
+
+	// SkillBox Left Collision
+	SkillBoxLeftCollision = CreateDefaultSubObject<U2DCollision>();
+	SkillBoxLeftCollision->SetComponentLocation({ PlayerScale.X * -1.0f , PlayerScale.Y * -0.3f});
+	SkillBoxLeftCollision->SetComponentScale({ 160, 80 });
+	SkillBoxLeftCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
+	SkillBoxLeftCollision->SetCollisionType(ECollisionType::Rect);
+	SkillBoxLeftCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+	SkillBoxLeftCollision->SetActive(false);
+	 
+	// SkillBox Right Collision
+	SkillBoxRightCollision = CreateDefaultSubObject<U2DCollision>();
+	SkillBoxRightCollision->SetComponentLocation({ PlayerScale.X * 1.0f , PlayerScale.Y * -0.3f });
+	SkillBoxRightCollision->SetComponentScale({ 160, 80 });
+	SkillBoxRightCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
+	SkillBoxRightCollision->SetCollisionType(ECollisionType::Rect);
+	SkillBoxRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+	SkillBoxRightCollision->SetActive(false);
+
+	// Collision Link
+	GetWorld()->CollisionGroupLink(ECollisionGroup::PLAYERBODY, ECollisionGroup::MONSTERBODY);
+	GetWorld()->CollisionGroupLink(ECollisionGroup::PLAYERSKILL, ECollisionGroup::MONSTERBODY);
 }
 
 void APlayer::CameraMove()
 {
-	// 카메라 이동
+	// Camera Move
 	FVector2D Size = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 	FVector2D CurPos = GetActorLocation() - Size.Half();
 	FVector2D CurPosRB = CurPos + Size;
-	FVector2D BackImageSize = BackImage->GetImageScale();
+	FVector2D BackImageSize = BackgroundImage->GetImageScale();
 	BackImageSize += FVector2D(0, 198);
 
-	// 카메라 제한
+	// Camera Limit
 	if (0.0f >= CurPos.X)
 	{
 		CurPos = { 0.0f, CurPos.Y };
@@ -406,52 +255,236 @@ void APlayer::FSM(float _DeltaTime)
 {
 	switch (CurState)
 	{
-	case EStateType::IDLE:
-		State->Idle(_DeltaTime);
+	case EPlayerState::IDLE:
+		State->IdleStart(_DeltaTime);
 		break;
-	case EStateType::WALK:
-		State->Walk(_DeltaTime);
+	case EPlayerState::WALK:
+		State->WalkStart(_DeltaTime);
 		break;
-	case EStateType::DASH:
-		State->Dash(_DeltaTime);
+	case EPlayerState::DASH:
+		State->DashStart(_DeltaTime);
 		break;
-	case EStateType::FLYSTART:
+	case EPlayerState::JUMP:
+		State->JumpStart(_DeltaTime);
+		break;
+	case EPlayerState::FLYSTART:
 		State->FlyStart(_DeltaTime);
 		break;
-	case EStateType::FLYING:
-		State->Flying(_DeltaTime);
+	case EPlayerState::FLY:
+		State->Fly(_DeltaTime);
 		break;
-	case EStateType::FLYEND:
+	case EPlayerState::FLYEND:
 		State->FlyEnd(_DeltaTime);
 		break;
-	case EStateType::JUMP:
-		State->Jump(_DeltaTime);
+	case EPlayerState::BEND:
+		State->BendStart(_DeltaTime);
 		break;
-	case EStateType::BEND:
-		State->Bend(_DeltaTime);
+	case EPlayerState::SLIDE:
+		State->SlideStart(_DeltaTime);
 		break;
-	case EStateType::SLIDE:
-		State->Slide(_DeltaTime);
+	case EPlayerState::CLIMB:
+		State->ClimbStart(_DeltaTime);
 		break;
-	case EStateType::CLIMB:
-		State->Climb(_DeltaTime);
+	case EPlayerState::FALL:
+		State->FallStart(_DeltaTime);
 		break;
-	case EStateType::FALLING:
-		State->Falling(_DeltaTime);
+	case EPlayerState::EAT:
+		State->EatStart(_DeltaTime);
 		break;
-	case EStateType::INHALESTART:
-		State->InhaleStart(_DeltaTime);
+	case EPlayerState::ATTACK:
+		State->AttackStart(_DeltaTime);
 		break;
-	case EStateType::INHALEEND:
-		State->InhaleEnd(_DeltaTime);
+	case EPlayerState::HURT:
+		State->HurtStart(_DeltaTime);
 		break;
-	case EStateType::EAT:
-		State->Eat(_DeltaTime);
-		break;
-	case EStateType::HURT:
-		State->Hurt(_DeltaTime);
+	case EPlayerState::DIE:
+		//State->DieStart(_DeltaTime);
 		break;
 	default:
 		break;
+	}
+}
+
+FVector2D APlayer::GetDir() const
+{
+	if ("_Left" == AnimDir)
+	{
+		return FVector2D::LEFT;
+	}
+	else
+	{
+		return FVector2D::RIGHT;
+	}
+}
+
+std::string APlayer::GetAnimDir() const
+{
+	return AnimDir;
+}
+
+void APlayer::ChangeAnimation(std::string _Anim)
+{
+	PlayerRenderer->ChangeAnimation(_Anim + AnimDir);
+}
+
+void APlayer::GetBackgroundImage(std::string_view _BackImage, std::string_view _ColImage)
+{
+	BackgroundImage = UImageManager::GetInst().FindImage(_BackImage);
+	ColliderImage = UImageManager::GetInst().FindImage(_ColImage);
+}
+
+void APlayer::SetAdjustSize()
+{
+	if (!IsFull && EPlayerState::FLYSTART != CurState 
+		&& EPlayerState::FLY != CurState && EPlayerState::FLYEND != CurState)
+	{
+		AdjustValue = { 0.25f, 0.5f };
+	}
+	else
+	{
+		AdjustValue = { 0.35f, 0.7f };
+	}
+}
+
+void APlayer::DrawDebugPoint(FVector2D _Point)
+{
+	FVector2D CheckPoint = GetActorLocation() + _Point;
+	FTransform PlayerTransform = GetTransform();
+	PlayerTransform.Location += _Point - GetWorld()->GetCameraPos();
+	PlayerTransform.Scale = { 6, 6 };
+	UEngineDebug::CoreDebugRender(PlayerTransform, UEngineDebug::EDebugPosType::Circle);
+}
+
+bool APlayer::PixelPointCheck(ECheckDir _Dir, UColor _Color)
+{
+	FVector2D CheckPoint = FVector2D::ZERO;
+
+	switch (_Dir)
+	{
+	case ECheckDir::UP:
+		CheckPoint = FVector2D::UP + FVector2D({ 0.0f, PlayerScale.Y * -AdjustValue.Y });
+		break;
+	case ECheckDir::DOWN:
+		CheckPoint = FVector2D::DOWN;
+		break;
+	case ECheckDir::LEFT:
+		CheckPoint = FVector2D::LEFT + FVector2D({ PlayerScale.X * -AdjustValue.X , -(AdjustValue.Y * 0.5f) });
+		break;
+	case ECheckDir::RIGHT:
+		CheckPoint = FVector2D::RIGHT + FVector2D({ PlayerScale.X * AdjustValue.X, -(AdjustValue.Y * 0.5f) });
+		break;
+	}
+	DrawDebugPoint(CheckPoint);
+
+	FVector2D NextPoint = GetActorLocation() + CheckPoint;
+	UColor NextPointColor = ColliderImage->GetColor(NextPoint, UColor::MAGENTA);
+	if (_Color.operator==(NextPointColor))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool APlayer::PixelLineCheck(ECheckDir _Dir, UColor _Color)
+{
+	FVector2D LeftUpperPoint = FVector2D({ PlayerScale.X * -AdjustValue.X, PlayerScale.Y * -AdjustValue.Y });
+	FVector2D RightUpperPoint = FVector2D({ PlayerScale.X * AdjustValue.X, PlayerScale.Y * -AdjustValue.Y});
+	FVector2D LeftBottomPoint = FVector2D({ PlayerScale.X * -AdjustValue.X, 0.0f });
+	FVector2D RightBottomPoint = FVector2D({ PlayerScale.X * AdjustValue.X, 0.0f});
+
+	switch (_Dir)
+	{
+	case ECheckDir::UP:
+		DrawDebugPoint(RightUpperPoint);
+		DrawDebugPoint(LeftUpperPoint);
+
+		for (float i = 0.0f; i <= (RightUpperPoint.X - LeftUpperPoint.X); i++)
+		{
+			FVector2D Point = GetActorLocation() + FVector2D{ (RightUpperPoint.X - i), RightUpperPoint.Y };
+			FVector2D PointUp = Point + FVector2D::UP;
+			UColor CheckColor = ColliderImage->GetColor(PointUp, UColor::MAGENTA);
+			if (_Color.operator==(CheckColor))
+			{
+				return true;
+			}
+		}
+		return false;
+		break;
+	case ECheckDir::DOWN:
+		DrawDebugPoint(RightBottomPoint);
+		DrawDebugPoint(LeftBottomPoint);
+
+		for (float i = 0.0f; i <= (RightBottomPoint.X - LeftBottomPoint.X); i++)
+		{
+			FVector2D Point = GetActorLocation() + FVector2D{ (RightBottomPoint.X - i), RightBottomPoint.Y };
+			FVector2D PointDown = Point + FVector2D::DOWN;
+			UColor CheckColor = ColliderImage->GetColor(PointDown, UColor::MAGENTA);
+			if (_Color.operator==(CheckColor))
+			{
+				return true;
+			}
+		}
+		return false;
+		break;
+	case ECheckDir::LEFT:
+		DrawDebugPoint(LeftBottomPoint);
+		DrawDebugPoint(LeftUpperPoint);
+
+		for (float i = 0; i <= (LeftBottomPoint.Y - LeftUpperPoint.Y); i++)
+		{
+			FVector2D Point = GetActorLocation() + FVector2D{ LeftUpperPoint.X,(LeftBottomPoint.Y - i) };
+			FVector2D PointLeft = Point + FVector2D::LEFT;
+			UColor CheckColor = ColliderImage->GetColor(PointLeft, UColor::MAGENTA);
+			if (_Color.operator==(CheckColor))
+			{
+				return true;
+			}
+		}
+		return false;
+		break;
+	case ECheckDir::RIGHT:
+		DrawDebugPoint(RightBottomPoint);
+		DrawDebugPoint(RightUpperPoint);
+
+		for (float i = 0; i <= (RightBottomPoint.Y - RightUpperPoint.Y); i++)
+		{
+			FVector2D Point = GetActorLocation() + FVector2D{ RightUpperPoint.X,(RightBottomPoint.Y - i) };
+			FVector2D PointRight = Point + FVector2D::RIGHT;
+			UColor CheckColor = ColliderImage->GetColor(PointRight, UColor::MAGENTA);
+			if (_Color.operator==(CheckColor))
+			{
+				return true;
+			}
+		}
+		return false;
+		break;
+	}
+	return false;
+}
+
+void APlayer::SliderCollisionSwitch(bool _IsOn)
+{
+	if ("_Left" == AnimDir)
+	{
+		SlideLeftCollision->SetActive(_IsOn);
+	}
+	else if ("_Right" == AnimDir)
+	{
+		SlideRightCollision->SetActive(_IsOn);
+	}
+}
+
+void APlayer::SkillBoxCollisionSwitch(bool _IsOn)
+{
+	if ("_Left" == AnimDir)
+	{
+		SkillBoxLeftCollision->SetActive(_IsOn);
+	}
+	else if ("_Right" == AnimDir)
+	{
+		SkillBoxRightCollision->SetActive(_IsOn);
 	}
 }

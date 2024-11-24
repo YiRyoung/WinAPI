@@ -151,27 +151,15 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="HotFireBall.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HotHead.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="HUI.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Monster.h">
+    <ClInclude Include="Player.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="SpitBullet.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -180,10 +168,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BossGameMode.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Player.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -212,45 +196,17 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="WaddleBeam.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="WaddleDee.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="WaddleDoo.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="WindBullet.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HotFireBall.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="HotHead.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="HUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
+    <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="SpitBullet.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -259,10 +215,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BossGameMode.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -291,22 +243,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleMap.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="WaddleBeam.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="WaddleDee.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="WaddleDoo.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="WindBullet.cpp">
       <SubType>
       </SubType>
     </ClCompile>

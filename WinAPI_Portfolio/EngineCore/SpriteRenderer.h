@@ -8,8 +8,10 @@
 enum class PivotType
 {
 	Center,
+	Left,
 	Bot,
 	Top,
+	LeftTop,
 };
 
 class USpriteRenderer : public USceneComponent
@@ -90,10 +92,7 @@ public:
 		IsCameraEffect = _Value;
 	}
 
-	void SetPivot(FVector2D _Pivot)
-	{
-		Pivot = _Pivot;
-	}
+	void SetPivotValue(FVector2D _Value);
 
 	void SetPivotType(PivotType _Type);
 
@@ -105,14 +104,18 @@ public:
 		return CurAnimation->IsEnd;
 	}
 
+	void SetAlphaChar(unsigned char _Value)
+	{
+		Alpha = _Value;
+	}
 	void SetAnimationSpeed(float _Speed)
 	{
 		CurAnimationSpeed = _Speed;
 	}
 
-	void SetAlphaChar(unsigned char _Value)
+	void ResetAnimationSpeed()
 	{
-		Alpha = _Value;
+		CurAnimationSpeed = 1.0f;
 	}
 
 	void SetAlphafloat(float _Value)
@@ -130,9 +133,10 @@ private:
 	float CameraEffectScale = 1.0f;
 	float CurAnimationSpeed = 1.0f;
 
+
 	unsigned char Alpha = 255;
 
-	FVector2D Pivot = FVector2D::ZERO;
+	FVector2D Pivot = FVector2D(0.5f, 0.5f);
 
 	class UEngineSprite* Sprite = nullptr;
 

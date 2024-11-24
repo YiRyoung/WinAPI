@@ -1,7 +1,6 @@
 #pragma once
 #include "GameMode.h"
 
-
 class CollisionLinkData
 {
 public:
@@ -23,7 +22,6 @@ public:
 	friend class U2DCollision;
 	friend class USpriteRenderer;
 	friend class UEngineAPICore;
-
 	// constrcuter destructer
 	ULevel();
 	~ULevel();

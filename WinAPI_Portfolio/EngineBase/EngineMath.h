@@ -30,6 +30,12 @@ public:
 		else
 			return value;
 	}
+
+	template <typename DataType>
+	static DataType Lerp(DataType A, DataType B, DataType Alpha)
+	{
+		return A * (1 - Alpha) + B * Alpha;
+	}
 };
 
 class FVector2D
@@ -375,7 +381,7 @@ public:
 		};
 	};
 
-	UColor()
+	UColor() : R(255), G(255), B(255), A(255)
 	{
 
 	}
