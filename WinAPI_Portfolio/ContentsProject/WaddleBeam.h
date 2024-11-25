@@ -38,6 +38,7 @@ protected:
 	void Tick(float _DeltaTime);
 private:
 	class USpriteRenderer* WaddleBeamRender[3] = { nullptr, };
+	class U2DCollision* WaddleBeamCollision[3] = { nullptr, };
 
 	std::string AnimDir = "_Left";
 	FVector2D Dir = FVector2D::ZERO;

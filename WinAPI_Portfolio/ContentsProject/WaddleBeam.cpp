@@ -2,6 +2,8 @@
 #include "WaddleBeam.h"
 
 #include <EngineCore/SpriteRenderer.h>
+#include <EngineCore/2DCollision.h>
+
 #include "ContentsEnum.h"
 
 AWaddleBeam::AWaddleBeam()
@@ -13,6 +15,13 @@ AWaddleBeam::AWaddleBeam()
 		WaddleBeamRender[i]->SetOrder(ERenderOrder::SKILL);
 		WaddleBeamRender[i]->SetComponentLocation((Dir + FVector2D{ 0 , -45 * i }));
 		WaddleBeamRender[i]->SetComponentScale({ 40, 40 });
+
+		WaddleBeamCollision[i] = CreateDefaultSubObject<U2DCollision>();
+		WaddleBeamCollision[i]->SetComponentLocation((Dir + FVector2D{ 0 , -45 * i }));
+		WaddleBeamCollision[i]->SetComponentScale({ 38, 38 });
+		WaddleBeamCollision[i]->SetCollisionGroup(ECollisionGroup::MONSTERSKILL);
+		WaddleBeamCollision[i]->SetCollisionType(ECollisionType::CirCle);
+		DebugOn();
 	}
 
 	ArrDir[static_cast<int>(Phase::Phase01)] = FVector2D::UP;
@@ -51,6 +60,8 @@ void AWaddleBeam::SetEffect(FVector2D _Dir)
 	{
 		WaddleBeamRender[i]->SetOrder(ERenderOrder::SKILL);
 		WaddleBeamRender[i]->SetComponentLocation(RealDir * (StartInter + (50.0f * i)));
+
+		WaddleBeamCollision[i]->SetComponentLocation(RealDir * (StartInter + (50.0f * i)));
 	}
 }
 
