@@ -75,7 +75,6 @@ void KirbyContentsCore::CuttingImages()
 	UImageManager::GetInst().CuttingSprite("HP.png", { 25, 44 });
 
 	// Normal Monster
-		// Destory
 	UImageManager::GetInst().CuttingSprite("Destory.png", {51, 51});
 	UImageManager::GetInst().CuttingSprite("WaddleDee_Left.png", { 50, 50 });
 	UImageManager::GetInst().CuttingSprite("WaddleDee_Right.png", { 50, 50 });
@@ -87,6 +86,11 @@ void KirbyContentsCore::CuttingImages()
 	UImageManager::GetInst().CuttingSprite("WaddleDoo_Right.png", { 50, 51 });
 	UImageManager::GetInst().CuttingSprite("HotHead_Left.png", { 50, 51 });
 	UImageManager::GetInst().CuttingSprite("HotHead_Right.png", { 50, 51 });
+	UImageManager::GetInst().CuttingSprite("HotHeadFire_Left.png", { 104, 67 });
+	UImageManager::GetInst().CuttingSprite("HotHeadFire_Right.png", { 104, 67 });
+	UImageManager::GetInst().CuttingSprite("Kibble_Left.png", { 50, 51 });
+	UImageManager::GetInst().CuttingSprite("Kibble_Right.png", { 50, 51 });
+	UImageManager::GetInst().CuttingSprite("CutterSlider.png", { 100, 79 });
 }
 
 void KirbyContentsCore::LoadSounds()
