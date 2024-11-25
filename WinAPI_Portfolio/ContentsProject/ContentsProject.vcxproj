@@ -155,11 +155,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Monster.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SpitBullet.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -196,9 +204,21 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WaddleDee.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WindBullet.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -207,6 +227,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SpitBullet.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -243,6 +267,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WaddleDee.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WindBullet.cpp">
       <SubType>
       </SubType>
     </ClCompile>

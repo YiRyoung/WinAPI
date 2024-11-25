@@ -37,6 +37,18 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClCompile>
+    <ClCompile Include="WaddleDee.cpp">
+      <Filter>ContentsObject\Global\Monster\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SpitBullet.cpp">
+      <Filter>ContentsObject\Global\Player\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="WindBullet.cpp">
+      <Filter>ContentsObject\Global\Player\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>ContentsObject\Global\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -75,6 +87,18 @@
     <ClInclude Include="PlayerState.h">
       <Filter>ContentsObject\Global\Player</Filter>
     </ClInclude>
+    <ClInclude Include="WaddleDee.h">
+      <Filter>ContentsObject\Global\Monster\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="WindBullet.h">
+      <Filter>ContentsObject\Global\Player\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="SpitBullet.h">
+      <Filter>ContentsObject\Global\Player\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>ContentsObject\Global\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -112,6 +136,12 @@
     </Filter>
     <Filter Include="ContentsObject\Global\Monster\Ability">
       <UniqueIdentifier>{83ebf824-27e2-4b7a-97a5-a08cc9574fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Player\Bullet">
+      <UniqueIdentifier>{f0650930-b9f2-4ca3-b39f-09a823fe88a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Monster\Ability\Skill">
+      <UniqueIdentifier>{a112cc08-a8ba-4782-b9f9-50d80cf31eda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

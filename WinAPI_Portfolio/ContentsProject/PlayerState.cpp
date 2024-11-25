@@ -1,8 +1,6 @@
 #include "PreCompile.h"
 #include "PlayerState.h"
 
-#include <EngineBase/TimeEvent.h>
-
 PlayerState::PlayerState()
 {
 }
@@ -345,10 +343,10 @@ void PlayerState::Fly(float _DeltaTime)
 
 void PlayerState::FlyEnd(float _DeltaTime)
 {
-	// 바람 발사 추가
-
 	if (IsAnimFinish())
 	{
+		Player->SpawnWind();
+
 		if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
 			|| PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
@@ -558,10 +556,6 @@ void PlayerState::EatStart(float _DeltaTime)
 	}
 }
 
-void PlayerState::AttackStart(float _DeltaTime)
-{
-}
-
 void PlayerState::Eat(float _DeltaTime)
 {
 	SetPlayerFull(false);
@@ -577,10 +571,6 @@ void PlayerState::Hurt(float _DeltaTime)
 {
 }
 
-void PlayerState::Attack(float _DeltaTime)
-{
-	
-}
 
 void PlayerState::ChangeIdle()
 {
@@ -676,8 +666,71 @@ void PlayerState::ChangeAttack()
 {
 	if (IsPressKey('X'))
 	{
-		SetPlayerState(EPlayerState::ATTACK);
+		GravityForce = FVector2D::ZERO;
+
+		if (EAbilityType::NORMAL == Player->GetCurAbility() && !GetPlayerFull())
+		{
+			SetPlayerState(EPlayerState::INHALESTART);
+			return;
+		}
+		else if (EAbilityType::NORMAL == Player->GetCurAbility() && GetPlayerFull())
+		{
+			Player->SpawnSpit();
+			SetPlayerState(EPlayerState::SPIT);
+			return;
+		}
+		else
+		{
+			SetPlayerState(EPlayerState::SKILL);
+			return;
+		}
+	}
+}
+
+
+void PlayerState::InhaleStart(float _DeltaTime)
+{
+	ChangeAnimation("InhaleStart");
+	Player->SkillBoxCollisionSwitch(true);
+
+	if (IsAnimFinish())
+	{
+		SetPlayerState(EPlayerState::INHALE);
 		return;
 	}
 }
 
+void PlayerState::Inhale(float _DeltaTime)
+{
+	Gravity(_DeltaTime);
+
+	if (!IsPressKey('X'))
+	{
+		ChangeAnimation("InhaleEnd");
+		Player->SkillBoxCollisionSwitch(false);
+		SetPlayerFull(false);
+
+		if (IsAnimFinish())
+		{
+			InhaleEnd(_DeltaTime);
+		}
+	}
+}
+
+void PlayerState::InhaleEnd(float _DeltaTime)
+{
+	SetPlayerState(EPlayerState::IDLE);
+	return;
+}
+
+void PlayerState::Spit(float _DeltaTime)
+{
+	ChangeAnimation("Spit");
+
+	if (IsAnimFinish())
+	{
+		SetPlayerFull(false);
+		SetPlayerState(EPlayerState::IDLE);
+		return;
+	}
+}

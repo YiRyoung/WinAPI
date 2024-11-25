@@ -2,12 +2,16 @@
 #include "Stage101GameMode.h"
 
 #include <EnginePlatform/EngineInput.h>
-#include <EngineCore/EngineAPICore.h>
 
+#include <EngineCore/EngineAPICore.h>
 #include <EngineCore/Level.h>
+
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
+
+#include "Monster.h"
+#include "WaddleDee.h"
 
 #include "ContentsEnum.h"
 
@@ -34,11 +38,17 @@ void AStage101GameMode::BeginPlay()
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");
+
+	NewWaddleDee = GetWorld()->SpawnActor<AWaddleDee>();
+	NewWaddleDee->GetColImage("ColStage101.png");
+	NewWaddleDee->SetActorLocation({ 1191, 280 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	
+	NewWaddleDee->SetDistance(NewPlayer->GetActorLocation());
 
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{

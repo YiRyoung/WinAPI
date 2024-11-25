@@ -30,8 +30,21 @@ public:
 	void SlideStart(float _DeltaTime);
 	void ClimbStart(float _DeltaTime);
 	void EatStart(float _DeltaTime);
-	void AttackStart(float _DeltaTime);
 	void HurtStart(float _DeltaTime);
+
+	// Attack
+	void InhaleStart(float _DeltaTime);
+	void Inhale(float _DeltaTime);
+	void InhaleEnd(float _DeltaTime);
+	void Spit(float _DeltaTime);
+	//void AbilityStart(float _DeltaTime);
+	//void Ability(float _DeltaTime);
+	/*void BeamStart(float _DeltaTime);
+	void Beam(float _DeltaTime);
+	void FireStart(float _DeltaTime);
+	void Fire(float _DeltaTime);
+	void CutterStart(float _DeltaTime);
+	void Cutter(float _DeltaTime);*/
 
 protected:
 	APlayer* Player = nullptr;
@@ -132,7 +145,6 @@ private:
 	void Climb(float _DeltaTime);
 	void Eat(float _DeltaTime);
 	void Hurt(float _DeltaTime);
-	void Attack(float _DeltaTime);
 
 	void ResetDirForce()
 	{
@@ -151,5 +163,6 @@ private:
 	void ChangeClimb();
 	void ChangeEat();
 	void ChangeAttack();
+
 };
 

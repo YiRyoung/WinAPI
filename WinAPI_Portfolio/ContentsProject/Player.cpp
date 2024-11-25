@@ -6,8 +6,14 @@
 #include <EngineCore/EngineAPICore.h>
 #include <EngineCore/EngineCoreDebug.h>
 #include <EngineCore/ImageManager.h>
+#include <EngineCore/2DCollision.h>
 
+#include "Monster.h"
 #include "PlayerState.h"
+
+#include "WindBullet.h"
+#include "SpitBullet.h"
+
 #include "ContentsEnum.h"
 
 APlayer::APlayer()
@@ -42,6 +48,7 @@ void APlayer::Tick(float _DeltaTime)
 	UEngineDebug::CoreOutPutString("PlayerState : " + std::to_string(static_cast<int>(CurState)));
 	UEngineDebug::CoreOutPutString("PlayerDir : " + AnimDir);
 	UEngineDebug::CoreOutPutString("AdjustValue : " + std::to_string(AdjustValue.X) + ", " + std::to_string(AdjustValue.Y));
+	UEngineDebug::CoreOutPutString("IsFull : " + std::to_string(IsFull));
 
 	SetAnimDir();
 	SetAdjustSize();
@@ -49,12 +56,39 @@ void APlayer::Tick(float _DeltaTime)
 	CameraMove();
 }
 
+void APlayer::SpawnWind()
+{
+	AWindBullet* NewWind = GetWorld()->SpawnActor<AWindBullet>();
+	NewWind->SetDir(AnimDir);
+	NewWind->SetActorLocation(GetActorLocation() + NewWind->SpawnPos);
+}
+
+void APlayer::SpawnSpit()
+{
+	ASpitBullet* NewSpit = GetWorld()->SpawnActor<ASpitBullet>();
+	NewSpit->SetDir(AnimDir);
+	NewSpit->SetActorLocation(GetActorLocation() + NewSpit->SpawnPos);
+}
+
 void APlayer::CollisionEnter(AActor* _ColActor)
 {
+	if (CurState == EPlayerState::INHALESTART)
+	{
+		IsFull = true;
+		_ColActor->Destroy();
+	}
+	else
+	{
+		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
+	}
 }
 
 void APlayer::CollisionStay(AActor* _ColActor)
 {
+	if (CurState == EPlayerState::INHALE)
+	{
+		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::INHALE);
+	}
 }
 
 void APlayer::SetPlayer()
@@ -140,12 +174,14 @@ void APlayer::SetAnimation()
 	// Inhale
 	PlayerRenderer->CreateAnimation("InhaleStart_Left", "Kirby_Normal_Left.png", 28, 29, 0.1f, false);
 	PlayerRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 28, 29, 0.1f, false);
+	PlayerRenderer->CreateAnimation("InhaleEnd_Left", "Kirby_Normal_Left.png", 24, 26, 0.1f, false);
+	PlayerRenderer->CreateAnimation("InhaleEnd_Right", "Kirby_Normal_Right.png", 24, 26, 0.1f, false);
 
 	// Spit
 	PlayerRenderer->CreateAnimation("Spit_Left", "Kirby_Normal_Left.png", 34, 37, 0.1f, false);
 	PlayerRenderer->CreateAnimation("Spit_Right", "Kirby_Normal_Right.png", 34, 37, 0.1f, false);
 
-	PlayerRenderer->ChangeAnimation("WalkFull_Right");
+	PlayerRenderer->ChangeAnimation("Idle_Right");
 }
 
 void APlayer::SetAnimDir()
@@ -171,15 +207,13 @@ void APlayer::SetPlayerCollision()
 	PlayerCollision->SetComponentScale({ 68, 68 });
 	PlayerCollision->SetCollisionGroup(ECollisionGroup::PLAYERBODY);
 	PlayerCollision->SetCollisionType(ECollisionType::CirCle);
-	PlayerCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
-
+	
 	// Slide Left Collision
 	SlideLeftCollision = CreateDefaultSubObject<U2DCollision>();
 	SlideLeftCollision->SetComponentLocation({ PlayerScale.X * -0.35f, PlayerScale.Y * -0.2f});
 	SlideLeftCollision->SetComponentScale({ 20, 50 });
 	SlideLeftCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 	SlideLeftCollision->SetCollisionType(ECollisionType::Rect);
-	SlideLeftCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 	SlideLeftCollision->SetActive(false);
 
 	// Slide Right Collison
@@ -188,30 +222,34 @@ void APlayer::SetPlayerCollision()
 	SlideRightCollision->SetComponentScale({ 20, 50 });
 	SlideRightCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 	SlideRightCollision->SetCollisionType(ECollisionType::Rect);
-	SlideRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 	SlideRightCollision->SetActive(false);
 
 	// SkillBox Left Collision
-	SkillBoxLeftCollision = CreateDefaultSubObject<U2DCollision>();
-	SkillBoxLeftCollision->SetComponentLocation({ PlayerScale.X * -1.0f , PlayerScale.Y * -0.3f});
-	SkillBoxLeftCollision->SetComponentScale({ 160, 80 });
-	SkillBoxLeftCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
-	SkillBoxLeftCollision->SetCollisionType(ECollisionType::Rect);
-	SkillBoxLeftCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
-	SkillBoxLeftCollision->SetActive(false);
+	InhaleBoxLeftCollision = CreateDefaultSubObject<U2DCollision>();
+	InhaleBoxLeftCollision->SetComponentLocation({ PlayerScale.X * -1.0f , PlayerScale.Y * -0.3f});
+	InhaleBoxLeftCollision->SetComponentScale({ 160, 80 });
+	InhaleBoxLeftCollision->SetCollisionGroup(ECollisionGroup::INHALEBOX);
+	InhaleBoxLeftCollision->SetCollisionType(ECollisionType::Rect);
+	InhaleBoxLeftCollision->SetActive(false);
 	 
 	// SkillBox Right Collision
-	SkillBoxRightCollision = CreateDefaultSubObject<U2DCollision>();
-	SkillBoxRightCollision->SetComponentLocation({ PlayerScale.X * 1.0f , PlayerScale.Y * -0.3f });
-	SkillBoxRightCollision->SetComponentScale({ 160, 80 });
-	SkillBoxRightCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
-	SkillBoxRightCollision->SetCollisionType(ECollisionType::Rect);
-	SkillBoxRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
-	SkillBoxRightCollision->SetActive(false);
+	InhaleBoxRightCollision = CreateDefaultSubObject<U2DCollision>();
+	InhaleBoxRightCollision->SetComponentLocation({ PlayerScale.X * 1.0f , PlayerScale.Y * -0.3f });
+	InhaleBoxRightCollision->SetComponentScale({ 160, 80 });
+	InhaleBoxRightCollision->SetCollisionGroup(ECollisionGroup::INHALEBOX);
+	InhaleBoxRightCollision->SetCollisionType(ECollisionType::Rect);
+	InhaleBoxRightCollision->SetActive(false);
 
 	// Collision Link
 	GetWorld()->CollisionGroupLink(ECollisionGroup::PLAYERBODY, ECollisionGroup::MONSTERBODY);
 	GetWorld()->CollisionGroupLink(ECollisionGroup::PLAYERSKILL, ECollisionGroup::MONSTERBODY);
+	GetWorld()->CollisionGroupLink(ECollisionGroup::INHALEBOX, ECollisionGroup::MONSTERBODY);
+
+	PlayerCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+	SlideLeftCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+	SlideRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
+	InhaleBoxLeftCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
+	InhaleBoxRightCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
 }
 
 void APlayer::CameraMove()
@@ -291,8 +329,17 @@ void APlayer::FSM(float _DeltaTime)
 	case EPlayerState::EAT:
 		State->EatStart(_DeltaTime);
 		break;
-	case EPlayerState::ATTACK:
-		State->AttackStart(_DeltaTime);
+	case EPlayerState::INHALESTART:
+		State->InhaleStart(_DeltaTime);
+		break;
+	case EPlayerState::INHALE:
+		State->Inhale(_DeltaTime);
+		break;
+	case EPlayerState::SPIT:
+		State->Spit(_DeltaTime);
+		break;
+	case EPlayerState::SKILL:
+		//State->Skill(_DeltaTime);
 		break;
 	case EPlayerState::HURT:
 		State->HurtStart(_DeltaTime);
@@ -481,10 +528,10 @@ void APlayer::SkillBoxCollisionSwitch(bool _IsOn)
 {
 	if ("_Left" == AnimDir)
 	{
-		SkillBoxLeftCollision->SetActive(_IsOn);
+		InhaleBoxLeftCollision->SetActive(_IsOn);
 	}
 	else if ("_Right" == AnimDir)
 	{
-		SkillBoxRightCollision->SetActive(_IsOn);
+		InhaleBoxRightCollision->SetActive(_IsOn);
 	}
 }

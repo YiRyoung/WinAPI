@@ -69,7 +69,12 @@ public:
 	void SliderCollisionSwitch(bool _IsOn);
 	void SkillBoxCollisionSwitch(bool _IsOn);
 
-	// Collision
+	// Spawn Bullet
+	void SpawnWind();
+	void SpawnSpit();
+
+	void CollisionEnter(AActor* _ColActor);
+	void CollisionStay(AActor* _ColActor);
 
 protected:
 	void BeginPlay() override;
@@ -77,6 +82,7 @@ protected:
 
 private:
 	bool IsFull = false;
+	bool IsObstacle = false;
 	int MySpriteIndex = 0;
 	std::string AnimDir = "_Right";
 	FVector2D PlayerScale = FVector2D::ZERO;
@@ -95,11 +101,8 @@ private:
 	U2DCollision* PlayerCollision = nullptr;
 	U2DCollision* SlideLeftCollision = nullptr;
 	U2DCollision* SlideRightCollision = nullptr;
-	U2DCollision* SkillBoxLeftCollision = nullptr;
-	U2DCollision* SkillBoxRightCollision = nullptr;
-
-	void CollisionEnter(AActor* _ColActor);
-	void CollisionStay(AActor* _ColActor);
+	U2DCollision* InhaleBoxLeftCollision = nullptr;
+	U2DCollision* InhaleBoxRightCollision = nullptr;
 
 	void SetPlayer();
 	void SetAnimation();

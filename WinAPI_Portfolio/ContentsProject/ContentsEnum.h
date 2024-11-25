@@ -18,8 +18,7 @@ enum class ECollisionGroup
 	PLAYERSKILL,
 	INHALEBOX,
 	MONSTERBODY,
-	MONSTERSKILL,
-	BLOCK
+	MONSTERSKILL
 };
 
 enum class EAblityType
@@ -61,7 +60,10 @@ enum class EPlayerState
 	CLIMB,
 	FALL,
 	EAT,
-	ATTACK,
+	INHALESTART,
+	INHALE,
+	SPIT,
+	SKILL,
 	HURT,
 	DIE
 };
@@ -74,6 +76,5 @@ enum class EMonsterState
 	ATTACK,
 	ATTACKEND,
 	INHALE,
-	HURT,
 	DIE
 };
