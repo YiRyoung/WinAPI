@@ -217,8 +217,12 @@ void AMonster::Inhale(float _DeltaTime)
 	}
 
 	AActor* Inhale = CollisionComponent->CollisionOnce(ECollisionGroup::PLAYERBODY);
-	if (nullptr != Inhale)
+	APlayer* InhalePlayer = dynamic_cast<APlayer*>(Inhale);
+	if (nullptr != InhalePlayer)
 	{
+		InhalePlayer->SetIsFull(true);
+		InhalePlayer->SkillBoxCollisionSwitch(false);
+		InhalePlayer->SetCurState(EPlayerState::IDLE);
 		Destroy();
 	}
 

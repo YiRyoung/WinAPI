@@ -664,7 +664,7 @@ void PlayerState::ChangeEat()
 
 void PlayerState::ChangeAttack()
 {
-	if (IsPressKey('X'))
+	if (IsDownKey('X'))
 	{
 		GravityForce = FVector2D::ZERO;
 
