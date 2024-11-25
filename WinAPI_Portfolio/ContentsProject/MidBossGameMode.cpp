@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
+#include "Fade.h"
 
 AMidBossGameMode::AMidBossGameMode()
 {
@@ -21,6 +22,9 @@ AMidBossGameMode::~AMidBossGameMode()
 void AMidBossGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	NewFade = GetWorld()->SpawnActor<AFade>();
+	NewFade->FadeOut();
+
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("MidBoss.png");
 	NewActor->SetColSprite("ColMidBoss.png");
@@ -32,6 +36,7 @@ void AMidBossGameMode::BeginPlay()
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");
+
 }
 
 void AMidBossGameMode::Tick(float _DeltaTime)

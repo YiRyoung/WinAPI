@@ -9,7 +9,8 @@ enum class ERenderOrder
 	MONSTER = 1,
 	SKILL = 2,
 	HUI = 10000,
-	HUITEXT = 10001
+	HUITEXT = 10001,
+	FADE = 20000
 };
 
 enum class ECollisionGroup

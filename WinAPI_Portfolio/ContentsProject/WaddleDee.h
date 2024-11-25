@@ -14,7 +14,6 @@ public:
 	AWaddleDee& operator=(const AWaddleDee& _Other) = delete;
 	AWaddleDee& operator=(AWaddleDee&& _Other) noexcept = delete;
 
-	void Pause(float _DeltaTime) override;
 	void Chase(float _DeltaTime) override;
 
 protected:

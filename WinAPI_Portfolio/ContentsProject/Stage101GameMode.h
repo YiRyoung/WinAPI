@@ -23,6 +23,7 @@ private:
 	class APlayer* NewPlayer = nullptr;
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
+	class AFade* NewFade = nullptr;
 	class AMonster* NewWaddleDee = nullptr;
 	class AMonster* NewWaddleDoo = nullptr;
 };

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
+#include "Fade.h"
 
 #include "Monster.h"
 #include "WaddleDee.h"
@@ -28,6 +29,9 @@ void AStage101GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	NewFade = GetWorld()->SpawnActor<AFade>();
+	NewFade->FadeOut();
+
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Stage101.png");
 	NewActor->SetColSprite("ColStage101.png");
@@ -46,18 +50,20 @@ void AStage101GameMode::BeginPlay()
 
 	NewWaddleDoo = GetWorld()->SpawnActor<AWaddleDoo>();
 	NewWaddleDoo->GetColImage("ColStage101.png");
-	NewWaddleDoo->SetActorLocation({ 300, 280 });
+	NewWaddleDoo->SetActorLocation({ 480, 280 });
 
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-	
 	NewWaddleDee->SetDistance(NewPlayer->GetActorLocation());
+	NewWaddleDoo->SetDistance(NewPlayer->GetActorLocation());
 
-	if (true == UEngineInput::GetInst().IsDown('R'))
+	if (true == UEngineInput::GetInst().IsDown(VK_UP) 
+		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))
 	{
+		NewFade->FadeIn();
 		UEngineAPICore::GetCore()->OpenLevel("MidBoss");
 	}
 

@@ -3,6 +3,8 @@
 
 #include <EngineCore/SpriteRenderer.h>
 
+#include "WaddleBeam.h"
+
 AWaddleDoo::AWaddleDoo()
 {
 	SetMonster("WaddleDoo_Left.png", { 50, 50 });
@@ -21,18 +23,48 @@ void AWaddleDoo::Pause(float _DeltaTime)
 
 void AWaddleDoo::Chase(float _DeltaTime)
 {
+	AMonster::Chase(_DeltaTime);
+
+	ChangeMonsterAnim("Walk");
+
+	// Distance 및 Look 체크 후 Attack으로 전환
+	if (CheckDistance() && CheckDirect())
+	{
+		SetMonsterState(EMonsterState::ATTACKSTART);
+		return;
+	}
 }
 
 void AWaddleDoo::AttackStart(float _DeltaTime)
 {
+	ChangeMonsterAnim("Attack");
+	AWaddleBeam* NewWaddleBeam = GetWorld()->SpawnActor<AWaddleBeam>();
+	NewWaddleBeam->SetActorLocation(GetActorLocation());
+	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
+	NewWaddleBeam->SetDir(Vector);
+	SetMonsterState(EMonsterState::ATTACK);
+	return;
 }
 
 void AWaddleDoo::Attack(float _DeltaTime)
 {
+	
+	SetMonsterState(EMonsterState::ATTACKEND);
+	return;
 }
 
 void AWaddleDoo::AttackEnd(float _DeltaTime)
 {
+}
+
+void AWaddleDoo::BeginPlay()
+{
+	AMonster::BeginPlay();
+}
+
+void AWaddleDoo::Tick(float _DeltaTime)
+{
+	AMonster::Tick(_DeltaTime);
 }
 
 void AWaddleDoo::SetAnimation()
@@ -50,4 +82,22 @@ void AWaddleDoo::SetAnimation()
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Walk_Left");
+}
+
+bool AWaddleDoo::CheckDistance()
+{
+	float Dis = AMonster::PlayerDistance;
+	bool IsTrue = (abs(Dis) <= 200.0f) ? true : false;
+	return IsTrue;
+}
+
+bool AWaddleDoo::CheckDirect()
+{
+	float Dis = AMonster::PlayerDistance;
+	
+	if (("_Left" == AnimDir && Dis >= 0) || ("_Right" == AnimDir && Dis < 0))
+	{
+		return true;
+	}
+	return false;
 }

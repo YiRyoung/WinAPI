@@ -28,13 +28,6 @@ void AWaddleDee::SetAnimation()
 	SpriteRenderer->ChangeAnimation("Walk_Left");
 }
 
-void AWaddleDee::Pause(float _DeltaTime)
-{
-	AMonster::Pause(_DeltaTime);
-
-	SetMonsterState(EMonsterState::CHASE);
-	return;
-}
 
 void AWaddleDee::Chase(float _DeltaTime)
 {

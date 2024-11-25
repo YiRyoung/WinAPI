@@ -82,7 +82,6 @@ protected:
 
 private:
 	bool IsFull = false;
-	bool IsObstacle = false;
 	int MySpriteIndex = 0;
 	std::string AnimDir = "_Right";
 	FVector2D PlayerScale = FVector2D::ZERO;

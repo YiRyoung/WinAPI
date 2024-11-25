@@ -4,6 +4,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineAPICore.h>
 
+#include "Fade.h"
 #include "TitleMap.h"
 
 ATitleGameMode::ATitleGameMode()
@@ -27,6 +28,8 @@ void ATitleGameMode::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
 	{
+		AFade* Actor = GetWorld()->SpawnActor<AFade>();
+		Actor->FadeIn();
 		UEngineAPICore::GetCore()->OpenLevel("Stage101");
 	}
 

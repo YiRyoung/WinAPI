@@ -53,15 +53,14 @@ protected:
 	class USpriteRenderer* SpriteRenderer = nullptr;
 	class U2DCollision* CollisionComponent = nullptr;
 
-private:
-	float Speed = 45.0f;
 	float PlayerDistance = 0.0f;
 	std::string AnimDir = "_Left";
+private:
+	float Speed = 45.0f;
 
 	FVector2D MonsterScale = FVector2D::ZERO;
 	FVector2D GravityForce = FVector2D::ZERO;
 	EMonsterState CurState = EMonsterState::CHASE;
 
 	void CollisionEnter(AActor* _ColActor);
-	void CollisionStay(AActor* _ColActor);
 };

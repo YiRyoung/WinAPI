@@ -50,6 +50,12 @@
       <Filter>ContentsObject\Global\Monster</Filter>
     </ClCompile>
     <ClCompile Include="WaddleDoo.cpp">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>ContentsObject\Global\HUI</Filter>
+    </ClCompile>
+    <ClCompile Include="WaddleBeam.cpp">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClCompile>
   </ItemGroup>
@@ -103,6 +109,12 @@
       <Filter>ContentsObject\Global\Monster</Filter>
     </ClInclude>
     <ClInclude Include="WaddleDoo.h">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>ContentsObject\Global\HUI</Filter>
+    </ClInclude>
+    <ClInclude Include="WaddleBeam.h">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClInclude>
   </ItemGroup>
