@@ -19,6 +19,13 @@ AWaddleDoo::~AWaddleDoo()
 
 void AWaddleDoo::Pause(float _DeltaTime)
 {
+	SpriteRenderer->SetSprite("WaddleDoo" + AnimDir + ".png", 1);
+	if (CurTime >= 5.0f)
+	{
+		CurTime = 0.0f;
+		SetMonsterState(EMonsterState::CHASE);
+		return;
+	}
 }
 
 void AWaddleDoo::Chase(float _DeltaTime)
@@ -42,19 +49,19 @@ void AWaddleDoo::AttackStart(float _DeltaTime)
 	NewWaddleBeam->SetActorLocation(GetActorLocation());
 	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
 	NewWaddleBeam->SetDir(Vector);
+	
+	CurTime = 0.0f;
 	SetMonsterState(EMonsterState::ATTACK);
 	return;
 }
 
 void AWaddleDoo::Attack(float _DeltaTime)
 {
-	
-	SetMonsterState(EMonsterState::ATTACKEND);
-	return;
-}
-
-void AWaddleDoo::AttackEnd(float _DeltaTime)
-{
+	if (CurTime >= 1.2f)
+	{
+		SetMonsterState(EMonsterState::PAUSE);
+		return;
+	}
 }
 
 void AWaddleDoo::BeginPlay()
@@ -65,6 +72,7 @@ void AWaddleDoo::BeginPlay()
 void AWaddleDoo::Tick(float _DeltaTime)
 {
 	AMonster::Tick(_DeltaTime);
+	CurTime += _DeltaTime;
 }
 
 void AWaddleDoo::SetAnimation()

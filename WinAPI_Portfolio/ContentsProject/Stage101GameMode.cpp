@@ -50,7 +50,7 @@ void AStage101GameMode::BeginPlay()
 
 	NewWaddleDoo = GetWorld()->SpawnActor<AWaddleDoo>();
 	NewWaddleDoo->GetColImage("ColStage101.png");
-	NewWaddleDoo->SetActorLocation({ 480, 280 });
+	NewWaddleDoo->SetActorLocation({ 1850, 298 });
 
 }
 

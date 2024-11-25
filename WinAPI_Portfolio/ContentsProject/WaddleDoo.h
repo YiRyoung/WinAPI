@@ -18,13 +18,13 @@ public:
 	void Chase(float _DeltaTime) override;
 	void AttackStart(float _DeltaTime);
 	void Attack(float _DeltaTime);
-	void AttackEnd(float _DeltaTime);
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private:
+	float CurTime = 0.0f;
 	void SetAnimation();
 	bool CheckDistance();	// 공격 범위 체크
 	bool CheckDirect();		// 공격 방향 체크
