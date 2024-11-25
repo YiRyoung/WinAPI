@@ -12,6 +12,7 @@
 
 #include "Monster.h"
 #include "WaddleDee.h"
+#include "WaddleDoo.h"
 
 #include "ContentsEnum.h"
 
@@ -42,6 +43,11 @@ void AStage101GameMode::BeginPlay()
 	NewWaddleDee = GetWorld()->SpawnActor<AWaddleDee>();
 	NewWaddleDee->GetColImage("ColStage101.png");
 	NewWaddleDee->SetActorLocation({ 1191, 280 });
+
+	NewWaddleDoo = GetWorld()->SpawnActor<AWaddleDoo>();
+	NewWaddleDoo->GetColImage("ColStage101.png");
+	NewWaddleDoo->SetActorLocation({ 300, 280 });
+
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)

@@ -49,6 +49,9 @@
     <ClCompile Include="Monster.cpp">
       <Filter>ContentsObject\Global\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="WaddleDoo.cpp">
+      <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>ContentsObject\Global\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="WaddleDoo.h">
+      <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

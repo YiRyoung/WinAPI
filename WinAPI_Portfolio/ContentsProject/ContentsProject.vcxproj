@@ -208,6 +208,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WaddleDoo.h" />
     <ClInclude Include="WindBullet.h">
       <SubType>
       </SubType>
@@ -274,6 +275,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WaddleDoo.cpp" />
     <ClCompile Include="WindBullet.cpp">
       <SubType>
       </SubType>

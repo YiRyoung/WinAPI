@@ -24,5 +24,6 @@ private:
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
 	class AMonster* NewWaddleDee = nullptr;
+	class AMonster* NewWaddleDoo = nullptr;
 };
 
