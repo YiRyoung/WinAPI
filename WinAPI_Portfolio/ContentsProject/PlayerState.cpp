@@ -666,7 +666,7 @@ void PlayerState::Beam(float _DeltaTime)
 {
 	CurTime += _DeltaTime;
 
-	if (CurTime >= 1.2f)
+	if (CurTime >= 0.18f)
 	{
 		CurTime = 0.0f;
 		SetPlayerState(EPlayerState::IDLE);

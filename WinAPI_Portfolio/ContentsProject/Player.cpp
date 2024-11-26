@@ -213,7 +213,7 @@ void APlayer::SetAnimation()
 
 void APlayer::SetAnimDir()
 {
-	if (EPlayerState::SLIDE != CurState)
+	if (EPlayerState::SLIDE != CurState && EPlayerState::SKILLSTART != CurState)
 	{
 		if (UEngineInput::GetInst().IsPress(VK_LEFT))
 		{

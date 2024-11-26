@@ -20,7 +20,7 @@ AWaddleBeam::AWaddleBeam()
 
 	ArrDir[static_cast<int>(Phase::Phase01)] = FVector2D::UP;
 	ArrDir[static_cast<int>(Phase::Phase02)] = FVector2D(-0.45f, -1.0f);
-	ArrDir[static_cast<int>(Phase::Phase03)] = FVector2D(-0.85f, -1.0f);;
+	ArrDir[static_cast<int>(Phase::Phase03)] = FVector2D(-1.45f, -1.0f);;
 	ArrDir[static_cast<int>(Phase::Phase04)] = FVector2D::LEFT;
 	ArrDir[static_cast<int>(Phase::Phase05)] = FVector2D(-1, 1);
 
@@ -43,7 +43,7 @@ void AWaddleBeam::SetDir(const FVector2D& _Dir)
 
 void AWaddleBeam::SetEffect(FVector2D _Dir)
 {
-	float StartInter = 50.0f;
+	float StartInter = 65.0f;
 
 	FVector2D RealDir = _Dir;
 	if (0 <= Dir.X)

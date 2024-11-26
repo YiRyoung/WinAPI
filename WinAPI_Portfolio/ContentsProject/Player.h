@@ -103,9 +103,8 @@ private:
 	class UEngineWinImage* BackgroundImage = nullptr;
 	class UEngineWinImage* ColliderImage = nullptr;
 	USpriteRenderer* PlayerRenderer = nullptr;
-
 	EPlayerState CurState = EPlayerState::IDLE;
-	EAbilityType CurAbility = EAbilityType::NORMAL;
+	EAbilityType CurAbility = EAbilityType::BEAM;
 	EAbilityType CurMonsterAbility = EAbilityType::MAX;	// IsFull
 	void FSM(float _DeltaTime);
 
