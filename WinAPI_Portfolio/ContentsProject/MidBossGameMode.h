@@ -20,8 +20,10 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	class APlayer* NewPlayer = nullptr;
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
 	class AFade* NewFade = nullptr;
+	class AMonster* NewHotHead = nullptr;
 };
 

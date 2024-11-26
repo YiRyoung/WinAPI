@@ -126,7 +126,7 @@ private:
 	//FSM Function
 	bool IsAccel = false;
 	float CurTime = 0.0f;
-	float Speed = 180.0f;		// 기본 속도
+	float Speed = 200.0f;		// 기본 속도
 	float AccSpeed = 320.0f;	// 가속도
 	float DeAccSpeed = 10.0f;	// 관성
 	float MaxSpeed = 230.0f;	// 최대 속도

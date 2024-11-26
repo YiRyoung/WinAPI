@@ -14,6 +14,7 @@ public:
 	AHotHead& operator=(const AHotHead& _Other) = delete;
 	AHotHead& operator=(AHotHead&& _Other) noexcept = delete;
 
+	void Pause(float _DeltaTime) override;
 	void Chase(float _DeltaTime) override;
 	void AttackStart(float _DeltaTime) override;
 	void Attack(float _DeltaTime) override;
@@ -28,11 +29,9 @@ private:
 	void SetAnimation();
 	bool CheckDistance();	// 공격 범위 체크
 	bool CheckDirect();		// 공격 방향 체크
-	void LookPlayer();
 
-	void SetCollision();
-	// FireBallLeftCollision
-	// FireBallRightCollision
-	// FireBallCollisionSwitch
+	void FireBallLeftCollision();
+	void FireBallRightCollision();
+	void FireBallCollisionSwitch();
 };
 

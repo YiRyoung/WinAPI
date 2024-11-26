@@ -7,6 +7,9 @@
 #include <EngineCore/Level.h>
 
 #include "Player.h"
+#include "Monster.h"
+#include "HotHead.h"
+
 #include "Stage.h"
 #include "HUI.h"
 #include "Fade.h"
@@ -30,18 +33,22 @@ void AMidBossGameMode::BeginPlay()
 	NewActor->SetColSprite("ColMidBoss.png");
 	NewActor->SwitchColSprite();
 
-	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
-	Player->GetBackgroundImage("MidBoss.png", "ColMidBoss.png");
-	Player->SetActorLocation({ 185, 915 });
+	NewPlayer = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
+	NewPlayer->GetBackgroundImage("MidBoss.png", "ColMidBoss.png");
+	NewPlayer->SetActorLocation({ 185, 915 });
 
 	NewUI = GetWorld()->SpawnActor<AHUI>();
 	NewUI->SetSprite("StageUI.png", "Lives.png");
 
+	NewHotHead = GetWorld()->SpawnActor<AHotHead>();
+	NewHotHead->GetColImage("ColMidBoss.png");
+	NewHotHead->SetActorLocation({ 670, 920 });
 }
 
 void AMidBossGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	NewHotHead->SetDistance(NewPlayer->GetActorLocation());
 
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
