@@ -16,6 +16,9 @@ public:
 
 	void SetDir(const FVector2D& _Dir);
 
+	//void SetMosnterSkillCollision();
+	//void SetPlayerSkillCollision();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
