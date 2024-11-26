@@ -80,8 +80,7 @@ void KirbyContentsCore::CuttingImages()
 	UImageManager::GetInst().CuttingSprite("Destory.png", {51, 51});
 	UImageManager::GetInst().CuttingSprite("WaddleDee_Left.png", { 50, 50 });
 	UImageManager::GetInst().CuttingSprite("WaddleDee_Right.png", { 50, 50 });
-	UImageManager::GetInst().CuttingSprite("BroomHatter_Left.png", { 51, 50 });
-	UImageManager::GetInst().CuttingSprite("BroomHatter_Right.png", { 51, 50 });
+	UImageManager::GetInst().CuttingSprite("Shotzo.png", { 51, 51 });
 
 	// Ability Monster
 	UImageManager::GetInst().CuttingSprite("WaddleDoo_Left.png", { 50, 51 });

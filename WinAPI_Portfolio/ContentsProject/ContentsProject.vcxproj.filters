@@ -70,6 +70,9 @@
     <ClCompile Include="FireBall.cpp">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="Shotzo.cpp">
+      <Filter>ContentsObject\Global\Monster\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="FireBall.h">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Shotzo.h">
+      <Filter>ContentsObject\Global\Monster\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
