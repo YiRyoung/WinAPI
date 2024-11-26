@@ -4,6 +4,7 @@
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/2DCollision.h>
 
+#include "Player.h"
 #include "ContentsEnum.h"
 
 AWaddleBeam::AWaddleBeam()
@@ -140,6 +141,8 @@ void AWaddleBeam::SetMosnterSkillCollision()
 		WaddleBeamCollision[i]->SetCollisionGroup(ECollisionGroup::MONSTERSKILL);
 		WaddleBeamCollision[i]->SetCollisionType(ECollisionType::CirCle);
 
+		GetWorld()->CollisionGroupLink(ECollisionGroup::MONSTERSKILL, ECollisionGroup::PLAYERBODY);
+		WaddleBeamCollision[i]->SetCollisionEnter(std::bind(&AWaddleBeam::MonsterSkillCollisionEnter, this, std::placeholders::_1));
 	}
 }
 
@@ -152,7 +155,21 @@ void AWaddleBeam::SetPlayerSkillCollision()
 		WaddleBeamCollision[i]->SetComponentScale({ 38, 38 });
 		WaddleBeamCollision[i]->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 		WaddleBeamCollision[i]->SetCollisionType(ECollisionType::CirCle);
+
+		GetWorld()->CollisionGroupLink(ECollisionGroup::PLAYERSKILL, ECollisionGroup::MONSTERBODY);
+		WaddleBeamCollision[i]->SetCollisionEnter(std::bind(&AWaddleBeam::PlayerSkillCollisionEnter, this, std::placeholders::_1));
 	}
+}
+
+void AWaddleBeam::MonsterSkillCollisionEnter(AActor* _ColActor)
+{
+	APlayer* Player = dynamic_cast<APlayer*>(_ColActor);
+	Player->SetCurState(EPlayerState::HURT);
+	return;
+}
+
+void AWaddleBeam::PlayerSkillCollisionEnter(AActor* _ColActor)
+{
 }
 
 void AWaddleBeam::Tick(float _DeltaTime)

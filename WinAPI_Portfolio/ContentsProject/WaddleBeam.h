@@ -37,6 +37,10 @@ public:
 
 	void SetMosnterSkillCollision();
 	void SetPlayerSkillCollision();
+
+	void MonsterSkillCollisionEnter(AActor* _ColActor);
+	void PlayerSkillCollisionEnter(AActor* _ColActor);
+
 protected:
 	void Tick(float _DeltaTime);
 private:

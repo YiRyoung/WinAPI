@@ -85,7 +85,6 @@ public:
 
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
-	//void PlayerCollisionEnter(AActor* _ColActor);
 
 protected:
 	void BeginPlay() override;
