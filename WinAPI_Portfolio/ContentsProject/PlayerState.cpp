@@ -654,13 +654,33 @@ void PlayerState::Spit(float _DeltaTime)
 	}
 }
 
+void PlayerState::BeamStart(float _DeltaTime)
+{
+	ChangeAnimation("Beam");
+	Player->SpawnBeam();
+	Gravity(_DeltaTime);
+	Beam(_DeltaTime);
+}
+
+void PlayerState::Beam(float _DeltaTime)
+{
+	CurTime += _DeltaTime;
+
+	if (CurTime >= 1.2f)
+	{
+		CurTime = 0.0f;
+		SetPlayerState(EPlayerState::IDLE);
+		return;
+	}
+}
+
 void PlayerState::SkillStart(float _DeltaTime)
 {
 	// Animation
 	switch (Player->GetCurAbility())
 	{
 	case EAbilityType::BEAM:
-
+		BeamStart(_DeltaTime);
 		break;
 	case EAbilityType::CUTTER:
 		break;

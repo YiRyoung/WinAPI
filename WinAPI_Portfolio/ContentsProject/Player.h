@@ -79,9 +79,10 @@ public:
 	void SliderCollisionSwitch(bool _IsOn);
 	void SkillBoxCollisionSwitch(bool _IsOn);
 
-	// Spawn Bullet
+	// Spawn Bullet & Ability
 	void SpawnWind();
 	void SpawnSpit();
+	void SpawnBeam();
 
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);

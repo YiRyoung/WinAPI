@@ -34,6 +34,7 @@ public:
 	FVector2D Dir = FVector2D::ZERO;		// 이동 방향
 	FVector2D SpawnPos = FVector2D::ZERO;	// 스폰 위치
 
+	void CollisionEnter(AActor* _ColActor);
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -44,5 +45,6 @@ private:
 
 	class USpriteRenderer* WindBulletRender = nullptr;
 	class U2DCollision* WindBulletCollision = nullptr;
+
 };
 

@@ -4,6 +4,7 @@
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/2DCollision.h>
 
+#include "Monster.h"
 #include "ContentsEnum.h"
 
 AWindBullet::AWindBullet()
@@ -18,12 +19,22 @@ AWindBullet::AWindBullet()
 	WindBulletCollision->SetComponentScale({ 48, 48 });
 	WindBulletCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 	WindBulletCollision->SetCollisionType(ECollisionType::CirCle);
-
+	WindBulletCollision->SetCollisionEnter(std::bind(&AWindBullet::CollisionEnter, this, std::placeholders::_1));
 	DebugOn();
 }
 
 AWindBullet::~AWindBullet()
 {
+}
+
+void AWindBullet::CollisionEnter(AActor* _ColActor)
+{
+	AMonster* Result = dynamic_cast<AMonster*>(_ColActor);
+	if (nullptr != Result)
+	{
+		Result->SetMonsterState(EMonsterState::DIE);
+		return;
+	}
 }
 
 void AWindBullet::BeginPlay()

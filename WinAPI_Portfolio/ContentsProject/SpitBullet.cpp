@@ -4,6 +4,7 @@
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/2DCollision.h>
 
+#include "Monster.h"
 #include "ContentsEnum.h"
 
 ASpitBullet::ASpitBullet()
@@ -20,12 +21,22 @@ ASpitBullet::ASpitBullet()
 	SpitBulletCollision->SetComponentScale({ 48, 48 });
 	SpitBulletCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 	SpitBulletCollision->SetCollisionType(ECollisionType::CirCle);
-
+	SpitBulletCollision->SetCollisionEnter(std::bind(&ASpitBullet::CollisionEnter, this, std::placeholders::_1));
 	DebugOn();
 }
 
 ASpitBullet::~ASpitBullet()
 {
+}
+
+void ASpitBullet::CollisionEnter(AActor* _ColActor)
+{
+	AMonster* Result = dynamic_cast<AMonster*>(_ColActor);
+	if (nullptr != Result)
+	{
+		Result->SetMonsterState(EMonsterState::DIE);
+		return;
+	}
 }
 
 void ASpitBullet::BeginPlay(float _DeltaTime)

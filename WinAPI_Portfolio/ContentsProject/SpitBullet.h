@@ -34,6 +34,8 @@ public:
 	FVector2D Dir = FVector2D::ZERO;		// 이동 방향
 	FVector2D SpawnPos = FVector2D::ZERO;	// 스폰 위치
 
+	void CollisionEnter(AActor* _ColActor);
+
 protected:
 	void BeginPlay(float _DeltaTime);
 	void Tick(float _DeltaTime);

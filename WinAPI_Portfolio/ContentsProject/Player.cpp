@@ -13,6 +13,7 @@
 
 #include "WindBullet.h"
 #include "SpitBullet.h"
+#include "WaddleBeam.h"
 
 #include "ContentsEnum.h"
 
@@ -69,6 +70,15 @@ void APlayer::SpawnSpit()
 	ASpitBullet* NewSpit = GetWorld()->SpawnActor<ASpitBullet>();
 	NewSpit->SetDir(AnimDir);
 	NewSpit->SetActorLocation(GetActorLocation() + NewSpit->SpawnPos);
+}
+
+void APlayer::SpawnBeam()
+{
+	AWaddleBeam* NewBeam = GetWorld()->SpawnActor<AWaddleBeam>();
+	NewBeam->SetPlayerSkillCollision();
+	NewBeam->SetActorLocation(GetActorLocation());
+	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
+	NewBeam->SetDir(Vector);
 }
 
 void APlayer::CollisionEnter(AActor* _ColActor)
@@ -193,6 +203,10 @@ void APlayer::SetAnimation()
 	// HURT_FULLED
 	PlayerRenderer->CreateAnimation("HurtFull_Left", "Kirby_Normal_Left.png", {72, 81 }, 0.05f);
 	PlayerRenderer->CreateAnimation("HurtFull_Right", "Kirby_Normal_Right.png", { 72, 81 }, 0.05f);
+
+	// Beam
+	PlayerRenderer->CreateAnimation("Beam_Left", "Kirby_Ability_Left.png", 0, 1, 0.05f);
+	PlayerRenderer->CreateAnimation("Beam_Right", "Kirby_Ability_Right.png", 0, 1, 0.05f);
 
 	PlayerRenderer->ChangeAnimation("Idle_Right");
 }
