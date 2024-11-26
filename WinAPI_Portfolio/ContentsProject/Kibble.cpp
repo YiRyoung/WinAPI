@@ -100,6 +100,7 @@ void AKibble::AttackStart(float _DeltaTime)
 	if (CurTime >= 1.0f)
 	{
 		CurTime = 0.0f;
+		ChangeMonsterAnim("Idle");
 		SetMonsterState(EMonsterState::ATTACK);
 		return;
 	}
@@ -110,6 +111,7 @@ void AKibble::Attack(float _DeltaTime)
 	NewSlider = GetWorld()->SpawnActor<ACutterSlider>();
 	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
 	NewSlider->SetActorLocation(GetActorLocation() + (Vector * 10.0f) + FVector2D({0.0f, -10.0f}));
+	NewSlider->SetMosnterSkillCollision();
 	NewSlider->SetDir(Vector);
 
 	CurTime = 0.0f;

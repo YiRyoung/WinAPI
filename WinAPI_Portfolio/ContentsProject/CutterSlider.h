@@ -19,8 +19,6 @@ public:
 	void SetMosnterSkillCollision();
 	void SetPlayerSkillCollision();
 
-	void MonsterSkillCollisionEnter(AActor* _ColActor);
-	void PlayerSkillCollisionEnter(AActor* _ColActor);
 
 protected:
 	void BeginPlay() override;
@@ -29,7 +27,7 @@ protected:
 private:
 	float PushForce = 320.0f;
 	float Speed = 180.0f;
-	float Time = 0.0f;
+	float CurTime = 0.0f;
 
 	FVector2D Dir = FVector2D::ZERO;
 	FVector2D ReversePush = FVector2D::ZERO;
