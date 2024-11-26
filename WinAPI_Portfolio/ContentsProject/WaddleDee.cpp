@@ -5,7 +5,7 @@
 
 AWaddleDee::AWaddleDee()
 {
-	SetMonster("WaddleDee_Left.png", { 50, 50 });
+	SetMonster("WaddleDee_Left.png", { 50, 50 }, EAbilityType::NORMAL);
 	SetCollision({ 54, 54 });
 	SetAnimation();
 	DebugOn();

@@ -37,6 +37,9 @@ public:
 	void Inhale(float _DeltaTime);
 	void InhaleEnd(float _DeltaTime);
 	void Spit(float _DeltaTime);
+	void SkillStart(float _DeltaTime);
+	void Skill(float _DeltaTime);
+	void SkillEnd(float _DeltaTime);
 	//void AbilityStart(float _DeltaTime);
 	//void Ability(float _DeltaTime);
 	/*void BeamStart(float _DeltaTime);

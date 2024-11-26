@@ -40,12 +40,13 @@ void AMonster::GetColImage(std::string _ColImageName)
 	ColImage = UImageManager::GetInst().FindImage(_ColImageName);
 }
 
-void AMonster::SetMonster(std::string _SpriteName, FVector2D _SpriteScale)
+void AMonster::SetMonster(std::string _SpriteName, FVector2D _SpriteScale, EAbilityType _AbilityType)
 {
 	SpriteRenderer = CreateDefaultSubObject<USpriteRenderer>();
 	SpriteRenderer->SetSprite(_SpriteName);
 	SpriteRenderer->SetComponentScale(_SpriteScale);
 	MonsterScale = SpriteRenderer->GetTransform().Scale;
+	MonsterAbility = _AbilityType;
 }
 
 void AMonster::SetCollision(FVector2D _CollisionScale)
@@ -55,9 +56,6 @@ void AMonster::SetCollision(FVector2D _CollisionScale)
 	CollisionComponent->SetComponentScale(_CollisionScale);
 	CollisionComponent->SetCollisionGroup(ECollisionGroup::MONSTERBODY);
 	CollisionComponent->SetCollisionType(ECollisionType::CirCle);
-
-	GetWorld()->CollisionGroupLink(ECollisionGroup::MONSTERBODY, ECollisionGroup::PLAYERSKILL);
-	CollisionComponent->SetCollisionEnter(std::bind(&AMonster::CollisionEnter, this, std::placeholders::_1));
 }
 
 void AMonster::ChangeMonsterAnim(std::string _AnimName)
@@ -156,12 +154,6 @@ void AMonster::Gravity(float _DeltaTime)
 	}
 }
 
-void AMonster::CollisionEnter(AActor* _ColActor)
-{
-	SetMonsterState(EMonsterState::DIE);
-	return;
-}
-
 void AMonster::Pause(float _DeltaTime)
 {
 	SetMonsterState(EMonsterState::CHASE);
@@ -221,8 +213,10 @@ void AMonster::Inhale(float _DeltaTime)
 	if (nullptr != InhalePlayer)
 	{
 		InhalePlayer->SetIsFull(true);
+
 		InhalePlayer->SkillBoxCollisionSwitch(false);
 		InhalePlayer->SetCurState(EPlayerState::IDLE);
+		InhalePlayer->SetCurMosnterAbility(MonsterAbility);
 		Destroy();
 	}
 

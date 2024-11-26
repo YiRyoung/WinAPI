@@ -44,7 +44,8 @@ enum class EAbilityType
 	NORMAL,
 	BEAM,
 	FIRE,
-	CUTTER
+	CUTTER,
+	MAX
 };
 
 enum class EPlayerState
@@ -64,7 +65,9 @@ enum class EPlayerState
 	INHALESTART,
 	INHALE,
 	SPIT,
+	SKILLSTART,
 	SKILL,
+	SKILLEND,
 	HURT,
 	DIE
 };

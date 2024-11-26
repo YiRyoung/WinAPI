@@ -559,18 +559,124 @@ void PlayerState::EatStart(float _DeltaTime)
 void PlayerState::Eat(float _DeltaTime)
 {
 	SetPlayerFull(false);
+	Player->SetCurAbility(Player->GetCurMonsterAbility());
+	Player->SetCurMosnterAbility(EAbilityType::MAX);
 	SetPlayerState(EPlayerState::IDLE);
 	return;
 }
 
 void PlayerState::HurtStart(float _DeltaTime)
 {
+	if (GetPlayerFull())
+	{
+		ChangeAnimation("HurtFull");
+
+	}
+	else
+	{
+		ChangeAnimation("Hurt");
+	}
+
+	CurTime += _DeltaTime;
+	Hurt(_DeltaTime);
 }
 
 void PlayerState::Hurt(float _DeltaTime)
 {
+	Gravity(_DeltaTime);
+	FVector2D Vector = FVector2D::UP;
+
+	// Force »ç¿ë
+	if ("_Left" == Player->GetAnimDir())
+	{
+		Vector += FVector2D::RIGHT;
+	}
+	else if ("_Right" == Player->GetAnimDir())
+	{
+		Vector += FVector2D::LEFT;
+	}
+	Vector.Normalize();
+	
+	AddActorLocation(Vector * 100.0f * _DeltaTime);
+
+	if (CurTime >= 0.5f)
+	{
+		CurTime = 0.0f;
+		SetPlayerState(EPlayerState::IDLE);
+		return;
+	}
 }
 
+void PlayerState::InhaleStart(float _DeltaTime)
+{
+	ChangeAnimation("InhaleStart");
+	Player->SkillBoxCollisionSwitch(true);
+
+	if (IsAnimFinish())
+	{
+		SetPlayerState(EPlayerState::INHALE);
+		return;
+	}
+}
+
+void PlayerState::Inhale(float _DeltaTime)
+{
+	Gravity(_DeltaTime);
+
+	if (!IsPressKey('X'))
+	{
+		ChangeAnimation("InhaleEnd");
+		Player->SkillBoxCollisionSwitch(false);
+		SetPlayerFull(false);
+
+		if (IsAnimFinish())
+		{
+			InhaleEnd(_DeltaTime);
+		}
+	}
+}
+
+void PlayerState::InhaleEnd(float _DeltaTime)
+{
+	SetPlayerState(EPlayerState::IDLE);
+	return;
+}
+
+void PlayerState::Spit(float _DeltaTime)
+{
+	ChangeAnimation("Spit");
+
+	if (IsAnimFinish())
+	{
+		SetPlayerFull(false);
+		SetPlayerState(EPlayerState::IDLE);
+		return;
+	}
+}
+
+void PlayerState::SkillStart(float _DeltaTime)
+{
+	// Animation
+	switch (Player->GetCurAbility())
+	{
+	case EAbilityType::BEAM:
+
+		break;
+	case EAbilityType::CUTTER:
+		break;
+	case EAbilityType::FIRE:
+		break;
+	}
+}
+
+void PlayerState::Skill(float _DeltaTime)
+{
+	// SpawnSkill
+}
+
+void PlayerState::SkillEnd(float _DeltaTime)
+{
+}
 
 void PlayerState::ChangeIdle()
 {
@@ -681,56 +787,8 @@ void PlayerState::ChangeAttack()
 		}
 		else
 		{
-			SetPlayerState(EPlayerState::SKILL);
+			SetPlayerState(EPlayerState::SKILLSTART);
 			return;
 		}
-	}
-}
-
-
-void PlayerState::InhaleStart(float _DeltaTime)
-{
-	ChangeAnimation("InhaleStart");
-	Player->SkillBoxCollisionSwitch(true);
-
-	if (IsAnimFinish())
-	{
-		SetPlayerState(EPlayerState::INHALE);
-		return;
-	}
-}
-
-void PlayerState::Inhale(float _DeltaTime)
-{
-	Gravity(_DeltaTime);
-
-	if (!IsPressKey('X'))
-	{
-		ChangeAnimation("InhaleEnd");
-		Player->SkillBoxCollisionSwitch(false);
-		SetPlayerFull(false);
-
-		if (IsAnimFinish())
-		{
-			InhaleEnd(_DeltaTime);
-		}
-	}
-}
-
-void PlayerState::InhaleEnd(float _DeltaTime)
-{
-	SetPlayerState(EPlayerState::IDLE);
-	return;
-}
-
-void PlayerState::Spit(float _DeltaTime)
-{
-	ChangeAnimation("Spit");
-
-	if (IsAnimFinish())
-	{
-		SetPlayerFull(false);
-		SetPlayerState(EPlayerState::IDLE);
-		return;
 	}
 }

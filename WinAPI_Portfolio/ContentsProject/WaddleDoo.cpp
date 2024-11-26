@@ -7,7 +7,7 @@
 
 AWaddleDoo::AWaddleDoo()
 {
-	SetMonster("WaddleDoo_Left.png", { 50, 50 });
+	SetMonster("WaddleDoo_Left.png", { 50, 50 }, EAbilityType::BEAM);
 	SetCollision({ 54, 54 });
 	SetAnimation();
 	DebugOn();
@@ -20,7 +20,7 @@ AWaddleDoo::~AWaddleDoo()
 void AWaddleDoo::Pause(float _DeltaTime)
 {
 	SpriteRenderer->SetSprite("WaddleDoo" + AnimDir + ".png", 1);
-	if (CurTime >= 5.0f)
+	if (CurTime >= 3.0f)
 	{
 		CurTime = 0.0f;
 		SetMonsterState(EMonsterState::CHASE);
@@ -34,9 +34,9 @@ void AWaddleDoo::Chase(float _DeltaTime)
 
 	ChangeMonsterAnim("Walk");
 
-	// Distance 및 Look 체크 후 Attack으로 전환
 	if (CheckDistance() && CheckDirect())
 	{
+		CurTime = 0.0f;
 		SetMonsterState(EMonsterState::ATTACKSTART);
 		return;
 	}
@@ -45,17 +45,28 @@ void AWaddleDoo::Chase(float _DeltaTime)
 void AWaddleDoo::AttackStart(float _DeltaTime)
 {
 	ChangeMonsterAnim("Attack");
-	AWaddleBeam* NewWaddleBeam = GetWorld()->SpawnActor<AWaddleBeam>();
-	NewWaddleBeam->SetActorLocation(GetActorLocation());
-	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
-	NewWaddleBeam->SetDir(Vector);
-	
-	CurTime = 0.0f;
-	SetMonsterState(EMonsterState::ATTACK);
-	return;
+
+	if (CurTime >= 1.0f)
+	{
+		CurTime = 0.0f;
+		SetMonsterState(EMonsterState::ATTACK);
+		return;
+	}
 }
 
 void AWaddleDoo::Attack(float _DeltaTime)
+{
+	AWaddleBeam* NewWaddleBeam = GetWorld()->SpawnActor<AWaddleBeam>();
+	NewWaddleBeam->SetMosnterSkillCollision();
+	NewWaddleBeam->SetActorLocation(GetActorLocation());
+	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
+	NewWaddleBeam->SetDir(Vector);
+
+	SetMonsterState(EMonsterState::ATTACKEND);
+	return;
+}
+
+void AWaddleDoo::AttackEnd(float _DeltaTime)
 {
 	if (CurTime >= 1.2f)
 	{

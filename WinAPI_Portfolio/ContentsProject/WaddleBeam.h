@@ -24,6 +24,7 @@ public:
 	AWaddleBeam& operator=(const AWaddleBeam& _Other) = delete;
 	AWaddleBeam& operator=(AWaddleBeam&& _Other) noexcept = delete;
 
+
 	void SetDir(const FVector2D& _Dir);
 	void SetEffect(FVector2D _Dir);
 
@@ -34,6 +35,8 @@ public:
 	void Phase05(float _DeltaTime);
 	void Phase06(float _DeltaTime);
 
+	void SetMosnterSkillCollision();
+	void SetPlayerSkillCollision();
 protected:
 	void Tick(float _DeltaTime);
 private:

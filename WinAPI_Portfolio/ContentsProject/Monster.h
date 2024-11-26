@@ -39,7 +39,7 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void SetMonster(std::string _SpriteName, FVector2D _SpriteScale);
+	void SetMonster(std::string _SpriteName, FVector2D _SpriteScale, EAbilityType _AbilityType);
 	void SetCollision(FVector2D _CollisionScale);
 
 	void ChangeMonsterAnim(std::string _AnimName);
@@ -61,6 +61,5 @@ private:
 	FVector2D MonsterScale = FVector2D::ZERO;
 	FVector2D GravityForce = FVector2D::ZERO;
 	EMonsterState CurState = EMonsterState::CHASE;
-
-	void CollisionEnter(AActor* _ColActor);
+	EAbilityType MonsterAbility = EAbilityType::MAX;
 };

@@ -46,8 +46,9 @@ void APlayer::Tick(float _DeltaTime)
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
 	UEngineDebug::CoreOutPutString("PlayerState : " + std::to_string(static_cast<int>(CurState)));
+	UEngineDebug::CoreOutPutString("PlayerAbility : " + std::to_string(static_cast<int>(CurAbility)));
+	UEngineDebug::CoreOutPutString("CurMonsterType : " + std::to_string(static_cast<int>(CurMonsterAbility)));
 	UEngineDebug::CoreOutPutString("PlayerDir : " + AnimDir);
-	UEngineDebug::CoreOutPutString("AdjustValue : " + std::to_string(AdjustValue.X) + ", " + std::to_string(AdjustValue.Y));
 	UEngineDebug::CoreOutPutString("IsFull : " + std::to_string(IsFull));
 
 	SetAnimDir();
@@ -72,6 +73,8 @@ void APlayer::SpawnSpit()
 
 void APlayer::CollisionEnter(AActor* _ColActor)
 {
+	AMonster* Monster = dynamic_cast<AMonster*>(_ColActor);
+
 	if (CurState == EPlayerState::INHALESTART)
 	{
 		IsFull = true;
@@ -80,6 +83,8 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 	else
 	{
 		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
+		SetCurState(EPlayerState::HURT);
+		return;
 	}
 }
 
@@ -180,6 +185,14 @@ void APlayer::SetAnimation()
 	// Spit
 	PlayerRenderer->CreateAnimation("Spit_Left", "Kirby_Normal_Left.png", 34, 37, 0.1f, false);
 	PlayerRenderer->CreateAnimation("Spit_Right", "Kirby_Normal_Right.png", 34, 37, 0.1f, false);
+
+	// HURT_UNFULLED
+	PlayerRenderer->CreateAnimation("Hurt_Left", "Kirby_Normal_Left.png", { 58, 71 }, 0.05f);
+	PlayerRenderer->CreateAnimation("Hurt_Right", "Kirby_Normal_Right.png", { 58, 71 }, 0.05f);
+
+	// HURT_FULLED
+	PlayerRenderer->CreateAnimation("HurtFull_Left", "Kirby_Normal_Left.png", {72, 81 }, 0.05f);
+	PlayerRenderer->CreateAnimation("HurtFull_Right", "Kirby_Normal_Right.png", { 72, 81 }, 0.05f);
 
 	PlayerRenderer->ChangeAnimation("Idle_Right");
 }
@@ -338,8 +351,14 @@ void APlayer::FSM(float _DeltaTime)
 	case EPlayerState::SPIT:
 		State->Spit(_DeltaTime);
 		break;
+	case EPlayerState::SKILLSTART:
+		State->SkillStart(_DeltaTime);
+		break;
 	case EPlayerState::SKILL:
-		//State->Skill(_DeltaTime);
+		State->Skill(_DeltaTime);
+		break;
+	case EPlayerState::SKILLEND:
+		State->SkillEnd(_DeltaTime);
 		break;
 	case EPlayerState::HURT:
 		State->HurtStart(_DeltaTime);

@@ -48,6 +48,16 @@ public:
 		CurAbility = _NewAbility;
 	}
 
+	// CurMonsterAbility (IsFull == true)
+	inline EAbilityType GetCurMonsterAbility() const
+	{
+		return CurMonsterAbility;
+	}
+	inline void SetCurMosnterAbility(EAbilityType _Ability)
+	{
+		CurMonsterAbility = _Ability;
+	}
+
 	// Pixel Collision
 	void GetBackgroundImage(std::string_view _BackImage, std::string_view _ColImage);
 
@@ -75,6 +85,7 @@ public:
 
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
+	//void PlayerCollisionEnter(AActor* _ColActor);
 
 protected:
 	void BeginPlay() override;
@@ -95,6 +106,7 @@ private:
 
 	EPlayerState CurState = EPlayerState::IDLE;
 	EAbilityType CurAbility = EAbilityType::NORMAL;
+	EAbilityType CurMonsterAbility = EAbilityType::MAX;	// IsFull
 	void FSM(float _DeltaTime);
 
 	U2DCollision* PlayerCollision = nullptr;

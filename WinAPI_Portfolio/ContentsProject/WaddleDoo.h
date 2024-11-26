@@ -18,6 +18,7 @@ public:
 	void Chase(float _DeltaTime) override;
 	void AttackStart(float _DeltaTime);
 	void Attack(float _DeltaTime);
+	void AttackEnd(float _DeltaTime);
 
 protected:
 	void BeginPlay() override;

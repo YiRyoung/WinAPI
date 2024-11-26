@@ -15,18 +15,11 @@ AWaddleBeam::AWaddleBeam()
 		WaddleBeamRender[i]->SetOrder(ERenderOrder::SKILL);
 		WaddleBeamRender[i]->SetComponentLocation((Dir + FVector2D{ 0 , -45 * i }));
 		WaddleBeamRender[i]->SetComponentScale({ 40, 40 });
-
-		WaddleBeamCollision[i] = CreateDefaultSubObject<U2DCollision>();
-		WaddleBeamCollision[i]->SetComponentLocation((Dir + FVector2D{ 0 , -45 * i }));
-		WaddleBeamCollision[i]->SetComponentScale({ 38, 38 });
-		WaddleBeamCollision[i]->SetCollisionGroup(ECollisionGroup::MONSTERSKILL);
-		WaddleBeamCollision[i]->SetCollisionType(ECollisionType::CirCle);
-		DebugOn();
 	}
 
 	ArrDir[static_cast<int>(Phase::Phase01)] = FVector2D::UP;
-	ArrDir[static_cast<int>(Phase::Phase02)] = FVector2D(-0.45, -1.0f);
-	ArrDir[static_cast<int>(Phase::Phase03)] = FVector2D(-0.85, -1.0f);;
+	ArrDir[static_cast<int>(Phase::Phase02)] = FVector2D(-0.45f, -1.0f);
+	ArrDir[static_cast<int>(Phase::Phase03)] = FVector2D(-0.85f, -1.0f);;
 	ArrDir[static_cast<int>(Phase::Phase04)] = FVector2D::LEFT;
 	ArrDir[static_cast<int>(Phase::Phase05)] = FVector2D(-1, 1);
 
@@ -34,6 +27,8 @@ AWaddleBeam::AWaddleBeam()
 	{
 		ArrDir[i].Normalize();
 	}
+	
+	DebugOn();
 }
 
 AWaddleBeam::~AWaddleBeam()
@@ -133,6 +128,31 @@ void AWaddleBeam::Phase05(float _DeltaTime)
 void AWaddleBeam::Phase06(float _DeltaTime)
 {
 	Destroy();
+}
+
+void AWaddleBeam::SetMosnterSkillCollision()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		WaddleBeamCollision[i] = CreateDefaultSubObject<U2DCollision>();
+		WaddleBeamCollision[i]->SetComponentLocation((Dir + FVector2D{ 0 , -45 * i }));
+		WaddleBeamCollision[i]->SetComponentScale({ 38, 38 });
+		WaddleBeamCollision[i]->SetCollisionGroup(ECollisionGroup::MONSTERSKILL);
+		WaddleBeamCollision[i]->SetCollisionType(ECollisionType::CirCle);
+
+	}
+}
+
+void AWaddleBeam::SetPlayerSkillCollision()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		WaddleBeamCollision[i] = CreateDefaultSubObject<U2DCollision>();
+		WaddleBeamCollision[i]->SetComponentLocation((Dir + FVector2D{ 0 , -45 * i }));
+		WaddleBeamCollision[i]->SetComponentScale({ 38, 38 });
+		WaddleBeamCollision[i]->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
+		WaddleBeamCollision[i]->SetCollisionType(ECollisionType::CirCle);
+	}
 }
 
 void AWaddleBeam::Tick(float _DeltaTime)

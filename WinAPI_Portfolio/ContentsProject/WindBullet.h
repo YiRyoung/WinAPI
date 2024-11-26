@@ -39,7 +39,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
-	float Speed = 100.0f;
+	float Speed = 140.0f;
 	float Time = 0.0f;
 
 	class USpriteRenderer* WindBulletRender = nullptr;
