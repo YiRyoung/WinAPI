@@ -5,6 +5,7 @@
 #include <EngineCore/2DCollision.h>
 
 #include "Player.h"
+#include "Monster.h"
 #include "ContentsEnum.h"
 
 AWaddleBeam::AWaddleBeam()
@@ -164,12 +165,21 @@ void AWaddleBeam::SetPlayerSkillCollision()
 void AWaddleBeam::MonsterSkillCollisionEnter(AActor* _ColActor)
 {
 	APlayer* Player = dynamic_cast<APlayer*>(_ColActor);
-	Player->SetCurState(EPlayerState::HURT);
-	return;
+	if (nullptr != Player)
+	{
+		Player->SetCurState(EPlayerState::HURT);
+		return;
+	}
 }
 
 void AWaddleBeam::PlayerSkillCollisionEnter(AActor* _ColActor)
 {
+	AMonster* Monster = dynamic_cast<AMonster*>(_ColActor);
+	if (nullptr != Monster)
+	{
+		Monster->SetMonsterState(EMonsterState::DIE);
+		return;
+	}
 }
 
 void AWaddleBeam::Tick(float _DeltaTime)

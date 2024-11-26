@@ -567,6 +567,8 @@ void PlayerState::Eat(float _DeltaTime)
 
 void PlayerState::HurtStart(float _DeltaTime)
 {
+	Player->GetPlayerRenderer()->ResetAnimationSpeed();
+
 	if (GetPlayerFull())
 	{
 		ChangeAnimation("HurtFull");
@@ -577,13 +579,13 @@ void PlayerState::HurtStart(float _DeltaTime)
 		ChangeAnimation("Hurt");
 	}
 
-	CurTime += _DeltaTime;
 	Hurt(_DeltaTime);
 }
 
 void PlayerState::Hurt(float _DeltaTime)
 {
 	Gravity(_DeltaTime);
+	CurTime += _DeltaTime;
 	FVector2D Vector = FVector2D::ZERO;
 
 	// Force »ç¿ë

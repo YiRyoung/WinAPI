@@ -14,21 +14,7 @@ public:
 	ASpitBullet& operator=(const ASpitBullet& _Other) = delete;
 	ASpitBullet& operator=(ASpitBullet&& _Other) noexcept = delete;
 
-	void SetDir(std::string _KirbyAnimDir)
-	{
-		AnimDir = _KirbyAnimDir;
-
-		if ("_Left" == AnimDir)
-		{
-			Dir = FVector2D::LEFT;
-			SpawnPos = FVector2D({ -55, -50 });
-		}
-		else
-		{
-			Dir = FVector2D::RIGHT;
-			SpawnPos = FVector2D({ 55, -50 });
-		}
-	}
+	void SetDir(std::string _KirbyAnimDir);
 
 	std::string AnimDir = "_Left";			// Sprite 방향
 	FVector2D Dir = FVector2D::ZERO;		// 이동 방향

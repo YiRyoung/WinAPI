@@ -156,6 +156,7 @@ void AMonster::Gravity(float _DeltaTime)
 
 void AMonster::Pause(float _DeltaTime)
 {
+	Gravity(_DeltaTime);
 	SetMonsterState(EMonsterState::CHASE);
 	return;
 }

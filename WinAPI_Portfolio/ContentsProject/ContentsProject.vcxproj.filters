@@ -58,6 +58,12 @@
     <ClCompile Include="WaddleBeam.cpp">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="Kibble.cpp">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClCompile>
+    <ClCompile Include="CutterSlider.cpp">
+      <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -115,6 +121,12 @@
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
     <ClInclude Include="WaddleBeam.h">
+      <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Kibble.h">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClInclude>
+    <ClInclude Include="CutterSlider.h">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClInclude>
   </ItemGroup>

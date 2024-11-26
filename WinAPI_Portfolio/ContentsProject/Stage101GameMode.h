@@ -26,5 +26,6 @@ private:
 	class AFade* NewFade = nullptr;
 	class AMonster* NewWaddleDee = nullptr;
 	class AMonster* NewWaddleDoo = nullptr;
+	class AMonster* NewKibble = nullptr;
 };
 

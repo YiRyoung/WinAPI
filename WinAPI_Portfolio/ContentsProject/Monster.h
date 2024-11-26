@@ -60,6 +60,6 @@ private:
 
 	FVector2D MonsterScale = FVector2D::ZERO;
 	FVector2D GravityForce = FVector2D::ZERO;
-	EMonsterState CurState = EMonsterState::CHASE;
+	EMonsterState CurState = EMonsterState::PAUSE;
 	EAbilityType MonsterAbility = EAbilityType::MAX;
 };

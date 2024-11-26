@@ -56,7 +56,7 @@ void AWaddleDoo::AttackStart(float _DeltaTime)
 
 void AWaddleDoo::Attack(float _DeltaTime)
 {
-	AWaddleBeam* NewWaddleBeam = GetWorld()->SpawnActor<AWaddleBeam>();
+	NewWaddleBeam = GetWorld()->SpawnActor<AWaddleBeam>();
 	NewWaddleBeam->SetMosnterSkillCollision();
 	NewWaddleBeam->SetActorLocation(GetActorLocation());
 	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
@@ -75,9 +75,14 @@ void AWaddleDoo::AttackEnd(float _DeltaTime)
 	}
 }
 
-void AWaddleDoo::BeginPlay()
+void AWaddleDoo::Die(float _DeltaTime)
 {
-	AMonster::BeginPlay();
+	AMonster::Die(_DeltaTime);
+
+	if (NewWaddleBeam != nullptr)
+	{
+		NewWaddleBeam->Destroy();
+	}
 }
 
 void AWaddleDoo::Tick(float _DeltaTime)

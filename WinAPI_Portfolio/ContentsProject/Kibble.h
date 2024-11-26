@@ -1,35 +1,36 @@
 #pragma once
 #include "Monster.h"
 
-class AWaddleDoo : public AMonster
+class AKibble : public AMonster
 {
 public:
 	// constrcuter destructer
-	AWaddleDoo();
-	~AWaddleDoo();
+	AKibble();
+	~AKibble();
 
 	// delete Function
-	AWaddleDoo(const AWaddleDoo& _Other) = delete;
-	AWaddleDoo(AWaddleDoo&& _Other) noexcept = delete;
-	AWaddleDoo& operator=(const AWaddleDoo& _Other) = delete;
-	AWaddleDoo& operator=(AWaddleDoo&& _Other) noexcept = delete;
+	AKibble(const AKibble& _Other) = delete;
+	AKibble(AKibble&& _Other) noexcept = delete;
+	AKibble& operator=(const AKibble& _Other) = delete;
+	AKibble& operator=(AKibble&& _Other) noexcept = delete;
 
 	void Pause(float _DeltaTime) override;
 	void Chase(float _DeltaTime) override;
 	void AttackStart(float _DeltaTime) override;
 	void Attack(float _DeltaTime) override;
 	void AttackEnd(float _DeltaTime) override;
-	void Die(float _DeltaTime) override;
 
 protected:
-	void Tick(float _DeltaTime) override;
+	void BeginPlay() override;
+	void Tick(float _DeltaTime);
 
 private:
 	float CurTime = 0.0f;
 	void SetAnimation();
 	bool CheckDistance();	// 공격 범위 체크
 	bool CheckDirect();		// 공격 방향 체크
+	void LookPlayer();
 
-	class AWaddleBeam* NewWaddleBeam = nullptr;
+	class ACutterSlider* NewSlider = nullptr;
 };
 

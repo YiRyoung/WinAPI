@@ -151,11 +151,19 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CutterSlider.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Fade.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="HUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Kibble.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -223,11 +231,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CutterSlider.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Fade.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="HUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Kibble.cpp">
       <SubType>
       </SubType>
     </ClCompile>

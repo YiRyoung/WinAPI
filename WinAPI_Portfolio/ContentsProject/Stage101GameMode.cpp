@@ -14,6 +14,7 @@
 #include "Monster.h"
 #include "WaddleDee.h"
 #include "WaddleDoo.h"
+#include "Kibble.h"
 
 #include "ContentsEnum.h"
 
@@ -52,6 +53,9 @@ void AStage101GameMode::BeginPlay()
 	NewWaddleDoo->GetColImage("ColStage101.png");
 	NewWaddleDoo->SetActorLocation({ 1850, 298 });
 
+	NewKibble = GetWorld()->SpawnActor<AKibble>();
+	NewKibble->GetColImage("ColStage101.png");
+	NewKibble->SetActorLocation({ 2400, 230 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
@@ -59,6 +63,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 	NewWaddleDee->SetDistance(NewPlayer->GetActorLocation());
 	NewWaddleDoo->SetDistance(NewPlayer->GetActorLocation());
+	NewKibble->SetDistance(NewPlayer->GetActorLocation());
 
 	if (true == UEngineInput::GetInst().IsDown(VK_UP) 
 		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))

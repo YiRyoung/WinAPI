@@ -27,6 +27,22 @@ AWindBullet::~AWindBullet()
 {
 }
 
+void AWindBullet::SetDir(std::string _KirbyAnimDir)
+{
+	AnimDir = _KirbyAnimDir;
+
+	if ("_Left" == AnimDir)
+	{
+		Dir = FVector2D::LEFT;
+		SpawnPos = FVector2D({ -55, -45 });
+	}
+	else
+	{
+		Dir = FVector2D::RIGHT;
+		SpawnPos = FVector2D({ 55, -45 });
+	}
+}
+
 void AWindBullet::CollisionEnter(AActor* _ColActor)
 {
 	AMonster* Result = dynamic_cast<AMonster*>(_ColActor);
