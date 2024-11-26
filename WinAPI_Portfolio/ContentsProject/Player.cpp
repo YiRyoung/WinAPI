@@ -14,6 +14,7 @@
 #include "WindBullet.h"
 #include "SpitBullet.h"
 #include "WaddleBeam.h"
+#include "CutterSlider.h"
 
 #include "ContentsEnum.h"
 
@@ -79,6 +80,15 @@ void APlayer::SpawnBeam()
 	NewBeam->SetActorLocation(GetActorLocation());
 	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
 	NewBeam->SetDir(Vector);
+}
+
+void APlayer::SpawnSlide()
+{
+	ACutterSlider* NewSlide = GetWorld()->SpawnActor<ACutterSlider>();
+	NewSlide->SetPlayerSkillCollision();
+	NewSlide->SetActorLocation(GetActorLocation() + FVector2D ({0.0f, -25.0f}));
+	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
+	NewSlide->SetDir(Vector);
 }
 
 void APlayer::CollisionEnter(AActor* _ColActor)
@@ -207,6 +217,10 @@ void APlayer::SetAnimation()
 	// Beam
 	PlayerRenderer->CreateAnimation("Beam_Left", "Kirby_Ability_Left.png", 0, 1, 0.05f);
 	PlayerRenderer->CreateAnimation("Beam_Right", "Kirby_Ability_Right.png", 0, 1, 0.05f);
+
+	// Cutter
+	PlayerRenderer->CreateAnimation("Cutter_Left", "Kirby_Ability_Left.png", 17, 18, 0.1f, false);
+	PlayerRenderer->CreateAnimation("Cutter_Right", "Kirby_Ability_Right.png", 17, 18, 0.1f, false);
 
 	PlayerRenderer->ChangeAnimation("Idle_Right");
 }

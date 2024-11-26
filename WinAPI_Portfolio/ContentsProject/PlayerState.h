@@ -44,10 +44,10 @@ public:
 
 	void BeamStart(float _DeltaTime);
 	void Beam(float _DeltaTime);
+	void CutterStart(float _DeltaTime);
+	void Cutter(float _DeltaTime);
 	//void FireStart(float _DeltaTime);
 	//void Fire(float _DeltaTime);
-	//void CutterStart(float _DeltaTime);
-	//void Cutter(float _DeltaTime);
 
 protected:
 	APlayer* Player = nullptr;

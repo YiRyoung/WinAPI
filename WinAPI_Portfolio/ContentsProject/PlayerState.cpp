@@ -676,6 +676,27 @@ void PlayerState::Beam(float _DeltaTime)
 	}
 }
 
+void PlayerState::CutterStart(float _DeltaTime)
+{
+	CurTime += _DeltaTime;
+	Gravity(_DeltaTime);
+	ChangeAnimation("Cutter");
+	
+	if (CurTime >= 0.2f)
+	{
+		CurTime = 0.0f;
+		Cutter(_DeltaTime);
+	}
+}
+
+void PlayerState::Cutter(float _DeltaTime)
+{
+
+	Player->SpawnSlide();
+	SetPlayerState(EPlayerState::IDLE);
+	return;
+}
+
 void PlayerState::SkillStart(float _DeltaTime)
 {
 	// Animation
@@ -685,6 +706,7 @@ void PlayerState::SkillStart(float _DeltaTime)
 		BeamStart(_DeltaTime);
 		break;
 	case EAbilityType::CUTTER:
+		CutterStart(_DeltaTime);
 		break;
 	case EAbilityType::FIRE:
 		break;

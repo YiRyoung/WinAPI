@@ -83,6 +83,7 @@ public:
 	void SpawnWind();
 	void SpawnSpit();
 	void SpawnBeam();
+	void SpawnSlide();
 
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
@@ -104,7 +105,7 @@ private:
 	class UEngineWinImage* ColliderImage = nullptr;
 	USpriteRenderer* PlayerRenderer = nullptr;
 	EPlayerState CurState = EPlayerState::IDLE;
-	EAbilityType CurAbility = EAbilityType::BEAM;
+	EAbilityType CurAbility = EAbilityType::NORMAL;
 	EAbilityType CurMonsterAbility = EAbilityType::MAX;	// IsFull
 	void FSM(float _DeltaTime);
 
