@@ -100,6 +100,12 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 		IsFull = true;
 		_ColActor->Destroy();
 	}
+	else if (CurState == EPlayerState::SLIDE)
+	{
+		SliderCollisionSwitch(false);
+		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
+		return;
+	}
 	else
 	{
 		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
@@ -251,7 +257,7 @@ void APlayer::SetPlayerCollision()
 	
 	// Slide Left Collision
 	SlideLeftCollision = CreateDefaultSubObject<U2DCollision>();
-	SlideLeftCollision->SetComponentLocation({ PlayerScale.X * -0.35f, PlayerScale.Y * -0.2f});
+	SlideLeftCollision->SetComponentLocation({ PlayerScale.X * -0.5f, PlayerScale.Y * -0.2f});
 	SlideLeftCollision->SetComponentScale({ 20, 50 });
 	SlideLeftCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 	SlideLeftCollision->SetCollisionType(ECollisionType::Rect);
@@ -259,7 +265,7 @@ void APlayer::SetPlayerCollision()
 
 	// Slide Right Collison
 	SlideRightCollision = CreateDefaultSubObject<U2DCollision>();
-	SlideRightCollision->SetComponentLocation({ PlayerScale.X * 0.35f, PlayerScale.Y * -0.2f });
+	SlideRightCollision->SetComponentLocation({ PlayerScale.X * 0.5f, PlayerScale.Y * -0.2f });
 	SlideRightCollision->SetComponentScale({ 20, 50 });
 	SlideRightCollision->SetCollisionGroup(ECollisionGroup::PLAYERSKILL);
 	SlideRightCollision->SetCollisionType(ECollisionType::Rect);

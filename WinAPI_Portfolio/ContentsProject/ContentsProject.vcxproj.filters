@@ -64,6 +64,9 @@
     <ClCompile Include="CutterSlider.cpp">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="HotHead.cpp">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="CutterSlider.h">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="HotHead.h">
+      <Filter>ContentsObject\Global\Monster\Ability</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
