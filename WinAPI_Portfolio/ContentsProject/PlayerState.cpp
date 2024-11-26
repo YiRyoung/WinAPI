@@ -587,11 +587,11 @@ void PlayerState::Hurt(float _DeltaTime)
 	FVector2D Vector = FVector2D::ZERO;
 
 	// Force »ç¿ë
-	if ("_Left" == Player->GetAnimDir() && PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if ("_Left" == Player->GetAnimDir() && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::RIGHT;
 	}
-	else if ("_Right" == Player->GetAnimDir() && PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
+	else if ("_Right" == Player->GetAnimDir() && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::LEFT;
 	}
