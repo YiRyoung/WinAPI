@@ -33,9 +33,7 @@ public:
 	void HurtStart(float _DeltaTime);
 
 	// Attack
-	void SkillStart(float _DeltaTime);
 	void Skill(float _DeltaTime);
-	void SkillEnd(float _DeltaTime);
 
 	void InhaleStart(float _DeltaTime);
 	void Inhale(float _DeltaTime);
@@ -46,8 +44,8 @@ public:
 	void Beam(float _DeltaTime);
 	void CutterStart(float _DeltaTime);
 	void Cutter(float _DeltaTime);
-	//void FireStart(float _DeltaTime);
-	//void Fire(float _DeltaTime);
+	void FireStart(float _DeltaTime);
+	void Fire(float _DeltaTime);
 
 protected:
 	APlayer* Player = nullptr;

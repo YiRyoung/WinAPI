@@ -16,9 +16,10 @@ public:
 
 	void SetDir(const FVector2D& _Dir);
 
-	//void SetMosnterSkillCollision();
-	//void SetPlayerSkillCollision();
+	void SetMosnterSkillCollision();
+	void SetPlayerSkillCollision();
 
+	void ChangeAnimation(std::string _AnimName);
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -26,6 +27,7 @@ protected:
 private:
 	float Speed = 180.0f;
 	float CurTime = 0.0f;
+	std::string AnimDir = "";
 
 	FVector2D Dir = FVector2D::ZERO;
 	class USpriteRenderer* FireballRender = nullptr;

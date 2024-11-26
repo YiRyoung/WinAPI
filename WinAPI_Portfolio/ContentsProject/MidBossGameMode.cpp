@@ -42,7 +42,7 @@ void AMidBossGameMode::BeginPlay()
 
 	NewHotHead = GetWorld()->SpawnActor<AHotHead>();
 	NewHotHead->GetColImage("ColMidBoss.png");
-	NewHotHead->SetActorLocation({ 670, 920 });
+	NewHotHead->SetActorLocation({ 670, 917 });
 }
 
 void AMidBossGameMode::Tick(float _DeltaTime)

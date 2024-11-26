@@ -56,7 +56,7 @@ protected:
 	float PlayerDistance = 0.0f;
 	std::string AnimDir = "_Left";
 private:
-	float Speed = 45.0f;
+	float Speed = 60.0f;
 
 	FVector2D MonsterScale = FVector2D::ZERO;
 	FVector2D GravityForce = FVector2D::ZERO;

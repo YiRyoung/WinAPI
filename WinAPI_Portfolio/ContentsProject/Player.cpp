@@ -15,6 +15,7 @@
 #include "SpitBullet.h"
 #include "WaddleBeam.h"
 #include "CutterSlider.h"
+#include "FireBall.h"
 
 #include "ContentsEnum.h"
 
@@ -89,6 +90,16 @@ void APlayer::SpawnSlide()
 	NewSlide->SetActorLocation(GetActorLocation() + FVector2D ({0.0f, -25.0f}));
 	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
 	NewSlide->SetDir(Vector);
+}
+
+void APlayer::SpawnFire()
+{
+	NewFireBall = GetWorld()->SpawnActor<AFireBall>();
+	FVector2D Vector = ("_Left" == AnimDir) ? FVector2D::LEFT : FVector2D::RIGHT;
+	NewFireBall->SetActorLocation(GetActorLocation() + Vector * 80 + FVector2D({ 0.0f, -25.0f }));
+	NewFireBall->SetPlayerSkillCollision();
+	NewFireBall->SetDir(Vector);
+	NewFireBall->ChangeAnimation("FireBall");
 }
 
 void APlayer::CollisionEnter(AActor* _ColActor)
@@ -228,12 +239,16 @@ void APlayer::SetAnimation()
 	PlayerRenderer->CreateAnimation("Cutter_Left", "Kirby_Ability_Left.png", 17, 18, 0.1f, false);
 	PlayerRenderer->CreateAnimation("Cutter_Right", "Kirby_Ability_Right.png", 17, 18, 0.1f, false);
 
+	// Fire
+	PlayerRenderer->CreateAnimation("Fire_Left", "Kirby_Ability_Left.png", 9, 10, 0.05f);
+	PlayerRenderer->CreateAnimation("Fire_Right", "Kirby_Ability_Right.png", 9, 10, 0.05f);
+
 	PlayerRenderer->ChangeAnimation("Idle_Right");
 }
 
 void APlayer::SetAnimDir()
 {
-	if (EPlayerState::SLIDE != CurState && EPlayerState::SKILLSTART != CurState)
+	if (EPlayerState::SLIDE != CurState && EPlayerState::SKILL != CurState)
 	{
 		if (UEngineInput::GetInst().IsPress(VK_LEFT))
 		{
@@ -385,14 +400,8 @@ void APlayer::FSM(float _DeltaTime)
 	case EPlayerState::SPIT:
 		State->Spit(_DeltaTime);
 		break;
-	case EPlayerState::SKILLSTART:
-		State->SkillStart(_DeltaTime);
-		break;
 	case EPlayerState::SKILL:
 		State->Skill(_DeltaTime);
-		break;
-	case EPlayerState::SKILLEND:
-		State->SkillEnd(_DeltaTime);
 		break;
 	case EPlayerState::HURT:
 		State->HurtStart(_DeltaTime);

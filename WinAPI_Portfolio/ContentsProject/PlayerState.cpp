@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "PlayerState.h"
 
+#include "FireBall.h"
+
 PlayerState::PlayerState()
 {
 }
@@ -691,13 +693,29 @@ void PlayerState::CutterStart(float _DeltaTime)
 
 void PlayerState::Cutter(float _DeltaTime)
 {
-
 	Player->SpawnSlide();
 	SetPlayerState(EPlayerState::IDLE);
 	return;
 }
 
-void PlayerState::SkillStart(float _DeltaTime)
+void PlayerState::FireStart(float _DeltaTime)
+{
+	Gravity(_DeltaTime);
+	ChangeAnimation("Fire");
+	Fire(_DeltaTime);
+}
+
+void PlayerState::Fire(float _DeltaTime)
+{
+	if (IsUpKey('X'))
+	{
+		(Player->NewFireBall)->Destroy();
+		SetPlayerState(EPlayerState::IDLE);
+		return;
+	}
+}
+
+void PlayerState::Skill(float _DeltaTime)
 {
 	// Animation
 	switch (Player->GetCurAbility())
@@ -709,17 +727,9 @@ void PlayerState::SkillStart(float _DeltaTime)
 		CutterStart(_DeltaTime);
 		break;
 	case EAbilityType::FIRE:
+		FireStart(_DeltaTime);
 		break;
 	}
-}
-
-void PlayerState::Skill(float _DeltaTime)
-{
-	// SpawnSkill
-}
-
-void PlayerState::SkillEnd(float _DeltaTime)
-{
 }
 
 void PlayerState::ChangeIdle()
@@ -831,7 +841,8 @@ void PlayerState::ChangeAttack()
 		}
 		else
 		{
-			SetPlayerState(EPlayerState::SKILLSTART);
+			Player->SpawnFire();
+			SetPlayerState(EPlayerState::SKILL);
 			return;
 		}
 	}

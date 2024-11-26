@@ -84,6 +84,8 @@ public:
 	void SpawnSpit();
 	void SpawnBeam();
 	void SpawnSlide();
+	void SpawnFire();
+	class AFireBall* NewFireBall = nullptr;
 
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
@@ -115,10 +117,12 @@ private:
 	U2DCollision* InhaleBoxLeftCollision = nullptr;
 	U2DCollision* InhaleBoxRightCollision = nullptr;
 
+
 	void SetPlayer();
 	void SetAnimation();
 	void SetAnimDir();
 	void SetPlayerCollision();
 	void CameraMove();
+	
 };
 

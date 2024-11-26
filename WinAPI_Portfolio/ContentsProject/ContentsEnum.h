@@ -65,9 +65,7 @@ enum class EPlayerState
 	INHALESTART,
 	INHALE,
 	SPIT,
-	SKILLSTART,
 	SKILL,
-	SKILLEND,
 	HURT,
 	DIE
 };

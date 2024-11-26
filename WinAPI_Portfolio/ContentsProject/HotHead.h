@@ -19,6 +19,7 @@ public:
 	void AttackStart(float _DeltaTime) override;
 	void Attack(float _DeltaTime) override;
 	void AttackEnd(float _DeltaTime) override;
+	void Die(float _DeltaTime) override;
 
 protected:
 	void BeginPlay() override;
@@ -29,5 +30,7 @@ private:
 	void SetAnimation();
 	bool CheckDistance();	// 공격 범위 체크
 	bool CheckDirect();		// 공격 방향 체크
+
+	class AFireBall* NewFireBall = nullptr;
 };
 
