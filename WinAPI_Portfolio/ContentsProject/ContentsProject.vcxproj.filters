@@ -67,6 +67,9 @@
     <ClCompile Include="HotHead.cpp">
       <Filter>ContentsObject\Global\Monster\Ability</Filter>
     </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -134,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="HotHead.h">
       <Filter>ContentsObject\Global\Monster\Ability</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 #include "HotHead.h"
 
 #include <EngineCore/SpriteRenderer.h>
+#include <EngineCore/2DCollision.h>
 
 AHotHead::AHotHead()
 {
@@ -63,18 +64,6 @@ bool AHotHead::CheckDirect()
 	return false;
 }
 
-void AHotHead::FireBallLeftCollision()
-{
-}
-
-void AHotHead::FireBallRightCollision()
-{
-}
-
-void AHotHead::FireBallCollisionSwitch()
-{
-}
-
 void AHotHead::Pause(float _DeltaTime)
 {
 	SpriteRenderer->SetSprite("HotHead" + AnimDir + ".png", 1);
@@ -103,7 +92,12 @@ void AHotHead::Chase(float _DeltaTime)
 void AHotHead::AttackStart(float _DeltaTime)
 {
 	ChangeMonsterAnim("AttackStart");
-	// Collision On
+
+	if (SpriteRenderer->IsCurAnimationEnd())
+	{
+		SetMonsterState(EMonsterState::ATTACK);
+		return;
+	}
 }
 
 void AHotHead::Attack(float _DeltaTime)
