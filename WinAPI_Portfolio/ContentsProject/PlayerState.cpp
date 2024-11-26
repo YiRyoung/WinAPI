@@ -584,14 +584,14 @@ void PlayerState::HurtStart(float _DeltaTime)
 void PlayerState::Hurt(float _DeltaTime)
 {
 	Gravity(_DeltaTime);
-	FVector2D Vector = FVector2D::UP;
+	FVector2D Vector = FVector2D::ZERO;
 
 	// Force »ç¿ë
-	if ("_Left" == Player->GetAnimDir())
+	if ("_Left" == Player->GetAnimDir() && PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::RIGHT;
 	}
-	else if ("_Right" == Player->GetAnimDir())
+	else if ("_Right" == Player->GetAnimDir() && PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::LEFT;
 	}
