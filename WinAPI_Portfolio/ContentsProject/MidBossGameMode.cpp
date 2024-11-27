@@ -12,7 +12,10 @@
 
 #include "Stage.h"
 #include "HUI.h"
+#include "Score.h"
 #include "Fade.h"
+
+#include "ContentsEnum.h"
 
 AMidBossGameMode::AMidBossGameMode()
 {
@@ -43,11 +46,27 @@ void AMidBossGameMode::BeginPlay()
 	NewHotHead = GetWorld()->SpawnActor<AHotHead>();
 	NewHotHead->GetColImage("ColMidBoss.png");
 	NewHotHead->SetActorLocation({ 670, 917 });
+
+	NewPlayerLife = GetWorld()->SpawnActor<AScore>();
+	NewPlayerLife->SetActorLocation({ 686, 608 });
+	NewPlayerLife->SetHPSpriteName("Score.png");
+	NewPlayerLife->SetOrder(ERenderOrder::HUITEXT);
+	NewPlayerLife->SetTextScale({ 26, 27 });
+
+	NewPlayerScore = GetWorld()->SpawnActor<AScore>();
+	NewPlayerScore->SetActorLocation({ 388, 633 });
+	NewPlayerScore->SetHPSpriteName("Score.png");
+	NewPlayerScore->SetOrder(ERenderOrder::HUITEXT);
+	NewPlayerScore->SetTextScale({ 26, 27 });
 }
 
 void AMidBossGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
+	NewPlayerLife->SetValue(PlayerLife);
+	NewPlayerScore->SetValue(54890);
+
 	NewHotHead->SetDistance(NewPlayer->GetActorLocation());
 
 	if (true == UEngineInput::GetInst().IsDown('R'))

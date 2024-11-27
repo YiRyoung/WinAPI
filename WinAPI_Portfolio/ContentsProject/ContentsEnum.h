@@ -1,6 +1,5 @@
 #pragma once
 
-
 enum class ERenderOrder
 {
 	BACKGROUND = -1000,
@@ -81,3 +80,8 @@ enum class EMonsterState
 	INHALE,
 	DIE
 };
+
+static int PlayerLife = 4;
+static int PlayerHp = 6;
+static int Score = 0;
+static EAbilityType PlayerAbility = EAbilityType::NORMAL;

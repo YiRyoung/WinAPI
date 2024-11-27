@@ -73,11 +73,11 @@
     <ClCompile Include="Shotzo.cpp">
       <Filter>ContentsObject\Global\Monster\Common</Filter>
     </ClCompile>
-    <ClCompile Include="HP.cpp">
+    <ClCompile Include="Score.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>ContentsObject\Global</Filter>
+    <ClCompile Include="PlayerAbility.cpp">
+      <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,11 +153,11 @@
     <ClInclude Include="Shotzo.h">
       <Filter>ContentsObject\Global\Monster\Common</Filter>
     </ClInclude>
-    <ClInclude Include="HP.h">
+    <ClInclude Include="Score.h">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>ContentsObject\Global</Filter>
+    <ClInclude Include="PlayerAbility.h">
+      <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

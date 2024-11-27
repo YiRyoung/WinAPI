@@ -23,6 +23,8 @@ private:
 	class APlayer* NewPlayer = nullptr;
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
+	class AScore* NewPlayerLife = nullptr;
+	class AScore* NewPlayerScore = nullptr;
 	class AFade* NewFade = nullptr;
 	class AMonster* NewHotHead = nullptr;
 };

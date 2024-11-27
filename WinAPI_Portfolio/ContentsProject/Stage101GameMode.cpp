@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
+#include "Score.h"
 #include "Fade.h"
 
 #include "Monster.h"
@@ -56,14 +57,31 @@ void AStage101GameMode::BeginPlay()
 	NewKibble = GetWorld()->SpawnActor<AKibble>();
 	NewKibble->GetColImage("ColStage101.png");
 	NewKibble->SetActorLocation({ 2400, 230 });
+
+	NewPlayerLife = GetWorld()->SpawnActor<AScore>();
+	NewPlayerLife->SetActorLocation({ 686, 608 });
+	NewPlayerLife->SetHPSpriteName("Score.png");
+	NewPlayerLife->SetOrder(ERenderOrder::HUITEXT);
+	NewPlayerLife->SetTextScale({ 26, 27 });
+
+	NewPlayerScore = GetWorld()->SpawnActor<AScore>();
+	NewPlayerScore->SetActorLocation({ 388, 633 });
+	NewPlayerScore->SetHPSpriteName("Score.png");
+	NewPlayerScore->SetOrder(ERenderOrder::HUITEXT);
+	NewPlayerScore->SetTextScale({ 26, 27 });
 }
 
 void AStage101GameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	
+	NewPlayerLife->SetValue(PlayerLife);
+	NewPlayerScore->SetValue(54890);
+
 	NewWaddleDee->SetDistance(NewPlayer->GetActorLocation());
 	NewWaddleDoo->SetDistance(NewPlayer->GetActorLocation());
 	NewKibble->SetDistance(NewPlayer->GetActorLocation());
+
 
 	if (true == UEngineInput::GetInst().IsDown(VK_UP) 
 		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))
