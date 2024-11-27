@@ -49,7 +49,7 @@ void APlayer::Tick(float _DeltaTime)
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
 	UEngineDebug::CoreOutPutString("PlayerState : " + std::to_string(static_cast<int>(CurState)));
-	UEngineDebug::CoreOutPutString("PlayerAbility : " + std::to_string(static_cast<int>(CurAbility)));
+	UEngineDebug::CoreOutPutString("PlayerAbility : " + std::to_string(static_cast<int>(PlayerAbility)));
 	UEngineDebug::CoreOutPutString("CurMonsterType : " + std::to_string(static_cast<int>(CurMonsterAbility)));
 	UEngineDebug::CoreOutPutString("PlayerDir : " + AnimDir);
 	UEngineDebug::CoreOutPutString("IsFull : " + std::to_string(IsFull));

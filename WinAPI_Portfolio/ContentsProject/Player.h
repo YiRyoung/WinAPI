@@ -41,11 +41,11 @@ public:
 	// PlayerAbility
 	inline EAbilityType GetCurAbility() const
 	{
-		return CurAbility;
+		return PlayerAbility;
 	}
 	inline void SetCurAbility(EAbilityType _NewAbility)
 	{
-		CurAbility = _NewAbility;
+		PlayerAbility = _NewAbility;
 	}
 
 	// CurMonsterAbility (IsFull == true)
@@ -107,7 +107,6 @@ private:
 	class UEngineWinImage* ColliderImage = nullptr;
 	USpriteRenderer* PlayerRenderer = nullptr;
 	EPlayerState CurState = EPlayerState::IDLE;
-	EAbilityType CurAbility = EAbilityType::NORMAL;
 	EAbilityType CurMonsterAbility = EAbilityType::MAX;	// IsFull
 	void FSM(float _DeltaTime);
 

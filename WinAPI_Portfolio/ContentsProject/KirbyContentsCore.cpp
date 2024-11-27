@@ -73,7 +73,7 @@ void KirbyContentsCore::CuttingImages()
 	// HUI
 	UImageManager::GetInst().CuttingSprite("Lives.png", { 41, 39 });
 	UImageManager::GetInst().CuttingSprite("Score.png", { 25, 26 });
-	UImageManager::GetInst().CuttingSprite("Ability.png", { 100, 125 });
+	UImageManager::GetInst().CuttingSprite("Ability.png", { 100, 126 });
 	UImageManager::GetInst().CuttingSprite("HP.png", { 25, 44 });
 
 	// Normal Monster

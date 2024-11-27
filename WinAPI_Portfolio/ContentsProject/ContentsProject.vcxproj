@@ -167,7 +167,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PlayerAbility.h">
+    <ClInclude Include="Ability.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -267,7 +267,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PlayerAbility.cpp">
+    <ClCompile Include="Ability.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
+#include "Ability.h"
 #include "Score.h"
 #include "Fade.h"
 
@@ -33,6 +34,9 @@ void AStage101GameMode::BeginPlay()
 
 	NewFade = GetWorld()->SpawnActor<AFade>();
 	NewFade->FadeOut();
+
+	NewAbility = GetWorld()->SpawnActor<AAbility>();
+	NewAbility->SetSprite("Ability.png", static_cast<int>(PlayerAbility));
 
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Stage101.png");

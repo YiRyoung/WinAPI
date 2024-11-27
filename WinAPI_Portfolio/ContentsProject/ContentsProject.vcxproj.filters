@@ -76,7 +76,7 @@
     <ClCompile Include="Score.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAbility.cpp">
+    <ClCompile Include="Ability.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,7 +156,7 @@
     <ClInclude Include="Score.h">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAbility.h">
+    <ClInclude Include="Ability.h">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
   </ItemGroup>

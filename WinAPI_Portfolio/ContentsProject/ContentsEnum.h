@@ -42,8 +42,8 @@ enum class EAbilityType
 {
 	NORMAL,
 	BEAM,
-	FIRE,
 	CUTTER,
+	FIRE,
 	MAX
 };
 
