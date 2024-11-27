@@ -400,6 +400,9 @@ void APlayer::FSM(float _DeltaTime)
 	case EPlayerState::SPIT:
 		State->Spit(_DeltaTime);
 		break;
+	case EPlayerState::SKILLSTART:
+		State->SkillStart(_DeltaTime);
+		break;
 	case EPlayerState::SKILL:
 		State->Skill(_DeltaTime);
 		break;

@@ -163,7 +163,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HotHead.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HP.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -255,7 +263,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HotHead.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HP.cpp">
       <SubType>
       </SubType>
     </ClCompile>

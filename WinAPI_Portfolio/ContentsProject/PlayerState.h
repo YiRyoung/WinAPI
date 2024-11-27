@@ -33,6 +33,7 @@ public:
 	void HurtStart(float _DeltaTime);
 
 	// Attack
+	void SkillStart(float _DeltaTime);
 	void Skill(float _DeltaTime);
 
 	void InhaleStart(float _DeltaTime);

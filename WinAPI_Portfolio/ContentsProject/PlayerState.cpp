@@ -663,7 +663,8 @@ void PlayerState::BeamStart(float _DeltaTime)
 	ChangeAnimation("Beam");
 	Player->SpawnBeam();
 	Gravity(_DeltaTime);
-	Beam(_DeltaTime);
+	SetPlayerState(EPlayerState::SKILL);
+	return;
 }
 
 void PlayerState::Beam(float _DeltaTime)
@@ -687,7 +688,8 @@ void PlayerState::CutterStart(float _DeltaTime)
 	if (CurTime >= 0.2f)
 	{
 		CurTime = 0.0f;
-		Cutter(_DeltaTime);
+		SetPlayerState(EPlayerState::SKILL);
+		return;
 	}
 }
 
@@ -702,7 +704,9 @@ void PlayerState::FireStart(float _DeltaTime)
 {
 	Gravity(_DeltaTime);
 	ChangeAnimation("Fire");
-	Fire(_DeltaTime);
+	Player->SpawnFire();
+	SetPlayerState(EPlayerState::SKILL);
+	return;
 }
 
 void PlayerState::Fire(float _DeltaTime)
@@ -715,7 +719,7 @@ void PlayerState::Fire(float _DeltaTime)
 	}
 }
 
-void PlayerState::Skill(float _DeltaTime)
+void PlayerState::SkillStart(float _DeltaTime)
 {
 	// Animation
 	switch (Player->GetCurAbility())
@@ -728,6 +732,22 @@ void PlayerState::Skill(float _DeltaTime)
 		break;
 	case EAbilityType::FIRE:
 		FireStart(_DeltaTime);
+		break;
+	}
+}
+
+void PlayerState::Skill(float _DeltaTime)
+{
+	switch (Player->GetCurAbility())
+	{
+	case EAbilityType::BEAM:
+		Beam(_DeltaTime);
+		break;
+	case EAbilityType::CUTTER:
+		Cutter(_DeltaTime);
+		break;
+	case EAbilityType::FIRE:
+		Fire(_DeltaTime);
 		break;
 	}
 }
@@ -841,8 +861,7 @@ void PlayerState::ChangeAttack()
 		}
 		else
 		{
-			Player->SpawnFire();
-			SetPlayerState(EPlayerState::SKILL);
+			SetPlayerState(EPlayerState::SKILLSTART);
 			return;
 		}
 	}

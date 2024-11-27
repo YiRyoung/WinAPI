@@ -73,6 +73,12 @@
     <ClCompile Include="Shotzo.cpp">
       <Filter>ContentsObject\Global\Monster\Common</Filter>
     </ClCompile>
+    <ClCompile Include="HP.cpp">
+      <Filter>ContentsObject\Global\HUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>ContentsObject\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -146,6 +152,12 @@
     </ClInclude>
     <ClInclude Include="Shotzo.h">
       <Filter>ContentsObject\Global\Monster\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="HP.h">
+      <Filter>ContentsObject\Global\HUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>ContentsObject\Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
