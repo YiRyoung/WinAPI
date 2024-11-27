@@ -20,7 +20,7 @@
 #include "ContentsEnum.h"
 
 int APlayer::PlayerLife = 4;
-int APlayer::PlayerHp = 0;
+int APlayer::PlayerHp = 6;
 int APlayer::Score = 12345;
 EAbilityType APlayer::PlayerAbility = EAbilityType::NORMAL;
 
@@ -124,6 +124,12 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 	}
 	else
 	{
+		if (APlayer::PlayerHp > 0 && CanHurt == true)
+		{
+			APlayer::PlayerHp--;
+			CanHurt = false;
+		}
+
 		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
 		SetCurState(EPlayerState::HURT);
 		return;

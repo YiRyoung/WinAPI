@@ -606,6 +606,7 @@ void PlayerState::Hurt(float _DeltaTime)
 	if (CurTime >= 0.5f)
 	{
 		CurTime = 0.0f;
+		Player->SetCanHurt(true);
 		SetPlayerState(EPlayerState::IDLE);
 		return;
 	}

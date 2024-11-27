@@ -167,6 +167,11 @@ void AWaddleBeam::MonsterSkillCollisionEnter(AActor* _ColActor)
 	APlayer* Player = dynamic_cast<APlayer*>(_ColActor);
 	if (nullptr != Player)
 	{
+		if (APlayer::PlayerHp > 0 && true == Player->GetCanHurt())
+		{
+			Player->SetCanHurt(false);
+			APlayer::PlayerHp--;
+		}
 		Player->SetCurState(EPlayerState::HURT);
 		return;
 	}

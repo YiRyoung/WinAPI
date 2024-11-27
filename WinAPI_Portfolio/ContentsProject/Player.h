@@ -92,6 +92,14 @@ public:
 	void SpawnFire();
 	class AFireBall* NewFireBall = nullptr;
 
+	bool GetCanHurt() const
+	{
+		return CanHurt;
+	}
+	void SetCanHurt(bool _IsTrue)
+	{
+		CanHurt = _IsTrue;
+	}
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
 
@@ -100,6 +108,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	bool CanHurt = true;
 	bool IsFull = false;
 	int MySpriteIndex = 0;
 	std::string AnimDir = "_Right";
@@ -127,6 +136,5 @@ private:
 	void SetAnimDir();
 	void SetPlayerCollision();
 	void CameraMove();
-	
 };
 

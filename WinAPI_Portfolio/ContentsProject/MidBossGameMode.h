@@ -23,6 +23,7 @@ private:
 	class APlayer* NewPlayer = nullptr;
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
+	class AHPGauge* NewHP = nullptr;
 	class AAbility* NewAbility = nullptr;
 	class AScore* NewPlayerLife = nullptr;
 	class AScore* NewPlayerScore = nullptr;

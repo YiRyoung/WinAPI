@@ -12,6 +12,7 @@
 
 #include "Stage.h"
 #include "HUI.h"
+#include "HPGauge.h"
 #include "Ability.h"
 #include "Score.h"
 #include "Fade.h"
@@ -33,6 +34,7 @@ void AMidBossGameMode::BeginPlay()
 	NewFade = GetWorld()->SpawnActor<AFade>();
 	NewFade->FadeOut();
 
+	NewHP = GetWorld()->SpawnActor<AHPGauge>();
 	NewAbility = GetWorld()->SpawnActor<AAbility>();
 
 	NewActor = GetWorld()->SpawnActor<AStage>();
@@ -69,8 +71,8 @@ void AMidBossGameMode::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 
 	NewPlayerLife->SetValue(APlayer::PlayerLife);
-	NewPlayerScore->SetValue(54890);
-
+	NewPlayerScore->SetValue(APlayer::Score);
+	NewHP->SetHPGauge(APlayer::PlayerHp);
 	NewAbility->SetSprite("Ability.png", static_cast<int>(APlayer::PlayerAbility));
 	
 	NewHotHead->SetDistance(NewPlayer->GetActorLocation());
