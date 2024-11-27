@@ -130,7 +130,6 @@ private:
 	U2DCollision* InhaleBoxLeftCollision = nullptr;
 	U2DCollision* InhaleBoxRightCollision = nullptr;
 
-
 	void SetPlayer();
 	void SetAnimation();
 	void SetAnimDir();

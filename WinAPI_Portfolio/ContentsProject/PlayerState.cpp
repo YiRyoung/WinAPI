@@ -260,6 +260,7 @@ void PlayerState::Jump(float _DeltaTime)
 		if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::UP, UColor::MAGENTA)
 			|| PixelLineCheck(ECheckDir::DOWN, UColor::BLACK) || PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
+			EffectPlayer = UEngineSound::Play("Ground.wav");
 			SetPlayerState(EPlayerState::IDLE);
 			return;
 		}
@@ -349,6 +350,7 @@ void PlayerState::FlyEnd(float _DeltaTime)
 	{
 		Player->SpawnWind();
 
+		EffectPlayer = UEngineSound::Play("Wind.wav");
 		if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
 			|| PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
@@ -400,6 +402,7 @@ void PlayerState::Fall(float _DeltaTime)
 		|| PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW) || PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA)
 		|| PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
+		EffectPlayer = UEngineSound::Play("Ground.wav");
 		SetPlayerState(EPlayerState::IDLE);
 		return;
 	}
@@ -428,7 +431,6 @@ void PlayerState::BendStart(float _DeltaTime)
 	{
 		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Right.png", 47);
 	}
-
 	Bend(_DeltaTime);
 }
 
@@ -442,6 +444,7 @@ void PlayerState::Bend(float _DeltaTime)
 
 	if (IsPressKey('Z') || IsPressKey('X'))
 	{
+		EffectPlayer = UEngineSound::Play("Slide.wav");
 		SetPlayerState(EPlayerState::SLIDE);
 		return;
 	}
@@ -561,6 +564,16 @@ void PlayerState::EatStart(float _DeltaTime)
 void PlayerState::Eat(float _DeltaTime)
 {
 	SetPlayerFull(false);
+
+	if (EAbilityType::NORMAL == Player->GetCurMonsterAbility())
+	{
+		EffectPlayer = UEngineSound::Play("EatNormal.wav");
+	}
+	else
+	{
+		EffectPlayer = UEngineSound::Play("EatAbility.wav");
+	}
+
 	Player->SetCurAbility(Player->GetCurMonsterAbility());
 	Player->SetCurMosnterAbility(EAbilityType::MAX);
 	SetPlayerState(EPlayerState::IDLE);
@@ -643,6 +656,7 @@ void PlayerState::Inhale(float _DeltaTime)
 
 void PlayerState::InhaleEnd(float _DeltaTime)
 {
+	EffectPlayer.Stop();
 	SetPlayerState(EPlayerState::IDLE);
 	return;
 }
@@ -768,6 +782,7 @@ void PlayerState::ChangeWalkAndDash()
 	// Move & Dash
 	if (IsDoubleKey(VK_LEFT, 0.2f) || IsDoubleKey(VK_RIGHT, 0.2f))
 	{
+		EffectPlayer = UEngineSound::Play("Dash.wav");
 		SetPlayerState(EPlayerState::DASH);
 		return;
 	}
@@ -784,6 +799,7 @@ void PlayerState::ChangeJump()
 	if (EPlayerState::BEND != GetPlayerState() && IsPressKey('Z'))
 	{
 		ResetDirForce();
+		EffectPlayer = UEngineSound::Play("Jump.wav");
 		SetPlayerState(EPlayerState::JUMP);
 		return;
 	}
@@ -795,6 +811,7 @@ void PlayerState::ChangeFly()
 	if (IsPressKey(VK_UP) && !GetPlayerFull())
 	{
 		ResetDirForce();
+		EffectPlayer = UEngineSound::Play("FlyStart.wav");
 		SetPlayerState(EPlayerState::FLYSTART);
 		return;
 	}
@@ -818,6 +835,7 @@ void PlayerState::ChangeBend()
 	if (IsPressKey(VK_DOWN) && !GetPlayerFull()
 		&& !PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
 	{
+		EffectPlayer = UEngineSound::Play("Bend.wav");
 		SetPlayerState(EPlayerState::BEND);
 		return;
 	}
@@ -851,12 +869,14 @@ void PlayerState::ChangeAttack()
 
 		if (EAbilityType::NORMAL == Player->GetCurAbility() && !GetPlayerFull())
 		{
+
 			SetPlayerState(EPlayerState::INHALESTART);
 			return;
 		}
 		else if (EAbilityType::NORMAL == Player->GetCurAbility() && GetPlayerFull())
 		{
 			Player->SpawnSpit();
+			EffectPlayer = UEngineSound::Play("Spit.wav");
 			SetPlayerState(EPlayerState::SPIT);
 			return;
 		}

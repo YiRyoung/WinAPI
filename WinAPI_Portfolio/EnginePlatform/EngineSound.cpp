@@ -141,12 +141,11 @@ USoundPlayer UEngineSound::Play(std::string_view _Name)
 
 	Ch->setVolume(1.0f);
 
-
+	
 	USoundPlayer NewPlayer;
 	NewPlayer.Control = Ch;
 	return NewPlayer;
 }
-
 
 bool UEngineSound::ResLoad(std::string_view _Path)
 {

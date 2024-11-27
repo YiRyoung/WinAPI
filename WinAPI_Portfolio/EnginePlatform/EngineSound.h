@@ -39,6 +39,15 @@ public:
 		Control->setLoopCount(Count);
 	}
 
+	void Stop()
+	{
+		if (Control)
+		{
+			Control->stop();
+			Control = nullptr;
+		}
+	}
+
 private:
 	FMOD::Channel* Control = nullptr;
 };

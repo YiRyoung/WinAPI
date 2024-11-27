@@ -2,6 +2,7 @@
 #include "Player.h"
 
 #include "EnginePlatform/EngineInput.h"
+#include <EnginePlatform/EngineSound.h>
 
 class PlayerState
 {
@@ -47,6 +48,8 @@ public:
 	void Cutter(float _DeltaTime);
 	void FireStart(float _DeltaTime);
 	void Fire(float _DeltaTime);
+
+	USoundPlayer EffectPlayer;
 
 protected:
 	APlayer* Player = nullptr;
@@ -165,6 +168,5 @@ private:
 	void ChangeClimb();
 	void ChangeEat();
 	void ChangeAttack();
-
 };
 

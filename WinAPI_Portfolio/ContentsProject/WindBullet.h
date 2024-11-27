@@ -31,6 +31,5 @@ private:
 
 	class USpriteRenderer* WindBulletRender = nullptr;
 	class U2DCollision* WindBulletCollision = nullptr;
-
 };
 
