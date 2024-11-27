@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/GameMode.h>
+#include <EnginePlatform/EngineSound.h>
 
 class AStage101GameMode : public AGameMode
 {
@@ -32,5 +33,7 @@ private:
 	class AMonster* NewWaddleDee = nullptr;
 	class AMonster* NewWaddleDoo = nullptr;
 	class AMonster* NewKibble = nullptr;
+
+	USoundPlayer BGMPlayer;
 };
 

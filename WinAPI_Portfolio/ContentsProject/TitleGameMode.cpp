@@ -18,7 +18,9 @@ ATitleGameMode::~ATitleGameMode()
 void ATitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
 	TitleMap* NewMap = GetWorld()->SpawnActor<TitleMap>();
+	BGMPlayer = UEngineSound::Play("Title Theme.mp3");
 }
 
 
@@ -29,8 +31,9 @@ void ATitleGameMode::Tick(float _DeltaTime)
 	if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
 	{
 		AFade* Actor = GetWorld()->SpawnActor<AFade>();
+		EffectPlayer = UEngineSound::Play("GameStart.wav");
 		Actor->FadeIn();
+		BGMPlayer.Off();
 		UEngineAPICore::GetCore()->OpenLevel("Stage101");
 	}
-
 }

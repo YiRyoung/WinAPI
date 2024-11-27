@@ -33,6 +33,8 @@ void AStage101GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	BGMPlayer = UEngineSound::Play("Vegetable Valley 2.mp3");
+
 	NewFade = GetWorld()->SpawnActor<AFade>();
 	NewFade->FadeOut();
 
