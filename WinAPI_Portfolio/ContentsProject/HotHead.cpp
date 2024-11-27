@@ -29,6 +29,11 @@ void AHotHead::Tick(float _DeltaTime)
 {
 	AMonster::Tick(_DeltaTime);
 	CurTime += _DeltaTime;
+
+	if (EMonsterState::INHALE == GetMonsterState() && nullptr != NewFireBall)
+	{
+		NewFireBall->Destroy();
+	}
 }
 
 void AHotHead::SetAnimation()
@@ -137,9 +142,4 @@ void AHotHead::AttackEnd(float _DeltaTime)
 void AHotHead::Die(float _DeltaTime)
 {
 	AMonster::Die(_DeltaTime);
-
-	if (NewFireBall != nullptr)
-	{
-		NewFireBall->Destroy();
-	}
 }

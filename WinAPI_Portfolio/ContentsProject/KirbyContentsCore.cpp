@@ -124,5 +124,5 @@ void KirbyContentsCore::SetWorld()
 	UEngineAPICore::GetCore()->CreateLevel<ABossGameMode, APlayer>("Boss");
 
 	// StartLevel
-	UEngineAPICore::GetCore()->OpenLevel("Stage101");
+	UEngineAPICore::GetCore()->OpenLevel("MidBoss");
 }
