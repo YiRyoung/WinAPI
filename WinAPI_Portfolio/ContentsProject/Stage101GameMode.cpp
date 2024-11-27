@@ -36,7 +36,6 @@ void AStage101GameMode::BeginPlay()
 	NewFade->FadeOut();
 
 	NewAbility = GetWorld()->SpawnActor<AAbility>();
-	NewAbility->SetSprite("Ability.png", static_cast<int>(PlayerAbility));
 
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Stage101.png");
@@ -79,8 +78,9 @@ void AStage101GameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 	
-	NewPlayerLife->SetValue(PlayerLife);
-	NewPlayerScore->SetValue(54890);
+	NewPlayerLife->SetValue(APlayer::PlayerLife);
+	NewPlayerScore->SetValue(APlayer::Score);
+	NewAbility->SetSprite("Ability.png", static_cast<int>(APlayer::PlayerAbility));
 
 	NewWaddleDee->SetDistance(NewPlayer->GetActorLocation());
 	NewWaddleDoo->SetDistance(NewPlayer->GetActorLocation());

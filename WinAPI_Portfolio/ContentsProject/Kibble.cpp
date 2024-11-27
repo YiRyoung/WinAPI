@@ -128,3 +128,9 @@ void AKibble::AttackEnd(float _DeltaTime)
 		return;
 	}
 }
+
+void AKibble::Die(float _DeltaTime)
+{
+	AMonster::Die(_DeltaTime);
+	NewSlider->Destroy();
+}

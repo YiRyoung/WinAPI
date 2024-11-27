@@ -53,7 +53,7 @@ void ABossGameMode::BeginPlay()
 void ABossGameMode::Tick(float _DeltaTime)
 {
 
-	NewPlayerLife->SetValue(PlayerLife);
+	NewPlayerLife->SetValue(APlayer::PlayerLife);
 	NewPlayerScore->SetValue(54890);
 
 	if (true == UEngineInput::GetInst().IsDown('T'))

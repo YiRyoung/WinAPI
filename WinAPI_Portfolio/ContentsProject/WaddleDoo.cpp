@@ -78,11 +78,7 @@ void AWaddleDoo::AttackEnd(float _DeltaTime)
 void AWaddleDoo::Die(float _DeltaTime)
 {
 	AMonster::Die(_DeltaTime);
-
-	if (NewWaddleBeam != nullptr)
-	{
-		NewWaddleBeam->Destroy();
-	}
+	NewWaddleBeam->Destroy();
 }
 
 void AWaddleDoo::Tick(float _DeltaTime)

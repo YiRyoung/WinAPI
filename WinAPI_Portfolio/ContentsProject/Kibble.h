@@ -19,6 +19,7 @@ public:
 	void AttackStart(float _DeltaTime) override;
 	void Attack(float _DeltaTime) override;
 	void AttackEnd(float _DeltaTime) override;
+	void Die(float _DeltaTime) override;
 
 protected:
 	void BeginPlay() override;

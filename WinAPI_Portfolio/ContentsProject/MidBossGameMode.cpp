@@ -12,6 +12,7 @@
 
 #include "Stage.h"
 #include "HUI.h"
+#include "Ability.h"
 #include "Score.h"
 #include "Fade.h"
 
@@ -28,8 +29,11 @@ AMidBossGameMode::~AMidBossGameMode()
 void AMidBossGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	NewFade = GetWorld()->SpawnActor<AFade>();
 	NewFade->FadeOut();
+
+	NewAbility = GetWorld()->SpawnActor<AAbility>();
 
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("MidBoss.png");
@@ -64,9 +68,11 @@ void AMidBossGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	NewPlayerLife->SetValue(PlayerLife);
+	NewPlayerLife->SetValue(APlayer::PlayerLife);
 	NewPlayerScore->SetValue(54890);
 
+	NewAbility->SetSprite("Ability.png", static_cast<int>(APlayer::PlayerAbility));
+	
 	NewHotHead->SetDistance(NewPlayer->GetActorLocation());
 
 	if (true == UEngineInput::GetInst().IsDown('R'))

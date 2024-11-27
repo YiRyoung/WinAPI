@@ -142,4 +142,5 @@ void AHotHead::AttackEnd(float _DeltaTime)
 void AHotHead::Die(float _DeltaTime)
 {
 	AMonster::Die(_DeltaTime);
+	NewFireBall->Destroy();
 }

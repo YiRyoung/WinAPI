@@ -8,6 +8,11 @@
 class APlayer : public AActor
 {
 public:
+	static int PlayerLife;
+	static int PlayerHp;
+	static int Score;
+	static EAbilityType PlayerAbility;
+
 	// constrcuter destructer
 	APlayer();
 	~APlayer();

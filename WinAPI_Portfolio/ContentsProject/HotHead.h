@@ -6,7 +6,7 @@ class AHotHead : public AMonster
 public:
 	// constrcuter destructer
 	AHotHead();
-	~AHotHead();
+	virtual ~AHotHead();
 
 	// delete Function
 	AHotHead(const AHotHead& _Other) = delete;
