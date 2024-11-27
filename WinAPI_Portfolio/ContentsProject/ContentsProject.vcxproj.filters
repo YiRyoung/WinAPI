@@ -79,6 +79,9 @@
     <ClCompile Include="Ability.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
+    <ClCompile Include="HPGauge.cpp">
+      <Filter>ContentsObject\Global\HUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -157,6 +160,9 @@
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
     <ClInclude Include="Ability.h">
+      <Filter>ContentsObject\Global\HUI</Filter>
+    </ClInclude>
+    <ClInclude Include="HPGauge.h">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
   </ItemGroup>

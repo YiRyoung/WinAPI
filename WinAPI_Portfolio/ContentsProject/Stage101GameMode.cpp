@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
+#include "HPGauge.h"
 #include "Ability.h"
 #include "Score.h"
 #include "Fade.h"
@@ -35,6 +36,7 @@ void AStage101GameMode::BeginPlay()
 	NewFade = GetWorld()->SpawnActor<AFade>();
 	NewFade->FadeOut();
 
+	NewHP = GetWorld()->SpawnActor<AHPGauge>();
 	NewAbility = GetWorld()->SpawnActor<AAbility>();
 
 	NewActor = GetWorld()->SpawnActor<AStage>();
@@ -80,6 +82,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 	
 	NewPlayerLife->SetValue(APlayer::PlayerLife);
 	NewPlayerScore->SetValue(APlayer::Score);
+	NewHP->SetHPGauge(APlayer::PlayerHp);
 	NewAbility->SetSprite("Ability.png", static_cast<int>(APlayer::PlayerAbility));
 
 	NewWaddleDee->SetDistance(NewPlayer->GetActorLocation());

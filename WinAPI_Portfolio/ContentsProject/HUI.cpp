@@ -28,17 +28,17 @@ void AHUI::SetSprite(std::string _HUI, std::string_view _Icon)
 {
 		HUIRenderer->SetSprite(_HUI);
 
-		MapScale = HUIRenderer->SetSpriteScale(1.0f);
+		SpriteScale = HUIRenderer->SetSpriteScale(1.0f);
 
 		FVector2D HUISize = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-		FVector2D HUIPos = { 0.0f, HUISize.Y - MapScale.Y + 1.0f };
-		HUIRenderer->SetComponentLocation(MapScale.Half() + HUIPos);
+		FVector2D HUIPos = { 0.0f, HUISize.Y - SpriteScale.Y + 1.0f };
+		HUIRenderer->SetComponentLocation(SpriteScale.Half() + HUIPos);
 		
 
 		IconRenderer->SetSprite(_Icon);
-		MapScale = IconRenderer->SetSpriteScale(1.0f);
+		SpriteScale = IconRenderer->SetSpriteScale(1.0f);
 		FVector2D IconSize = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
-		FVector2D IconPos = { IconSize.X - MapScale.X, IconSize.Y - MapScale.Y };
-		IconRenderer->SetComponentLocation(MapScale.Half() + IconPos + FVector2D({ -143, -99 }));
+		FVector2D IconPos = { IconSize.X - SpriteScale.X, IconSize.Y - SpriteScale.Y };
+		IconRenderer->SetComponentLocation(SpriteScale.Half() + IconPos + FVector2D({ -143, -99 }));
 }
 

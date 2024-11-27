@@ -20,8 +20,8 @@
 #include "ContentsEnum.h"
 
 int APlayer::PlayerLife = 4;
-int APlayer::PlayerHp = 6;
-int APlayer::Score = 0;
+int APlayer::PlayerHp = 0;
+int APlayer::Score = 12345;
 EAbilityType APlayer::PlayerAbility = EAbilityType::NORMAL;
 
 APlayer::APlayer()

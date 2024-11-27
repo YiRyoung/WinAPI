@@ -19,7 +19,7 @@ public:
 protected:
 
 private:
-	FVector2D MapScale = FVector2D::ZERO;
+	FVector2D SpriteScale = FVector2D::ZERO;
 	class USpriteRenderer* HUIRenderer;
 
 	class USpriteRenderer* IconRenderer;
