@@ -33,7 +33,7 @@ void AStage101GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BGMPlayer = UEngineSound::Play("Vegetable Valley 2.mp3");
+	BGMPlayer = UEngineSound::Play("Vegetable Valley 1.mp3");
 
 	NewFade = GetWorld()->SpawnActor<AFade>();
 	NewFade->FadeOut();
@@ -96,6 +96,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))
 	{
 		NewFade->FadeIn();
+		BGMPlayer.Off();
 		UEngineAPICore::GetCore()->OpenLevel("MidBoss");
 	}
 

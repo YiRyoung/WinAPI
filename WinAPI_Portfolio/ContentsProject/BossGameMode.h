@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/GameMode.h>
+#include <EnginePlatform/EngineSound.h>
 
 class ABossGameMode : public AGameMode
 {
@@ -24,5 +25,7 @@ private:
 	class AHUI* NewUI = nullptr;
 	class AScore* NewPlayerLife = nullptr;
 	class AScore* NewPlayerScore = nullptr;
+
+	USoundPlayer BGMPlayer;
 };
 

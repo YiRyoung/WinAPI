@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/GameMode.h>
+#include <EnginePlatform/EngineSound.h>
 
 class AMidBossGameMode : public AGameMode
 {
@@ -29,5 +30,7 @@ private:
 	class AScore* NewPlayerScore = nullptr;
 	class AFade* NewFade = nullptr;
 	class AMonster* NewHotHead = nullptr;
+
+	USoundPlayer BGMPlayer;
 };
 
