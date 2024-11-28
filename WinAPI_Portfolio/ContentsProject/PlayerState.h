@@ -49,8 +49,6 @@ public:
 	void FireStart(float _DeltaTime);
 	void Fire(float _DeltaTime);
 
-	USoundPlayer EffectPlayer;
-
 protected:
 	APlayer* Player = nullptr;
 

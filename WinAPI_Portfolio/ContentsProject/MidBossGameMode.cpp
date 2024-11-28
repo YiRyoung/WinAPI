@@ -30,7 +30,7 @@ AMidBossGameMode::~AMidBossGameMode()
 void AMidBossGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	BGMPlayer = UEngineSound::Play("Vegetable Valley 2.mp3");
 
 	NewFade = GetWorld()->SpawnActor<AFade>();
@@ -81,7 +81,7 @@ void AMidBossGameMode::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
-		BGMPlayer.Stop();
+		BGMPlayer.Off();
 		UEngineAPICore::GetCore()->OpenLevel("Boss");
 	}
 

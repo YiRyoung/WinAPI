@@ -49,6 +49,7 @@ void AWindBullet::CollisionEnter(AActor* _ColActor)
 	if (nullptr != Result)
 	{
 		Result->SetMonsterState(EMonsterState::DIE);
+		Destroy();
 		return;
 	}
 }
@@ -71,13 +72,14 @@ void AWindBullet::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	if (Time <= 0.7)
+	if (Time <= 0.7f)
 	{
 		Time += _DeltaTime;
 		AddActorLocation(Dir * Speed * _DeltaTime);
 	}
 	else
 	{
+		Time = 0.0f;
 		Destroy();
 	}
 }

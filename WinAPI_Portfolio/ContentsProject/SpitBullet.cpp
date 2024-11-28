@@ -51,6 +51,7 @@ void ASpitBullet::CollisionEnter(AActor* _ColActor)
 	if (nullptr != Result)
 	{
 		Result->SetMonsterState(EMonsterState::DIE);
+		Destroy();
 		return;
 	}
 }
@@ -71,6 +72,7 @@ void ASpitBullet::Tick(float _DeltaTime)
 	}
 	else
 	{
+		Time = 0.0f;
 		Destroy();
 	}
 }
