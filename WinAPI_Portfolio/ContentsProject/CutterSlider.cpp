@@ -70,7 +70,7 @@ void ACutterSlider::Tick(float _DeltaTime)
 			Player->SetCanHurt(false);
 			APlayer::PlayerHp--;
 		}
-		Player->SetCurState(EPlayerState::HURT);
+		Player->SetCurState(EPlayerState::HURTSTART);
 		Destroy();
 		return;
 	}

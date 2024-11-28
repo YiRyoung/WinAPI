@@ -172,7 +172,7 @@ void AWaddleBeam::MonsterSkillCollisionEnter(AActor* _ColActor)
 			Player->SetCanHurt(false);
 			APlayer::PlayerHp--;
 		}
-		Player->SetCurState(EPlayerState::HURT);
+		Player->SetCurState(EPlayerState::HURTSTART);
 		return;
 	}
 }

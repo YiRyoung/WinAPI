@@ -131,7 +131,7 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 		}
 
 		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
-		SetCurState(EPlayerState::HURT);
+		SetCurState(EPlayerState::HURTSTART);
 		return;
 	}
 }
@@ -417,8 +417,11 @@ void APlayer::FSM(float _DeltaTime)
 	case EPlayerState::SKILL:
 		State->Skill(_DeltaTime);
 		break;
-	case EPlayerState::HURT:
+	case EPlayerState::HURTSTART:
 		State->HurtStart(_DeltaTime);
+		break;
+	case EPlayerState::HURT:
+		State->Hurt(_DeltaTime);
 		break;
 	case EPlayerState::DIE:
 		//State->DieStart(_DeltaTime);

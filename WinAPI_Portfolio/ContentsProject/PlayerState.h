@@ -32,6 +32,7 @@ public:
 	void ClimbStart(float _DeltaTime);
 	void EatStart(float _DeltaTime);
 	void HurtStart(float _DeltaTime);
+	void Hurt(float _DeltaTime);
 
 	// Attack
 	void SkillStart(float _DeltaTime);
@@ -147,7 +148,6 @@ private:
 	void Slide(float _DeltaTime);
 	void Climb(float _DeltaTime);
 	void Eat(float _DeltaTime);
-	void Hurt(float _DeltaTime);
 
 	void ResetDirForce()
 	{
@@ -166,5 +166,7 @@ private:
 	void ChangeClimb();
 	void ChangeEat();
 	void ChangeAttack();
+
+	USoundPlayer EffectPlayer;
 };
 

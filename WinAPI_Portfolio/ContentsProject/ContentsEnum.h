@@ -58,6 +58,7 @@ enum class EPlayerState
 	SPIT,
 	SKILLSTART,
 	SKILL,
+	HURTSTART,
 	HURT,
 	DIE
 };
