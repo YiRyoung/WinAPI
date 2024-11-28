@@ -81,7 +81,7 @@ void AMidBossGameMode::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::GetInst().IsDown('R'))
 	{
-		BGMPlayer.Off();
+		BGMPlayer.Stop();
 		UEngineAPICore::GetCore()->OpenLevel("Boss");
 	}
 

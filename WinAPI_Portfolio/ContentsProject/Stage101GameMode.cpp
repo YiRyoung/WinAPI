@@ -96,7 +96,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))
 	{
 		NewFade->FadeIn();
-		BGMPlayer.Off();
+		BGMPlayer.Stop();
 		UEngineAPICore::GetCore()->OpenLevel("MidBoss");
 	}
 
