@@ -50,7 +50,7 @@ private:
 	std::string AnimDir = "_Left";
 	FVector2D Dir = FVector2D::ZERO;
 	FVector2D ArrDir[static_cast<int>(Phase::Phase06)];
-	float InterTime = 0.2f;
+	float InterTime = 0.1f;
 	float Time = InterTime;
 	Phase PhaseValue = Phase::Phase01;
 };

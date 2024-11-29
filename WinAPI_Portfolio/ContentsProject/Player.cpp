@@ -193,12 +193,12 @@ void APlayer::SetAnimation()
 	PlayerRenderer->CreateAnimation("JumpFull_Right", "Kirby_Normal_Right.png", { 31, 32, 31 }, 0.1f, false);
 
 	// FLY_UNFULLED
-	PlayerRenderer->CreateAnimation("FlyStart_Left", "Kirby_Normal_Left.png", 17, 21, 0.07f, false);
-	PlayerRenderer->CreateAnimation("FlyStart_Right", "Kirby_Normal_Right.png", 17, 21, 0.07f, false);
+	PlayerRenderer->CreateAnimation("FlyStart_Left", "Kirby_Normal_Left.png", 17, 21, 0.04f, false);
+	PlayerRenderer->CreateAnimation("FlyStart_Right", "Kirby_Normal_Right.png", 17, 21, 0.04f, false);
 	PlayerRenderer->CreateAnimation("Flying_Left", "Kirby_Normal_Left.png", 21, 22, 0.7f);
 	PlayerRenderer->CreateAnimation("Flying_Right", "Kirby_Normal_Right.png", 21, 22, 0.7f);
-	PlayerRenderer->CreateAnimation("FlyEnd_Left", "Kirby_Normal_Left.png", 23, 26, 0.07f, false);
-	PlayerRenderer->CreateAnimation("FlyEnd_Right", "Kirby_Normal_Right.png", 23, 26, 0.07f, false);
+	PlayerRenderer->CreateAnimation("FlyEnd_Left", "Kirby_Normal_Left.png", 23, 26, 0.05f, false);
+	PlayerRenderer->CreateAnimation("FlyEnd_Right", "Kirby_Normal_Right.png", 23, 26, 0.05f, false);
 
 	// FALL_UNFULLED
 	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 15);
@@ -217,8 +217,8 @@ void APlayer::SetAnimation()
 	// PlayerRenderer->SetSprite("Kirby_Normal_Right.png", 7);
 
 	// Climb
-	PlayerRenderer->CreateAnimation("ClimbUp_Left", "Kirby_Normal_Left.png", { 51, 52, 53, 52 }, 0.3f);
-	PlayerRenderer->CreateAnimation("ClimbUp_Right", "Kirby_Normal_Right.png", { 51, 52, 53, 52 }, 0.3f);
+	PlayerRenderer->CreateAnimation("ClimbUp_Left", "Kirby_Normal_Left.png", { 51, 52, 53, 52 }, 0.07f);
+	PlayerRenderer->CreateAnimation("ClimbUp_Right", "Kirby_Normal_Right.png", { 51, 52, 53, 52 }, 0.07f);
 	// PlayerRenderer->SetSprite("Kirby_Normal_Left.png", 52);
 
 	// Eat
@@ -226,22 +226,22 @@ void APlayer::SetAnimation()
 	PlayerRenderer->CreateAnimation("Eat_Right", "Kirby_Normal_Right.png", 45, 47, 0.1f, false);
 
 	// Inhale
-	PlayerRenderer->CreateAnimation("InhaleStart_Left", "Kirby_Normal_Left.png", 28, 29, 0.1f, false);
-	PlayerRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 28, 29, 0.1f, false);
-	PlayerRenderer->CreateAnimation("InhaleEnd_Left", "Kirby_Normal_Left.png", 24, 26, 0.1f, false);
-	PlayerRenderer->CreateAnimation("InhaleEnd_Right", "Kirby_Normal_Right.png", 24, 26, 0.1f, false);
+	PlayerRenderer->CreateAnimation("InhaleStart_Left", "Kirby_Normal_Left.png", 28, 29, 0.07f, false);
+	PlayerRenderer->CreateAnimation("InhaleStart_Right", "Kirby_Normal_Right.png", 28, 29, 0.07f, false);
+	PlayerRenderer->CreateAnimation("InhaleEnd_Left", "Kirby_Normal_Left.png", 24, 26, 0.05f, false);
+	PlayerRenderer->CreateAnimation("InhaleEnd_Right", "Kirby_Normal_Right.png", 24, 26, 0.05f, false);
 
 	// Spit
 	PlayerRenderer->CreateAnimation("Spit_Left", "Kirby_Normal_Left.png", 34, 37, 0.1f, false);
 	PlayerRenderer->CreateAnimation("Spit_Right", "Kirby_Normal_Right.png", 34, 37, 0.1f, false);
 
 	// HURT_UNFULLED
-	PlayerRenderer->CreateAnimation("Hurt_Left", "Kirby_Normal_Left.png", { 58, 71 }, 0.05f);
-	PlayerRenderer->CreateAnimation("Hurt_Right", "Kirby_Normal_Right.png", { 58, 71 }, 0.05f);
+	PlayerRenderer->CreateAnimation("Hurt_Left", "Kirby_Normal_Left.png", 61, 62, 0.05f);
+	PlayerRenderer->CreateAnimation("Hurt_Right", "Kirby_Normal_Right.png", 61, 62, 0.05f);
 
 	// HURT_FULLED
-	PlayerRenderer->CreateAnimation("HurtFull_Left", "Kirby_Normal_Left.png", {72, 81 }, 0.05f);
-	PlayerRenderer->CreateAnimation("HurtFull_Right", "Kirby_Normal_Right.png", { 72, 81 }, 0.05f);
+	PlayerRenderer->CreateAnimation("HurtFull_Left", "Kirby_Normal_Left.png", 75, 76, 0.05f);
+	PlayerRenderer->CreateAnimation("HurtFull_Right", "Kirby_Normal_Right.png", 75, 76, 0.05f);
 
 	// Beam
 	PlayerRenderer->CreateAnimation("Beam_Left", "Kirby_Ability_Left.png", 0, 1, 0.05f);
@@ -255,12 +255,17 @@ void APlayer::SetAnimation()
 	PlayerRenderer->CreateAnimation("Fire_Left", "Kirby_Ability_Left.png", 9, 10, 0.05f);
 	PlayerRenderer->CreateAnimation("Fire_Right", "Kirby_Ability_Right.png", 9, 10, 0.05f);
 
+	// Enter NectStage
+	PlayerRenderer->CreateAnimation("Fire_Left", "Kirby_Ability_Left.png", 9, 10, 0.05f);
+	PlayerRenderer->CreateAnimation("Fire_Right", "Kirby_Ability_Right.png", 9, 10, 0.05f);
+
 	PlayerRenderer->ChangeAnimation("Idle_Right");
 }
 
 void APlayer::SetAnimDir()
 {
-	if (EPlayerState::SLIDE != CurState && EPlayerState::SKILL != CurState)
+	if (EPlayerState::SLIDE != CurState && EPlayerState::SKILL != CurState
+		&& EPlayerState::HURT != CurState)
 	{
 		if (UEngineInput::GetInst().IsPress(VK_LEFT))
 		{
@@ -298,18 +303,18 @@ void APlayer::SetPlayerCollision()
 	SlideRightCollision->SetCollisionType(ECollisionType::Rect);
 	SlideRightCollision->SetActive(false);
 
-	// SkillBox Left Collision
+	// InhaleBox Left Collision
 	InhaleBoxLeftCollision = CreateDefaultSubObject<U2DCollision>();
-	InhaleBoxLeftCollision->SetComponentLocation({ PlayerScale.X * -1.0f , PlayerScale.Y * -0.3f});
-	InhaleBoxLeftCollision->SetComponentScale({ 160, 80 });
+	InhaleBoxLeftCollision->SetComponentLocation({ PlayerScale.X * -1.0f , PlayerScale.Y * -0.35f});
+	InhaleBoxLeftCollision->SetComponentScale({ 160, 60 });
 	InhaleBoxLeftCollision->SetCollisionGroup(ECollisionGroup::INHALEBOX);
 	InhaleBoxLeftCollision->SetCollisionType(ECollisionType::Rect);
 	InhaleBoxLeftCollision->SetActive(false);
 	 
-	// SkillBox Right Collision
+	// InhaleBox Right Collision
 	InhaleBoxRightCollision = CreateDefaultSubObject<U2DCollision>();
-	InhaleBoxRightCollision->SetComponentLocation({ PlayerScale.X * 1.0f , PlayerScale.Y * -0.3f });
-	InhaleBoxRightCollision->SetComponentScale({ 160, 80 });
+	InhaleBoxRightCollision->SetComponentLocation({ PlayerScale.X * 1.0f , PlayerScale.Y * -0.35f});
+	InhaleBoxRightCollision->SetComponentScale({ 160, 60 });
 	InhaleBoxRightCollision->SetCollisionGroup(ECollisionGroup::INHALEBOX);
 	InhaleBoxRightCollision->SetCollisionType(ECollisionType::Rect);
 	InhaleBoxRightCollision->SetActive(false);
@@ -478,8 +483,8 @@ void APlayer::GetBackgroundImage(std::string_view _BackImage, std::string_view _
 
 void APlayer::SetAdjustSize()
 {
-	if (!IsFull && EPlayerState::FLYSTART != CurState 
-		&& EPlayerState::FLY != CurState && EPlayerState::FLYEND != CurState)
+	if (!IsFull && EPlayerState::FLYSTART != CurState && EPlayerState::FLY != CurState 
+		&& EPlayerState::FLYEND != CurState && EPlayerState::INHALE != CurState)
 	{
 		AdjustValue = { 0.25f, 0.5f };
 		AdjustScale = { 50, 50 };
@@ -498,6 +503,27 @@ void APlayer::DrawDebugPoint(FVector2D _Point)
 	PlayerTransform.Location += _Point - GetWorld()->GetCameraPos();
 	PlayerTransform.Scale = { 6, 6 };
 	UEngineDebug::CoreDebugRender(PlayerTransform, UEngineDebug::EDebugPosType::Circle);
+}
+
+bool APlayer::DownColorCheck(FVector2D _Power, UColor _Color)
+{
+	FVector2D LeftBottomPoint = FVector2D({ PlayerScale.X * -AdjustValue.X, 0.0f });
+	FVector2D RightBottomPoint = FVector2D({ PlayerScale.X * AdjustValue.X, 0.0f });
+
+	DrawDebugPoint(RightBottomPoint);
+	DrawDebugPoint(LeftBottomPoint);
+
+	for (float i = 0.0f; i <= (RightBottomPoint.X - LeftBottomPoint.X); i++)
+	{
+		FVector2D Point = GetActorLocation() + FVector2D{ (RightBottomPoint.X - i), RightBottomPoint.Y };
+		FVector2D NextPoint = Point + _Power;
+		UColor CheckColor = ColliderImage->GetColor(NextPoint, UColor::MAGENTA);
+		if (_Color.operator==(CheckColor))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 bool APlayer::PixelPointCheck(ECheckDir _Dir, UColor _Color)

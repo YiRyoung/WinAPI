@@ -37,8 +37,9 @@ void PlayerState::SetLimitAccel(bool _IsDeAcc, float MaxSpeed)
 
 void PlayerState::Gravity(float _DeltaTime)
 {
-	if (!PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
-		&& !PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
+	FVector2D Power = GravityForce * _DeltaTime;
+	if (!Player->DownColorCheck(Power, UColor::MAGENTA) && !Player->DownColorCheck(Power, UColor::BLACK)
+		&& !Player->DownColorCheck(Power, UColor::YELLOW))
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
 		GravityForce += FVector2D::DOWN * GravityPower * _DeltaTime;
@@ -241,7 +242,6 @@ void PlayerState::Jump(float _DeltaTime)
 {
 	ChangeFly();
 	ChangeAttack();
-
 	// Jumping
 	{
 		FVector2D Vector = FVector2D::UP;
@@ -256,20 +256,18 @@ void PlayerState::Jump(float _DeltaTime)
 		}
 		DirForce.Normalize();
 		AddActorLocation(Vector * JumpPower * _DeltaTime);
+	}
 
-		if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::UP, UColor::MAGENTA)
-			|| PixelLineCheck(ECheckDir::DOWN, UColor::BLACK) || PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
-		{
-			SetPlayerState(EPlayerState::IDLE);
-			return;
-		}
+	if (PixelPointCheck(ECheckDir::UP, UColor::MAGENTA) 
+		|| Player->DownColorCheck((GravityForce + FVector2D::DOWN) * _DeltaTime, UColor::MAGENTA))
+	{
+		SetPlayerState(EPlayerState::IDLE);
+		return;
 	}
 }
 
 void PlayerState::FlyStart(float _DeltaTime)
 {
-	ChangeAnimation("FlyStart");
-
 	FVector2D Vector = FVector2D::ZERO;
 
 	if (IsPressKey(VK_UP))
@@ -301,6 +299,7 @@ void PlayerState::FlyStart(float _DeltaTime)
 
 void PlayerState::Fly(float _DeltaTime)
 {
+	ChangeAnimation("Flying");
 	ChangeAnimation("Flying");
 
 	if (IsPressKey('X'))
@@ -501,7 +500,7 @@ void PlayerState::ClimbStart(float _DeltaTime)
 	}
 	else
 	{
-		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 52);
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 54);
 	}
 
 	if (IsPressKey(VK_DOWN))
@@ -655,9 +654,9 @@ void PlayerState::Spit(float _DeltaTime)
 
 void PlayerState::BeamStart(float _DeltaTime)
 {
+	Gravity(_DeltaTime);
 	ChangeAnimation("Beam");
 	Player->SpawnBeam();
-	Gravity(_DeltaTime);
 	SetPlayerState(EPlayerState::SKILL);
 	return;
 }
@@ -666,7 +665,7 @@ void PlayerState::Beam(float _DeltaTime)
 {
 	CurTime += _DeltaTime;
 
-	if (CurTime >= 0.18f)
+	if (CurTime >= 0.38f)
 	{
 		CurTime = 0.0f;
 		SetPlayerState(EPlayerState::IDLE);
@@ -789,6 +788,7 @@ void PlayerState::ChangeFly()
 	if (IsPressKey(VK_UP) && !GetPlayerFull())
 	{
 		ResetDirForce();
+		ChangeAnimation("FlyStart");
 		SetPlayerState(EPlayerState::FLYSTART);
 		return;
 	}

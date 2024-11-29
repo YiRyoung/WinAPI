@@ -77,6 +77,7 @@ public:
 
 	void SetAdjustSize();
 	void DrawDebugPoint(FVector2D _Point);
+	bool DownColorCheck(FVector2D _Power, UColor _Color);	// GroundCheck for Gravity
 	bool PixelPointCheck(ECheckDir _Dir, UColor _Color);
 	bool PixelLineCheck(ECheckDir _Dir, UColor _Color);
 
