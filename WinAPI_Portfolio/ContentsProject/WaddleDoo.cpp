@@ -81,7 +81,7 @@ void AWaddleDoo::Die(float _DeltaTime)
 
 	if (NewWaddleBeam != nullptr)
 	{
-		NewWaddleBeam->Destroy();
+		NewWaddleBeam->SetActive(false);
 	}
 }
 

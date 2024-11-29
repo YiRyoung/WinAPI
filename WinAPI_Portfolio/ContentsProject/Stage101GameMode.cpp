@@ -36,7 +36,6 @@ void AStage101GameMode::BeginPlay()
 	Super::BeginPlay();
 
 	BGMPlayer = UEngineSound::Play("Vegetable Valley 1.mp3");
-	BGMPlayer.Loop(10);
 	SoundManager.SetBGMSoundPlayer(BGMPlayer);
 
 	NewFade = GetWorld()->SpawnActor<AFade>();
