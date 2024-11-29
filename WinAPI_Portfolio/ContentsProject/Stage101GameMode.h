@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/GameMode.h>
 #include <EnginePlatform/EngineSound.h>
+#include "SoundManager.h"
 
 class AStage101GameMode : public AGameMode
 {
@@ -34,6 +35,7 @@ private:
 	class AMonster* NewWaddleDoo = nullptr;
 	class AMonster* NewKibble = nullptr;
 
-	USoundPlayer BGMPlayer;
+	SoundManager& SoundManager = SoundManager::GetInst();
+	USoundPlayer& BGMPlayer = SoundManager.GetBGMSoundPlayer();
 };
 

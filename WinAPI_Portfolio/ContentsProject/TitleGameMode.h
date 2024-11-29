@@ -2,6 +2,8 @@
 #include <EngineCore/GameMode.h>
 #include <EnginePlatform/EngineSound.h>
 
+#include "SoundManager.h"
+
 class ATitleGameMode : public AGameMode
 {
 public:
@@ -21,7 +23,8 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
-	USoundPlayer BGMPlayer;
-	USoundPlayer EffectPlayer;
+	SoundManager& SoundManager = SoundManager::GetInst();
+	USoundPlayer& BGMPlayer = SoundManager.GetBGMSoundPlayer();
+	USoundPlayer& EffectPlayer = SoundManager.GetEffectSoundPlayer();
 };
 

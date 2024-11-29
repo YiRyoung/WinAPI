@@ -19,8 +19,11 @@ void ATitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TitleMap* NewMap = GetWorld()->SpawnActor<TitleMap>();
 	BGMPlayer = UEngineSound::Play("Title Theme.mp3");
+	BGMPlayer.Loop(10);
+	SoundManager.SetBGMSoundPlayer(BGMPlayer);
+
+	TitleMap* NewMap = GetWorld()->SpawnActor<TitleMap>();
 }
 
 
@@ -34,6 +37,7 @@ void ATitleGameMode::Tick(float _DeltaTime)
 		Actor->FadeIn();
 		BGMPlayer.Off();
 		EffectPlayer = UEngineSound::Play("GameStart.wav");
+		SoundManager.SetEffectSoundPlayer(EffectPlayer);
 		UEngineAPICore::GetCore()->OpenLevel("Stage101");
 	}
 }

@@ -28,8 +28,8 @@ APlayer::APlayer()
 {
 	SetPlayer();
 	SetAnimation();
+	SetAdjustSize();
 	SetPlayerCollision();
-
 	State = new PlayerState(this);
 	DebugOn();
 }
@@ -53,14 +53,15 @@ void APlayer::Tick(float _DeltaTime)
 	// Debug Log
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
+	UEngineDebug::CoreOutPutString("AdjustSize : " + AdjustValue.ToString());
 	UEngineDebug::CoreOutPutString("PlayerState : " + std::to_string(static_cast<int>(CurState)));
 	UEngineDebug::CoreOutPutString("PlayerAbility : " + std::to_string(static_cast<int>(PlayerAbility)));
 	UEngineDebug::CoreOutPutString("CurMonsterType : " + std::to_string(static_cast<int>(CurMonsterAbility)));
 	UEngineDebug::CoreOutPutString("PlayerDir : " + AnimDir);
-	UEngineDebug::CoreOutPutString("IsFull : " + std::to_string(IsFull));
 
 	SetAnimDir();
 	SetAdjustSize();
+	ChangePlayerCollision();
 	FSM(_DeltaTime);
 	CameraMove();
 }
@@ -276,8 +277,8 @@ void APlayer::SetPlayerCollision()
 {
 	// PlayerCollision
 	PlayerCollision = CreateDefaultSubObject<U2DCollision>();
-	PlayerCollision->SetComponentLocation({ 0.0f , -(PlayerScale.Y * 0.3f)});
-	PlayerCollision->SetComponentScale({ 68, 68 });
+	PlayerCollision->SetComponentLocation({ 0.0f , -(PlayerScale.Y * AdjustValue.X)});
+	PlayerCollision->SetComponentScale({ AdjustScale });
 	PlayerCollision->SetCollisionGroup(ECollisionGroup::PLAYERBODY);
 	PlayerCollision->SetCollisionType(ECollisionType::CirCle);
 	
@@ -323,6 +324,22 @@ void APlayer::SetPlayerCollision()
 	SlideRightCollision->SetCollisionEnter(std::bind(&APlayer::CollisionEnter, this, std::placeholders::_1));
 	InhaleBoxLeftCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
 	InhaleBoxRightCollision->SetCollisionStay(std::bind(&APlayer::CollisionStay, this, std::placeholders::_1));
+}
+
+void APlayer::ChangePlayerCollision()
+{
+	if (CurState == EPlayerState::BEND)
+	{
+		PlayerCollision->SetComponentLocation({ 0.0f , PlayerScale.Y * -0.12f});
+		PlayerCollision->SetComponentScale({ 50, 30 });
+		PlayerCollision->SetCollisionType(ECollisionType::Rect);
+	}
+	else
+	{
+		PlayerCollision->SetComponentLocation({ 0.0f , -(PlayerScale.Y * AdjustValue.X) });
+		PlayerCollision->SetComponentScale({ AdjustScale });
+		PlayerCollision->SetCollisionType(ECollisionType::CirCle);
+	}
 }
 
 void APlayer::CameraMove()
@@ -465,10 +482,12 @@ void APlayer::SetAdjustSize()
 		&& EPlayerState::FLY != CurState && EPlayerState::FLYEND != CurState)
 	{
 		AdjustValue = { 0.25f, 0.5f };
+		AdjustScale = { 50, 50 };
 	}
 	else
 	{
 		AdjustValue = { 0.35f, 0.7f };
+		AdjustScale = { 68, 68 };
 	}
 }
 

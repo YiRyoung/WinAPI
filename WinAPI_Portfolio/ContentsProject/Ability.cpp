@@ -10,7 +10,10 @@ AAbility::AAbility()
 {
 	AbilityRenderer = CreateDefaultSubObject<USpriteRenderer>();
 	AbilityRenderer->SetOrder(ERenderOrder::HUITEXT);
-	AbilityRenderer->SetCameraEffect(false);
+	AbilityRenderer->SetCamera
+	
+	
+	(false);
 }
 
 AAbility::~AAbility()

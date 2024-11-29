@@ -2,6 +2,8 @@
 #include <EngineCore/GameMode.h>
 #include <EnginePlatform/EngineSound.h>
 
+#include "SoundManager.h"
+
 class AMidBossGameMode : public AGameMode
 {
 public:
@@ -31,6 +33,7 @@ private:
 	class AFade* NewFade = nullptr;
 	class AMonster* NewHotHead = nullptr;
 
-	USoundPlayer BGMPlayer;
+	SoundManager& SoundManager = SoundManager::GetInst();
+	USoundPlayer& BGMPlayer = SoundManager.GetBGMSoundPlayer();
 };
 

@@ -108,12 +108,13 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	int MySpriteIndex = 0;
 	bool CanHurt = true;
 	bool IsFull = false;
-	int MySpriteIndex = 0;
 	std::string AnimDir = "_Right";
-	FVector2D PlayerScale = FVector2D::ZERO;
 	FVector2D AdjustValue = FVector2D::ZERO;
+	FVector2D AdjustScale = FVector2D::ZERO;
+	FVector2D PlayerScale = FVector2D::ZERO;
 
 	class PlayerState* State = nullptr;
 	class PlayerState* Ability = nullptr;
@@ -134,6 +135,7 @@ private:
 	void SetAnimation();
 	void SetAnimDir();
 	void SetPlayerCollision();
+	void ChangePlayerCollision();
 	void CameraMove();
 };
 

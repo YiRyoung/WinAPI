@@ -2,7 +2,6 @@
 #include "Player.h"
 
 #include "EnginePlatform/EngineInput.h"
-#include <EnginePlatform/EngineSound.h>
 
 class PlayerState
 {
@@ -166,7 +165,5 @@ private:
 	void ChangeClimb();
 	void ChangeEat();
 	void ChangeAttack();
-
-	USoundPlayer EffectPlayer;
 };
 

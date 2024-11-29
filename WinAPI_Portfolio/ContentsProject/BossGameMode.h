@@ -25,7 +25,5 @@ private:
 	class AHUI* NewUI = nullptr;
 	class AScore* NewPlayerLife = nullptr;
 	class AScore* NewPlayerScore = nullptr;
-
-	USoundPlayer BGMPlayer;
 };
 

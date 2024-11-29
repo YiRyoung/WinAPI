@@ -25,8 +25,6 @@ void ABossGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BGMPlayer = UEngineSound::Play("Boss Battle.mp3");
-
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Boss.png");
 	NewActor->SetColSprite("ColBoss.png");

@@ -8,6 +8,8 @@
 
 #include "Player.h"
 #include "Stage.h"
+
+#include "SoundManager.h"
 #include "HUI.h"
 #include "HPGauge.h"
 #include "Ability.h"
@@ -34,6 +36,8 @@ void AStage101GameMode::BeginPlay()
 	Super::BeginPlay();
 
 	BGMPlayer = UEngineSound::Play("Vegetable Valley 1.mp3");
+	BGMPlayer.Loop(10);
+	SoundManager.SetBGMSoundPlayer(BGMPlayer);
 
 	NewFade = GetWorld()->SpawnActor<AFade>();
 	NewFade->FadeOut();

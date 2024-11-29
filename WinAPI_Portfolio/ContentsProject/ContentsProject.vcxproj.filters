@@ -82,6 +82,9 @@
     <ClCompile Include="HPGauge.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>ContentsObject\Global\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -165,6 +168,9 @@
     <ClInclude Include="HPGauge.h">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>ContentsObject\Global\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -208,6 +214,9 @@
     </Filter>
     <Filter Include="ContentsObject\Global\Monster\Ability\Skill">
       <UniqueIdentifier>{a112cc08-a8ba-4782-b9f9-50d80cf31eda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Sound">
+      <UniqueIdentifier>{5960af3c-ed4e-45d1-9770-faafdd6eacb2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
