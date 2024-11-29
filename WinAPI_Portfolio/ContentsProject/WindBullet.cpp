@@ -80,7 +80,10 @@ void AWindBullet::Tick(float _DeltaTime)
 	else
 	{
 		Time = 0.0f;
-		Destroy();
+		if (nullptr != this)
+		{
+			Destroy();
+		}
 	}
 }
 
