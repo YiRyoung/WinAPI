@@ -195,6 +195,12 @@ void PlayerState::Dash(float _DeltaTime)
 
 void PlayerState::JumpStart(float _DeltaTime)
 {
+	if (PixelPointCheck(ECheckDir::UP, UColor::MAGENTA) || GravityForce == FVector2D::ZERO)
+	{
+		SetPlayerState(EPlayerState::IDLE);
+		return;
+	}
+
 	float Force = JumpPower - GravityForce.Y;
 
 	if (0.0f < Force)
@@ -256,13 +262,6 @@ void PlayerState::Jump(float _DeltaTime)
 		}
 		DirForce.Normalize();
 		AddActorLocation(Vector * JumpPower * _DeltaTime);
-	}
-
-	if (PixelPointCheck(ECheckDir::UP, UColor::MAGENTA) 
-		|| Player->DownColorCheck((GravityForce + FVector2D::DOWN) * _DeltaTime, UColor::MAGENTA))
-	{
-		SetPlayerState(EPlayerState::IDLE);
-		return;
 	}
 }
 
