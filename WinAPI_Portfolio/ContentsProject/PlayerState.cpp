@@ -437,6 +437,12 @@ void PlayerState::Bend(float _DeltaTime)
 
 	if (IsPressKey('Z') || IsPressKey('X'))
 	{
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("Slide.wav");
+
 		SetPlayerState(EPlayerState::SLIDE);
 		return;
 	}
@@ -778,6 +784,12 @@ void PlayerState::ChangeJump()
 	// Jump
 	if (EPlayerState::BEND != GetPlayerState() && IsPressKey('Z'))
 	{
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("Jump.wav");
+
 		ResetDirForce();
 		SetPlayerState(EPlayerState::JUMP);
 		return;
@@ -791,6 +803,12 @@ void PlayerState::ChangeFly()
 	{
 		ResetDirForce();
 		ChangeAnimation("FlyStart");
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("FlyStart.wav");
+
 		SetPlayerState(EPlayerState::FLYSTART);
 		return;
 	}
@@ -813,6 +831,12 @@ void PlayerState::ChangeBend()
 	if (IsPressKey(VK_DOWN) && !GetPlayerFull()
 		&& !PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
 	{
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("Bend.wav");
+
 		SetPlayerState(EPlayerState::BEND);
 		return;
 	}

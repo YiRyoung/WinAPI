@@ -70,9 +70,6 @@
     <ClCompile Include="FireBall.cpp">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="Shotzo.cpp">
-      <Filter>ContentsObject\Global\Monster\Common</Filter>
-    </ClCompile>
     <ClCompile Include="Score.cpp">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClCompile>
@@ -84,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>ContentsObject\Global\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Shotzo.cpp">
+      <Filter>ContentsObject\Global\Monster\Obstacle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,9 +156,6 @@
     <ClInclude Include="FireBall.h">
       <Filter>ContentsObject\Global\Monster\Ability\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="Shotzo.h">
-      <Filter>ContentsObject\Global\Monster\Common</Filter>
-    </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>ContentsObject\Global\HUI</Filter>
     </ClInclude>
@@ -170,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>ContentsObject\Global\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Shotzo.h">
+      <Filter>ContentsObject\Global\Monster\Obstacle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +217,9 @@
     </Filter>
     <Filter Include="ContentsObject\Global\Sound">
       <UniqueIdentifier>{5960af3c-ed4e-45d1-9770-faafdd6eacb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Monster\Obstacle">
+      <UniqueIdentifier>{b62208a8-ee93-427c-b4e1-f440f6b79c26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
