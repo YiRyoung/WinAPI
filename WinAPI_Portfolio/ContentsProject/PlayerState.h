@@ -1,7 +1,10 @@
 #pragma once
 #include "Player.h"
 
-#include "EnginePlatform/EngineInput.h"
+#include <EnginePlatform/EngineInput.h>
+#include <EnginePlatform/EngineSound.h>
+
+#include "SoundManager.h"
 
 class PlayerState
 {
@@ -165,5 +168,7 @@ private:
 	void ChangeClimb();
 	void ChangeEat();
 	void ChangeAttack();
+
+	USoundPlayer BGMPlayer;
 };
 

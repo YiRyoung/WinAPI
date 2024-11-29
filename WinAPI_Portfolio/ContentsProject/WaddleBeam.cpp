@@ -29,7 +29,8 @@ AWaddleBeam::AWaddleBeam()
 	{
 		ArrDir[i].Normalize();
 	}
-	
+
+	BGMPlayer = UEngineSound::Play("Beam.wav");
 	DebugOn();
 }
 
@@ -56,9 +57,9 @@ void AWaddleBeam::SetEffect(FVector2D _Dir)
 	for (int i = 0; i < 3; i++)
 	{
 		WaddleBeamRender[i]->SetOrder(ERenderOrder::SKILL);
-		WaddleBeamRender[i]->SetComponentLocation(RealDir * (StartInter + (50.0f * i)));
+		WaddleBeamRender[i]->SetComponentLocation(RealDir * (StartInter + (45.0f * i)));
 
-		WaddleBeamCollision[i]->SetComponentLocation(RealDir * (StartInter + (50.0f * i)));
+		WaddleBeamCollision[i]->SetComponentLocation(RealDir * (StartInter + (45.0f * i)));
 	}
 }
 
@@ -71,6 +72,7 @@ void AWaddleBeam::Phase01(float _DeltaTime)
 	if (Time <= 0.0f)
 	{
 		Time = InterTime;
+		BGMPlayer = UEngineSound::Play("Beam.wav");
 		PhaseValue = Phase::Phase02;
 	}
 }
@@ -84,6 +86,7 @@ void AWaddleBeam::Phase02(float _DeltaTime)
 	if (Time <= 0.0f)
 	{
 		Time = InterTime;
+		BGMPlayer = UEngineSound::Play("Beam.wav");
 		PhaseValue = Phase::Phase03;
 	}
 }
@@ -97,6 +100,7 @@ void AWaddleBeam::Phase03(float _DeltaTime)
 	if (Time <= 0.0f)
 	{
 		Time = InterTime;
+		BGMPlayer = UEngineSound::Play("Beam.wav");
 		PhaseValue = Phase::Phase04;
 	}
 }
@@ -110,6 +114,7 @@ void AWaddleBeam::Phase04(float _DeltaTime)
 	if (Time <= 0.0f)
 	{
 		Time = InterTime;
+		BGMPlayer = UEngineSound::Play("Beam.wav");
 		PhaseValue = Phase::Phase05;
 	}
 }
@@ -123,6 +128,7 @@ void AWaddleBeam::Phase05(float _DeltaTime)
 	if (Time <= 0.0f)
 	{
 		Time = InterTime;
+		BGMPlayer = UEngineSound::Play("Beam.wav");
 		PhaseValue = Phase::Phase06;
 	}
 }
@@ -130,6 +136,10 @@ void AWaddleBeam::Phase05(float _DeltaTime)
 void AWaddleBeam::Phase06(float _DeltaTime)
 {
 	Destroy();
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
 }
 
 void AWaddleBeam::SetMosnterSkillCollision()

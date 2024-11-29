@@ -80,12 +80,12 @@ void ACutterSlider::Tick(float _DeltaTime)
 	{
 		AMonster* Monster = dynamic_cast<AMonster*>(MonsterAct);
 		Monster->SetMonsterState(EMonsterState::DIE);
-		Destroy();
+		SetActive(false);
 		return;
 	}
 
 	if (CurTime >= 2.1f)
 	{
-		Destroy();
+		SetActive(false);
 	}
 }

@@ -29,8 +29,6 @@ ULevel::~ULevel()
 		}
 	}
 
-
-
 	std::list<AActor*>::iterator StartIter = AllActors.begin();
 	std::list<AActor*>::iterator EndIter = AllActors.end();
 

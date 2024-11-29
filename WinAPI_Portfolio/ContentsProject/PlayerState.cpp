@@ -38,8 +38,7 @@ void PlayerState::SetLimitAccel(bool _IsDeAcc, float MaxSpeed)
 void PlayerState::Gravity(float _DeltaTime)
 {
 	FVector2D Power = GravityForce * _DeltaTime;
-	if (!Player->DownColorCheck(Power, UColor::MAGENTA) && !Player->DownColorCheck(Power, UColor::BLACK)
-		&& !Player->DownColorCheck(Power, UColor::YELLOW))
+	if (!Player->DownColorCheck(Power, UColor::MAGENTA) && !Player->DownColorCheck(Power, UColor::BLACK))
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
 		GravityForce += FVector2D::DOWN * GravityPower * _DeltaTime;
@@ -395,8 +394,7 @@ void PlayerState::Fall(float _DeltaTime)
 	ChangeFly();
 
 	if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
-		|| PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW) || PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA)
-		|| PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+		|| PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA)|| PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
 		SetPlayerState(EPlayerState::IDLE);
 		return;
@@ -499,7 +497,7 @@ void PlayerState::ClimbStart(float _DeltaTime)
 	}
 	else
 	{
-		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 54);
+		Player->GetPlayerRenderer()->SetSprite("Kirby_Normal_Left.png", 52);
 	}
 
 	if (IsPressKey(VK_DOWN))
@@ -520,12 +518,11 @@ void PlayerState::Climb(float _DeltaTime)
 
 	if (IsPressKey(VK_UP))
 	{
-		if (PixelPointCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW)
-			|| PixelPointCheck(ECheckDir::DOWN, UColor::BLACK))
+		if (PixelPointCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
 			AddActorLocation(FVector2D::UP * Speed * _DeltaTime);
 		}
-		if (!PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW) && PixelPointCheck(ECheckDir::UP, UColor::WHITE))
+		if (PixelLineCheck(ECheckDir::DOWN, UColor::BLACK) && PixelPointCheck(ECheckDir::UP, UColor::WHITE))
 		{
 			SetPlayerState(EPlayerState::IDLE);
 			return;
@@ -760,6 +757,12 @@ void PlayerState::ChangeWalkAndDash()
 	// Move & Dash
 	if (IsDoubleKey(VK_LEFT, 0.2f) || IsDoubleKey(VK_RIGHT, 0.2f))
 	{
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("Dash.wav");
+
 		SetPlayerState(EPlayerState::DASH);
 		return;
 	}
@@ -796,8 +799,7 @@ void PlayerState::ChangeFly()
 void PlayerState::ChangeFall()
 {
 	// Fall
-	if (!PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK) 
-		&& !PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
+	if (!PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK))
 	{
 		ResetDirForce();
 		SetPlayerState(EPlayerState::FALL);
@@ -844,7 +846,6 @@ void PlayerState::ChangeAttack()
 
 		if (EAbilityType::NORMAL == Player->GetCurAbility() && !GetPlayerFull())
 		{
-
 			SetPlayerState(EPlayerState::INHALESTART);
 			return;
 		}

@@ -18,6 +18,13 @@ public:
 		Control->setPaused(true);
 	}
 
+	bool IsPlaying()
+	{
+		bool Check = true;
+		Control->isPlaying(&Check);
+		return Check;
+	}
+
 	void OnOffSwtich()
 	{
 		bool Check = false;

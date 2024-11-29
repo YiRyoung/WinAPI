@@ -18,8 +18,9 @@ public:
 
 protected:
 	void BeginPlay() override;
-
 	void Tick(float _DeltaTime) override;
+	void LevelChangeStart() override;
+	void LevelChangeEnd() override;
 
 private:
 	class APlayer* NewPlayer = nullptr;

@@ -49,7 +49,7 @@ void AWindBullet::CollisionEnter(AActor* _ColActor)
 	if (nullptr != Result)
 	{
 		Result->SetMonsterState(EMonsterState::DIE);
-		Destroy();
+		SetActive(false);
 		return;
 	}
 }
@@ -80,10 +80,7 @@ void AWindBullet::Tick(float _DeltaTime)
 	else
 	{
 		Time = 0.0f;
-		if (nullptr != this)
-		{
-			Destroy();
-		}
+		SetActive(false);
 	}
 }
 

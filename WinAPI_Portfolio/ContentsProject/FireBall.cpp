@@ -88,7 +88,7 @@ void AFireBall::Tick(float _DeltaTime)
 
 	if (CurTime >= 3.8f)
 	{
-		Destroy();
+		SetActive(false);
 	}
 }
 

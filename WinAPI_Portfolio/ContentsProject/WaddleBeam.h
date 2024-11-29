@@ -1,6 +1,10 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+#include <EnginePlatform/EngineSound.h>
+
+#include "SoundManager.h"
+
 enum class Phase
 {
 	Phase01,
@@ -53,5 +57,7 @@ private:
 	float InterTime = 0.1f;
 	float Time = InterTime;
 	Phase PhaseValue = Phase::Phase01;
+
+	USoundPlayer BGMPlayer;
 };
 

@@ -6,6 +6,7 @@
 
 #include <EngineCore/Level.h>
 
+#include "Fade.h"
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
@@ -24,6 +25,8 @@ ABossGameMode::~ABossGameMode()
 void ABossGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	NewFade = GetWorld()->SpawnActor<AFade>();
 
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Boss.png");
@@ -58,5 +61,26 @@ void ABossGameMode::Tick(float _DeltaTime)
 	{
 		NewActor->SwitchColSprite();
 	}
+}
+
+void ABossGameMode::LevelChangeStart()
+{
+	Super::LevelChangeStart();
+	
+	NewFade->FadeOut();
+	
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
+	BGMPlayer = UEngineSound::Play("Boss Battle.mp3");
+	SoundManager.SetBGMSoundPlayer(BGMPlayer);
+}
+
+void ABossGameMode::LevelChangeEnd()
+{
+	Super::LevelChangeEnd();
+	
+	NewFade->FadeIn();
 }
 

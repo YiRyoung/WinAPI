@@ -29,23 +29,11 @@ public:
 		BGMPlayer = _Player;
 	}
 
-
-	USoundPlayer& GetEffectSoundPlayer()
-	{
-		return EffectPlayer;
-	}
-
-	void SetEffectSoundPlayer(USoundPlayer& _Player)
-	{
-		EffectPlayer = _Player;
-	}
-
 protected:
 
 private:
 	SoundManager();
 
 	USoundPlayer BGMPlayer;
-	USoundPlayer EffectPlayer;
 };
 

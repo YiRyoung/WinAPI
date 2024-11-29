@@ -19,11 +19,8 @@ void ATitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BGMPlayer = UEngineSound::Play("Title Theme.mp3");
-	BGMPlayer.Loop(10);
-	SoundManager.SetBGMSoundPlayer(BGMPlayer);
-
 	TitleMap* NewMap = GetWorld()->SpawnActor<TitleMap>();
+	Fade = GetWorld()->SpawnActor<AFade>();
 }
 
 
@@ -33,11 +30,26 @@ void ATitleGameMode::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::GetInst().IsDown(VK_SPACE))
 	{
-		AFade* Actor = GetWorld()->SpawnActor<AFade>();
-		Actor->FadeIn();
-		BGMPlayer.Off();
-		EffectPlayer = UEngineSound::Play("GameStart.wav");
-		SoundManager.SetEffectSoundPlayer(EffectPlayer);
+		Fade->FadeIn();
 		UEngineAPICore::GetCore()->OpenLevel("Stage101");
 	}
+}
+
+void ATitleGameMode::LevelChangeStart()
+{
+	Super::LevelChangeStart();
+	
+	BGMPlayer = UEngineSound::Play("Title Theme.mp3");
+	Fade->FadeOut();
+	SoundManager.SetBGMSoundPlayer(BGMPlayer);
+}
+
+void ATitleGameMode::LevelChangeEnd()
+{
+	Super::LevelChangeEnd();
+
+	BGMPlayer.Off();
+	BGMPlayer = UEngineSound::Play("GameStart.wav");
+	SoundManager.SetBGMSoundPlayer(BGMPlayer);
+
 }

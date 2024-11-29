@@ -35,11 +35,7 @@ void AStage101GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BGMPlayer = UEngineSound::Play("Vegetable Valley 1.mp3");
-	SoundManager.SetBGMSoundPlayer(BGMPlayer);
-
 	NewFade = GetWorld()->SpawnActor<AFade>();
-	NewFade->FadeOut();
 
 	NewHP = GetWorld()->SpawnActor<AHPGauge>();
 	NewAbility = GetWorld()->SpawnActor<AAbility>();
@@ -98,8 +94,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 	if (true == UEngineInput::GetInst().IsDown(VK_UP) 
 		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))
 	{
-		NewFade->FadeIn();
-		BGMPlayer.Off();
+
 		UEngineAPICore::GetCore()->OpenLevel("MidBoss");
 	}
 
@@ -107,5 +102,26 @@ void AStage101GameMode::Tick(float _DeltaTime)
 	{
 		NewActor->SwitchColSprite();
 	}
+}
+
+void AStage101GameMode::LevelChangeStart()
+{
+	Super::LevelChangeStart();
+
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
+	BGMPlayer = UEngineSound::Play("Vegetable Valley 1.mp3");
+	SoundManager.SetBGMSoundPlayer(BGMPlayer);
+	NewFade->FadeOut();
+}
+
+void AStage101GameMode::LevelChangeEnd()
+{
+	Super::LevelChangeEnd();
+
+	NewFade->FadeIn();
+	BGMPlayer.Off();
 }
  

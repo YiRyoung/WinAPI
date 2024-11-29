@@ -2,6 +2,8 @@
 #include <EngineCore/GameMode.h>
 #include <EnginePlatform/EngineSound.h>
 
+#include "SoundManager.h"
+
 class ABossGameMode : public AGameMode
 {
 public:
@@ -17,13 +19,18 @@ public:
 
 protected:
 	void BeginPlay() override;
-
 	void Tick(float _DeltaTime) override;
+	void LevelChangeStart() override;
+	void LevelChangeEnd() override;
 
 private:
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
 	class AScore* NewPlayerLife = nullptr;
 	class AScore* NewPlayerScore = nullptr;
+	class AFade* NewFade = nullptr;
+
+	SoundManager& SoundManager = SoundManager::GetInst();
+	USoundPlayer& BGMPlayer = SoundManager.GetBGMSoundPlayer();
 };
 

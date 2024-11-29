@@ -19,12 +19,14 @@ public:
 
 protected:
 	void BeginPlay() override;
-
 	void Tick(float _DeltaTime) override;
+	void LevelChangeStart() override;
+	void LevelChangeEnd() override;
 
 private:
+	class AFade* Fade = nullptr;
+
 	SoundManager& SoundManager = SoundManager::GetInst();
 	USoundPlayer& BGMPlayer = SoundManager.GetBGMSoundPlayer();
-	USoundPlayer& EffectPlayer = SoundManager.GetEffectSoundPlayer();
 };
 
