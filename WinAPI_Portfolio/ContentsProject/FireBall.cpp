@@ -19,6 +19,13 @@ AFireBall::AFireBall()
 	FireballRender->CreateAnimation("Fireball_Left", "HotHeadFire_Left.png", 0, 1, 0.08f);
 	FireballRender->CreateAnimation("Fireball_Right", "HotHeadFire_Right.png", 0, 1, 0.08f);
 	FireballRender->ChangeAnimation("Fireball_Left");
+
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
+	BGMPlayer = UEngineSound::Play("Fire.wav");
+	BGMPlayer.Loop(2);
 	DebugOn();
 }
 
@@ -55,6 +62,14 @@ void AFireBall::ChangeAnimation(std::string _AnimName)
 	FireballRender->ChangeAnimation(_AnimName + AnimDir);
 }
 
+void AFireBall::StopSound()
+{
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
+}
+
 void AFireBall::BeginPlay()
 {
 	Super::BeginPlay();
@@ -65,6 +80,7 @@ void AFireBall::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 	CurTime += _DeltaTime;
 
+
 	AActor* PlayerAct = FireballCollision->CollisionOnce(ECollisionGroup::PLAYERBODY);
 	if (nullptr != PlayerAct && (static_cast<int>(ECollisionGroup::MONSTERSKILL) == FireballCollision->GetGroup()))
 	{
@@ -74,6 +90,19 @@ void AFireBall::Tick(float _DeltaTime)
 			Player->SetCanHurt(false);
 			APlayer::PlayerHp--;
 		}
+
+		(true == Player->GetIsFull()) ? Player->ChangeAnimation("HurtFull") : Player->ChangeAnimation("Hurt");
+
+		if (APlayer::PlayerAbility == EAbilityType::NORMAL)
+		{
+			BGMPlayer = UEngineSound::Play("HurtNormal.wav");
+		}
+		else
+		{
+			BGMPlayer = UEngineSound::Play("HurtAbility.wav");
+			APlayer::PlayerAbility = EAbilityType::NORMAL;
+		}
+
 		Player->SetCurState(EPlayerState::HURT);
 		return;
 	}
@@ -86,8 +115,12 @@ void AFireBall::Tick(float _DeltaTime)
 		return;
 	}
 
-	if (CurTime >= 3.8f)
+	if (CurTime >= 3.2f)
 	{
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
 		SetActive(false);
 	}
 }

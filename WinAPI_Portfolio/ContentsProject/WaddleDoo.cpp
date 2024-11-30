@@ -102,7 +102,7 @@ void AWaddleDoo::SetAnimation()
 	SpriteRenderer->CreateAnimation("Attack_Right", "WaddleDoo_Right.png", 2, 3, 0.5f);
 
 	// Destroy
-	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.07f, false);
+	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.04f, false);
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Walk_Left");
@@ -110,14 +110,14 @@ void AWaddleDoo::SetAnimation()
 
 bool AWaddleDoo::CheckDistance()
 {
-	float Dis = AMonster::PlayerDistance;
+	float Dis = AMonster::PlayerDistanceX;
 	bool IsTrue = (abs(Dis) <= 200.0f) ? true : false;
 	return IsTrue;
 }
 
 bool AWaddleDoo::CheckDirect()
 {
-	float Dis = AMonster::PlayerDistance;
+	float Dis = AMonster::PlayerDistanceX;
 	
 	if (("_Left" == AnimDir && Dis >= 0) || ("_Right" == AnimDir && Dis < 0))
 	{

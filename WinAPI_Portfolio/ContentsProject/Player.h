@@ -3,6 +3,9 @@
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/2DCollision.h>
 
+#include <EnginePlatform/EngineSound.h>
+
+#include "SoundManager.h"
 #include "ContentsEnum.h"
 
 class APlayer : public AActor
@@ -104,6 +107,7 @@ public:
 	void CollisionEnter(AActor* _ColActor);
 	void CollisionStay(AActor* _ColActor);
 
+	class PlayerState* State = nullptr;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -117,8 +121,6 @@ private:
 	FVector2D AdjustScale = FVector2D::ZERO;
 	FVector2D PlayerScale = FVector2D::ZERO;
 
-	class PlayerState* State = nullptr;
-	class PlayerState* Ability = nullptr;
 	class UEngineWinImage* BackgroundImage = nullptr;
 	class UEngineWinImage* ColliderImage = nullptr;
 	USpriteRenderer* PlayerRenderer = nullptr;
@@ -138,5 +140,7 @@ private:
 	void SetPlayerCollision();
 	void ChangePlayerCollision();
 	void CameraMove();
+
+	USoundPlayer BGMPlayer;
 };
 

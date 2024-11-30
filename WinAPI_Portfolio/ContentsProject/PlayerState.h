@@ -52,6 +52,8 @@ public:
 	void FireStart(float _DeltaTime);
 	void Fire(float _DeltaTime);
 
+	void StopSound();
+
 protected:
 	APlayer* Player = nullptr;
 
@@ -136,7 +138,7 @@ private:
 	FVector2D DirForce = FVector2D::ZERO;		// 가속
 	void SetLimitAccel(bool _IsDeAcc, float MaxSpeed = 200.0f);
 
-	float JumpPower = 280.0f;
+	float JumpPower = 320.0f;
 	float GravityPower = 500.0f;				// 기본 중력
 	FVector2D GravityForce = FVector2D::ZERO;	// 중력 가속도
 	void Gravity(float _DeltaTime);

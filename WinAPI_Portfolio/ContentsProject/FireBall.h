@@ -1,6 +1,10 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+#include <EnginePlatform/EngineSound.h>
+
+#include "SoundManager.h"
+
 class AFireBall : public AActor
 {
 public:
@@ -20,6 +24,8 @@ public:
 	void SetPlayerSkillCollision();
 
 	void ChangeAnimation(std::string _AnimName);
+	void StopSound();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -32,5 +38,7 @@ private:
 	FVector2D Dir = FVector2D::ZERO;
 	class USpriteRenderer* FireballRender = nullptr;
 	class U2DCollision* FireballCollision = nullptr;
+
+	USoundPlayer BGMPlayer;
 };
 

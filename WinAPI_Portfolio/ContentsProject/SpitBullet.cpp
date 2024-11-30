@@ -64,8 +64,9 @@ void ASpitBullet::BeginPlay(float _DeltaTime)
 void ASpitBullet::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	Time += _DeltaTime;
 
-	if (Time <= 1.0f)
+	if (Time <= 3.0f)
 	{
 		Time += _DeltaTime;
 		AddActorLocation(Dir * Speed * _DeltaTime);

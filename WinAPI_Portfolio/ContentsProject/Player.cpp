@@ -115,11 +115,16 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 	if (CurState == EPlayerState::INHALESTART)
 	{
 		IsFull = true;
-		_ColActor->Destroy();
+		_ColActor->SetActive(false);
 	}
 	else if (CurState == EPlayerState::SLIDE)
 	{
 		SliderCollisionSwitch(false);
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("MonsterDie.wav");
 		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
 		return;
 	}
@@ -130,6 +135,12 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 			APlayer::PlayerHp--;
 			CanHurt = false;
 		}
+
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("MonsterDie.wav");
 
 		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
 		SetCurState(EPlayerState::HURTSTART);

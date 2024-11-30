@@ -194,12 +194,6 @@ void PlayerState::Dash(float _DeltaTime)
 
 void PlayerState::JumpStart(float _DeltaTime)
 {
-	if (PixelPointCheck(ECheckDir::UP, UColor::MAGENTA) || GravityForce == FVector2D::ZERO)
-	{
-		SetPlayerState(EPlayerState::IDLE);
-		return;
-	}
-
 	float Force = JumpPower - GravityForce.Y;
 
 	if (0.0f < Force)
@@ -247,9 +241,10 @@ void PlayerState::Jump(float _DeltaTime)
 {
 	ChangeFly();
 	ChangeAttack();
+
 	// Jumping
 	{
-		FVector2D Vector = FVector2D::UP;
+		FVector2D Vector = FVector2D::ZERO;
 
 		if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
 		{
@@ -260,7 +255,19 @@ void PlayerState::Jump(float _DeltaTime)
 			Vector += FVector2D::RIGHT * 0.5f;
 		}
 		DirForce.Normalize();
-		AddActorLocation(Vector * JumpPower * _DeltaTime);
+		AddActorLocation((Vector + FVector2D::UP) * JumpPower * _DeltaTime);
+
+		if (PixelPointCheck(ECheckDir::UP, UColor::MAGENTA) 
+			|| Player->DownColorCheck((FVector2D::DOWN + Vector) + (GravityForce * _DeltaTime), UColor::MAGENTA))
+		{
+			if (true == BGMPlayer.IsPlaying())
+			{
+				BGMPlayer.Stop();
+			}
+			BGMPlayer = UEngineSound::Play("Ground.wav");
+			SetPlayerState(EPlayerState::IDLE);
+			return;
+		}
 	}
 }
 
@@ -297,7 +304,6 @@ void PlayerState::FlyStart(float _DeltaTime)
 
 void PlayerState::Fly(float _DeltaTime)
 {
-	ChangeAnimation("Flying");
 	ChangeAnimation("Flying");
 
 	if (IsPressKey('X'))
@@ -345,6 +351,12 @@ void PlayerState::FlyEnd(float _DeltaTime)
 	if (IsAnimFinish())
 	{
 		Player->SpawnWind();
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("Wind.wav");
+
 
 		if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
 			|| PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
@@ -396,6 +408,11 @@ void PlayerState::Fall(float _DeltaTime)
 	if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
 		|| PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA)|| PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+		BGMPlayer = UEngineSound::Play("Ground.wav");
 		SetPlayerState(EPlayerState::IDLE);
 		return;
 	}
@@ -572,8 +589,25 @@ void PlayerState::Eat(float _DeltaTime)
 void PlayerState::HurtStart(float _DeltaTime)
 {
 	Player->GetPlayerRenderer()->ResetAnimationSpeed();
+	Player->SkillBoxCollisionSwitch(false);
+	Player->SliderCollisionSwitch(false);
 
 	(true == GetPlayerFull()) ? ChangeAnimation("HurtFull") : ChangeAnimation("Hurt");
+
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
+	if (APlayer::PlayerAbility == EAbilityType::NORMAL)
+	{
+		BGMPlayer = UEngineSound::Play("HurtNormal.wav");
+	}
+	else
+	{
+		BGMPlayer = UEngineSound::Play("HurtAbility.wav");
+		APlayer::PlayerAbility = EAbilityType::NORMAL;
+	}
+
 	SetPlayerState(EPlayerState::HURT);
 	return;
 }
@@ -582,9 +616,9 @@ void PlayerState::Hurt(float _DeltaTime)
 {
 	Gravity(_DeltaTime);
 	CurTime += _DeltaTime;
+
 	FVector2D Vector = FVector2D::ZERO;
 
-	// Force »ç¿ë
 	if ("_Left" == Player->GetAnimDir() && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
 	{
 		Vector += FVector2D::RIGHT;
@@ -594,7 +628,7 @@ void PlayerState::Hurt(float _DeltaTime)
 		Vector += FVector2D::LEFT;
 	}
 	Vector.Normalize();
-	
+
 	AddActorLocation(Vector * 100.0f * _DeltaTime);
 
 
@@ -627,6 +661,12 @@ void PlayerState::Inhale(float _DeltaTime)
 	{
 		ChangeAnimation("InhaleEnd");
 		Player->SkillBoxCollisionSwitch(false);
+
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+
 		SetPlayerFull(false);
 
 		if (IsAnimFinish())
@@ -638,6 +678,10 @@ void PlayerState::Inhale(float _DeltaTime)
 
 void PlayerState::InhaleEnd(float _DeltaTime)
 {
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
 	SetPlayerState(EPlayerState::IDLE);
 	return;
 }
@@ -645,7 +689,6 @@ void PlayerState::InhaleEnd(float _DeltaTime)
 void PlayerState::Spit(float _DeltaTime)
 {
 	ChangeAnimation("Spit");
-
 	if (IsAnimFinish())
 	{
 		SetPlayerFull(false);
@@ -709,10 +752,20 @@ void PlayerState::Fire(float _DeltaTime)
 {
 	if (IsUpKey('X'))
 	{
-		(Player->NewFireBall)->Destroy();
+		(Player->NewFireBall->StopSound());
+		(Player->NewFireBall)->SetActive(false);
 		SetPlayerState(EPlayerState::IDLE);
 		return;
 	}
+}
+
+void PlayerState::StopSound()
+{
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
+
 }
 
 void PlayerState::SkillStart(float _DeltaTime)
@@ -784,13 +837,12 @@ void PlayerState::ChangeJump()
 	// Jump
 	if (EPlayerState::BEND != GetPlayerState() && IsPressKey('Z'))
 	{
+		ResetDirForce();
 		if (true == BGMPlayer.IsPlaying())
 		{
 			BGMPlayer.Stop();
 		}
 		BGMPlayer = UEngineSound::Play("Jump.wav");
-
-		ResetDirForce();
 		SetPlayerState(EPlayerState::JUMP);
 		return;
 	}
@@ -857,6 +909,21 @@ void PlayerState::ChangeEat()
 	// Eat
 	if (IsPressKey(VK_DOWN) && GetPlayerFull())
 	{
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
+
+		if (EAbilityType::NORMAL == Player->GetCurMonsterAbility())
+		{
+			BGMPlayer = UEngineSound::Play("EatNormal.wav");
+		}
+		else
+		{
+			BGMPlayer = UEngineSound::Play("EatAbility.wav");
+		}
+
+
 		SetPlayerState(EPlayerState::EAT);
 		return;
 	}
@@ -870,12 +937,22 @@ void PlayerState::ChangeAttack()
 
 		if (EAbilityType::NORMAL == Player->GetCurAbility() && !GetPlayerFull())
 		{
+			if (true == BGMPlayer.IsPlaying())
+			{
+				BGMPlayer.Stop();
+			}
+			BGMPlayer = UEngineSound::Play("Inhale.wav");
 			SetPlayerState(EPlayerState::INHALESTART);
 			return;
 		}
 		else if (EAbilityType::NORMAL == Player->GetCurAbility() && GetPlayerFull())
 		{
 			Player->SpawnSpit();
+			if (true == BGMPlayer.IsPlaying())
+			{
+				BGMPlayer.Stop();
+			}
+			BGMPlayer = UEngineSound::Play("Spit.wav");
 			SetPlayerState(EPlayerState::SPIT);
 			return;
 		}

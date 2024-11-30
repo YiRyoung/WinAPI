@@ -27,7 +27,7 @@ protected:
 	void Tick(float _DeltaTime);
 
 private:
-	float Speed = 200.0f;
+	float Speed = 240.0f;
 	float Time = 0.0f;
 
 	class USpriteRenderer* SpitBulletRender = nullptr;

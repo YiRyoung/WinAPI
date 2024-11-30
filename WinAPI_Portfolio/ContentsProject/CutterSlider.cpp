@@ -18,6 +18,12 @@ ACutterSlider::ACutterSlider()
 
 	CutterSliderRender->CreateAnimation("Slider", "CutterSlider.png", 0, 3, 0.01f);
 	CutterSliderRender->ChangeAnimation("Slider");
+
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
+	BGMPlayer = UEngineSound::Play("Cutter.wav");
 	DebugOn();
 }
 
@@ -86,6 +92,10 @@ void ACutterSlider::Tick(float _DeltaTime)
 
 	if (CurTime >= 2.1f)
 	{
+		if (true == BGMPlayer.IsPlaying())
+		{
+			BGMPlayer.Stop();
+		}
 		SetActive(false);
 	}
 }

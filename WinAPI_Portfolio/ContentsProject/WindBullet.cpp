@@ -72,7 +72,7 @@ void AWindBullet::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	if (Time <= 0.7f)
+	if (Time <= 0.4f)
 	{
 		Time += _DeltaTime;
 		AddActorLocation(Dir * Speed * _DeltaTime);

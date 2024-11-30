@@ -22,7 +22,7 @@ void AWaddleDee::SetAnimation()
 	SpriteRenderer->CreateAnimation("Walk_Right", "WaddleDee_Right.png", 0, 1, 0.5f);
 
 	// Destory
-	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.07f, false);
+	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.04f, false);
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Walk_Left");

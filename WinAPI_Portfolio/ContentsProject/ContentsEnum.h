@@ -18,7 +18,9 @@ enum class ECollisionGroup
 	PLAYERSKILL,
 	INHALEBOX,
 	MONSTERBODY,
-	MONSTERSKILL
+	MONSTERSKILL,
+	OBSTACLE,
+	BOSS
 };
 
 enum class ECheckDir

@@ -30,6 +30,10 @@ AWaddleBeam::AWaddleBeam()
 		ArrDir[i].Normalize();
 	}
 
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
 	BGMPlayer = UEngineSound::Play("Beam.wav");
 	DebugOn();
 }

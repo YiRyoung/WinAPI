@@ -85,6 +85,9 @@
     <ClCompile Include="Shotzo.cpp">
       <Filter>ContentsObject\Global\Monster\Obstacle</Filter>
     </ClCompile>
+    <ClCompile Include="ShotBullet.cpp">
+      <Filter>ContentsObject\Global\Monster\Obstacle\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -171,6 +174,9 @@
     <ClInclude Include="Shotzo.h">
       <Filter>ContentsObject\Global\Monster\Obstacle</Filter>
     </ClInclude>
+    <ClInclude Include="ShotBullet.h">
+      <Filter>ContentsObject\Global\Monster\Obstacle\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -220,6 +226,9 @@
     </Filter>
     <Filter Include="ContentsObject\Global\Monster\Obstacle">
       <UniqueIdentifier>{b62208a8-ee93-427c-b4e1-f440f6b79c26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Monster\Obstacle\Bullet">
+      <UniqueIdentifier>{63265caf-23f3-48bd-8dab-20de492aa94b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
 #include <EngineCore/EngineCoreDebug.h>
 
 #include "Player.h"
+#include "PlayerState.h"
 
 #include "ContentsEnum.h"
 
@@ -24,7 +25,7 @@ AMonster::~AMonster()
 void AMonster::BeginPlay()
 {
 	Super::BeginPlay();
-	AnimDir = (PlayerDistance <= 0) ? "_Left" : "_Right";	 // 게임 시작 시 방향
+	AnimDir = (PlayerDistanceX <= 0) ? "_Left" : "_Right";	 // 게임 시작 시 방향
 }
 
 void AMonster::Tick(float _DeltaTime)
@@ -138,7 +139,8 @@ void AMonster::SetMonsterState(EMonsterState _State)
 
 void AMonster::SetDistance(FVector2D _PlayerLocation)
 {
-	PlayerDistance = GetActorLocation().X - _PlayerLocation.X;
+	PlayerDistanceX = GetActorLocation().X - _PlayerLocation.X;
+	PlayerDistanceY = GetActorLocation().Y - _PlayerLocation.Y;
 }
 
 void AMonster::Gravity(float _DeltaTime)
@@ -201,11 +203,11 @@ void AMonster::AttackEnd(float _DeltaTime)
 
 void AMonster::Inhale(float _DeltaTime)
 {
-	if (PlayerDistance >= 0)
+	if (PlayerDistanceX >= 0)
 	{
 		AddActorLocation(FVector2D::LEFT * 100.0f * _DeltaTime);
 	}
-	else if (PlayerDistance < 0)
+	else if (PlayerDistanceX < 0)
 	{
 		AddActorLocation(FVector2D::RIGHT * 100.0f * _DeltaTime);
 	}
@@ -215,11 +217,11 @@ void AMonster::Inhale(float _DeltaTime)
 	if (nullptr != InhalePlayer)
 	{
 		InhalePlayer->SetIsFull(true);
-
 		InhalePlayer->SkillBoxCollisionSwitch(false);
 		InhalePlayer->SetCurState(EPlayerState::IDLE);
+		InhalePlayer->State->StopSound();
 		InhalePlayer->SetCurMosnterAbility(MonsterAbility);
-		Destroy();
+		SetActive(false);
 	}
 
 	AActor* Actor = CollisionComponent->CollisionOnce(ECollisionGroup::INHALEBOX);
@@ -233,10 +235,9 @@ void AMonster::Inhale(float _DeltaTime)
 void AMonster::Die(float _DeltaTime)
 {
 	SpriteRenderer->ChangeAnimation("Destroy");
-
 	if (SpriteRenderer->IsCurAnimationEnd())
 	{
-		Destroy();
+		SetActive(false);
 	}
 }
 

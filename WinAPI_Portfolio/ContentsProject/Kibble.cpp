@@ -39,7 +39,7 @@ void AKibble::SetAnimation()
 	SpriteRenderer->CreateAnimation("Attack_Right", "Kibble_Right.png", {1, 0}, 0.5f);
 
 	// Destroy
-	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.07f, false);
+	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.04f, false);
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Idle_Left");
@@ -47,14 +47,14 @@ void AKibble::SetAnimation()
 
 bool AKibble::CheckDistance()
 {
-	float Dis = AMonster::PlayerDistance;
+	float Dis = AMonster::PlayerDistanceX;
 	bool IsTrue = (abs(Dis) <= 200.0f) ? true : false;
 	return IsTrue;
 }
 
 bool AKibble::CheckDirect()
 {
-	float Dis = AMonster::PlayerDistance;
+	float Dis = AMonster::PlayerDistanceX;
 
 	if (("_Left" == AnimDir && Dis >= 0) || ("_Right" == AnimDir && Dis < 0))
 	{
@@ -65,7 +65,7 @@ bool AKibble::CheckDirect()
 
 void AKibble::LookPlayer()
 {
-	if (AMonster::PlayerDistance >= 0)
+	if (AMonster::PlayerDistanceX >= 0)
 	{
 		AnimDir = "_Left";
 	}
@@ -80,7 +80,7 @@ void AKibble::Pause(float _DeltaTime)
 	Gravity(_DeltaTime);
 	ChangeMonsterAnim("Idle");
 
-	if (CurTime >= 5.0f)
+	if (CurTime >= 5.0f && CheckDistance())
 	{
 		CurTime = 0.0f;
 		LookPlayer();

@@ -35,6 +35,7 @@ private:
 	class AMonster* NewWaddleDee = nullptr;
 	class AMonster* NewWaddleDoo = nullptr;
 	class AMonster* NewKibble = nullptr;
+	class AMonster* NewShotZo = nullptr;
 
 	SoundManager& SoundManager = SoundManager::GetInst();
 	USoundPlayer& BGMPlayer = SoundManager.GetBGMSoundPlayer();

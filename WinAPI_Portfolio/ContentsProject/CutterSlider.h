@@ -1,6 +1,10 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+#include <EnginePlatform/EngineSound.h>
+
+#include "SoundManager.h"
+
 class ACutterSlider : public AActor
 {
 public:
@@ -34,5 +38,7 @@ private:
 
 	class USpriteRenderer* CutterSliderRender = nullptr;
 	class U2DCollision* CutterSliderCollision = nullptr;
+
+	USoundPlayer BGMPlayer;
 };
 

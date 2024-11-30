@@ -16,6 +16,7 @@ public:
 
 	void Pause(float _DeltaTime) override;
 	void Chase(float _DeltaTime) override;
+	void Inhale(float _DeltaTime) override;
 	void AttackStart(float _DeltaTime) override;
 	void Attack(float _DeltaTime) override;
 	void AttackEnd(float _DeltaTime) override;

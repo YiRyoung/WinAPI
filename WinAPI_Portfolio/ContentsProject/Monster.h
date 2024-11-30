@@ -1,6 +1,5 @@
 #pragma once
 #include <EngineCore/Actor.h>
-
 #include <EngineCore/2DCollision.h>
 
 #include "ContentsEnum.h"
@@ -53,7 +52,8 @@ protected:
 	class USpriteRenderer* SpriteRenderer = nullptr;
 	class U2DCollision* CollisionComponent = nullptr;
 
-	float PlayerDistance = 0.0f;
+	float PlayerDistanceX = 0.0f;
+	float PlayerDistanceY = 0.0f;
 	std::string AnimDir = "_Left";
 private:
 	float Speed = 60.0f;

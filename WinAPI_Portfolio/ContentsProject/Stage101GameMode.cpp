@@ -20,6 +20,7 @@
 #include "WaddleDee.h"
 #include "WaddleDoo.h"
 #include "Kibble.h"
+#include "ShotZo.h"
 
 #include "ContentsEnum.h"
 
@@ -64,6 +65,10 @@ void AStage101GameMode::BeginPlay()
 	NewKibble->GetColImage("ColStage101.png");
 	NewKibble->SetActorLocation({ 2400, 230 });
 
+	NewShotZo = GetWorld()->SpawnActor<AShotzo>();
+	NewShotZo->GetColImage("ColStage101.png");
+	NewShotZo->SetActorLocation({ 2048, 275 });
+
 	NewPlayerLife = GetWorld()->SpawnActor<AScore>();
 	NewPlayerLife->SetActorLocation({ 686, 608 });
 	NewPlayerLife->SetHPSpriteName("Score.png");
@@ -89,6 +94,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 	NewWaddleDee->SetDistance(NewPlayer->GetActorLocation());
 	NewWaddleDoo->SetDistance(NewPlayer->GetActorLocation());
 	NewKibble->SetDistance(NewPlayer->GetActorLocation());
+	NewShotZo->SetDistance(NewPlayer->GetActorLocation());
 
 
 	if (true == UEngineInput::GetInst().IsDown(VK_UP) 

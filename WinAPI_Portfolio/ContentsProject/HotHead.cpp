@@ -32,7 +32,7 @@ void AHotHead::Tick(float _DeltaTime)
 
 	if (EMonsterState::INHALE == GetMonsterState() && nullptr != NewFireBall)
 	{
-		NewFireBall->Destroy();
+		NewFireBall->SetActive(false);
 	}
 }
 
@@ -51,7 +51,7 @@ void AHotHead::SetAnimation()
 	SpriteRenderer->CreateAnimation("AttackEnd_Right", "HotHead_Right.png", { 3, 2 }, 0.07f);
 
 	// Destroy
-	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.07f, false);
+	SpriteRenderer->CreateAnimation("Destroy", "Destory.png", 4, 6, 0.04f, false);
 
 	// Start Animation
 	SpriteRenderer->ChangeAnimation("Walk_Left");
@@ -59,14 +59,14 @@ void AHotHead::SetAnimation()
 
 bool AHotHead::CheckDistance()
 {
-	float Dis = AMonster::PlayerDistance;
+	float Dis = AMonster::PlayerDistanceX;
 	bool IsTrue = (abs(Dis) <= 200.0f) ? true : false;
 	return IsTrue;
 }
 
 bool AHotHead::CheckDirect()
 {
-	float Dis = AMonster::PlayerDistance;
+	float Dis = AMonster::PlayerDistanceX;
 
 	if (("_Left" == AnimDir && Dis >= 0) || ("_Right" == AnimDir && Dis < 0))
 	{
@@ -99,6 +99,13 @@ void AHotHead::Chase(float _DeltaTime)
 	}
 }
 
+void AHotHead::Inhale(float _DeltaTime)
+{
+	AMonster::Inhale(_DeltaTime);
+	
+	NewFireBall->StopSound();
+}
+
 void AHotHead::AttackStart(float _DeltaTime)
 {
 	ChangeMonsterAnim("AttackStart");
@@ -127,7 +134,7 @@ void AHotHead::Attack(float _DeltaTime)
 
 void AHotHead::AttackEnd(float _DeltaTime)
 {
-	if (CurTime >= 3.8f)
+	if (CurTime >= 3.2f)
 	{
 		ChangeMonsterAnim("AttackEnd");
 		if (SpriteRenderer->IsCurAnimationEnd())
@@ -142,5 +149,6 @@ void AHotHead::AttackEnd(float _DeltaTime)
 void AHotHead::Die(float _DeltaTime)
 {
 	AMonster::Die(_DeltaTime);
+	NewFireBall->StopSound();
 	NewFireBall->SetActive(false);
 }
