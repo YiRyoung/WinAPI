@@ -25,6 +25,5 @@ void AAbility::SetSprite(std::string _Ability, int _CurAbilityTpye)
 	FVector2D SprtieSize = UEngineAPICore::GetCore()->GetMainWindow().GetWindowSize();
 	FVector2D SprtiePos = { 0.0f, SprtieSize.Y - SpriteScale.Y + 1.0f };
 	AbilityRenderer->SetComponentLocation(SpriteScale.Half() + SprtiePos + FVector2D({450, -50}));
-
 }
 

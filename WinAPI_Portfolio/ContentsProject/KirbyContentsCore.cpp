@@ -96,6 +96,13 @@ void KirbyContentsCore::CuttingImages()
 	// Obstacle Monster
 	UImageManager::GetInst().CuttingSprite("Shotzo.png", { 51, 51 });
 
+	// MidBoss
+	UImageManager::GetInst().CuttingSprite("MrFrosty_Left.png", { 75, 84 });
+	UImageManager::GetInst().CuttingSprite("MrFrosty_Right.png", { 75, 84 });
+
+	// Boss
+	UImageManager::GetInst().CuttingSprite("WhispyWood.png", { 175, 300 });
+	UImageManager::GetInst().CuttingSprite("WhispySkill.png", { 50, 50 });
 }
 
 void KirbyContentsCore::LoadSounds()
@@ -128,5 +135,5 @@ void KirbyContentsCore::SetWorld()
 	UEngineAPICore::GetCore()->CreateLevel<ABossGameMode, APlayer>("Boss");
 
 	// StartLevel
-	UEngineAPICore::GetCore()->OpenLevel("Stage101");
+	UEngineAPICore::GetCore()->OpenLevel("MidBoss");
 }

@@ -88,6 +88,9 @@
     <ClCompile Include="ShotBullet.cpp">
       <Filter>ContentsObject\Global\Monster\Obstacle\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="MrFrosty.cpp">
+      <Filter>ContentsObject\Global\Monster\MidBoss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KirbyContentsCore.h">
@@ -177,6 +180,9 @@
     <ClInclude Include="ShotBullet.h">
       <Filter>ContentsObject\Global\Monster\Obstacle\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="MrFrosty.h">
+      <Filter>ContentsObject\Global\Monster\MidBoss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -229,6 +235,9 @@
     </Filter>
     <Filter Include="ContentsObject\Global\Monster\Obstacle\Bullet">
       <UniqueIdentifier>{63265caf-23f3-48bd-8dab-20de492aa94b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Monster\MidBoss">
+      <UniqueIdentifier>{ea41caeb-b1f5-41c8-9472-4052eca5d080}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

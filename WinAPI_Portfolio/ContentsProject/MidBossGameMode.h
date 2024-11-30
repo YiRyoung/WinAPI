@@ -33,6 +33,7 @@ private:
 	class AScore* NewPlayerScore = nullptr;
 	class AFade* NewFade = nullptr;
 	class AMonster* NewHotHead = nullptr;
+	class AMrFrosty* NewFrosty = nullptr;
 
 	SoundManager& SoundManager = SoundManager::GetInst();
 	USoundPlayer& BGMPlayer = SoundManager.GetBGMSoundPlayer();
