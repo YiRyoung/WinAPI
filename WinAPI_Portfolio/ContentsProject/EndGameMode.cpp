@@ -15,9 +15,8 @@ AEndGameMode::~AEndGameMode()
 void AEndGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
-	EndMap* NewEndMap = GetWorld()->SpawnActor<EndMap>();
-	NewFade = GetWorld()->SpawnActor<AFade>();
+	NewActor = GetWorld()->SpawnActor<EndMap>();
+	NewFade = GetWorld()->SpawnActor<AFade>();	
 }
 
 void AEndGameMode::Tick(float _DeltaTime)
@@ -28,7 +27,7 @@ void AEndGameMode::Tick(float _DeltaTime)
 void AEndGameMode::LevelChangeStart()
 {
 	Super::LevelChangeStart();
-
+	NewFade->FadeOut();
 	if (true == BGMPlayer.IsPlaying())
 	{
 		BGMPlayer.Stop();

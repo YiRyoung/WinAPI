@@ -16,18 +16,15 @@ EndMap::EndMap()
 		SpriteRenderer->SetComponentLocation(MapScale.Half());
 	}
 
-	{
-		USpriteRenderer* KirbyRenderer = CreateDefaultSubObject<USpriteRenderer>();
-		KirbyRenderer->SetOrder(ERenderOrder::PLAYER);
-		KirbyRenderer->SetSprite("Kirby_Normal_Right.png");
-		KirbyRenderer->CreateAnimation("Ending", "Kirby_Normal_Right.png", 65, 70, 0.04f, false);
-
-		FVector2D KirbyScale = KirbyRenderer->SetSpriteScale(1.0f);
-		KirbyRenderer->SetComponentLocation({ 380.0f, 360.0f });
-	}
+	KirbyRenderer = CreateDefaultSubObject<USpriteRenderer>();
+	KirbyRenderer->SetOrder(ERenderOrder::PLAYER);
+	KirbyRenderer->SetSprite("Kirby_Normal_Right.png");
+	KirbyRenderer->CreateAnimation("Ending", "Kirby_Normal_Right.png", 58, 60, 0.5f, false);
+	KirbyRenderer->ChangeAnimation("Ending");
+	FVector2D KirbyScale = KirbyRenderer->SetSpriteScale(3.0f);
+	KirbyRenderer->SetComponentLocation({ 380.0f, 420.0f });
 }
 
 EndMap::~EndMap()
 {
 }
-

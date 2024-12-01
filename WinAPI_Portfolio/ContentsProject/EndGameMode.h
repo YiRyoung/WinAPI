@@ -17,13 +17,17 @@ public:
 	AEndGameMode& operator=(const AEndGameMode& _Other) = delete;
 	AEndGameMode& operator=(AEndGameMode&& _Other) noexcept = delete;
 
+	void SetKirby();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
+
 private:
-	class AStage* NewActor = nullptr;
+	float CurTime = 0.0f;
+	class EndMap* NewActor = nullptr;
 	class AFade* NewFade = nullptr;
 
 	SoundManager& SoundManager = SoundManager::GetInst();

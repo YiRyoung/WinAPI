@@ -18,6 +18,7 @@ protected:
 
 private:
 	class USpriteRenderer* KirbyRenderer = nullptr;
+	class USpriteRenderer* EndRenderer = nullptr;
 	FVector2D KirbyScale = FVector2D::ZERO;
 };
 
