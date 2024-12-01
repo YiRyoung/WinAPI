@@ -6,11 +6,15 @@
 
 #include <EngineCore/Level.h>
 
-#include "Fade.h"
 #include "Player.h"
 #include "Stage.h"
 #include "HUI.h"
+#include "HPGauge.h"
+#include "Ability.h"
 #include "Score.h"
+#include "Fade.h"
+
+#include "WisphyWood.h"
 
 #include "ContentsEnum.h"
 
@@ -28,12 +32,15 @@ void ABossGameMode::BeginPlay()
 
 	NewFade = GetWorld()->SpawnActor<AFade>();
 
+	NewHP = GetWorld()->SpawnActor<AHPGauge>();
+	NewAbility = GetWorld()->SpawnActor<AAbility>();
+
 	NewActor = GetWorld()->SpawnActor<AStage>();
 	NewActor->SetSprite("Boss.png");
 	NewActor->SetColSprite("ColBoss.png");
 	NewActor->SwitchColSprite();
 
-	APlayer* Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
+	Player = dynamic_cast<APlayer*>(GetWorld()->GetPawn());
 	Player->GetBackgroundImage("Boss.png", "ColBoss.png");
 	Player->SetActorLocation({ 90, 116 });
 
@@ -51,11 +58,19 @@ void ABossGameMode::BeginPlay()
 	NewPlayerScore->SetHPSpriteName("Score.png");
 	NewPlayerScore->SetOrder(ERenderOrder::HUITEXT);
 	NewPlayerScore->SetTextScale({ 26, 27 });
+
+	NewBoss = GetWorld()->SpawnActor<AWisphyWood>();
+	NewBoss->SetActorLocation({ 588, 910});
+	NewBoss->SetColImage("ColBoss.png");
 }
 
 void ABossGameMode::Tick(float _DeltaTime)
 {
 	NewPlayerLife->SetValue(APlayer::PlayerLife);
+	NewPlayerScore->SetValue(APlayer::Score);
+	NewHP->SetHPGauge(APlayer::PlayerHp);
+	NewAbility->SetSprite("Ability.png", static_cast<int>(APlayer::PlayerAbility));
+	NewBoss->SetPlayerLocation(Player->GetActorLocation());
 
 	if (true == UEngineInput::GetInst().IsDown('T'))
 	{

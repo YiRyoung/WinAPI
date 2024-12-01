@@ -88,8 +88,17 @@
     <ClCompile Include="ShotBullet.cpp">
       <Filter>ContentsObject\Global\Monster\Obstacle\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="MrFrosty.cpp">
-      <Filter>ContentsObject\Global\Monster\MidBoss</Filter>
+    <ClCompile Include="WisphyWood.cpp">
+      <Filter>ContentsObject\Global\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Apple.cpp">
+      <Filter>ContentsObject\Global\Monster\Boss\BossSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGameMode.cpp">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="EndMap.cpp">
+      <Filter>ContentsObject\Maps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,8 +189,17 @@
     <ClInclude Include="ShotBullet.h">
       <Filter>ContentsObject\Global\Monster\Obstacle\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="MrFrosty.h">
-      <Filter>ContentsObject\Global\Monster\MidBoss</Filter>
+    <ClInclude Include="WisphyWood.h">
+      <Filter>ContentsObject\Global\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Apple.h">
+      <Filter>ContentsObject\Global\Monster\Boss\BossSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGameMode.h">
+      <Filter>ContentsObject\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="EndMap.h">
+      <Filter>ContentsObject\Maps</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,8 +254,11 @@
     <Filter Include="ContentsObject\Global\Monster\Obstacle\Bullet">
       <UniqueIdentifier>{63265caf-23f3-48bd-8dab-20de492aa94b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ContentsObject\Global\Monster\MidBoss">
-      <UniqueIdentifier>{ea41caeb-b1f5-41c8-9472-4052eca5d080}</UniqueIdentifier>
+    <Filter Include="ContentsObject\Global\Monster\Boss">
+      <UniqueIdentifier>{e628858e-6173-45e8-a39f-b74a7f1ffeb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentsObject\Global\Monster\Boss\BossSkill">
+      <UniqueIdentifier>{021ff481-d30b-4301-8c0a-e7b9182268d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

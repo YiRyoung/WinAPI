@@ -24,11 +24,16 @@ protected:
 	void LevelChangeEnd() override;
 
 private:
+	class APlayer* Player = nullptr;
 	class AStage* NewActor = nullptr;
 	class AHUI* NewUI = nullptr;
+	class AHPGauge* NewHP = nullptr;
+	class AAbility* NewAbility = nullptr;
 	class AScore* NewPlayerLife = nullptr;
 	class AScore* NewPlayerScore = nullptr;
 	class AFade* NewFade = nullptr;
+
+	class AWisphyWood* NewBoss = nullptr;
 
 	SoundManager& SoundManager = SoundManager::GetInst();
 	USoundPlayer& BGMPlayer = SoundManager.GetBGMSoundPlayer();

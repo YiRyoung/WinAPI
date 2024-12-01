@@ -9,7 +9,6 @@
 #include "Player.h"
 #include "Monster.h"
 #include "HotHead.h"
-#include "MrFrosty.h"
 
 #include "Stage.h"
 #include "HUI.h"
@@ -64,9 +63,6 @@ void AMidBossGameMode::BeginPlay()
 	NewPlayerScore->SetHPSpriteName("Score.png");
 	NewPlayerScore->SetOrder(ERenderOrder::HUITEXT);
 	NewPlayerScore->SetTextScale({ 26, 27 });
-
-	NewFrosty = GetWorld()->SpawnActor<AMrFrosty>();
-	NewFrosty->SetActorLocation({ 650, 310 });
 }
 
 void AMidBossGameMode::Tick(float _DeltaTime)

@@ -151,7 +151,19 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Apple.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CutterSlider.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EndGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EndMap.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -172,10 +184,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="HPGauge.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="MrFrosty.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -265,9 +273,25 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WisphyWood.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Apple.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CutterSlider.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EndGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EndMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -288,10 +312,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="HPGauge.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="MrFrosty.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -381,6 +401,10 @@
     </ClCompile>
     <ClCompile Include="WaddleDoo.cpp" />
     <ClCompile Include="WindBullet.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WisphyWood.cpp">
       <SubType>
       </SubType>
     </ClCompile>

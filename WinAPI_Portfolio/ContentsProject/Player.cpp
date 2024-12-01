@@ -53,17 +53,16 @@ void APlayer::Tick(float _DeltaTime)
 	// Debug Log
 	UEngineDebug::CoreOutPutString("FPS : " + std::to_string(1.0f / _DeltaTime));
 	UEngineDebug::CoreOutPutString("PlayerPos : " + GetActorLocation().ToString());
-	UEngineDebug::CoreOutPutString("AdjustSize : " + AdjustValue.ToString());
 	UEngineDebug::CoreOutPutString("PlayerState : " + std::to_string(static_cast<int>(CurState)));
 	UEngineDebug::CoreOutPutString("PlayerAbility : " + std::to_string(static_cast<int>(PlayerAbility)));
-	UEngineDebug::CoreOutPutString("CurMonsterType : " + std::to_string(static_cast<int>(CurMonsterAbility)));
-	UEngineDebug::CoreOutPutString("PlayerDir : " + AnimDir);
 
 	SetAnimDir();
 	SetAdjustSize();
 	ChangePlayerCollision();
 	FSM(_DeltaTime);
 	CameraMove();
+
+	(true == CanHurt) ? PlayerCollision->SetActive(true) : PlayerCollision->SetActive(false);
 }
 
 void APlayer::SpawnWind()

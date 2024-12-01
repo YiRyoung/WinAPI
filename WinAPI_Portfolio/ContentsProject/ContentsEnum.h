@@ -20,7 +20,8 @@ enum class ECollisionGroup
 	MONSTERBODY,
 	MONSTERSKILL,
 	OBSTACLE,
-	BOSS
+	BOSS,
+	BLOCK
 };
 
 enum class ECheckDir

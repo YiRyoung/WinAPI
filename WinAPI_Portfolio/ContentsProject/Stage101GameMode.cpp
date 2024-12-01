@@ -101,7 +101,7 @@ void AStage101GameMode::Tick(float _DeltaTime)
 		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))
 	{
 
-		UEngineAPICore::GetCore()->OpenLevel("MidBoss");
+		UEngineAPICore::GetCore()->OpenLevel("Boss");
 	}
 
 	if (true == UEngineInput::GetInst().IsDown('T'))
