@@ -132,10 +132,10 @@ void KirbyContentsCore::SetWorld()
 	// Levels
 	UEngineAPICore::GetCore()->CreateLevel<ATitleGameMode, AActor>("Title");
 	UEngineAPICore::GetCore()->CreateLevel<AStage101GameMode, APlayer>("Stage101");
-	UEngineAPICore::GetCore()->CreateLevel<AMidBossGameMode, APlayer>("MidBoss");
+	//UEngineAPICore::GetCore()->CreateLevel<AMidBossGameMode, APlayer>("MidBoss");
 	UEngineAPICore::GetCore()->CreateLevel<ABossGameMode, APlayer>("Boss");
 	UEngineAPICore::GetCore()->CreateLevel<AEndGameMode, AActor>("Ending");
 
 	// StartLevel
-	UEngineAPICore::GetCore()->OpenLevel("Title");
+	UEngineAPICore::GetCore()->OpenLevel("Ending");
 }

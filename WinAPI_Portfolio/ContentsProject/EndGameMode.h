@@ -17,7 +17,6 @@ public:
 	AEndGameMode& operator=(const AEndGameMode& _Other) = delete;
 	AEndGameMode& operator=(AEndGameMode&& _Other) noexcept = delete;
 
-	void SetKirby();
 
 protected:
 	void BeginPlay() override;

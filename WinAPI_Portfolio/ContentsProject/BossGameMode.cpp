@@ -95,7 +95,5 @@ void ABossGameMode::LevelChangeStart()
 void ABossGameMode::LevelChangeEnd()
 {
 	Super::LevelChangeEnd();
-	
-	NewFade->FadeIn();
 }
 
