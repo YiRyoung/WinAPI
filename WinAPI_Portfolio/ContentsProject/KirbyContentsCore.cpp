@@ -137,5 +137,5 @@ void KirbyContentsCore::SetWorld()
 	UEngineAPICore::GetCore()->CreateLevel<AEndGameMode, AActor>("Ending");
 
 	// StartLevel
-	UEngineAPICore::GetCore()->OpenLevel("Ending");
+	UEngineAPICore::GetCore()->OpenLevel("Title");
 }
