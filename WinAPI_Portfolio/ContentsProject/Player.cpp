@@ -21,7 +21,7 @@
 
 int APlayer::PlayerLife = 4;
 int APlayer::PlayerHp = 6;
-int APlayer::Score = 12345;
+int APlayer::Score = 10500;
 EAbilityType APlayer::PlayerAbility = EAbilityType::NORMAL;
 
 APlayer::APlayer()
@@ -114,6 +114,7 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 	if (CurState == EPlayerState::INHALESTART)
 	{
 		IsFull = true;
+		APlayer::Score += 300;
 		_ColActor->SetActive(false);
 	}
 	else if (CurState == EPlayerState::SLIDE)
@@ -124,6 +125,7 @@ void APlayer::CollisionEnter(AActor* _ColActor)
 			BGMPlayer.Stop();
 		}
 		BGMPlayer = UEngineSound::Play("MonsterDie.wav");
+		APlayer::Score += 500;
 		dynamic_cast<AMonster*>(_ColActor)->SetMonsterState(EMonsterState::DIE);
 		return;
 	}

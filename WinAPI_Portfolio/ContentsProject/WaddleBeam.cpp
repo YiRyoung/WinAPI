@@ -196,6 +196,7 @@ void AWaddleBeam::PlayerSkillCollisionEnter(AActor* _ColActor)
 	AMonster* Monster = dynamic_cast<AMonster*>(_ColActor);
 	if (nullptr != Monster)
 	{
+		APlayer::Score += 700;
 		Monster->SetMonsterState(EMonsterState::DIE);
 		return;
 	}

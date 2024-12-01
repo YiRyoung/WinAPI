@@ -10,6 +10,7 @@
 #include <EngineCore/2DCollision.h>
 
 #include "Fade.h"
+#include "Player.h"
 #include "ContentsEnum.h"
 
 AWisphyWood::AWisphyWood()
@@ -274,6 +275,7 @@ void AWisphyWood::HurtStart(float _DeltaTime)
 void AWisphyWood::Hurt(float _DeltaTime)
 {
 	SpriteRenderer->ChangeAnimation("Idle");
+	APlayer::Score += 700;
 	CurSavePos = ESavePos::Pos1;
 	CurPhase = EAttackPhase::Phase1;
 	CurState = EBossState::PAUSE;
@@ -283,6 +285,7 @@ void AWisphyWood::Hurt(float _DeltaTime)
 void AWisphyWood::Died(float _DeltaTime)
 {
 	SpriteRenderer->ChangeAnimation("Die");
+	APlayer::Score += 1500;
 	NewFade = GetWorld()->SpawnActor<AFade>();
 	NewFade->FadeIn();
 	CurTime = 0.0f;

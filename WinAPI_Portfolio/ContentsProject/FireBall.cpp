@@ -110,6 +110,7 @@ void AFireBall::Tick(float _DeltaTime)
 	AActor* MonsterAct = FireballCollision->CollisionOnce(ECollisionGroup::MONSTERBODY);
 	if (nullptr != MonsterAct && (static_cast<int>(ECollisionGroup::PLAYERSKILL) == FireballCollision->GetGroup()))
 	{
+		APlayer::Score += 700;
 		AMonster* Monster = dynamic_cast<AMonster*>(MonsterAct);
 		Monster->SetMonsterState(EMonsterState::DIE);
 		return;

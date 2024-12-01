@@ -3,6 +3,7 @@
 
 #include <EngineCore/SpriteRenderer.h>
 
+#include "Player.h"
 #include "CutterSlider.h"
 
 AKibble::AKibble()
@@ -131,6 +132,7 @@ void AKibble::AttackEnd(float _DeltaTime)
 
 void AKibble::Die(float _DeltaTime)
 {
+	APlayer::Score += 700;
 	AMonster::Die(_DeltaTime);
 	NewSlider->SetActive(false);
 }

@@ -85,6 +85,7 @@ void ACutterSlider::Tick(float _DeltaTime)
 	if (nullptr != MonsterAct && (static_cast<int>(ECollisionGroup::PLAYERSKILL) == CutterSliderCollision->GetGroup()))
 	{
 		AMonster* Monster = dynamic_cast<AMonster*>(MonsterAct);
+		APlayer::Score += 700;
 		Monster->SetMonsterState(EMonsterState::DIE);
 		SetActive(false);
 		return;

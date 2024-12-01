@@ -3,6 +3,7 @@
 
 #include <EngineCore/SpriteRenderer.h>
 
+#include "Player.h"
 #include "WaddleBeam.h"
 
 AWaddleDoo::AWaddleDoo()
@@ -78,7 +79,7 @@ void AWaddleDoo::AttackEnd(float _DeltaTime)
 void AWaddleDoo::Die(float _DeltaTime)
 {
 	AMonster::Die(_DeltaTime);
-
+	APlayer::Score += 700;
 	if (NewWaddleBeam != nullptr)
 	{
 		NewWaddleBeam->SetActive(false);

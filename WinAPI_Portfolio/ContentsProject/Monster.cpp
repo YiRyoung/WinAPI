@@ -216,6 +216,7 @@ void AMonster::Inhale(float _DeltaTime)
 	APlayer* InhalePlayer = dynamic_cast<APlayer*>(Inhale);
 	if (nullptr != InhalePlayer)
 	{
+		APlayer::Score += 500;
 		InhalePlayer->SetIsFull(true);
 		InhalePlayer->SkillBoxCollisionSwitch(false);
 		InhalePlayer->SetCurState(EPlayerState::IDLE);

@@ -72,6 +72,7 @@ void AApple::Tick(float _DeltaTime)
 		InhalePlayer->SkillBoxCollisionSwitch(false);
 		InhalePlayer->SetCurState(EPlayerState::IDLE);
 		InhalePlayer->State->StopSound();
+		APlayer::Score += 150;
 		SetActive(false);
 	}
 	else if (nullptr != InhalePlayer && EPlayerState::INHALE != InhalePlayer->GetCurState())
