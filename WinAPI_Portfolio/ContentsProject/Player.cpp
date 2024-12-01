@@ -267,9 +267,9 @@ void APlayer::SetAnimation()
 	PlayerRenderer->CreateAnimation("Fire_Left", "Kirby_Ability_Left.png", 9, 10, 0.05f);
 	PlayerRenderer->CreateAnimation("Fire_Right", "Kirby_Ability_Right.png", 9, 10, 0.05f);
 
-	// Enter NectStage
-	PlayerRenderer->CreateAnimation("Fire_Left", "Kirby_Ability_Left.png", 9, 10, 0.05f);
-	PlayerRenderer->CreateAnimation("Fire_Right", "Kirby_Ability_Right.png", 9, 10, 0.05f);
+	// Enter NextStage
+	PlayerRenderer->CreateAnimation("NextStage_Left", "Kirby_Ability_Left.png", 55, 56, 0.05f);
+	PlayerRenderer->CreateAnimation("NextStage_Right", "Kirby_Ability_Right.png", 55, 56, 0.05f);
 
 	PlayerRenderer->ChangeAnimation("Idle_Right");
 }

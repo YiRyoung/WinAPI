@@ -98,9 +98,9 @@ void AStage101GameMode::Tick(float _DeltaTime)
 
 
 	if (true == UEngineInput::GetInst().IsDown(VK_UP) 
-		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))
+		&& (NewPlayer->PixelLineCheck(ECheckDir::UP, UColor::RED) || 
+			NewPlayer->PixelLineCheck(ECheckDir::DOWN, UColor::RED)))
 	{
-
 		UEngineAPICore::GetCore()->OpenLevel("Boss");
 	}
 
@@ -126,7 +126,12 @@ void AStage101GameMode::LevelChangeStart()
 void AStage101GameMode::LevelChangeEnd()
 {
 	Super::LevelChangeEnd();
-
+	if (true == BGMPlayer.IsPlaying())
+	{
+		BGMPlayer.Stop();
+	}
+	BGMPlayer = UEngineSound::Play("NextStage.wav");
+	SoundManager.SetBGMSoundPlayer(BGMPlayer);
 	NewFade->FadeIn();
 	BGMPlayer.Off();
 }
