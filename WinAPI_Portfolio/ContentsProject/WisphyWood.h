@@ -64,7 +64,7 @@ public:
 protected:
 	void Tick(float _DeltaTime) override;
 private:
-	int BossHP = 3;
+	int BossHP = 5;
 	float CurTime = 0.0f;
 	void SetAnimation();
 
