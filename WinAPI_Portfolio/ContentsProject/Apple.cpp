@@ -51,8 +51,9 @@ void AApple::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	UEngineDebug::CoreOutPutString("AppleState : " + std::to_string(static_cast<int>(CurState)));
-	UEngineDebug::CoreOutPutString("Distance : " + std::to_string(GetActorLocation().X - PlayerPos.X));
+	//UEngineDebug::CoreOutPutString("AppleState : " + std::to_string(static_cast<int>(CurState)));
+	UEngineDebug::CoreOutPutString("ApplePosX: " + std::to_string(GetActorLocation().X));
+	//UEngineDebug::CoreOutPutString("Distance : " + std::to_string(GetActorLocation().X - PlayerPos.X));
 
 	CurTime += _DeltaTime;
 
@@ -165,6 +166,15 @@ void AApple::Idle(float _DeltaTime)
 {
 	Gravity(_DeltaTime);
 
+	if ((GetActorLocation().X) - (PlayerPos.X) < 0)
+	{
+		AppleDir = FVector2D::RIGHT;
+	}
+	if ((GetActorLocation().X - PlayerPos.X) > 0)
+	{
+		AppleDir = FVector2D::LEFT;
+	}
+
 	if (PixelPointCheck(ECheckDir::DOWN, UColor::MAGENTA))
 	{
 		CurState = EAppleState::CHASE;
@@ -176,14 +186,7 @@ void AApple::Chase(float _DeltaTime)
 {
 	Gravity(_DeltaTime);
 
-	if ((GetActorLocation().X) - (PlayerPos.X) > 0)
-	{
-		AddActorLocation((FVector2D::RIGHT + FVector2D::UP) * 100.0f * _DeltaTime);
-	}
-	if ((GetActorLocation().X - PlayerPos.X) <= 0)
-	{
-		AddActorLocation((FVector2D::LEFT + FVector2D::UP) * 100.0f * _DeltaTime);
-	}
+	AddActorLocation((AppleDir + FVector2D::UP) * 100.0f * _DeltaTime);
 }
 
 void AApple::Inhale(float _DeltaTime)

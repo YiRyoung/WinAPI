@@ -42,6 +42,8 @@ private:
 
 	FVector2D GravityForce = FVector2D::ZERO;
 	FVector2D PlayerPos = FVector2D::ZERO;
+	FVector2D AppleDir = FVector2D::ZERO;
+
 	class UEngineWinImage* ColImage = nullptr;
 	class USpriteRenderer* SpriteRenderer = nullptr;
 	class U2DCollision* CollisionComponent = nullptr;

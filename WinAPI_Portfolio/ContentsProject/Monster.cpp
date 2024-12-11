@@ -32,8 +32,6 @@ void AMonster::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	UEngineDebug::CoreOutPutString("State : " + std::to_string(static_cast<int>(GetMonsterState())));
-	UEngineDebug::CoreOutPutString("AnimDir : " + AnimDir);
 	MonsterFSM(_DeltaTime);
 }
 
