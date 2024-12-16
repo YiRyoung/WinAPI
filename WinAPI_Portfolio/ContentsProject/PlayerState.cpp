@@ -38,7 +38,7 @@ void PlayerState::SetLimitAccel(bool _IsDeAcc, float MaxSpeed)
 void PlayerState::Gravity(float _DeltaTime)
 {
 	FVector2D Power = GravityForce * _DeltaTime;
-	if (!Player->DownColorCheck(Power, UColor::MAGENTA) && !Player->DownColorCheck(Power, UColor::BLACK))
+	if (!Player->DownColorCheck(Power, UColor::CYAN) && !Player->DownColorCheck(Power, UColor::BLACK))
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
 		GravityForce += FVector2D::DOWN * GravityPower * _DeltaTime;
@@ -80,7 +80,7 @@ void PlayerState::Idle(float _DeltaTime)
 	ChangeAttack();
 
 	// DeAccel
-	if (!PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if (!PixelLineCheck(ECheckDir::LEFT, UColor::CYAN) && !PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		DirForce.X += -DirForce.X * DeAccSpeed * _DeltaTime;
 		SetLimitAccel(true);
@@ -124,7 +124,7 @@ void PlayerState::Walk(float _DeltaTime)
 			Vector = FVector2D::LEFT;
 			Direction = ECheckDir::LEFT;
 
-			if (!PixelLineCheck(Direction, UColor::MAGENTA))
+			if (!PixelLineCheck(Direction, UColor::CYAN))
 			{
 				AddActorLocation(Vector * NewSpeed * _DeltaTime);
 			}
@@ -134,7 +134,7 @@ void PlayerState::Walk(float _DeltaTime)
 			Vector = FVector2D::RIGHT;
 			Direction = ECheckDir::RIGHT;
 
-			if (!PixelLineCheck(Direction, UColor::MAGENTA))
+			if (!PixelLineCheck(Direction, UColor::CYAN))
 			{
 				AddActorLocation(Vector * NewSpeed * _DeltaTime);
 			}
@@ -185,7 +185,7 @@ void PlayerState::Dash(float _DeltaTime)
 		DirForce += Vector * AccSpeed * _DeltaTime;
 		SetLimitAccel(false, NewMaxSpeed);
 
-		if (!PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+		if (!PixelLineCheck(ECheckDir::LEFT, UColor::CYAN) && !PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 		{
 			AddActorLocation(DirForce * _DeltaTime);
 		}
@@ -246,19 +246,19 @@ void PlayerState::Jump(float _DeltaTime)
 	{
 		FVector2D Vector = FVector2D::ZERO;
 
-		if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
+		if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::CYAN))
 		{
 			Vector += FVector2D::LEFT * 0.5f;
 		}
-		if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+		if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 		{
 			Vector += FVector2D::RIGHT * 0.5f;
 		}
 		DirForce.Normalize();
 		AddActorLocation((Vector + FVector2D::UP) * JumpPower * _DeltaTime);
 
-		if (PixelPointCheck(ECheckDir::UP, UColor::MAGENTA) 
-			|| Player->DownColorCheck((FVector2D::DOWN + Vector) + (GravityForce * _DeltaTime), UColor::MAGENTA))
+		if (PixelPointCheck(ECheckDir::UP, UColor::CYAN) 
+			|| Player->DownColorCheck((FVector2D::DOWN + Vector) + (GravityForce * _DeltaTime), UColor::CYAN))
 		{
 			if (true == BGMPlayer.IsPlaying())
 			{
@@ -280,17 +280,17 @@ void PlayerState::FlyStart(float _DeltaTime)
 		GravityForce = FVector2D::ZERO;
 		Vector += FVector2D::UP;
 	}
-	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
+	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::CYAN))
 	{
 		Vector += FVector2D::LEFT;
 	}
-	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		Vector += FVector2D::RIGHT;
 	}
 	Vector.Normalize();
 
-	if (!PixelLineCheck(ECheckDir::UP, UColor::MAGENTA))
+	if (!PixelLineCheck(ECheckDir::UP, UColor::CYAN))
 	{
 		AddActorLocation(Vector * (Speed * 0.7f) * _DeltaTime);
 	}
@@ -316,7 +316,7 @@ void PlayerState::Fly(float _DeltaTime)
 
 	FVector2D Vector = FVector2D::ZERO;
 
-	if (IsPressKey(VK_UP) && !PixelLineCheck(ECheckDir::UP, UColor::MAGENTA))	// Fly High!
+	if (IsPressKey(VK_UP) && !PixelLineCheck(ECheckDir::UP, UColor::CYAN))	// Fly High!
 	{
 		GravityForce = FVector2D::ZERO;
 		Player->GetPlayerRenderer()->SetAnimationSpeed(5.0f);
@@ -325,18 +325,18 @@ void PlayerState::Fly(float _DeltaTime)
 	else					// Landing
 	{
 		Player->GetPlayerRenderer()->ResetAnimationSpeed();
-		if (!PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
+		if (!PixelLineCheck(ECheckDir::DOWN, UColor::CYAN) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
 			&& !PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
 			Vector += FVector2D::DOWN;
 		}
 	}
 
-	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
+	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::CYAN))
 	{
 		Vector += FVector2D::LEFT;
 	}
-	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		Vector += FVector2D::RIGHT;
 	}
@@ -358,7 +358,7 @@ void PlayerState::FlyEnd(float _DeltaTime)
 		BGMPlayer = UEngineSound::Play("Wind.wav");
 
 
-		if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
+		if (PixelLineCheck(ECheckDir::DOWN, UColor::CYAN) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
 			|| PixelLineCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
 			SetPlayerState(EPlayerState::IDLE);
@@ -405,8 +405,8 @@ void PlayerState::Fall(float _DeltaTime)
 {
 	ChangeFly();
 
-	if (PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
-		|| PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA)|| PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if (PixelLineCheck(ECheckDir::DOWN, UColor::CYAN) || PixelLineCheck(ECheckDir::DOWN, UColor::BLACK)
+		|| PixelLineCheck(ECheckDir::LEFT, UColor::CYAN)|| PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		if (true == BGMPlayer.IsPlaying())
 		{
@@ -419,11 +419,11 @@ void PlayerState::Fall(float _DeltaTime)
 
 	FVector2D Vector = FVector2D::ZERO;
 
-	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
+	if (IsPressKey(VK_LEFT) && !PixelLineCheck(ECheckDir::LEFT, UColor::CYAN))
 	{
 		Vector += FVector2D::LEFT;
 	}
-	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if (IsPressKey(VK_RIGHT) && !PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		Vector += FVector2D::RIGHT;
 	}
@@ -465,7 +465,7 @@ void PlayerState::Bend(float _DeltaTime)
 	}
 
 	// DeAccel
-	if (!PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if (!PixelLineCheck(ECheckDir::LEFT, UColor::CYAN) && !PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		DirForce.X += -DirForce.X * DeAccSpeed * _DeltaTime;
 		SetLimitAccel(true);
@@ -503,7 +503,7 @@ void PlayerState::Slide(float _DeltaTime)
 		AddActorLocation(FVector2D::RIGHT * Speed * _DeltaTime);
 	}
 
-	if (CurTime >= 0.8f || PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA) || PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if (CurTime >= 0.8f || PixelLineCheck(ECheckDir::LEFT, UColor::CYAN) || PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		CurTime = 0.0f;
 		Player->SliderCollisionSwitch(false);
@@ -541,7 +541,7 @@ void PlayerState::Climb(float _DeltaTime)
 
 	if (IsPressKey(VK_UP))
 	{
-		if (PixelPointCheck(ECheckDir::DOWN, UColor::MAGENTA) || PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
+		if (PixelPointCheck(ECheckDir::DOWN, UColor::CYAN) || PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
 		{
 			AddActorLocation(FVector2D::UP * Speed * _DeltaTime);
 		}
@@ -558,7 +558,7 @@ void PlayerState::Climb(float _DeltaTime)
 		{
 			AddActorLocation(FVector2D::DOWN * Speed * _DeltaTime);
 		}
-		if (PixelPointCheck(ECheckDir::DOWN, UColor::MAGENTA))
+		if (PixelPointCheck(ECheckDir::DOWN, UColor::CYAN))
 		{
 			SetPlayerState(EPlayerState::IDLE);
 			return;
@@ -619,11 +619,11 @@ void PlayerState::Hurt(float _DeltaTime)
 
 	FVector2D Vector = FVector2D::ZERO;
 
-	if ("_Left" == Player->GetAnimDir() && !PixelLineCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if ("_Left" == Player->GetAnimDir() && !PixelLineCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		Vector += FVector2D::RIGHT;
 	}
-	else if ("_Right" == Player->GetAnimDir() && !PixelLineCheck(ECheckDir::LEFT, UColor::MAGENTA))
+	else if ("_Right" == Player->GetAnimDir() && !PixelLineCheck(ECheckDir::LEFT, UColor::CYAN))
 	{
 		Vector += FVector2D::LEFT;
 	}
@@ -869,7 +869,7 @@ void PlayerState::ChangeFly()
 void PlayerState::ChangeFall()
 {
 	// Fall
-	if (!PixelLineCheck(ECheckDir::DOWN, UColor::MAGENTA) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK))
+	if (!PixelLineCheck(ECheckDir::DOWN, UColor::CYAN) && !PixelLineCheck(ECheckDir::DOWN, UColor::BLACK))
 	{
 		ResetDirForce();
 		SetPlayerState(EPlayerState::FALL);

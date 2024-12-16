@@ -529,7 +529,7 @@ bool APlayer::DownColorCheck(FVector2D _Power, UColor _Color)
 	{
 		FVector2D Point = GetActorLocation() + FVector2D{ (RightBottomPoint.X - i), RightBottomPoint.Y };
 		FVector2D NextPoint = Point + _Power;
-		UColor CheckColor = ColliderImage->GetColor(NextPoint, UColor::MAGENTA);
+		UColor CheckColor = ColliderImage->GetColor(NextPoint, UColor::CYAN);
 		if (_Color.operator==(CheckColor))
 		{
 			return true;
@@ -560,7 +560,7 @@ bool APlayer::PixelPointCheck(ECheckDir _Dir, UColor _Color)
 	DrawDebugPoint(CheckPoint);
 
 	FVector2D NextPoint = GetActorLocation() + CheckPoint;
-	UColor NextPointColor = ColliderImage->GetColor(NextPoint, UColor::MAGENTA);
+	UColor NextPointColor = ColliderImage->GetColor(NextPoint, UColor::CYAN);
 	if (_Color.operator==(NextPointColor))
 	{
 		return true;
@@ -588,7 +588,7 @@ bool APlayer::PixelLineCheck(ECheckDir _Dir, UColor _Color)
 		{
 			FVector2D Point = GetActorLocation() + FVector2D{ (RightUpperPoint.X - i), RightUpperPoint.Y };
 			FVector2D PointUp = Point + FVector2D::UP;
-			UColor CheckColor = ColliderImage->GetColor(PointUp, UColor::MAGENTA);
+			UColor CheckColor = ColliderImage->GetColor(PointUp, UColor::CYAN);
 			if (_Color.operator==(CheckColor))
 			{
 				return true;
@@ -604,7 +604,7 @@ bool APlayer::PixelLineCheck(ECheckDir _Dir, UColor _Color)
 		{
 			FVector2D Point = GetActorLocation() + FVector2D{ (RightBottomPoint.X - i), RightBottomPoint.Y };
 			FVector2D PointDown = Point + FVector2D::DOWN;
-			UColor CheckColor = ColliderImage->GetColor(PointDown, UColor::MAGENTA);
+			UColor CheckColor = ColliderImage->GetColor(PointDown, UColor::CYAN);
 			if (_Color.operator==(CheckColor))
 			{
 				return true;
@@ -620,7 +620,7 @@ bool APlayer::PixelLineCheck(ECheckDir _Dir, UColor _Color)
 		{
 			FVector2D Point = GetActorLocation() + FVector2D{ LeftUpperPoint.X,(LeftBottomPoint.Y - i) };
 			FVector2D PointLeft = Point + FVector2D::LEFT;
-			UColor CheckColor = ColliderImage->GetColor(PointLeft, UColor::MAGENTA);
+			UColor CheckColor = ColliderImage->GetColor(PointLeft, UColor::CYAN);
 			if (_Color.operator==(CheckColor))
 			{
 				return true;
@@ -636,7 +636,7 @@ bool APlayer::PixelLineCheck(ECheckDir _Dir, UColor _Color)
 		{
 			FVector2D Point = GetActorLocation() + FVector2D{ RightUpperPoint.X,(RightBottomPoint.Y - i) };
 			FVector2D PointRight = Point + FVector2D::RIGHT;
-			UColor CheckColor = ColliderImage->GetColor(PointRight, UColor::MAGENTA);
+			UColor CheckColor = ColliderImage->GetColor(PointRight, UColor::CYAN);
 			if (_Color.operator==(CheckColor))
 			{
 				return true;

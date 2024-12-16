@@ -94,7 +94,7 @@ bool AMonster::PixelPointCheck(ECheckDir _Dir, UColor _Color)
 		break;
 	}
 	
-	UColor CheckColor = ColImage->GetColor(NextPoint, UColor::MAGENTA);
+	UColor CheckColor = ColImage->GetColor(NextPoint, UColor::CYAN);
 	if (_Color.operator==(CheckColor))
 	{
 		return true;
@@ -143,7 +143,7 @@ void AMonster::SetDistance(FVector2D _PlayerLocation)
 
 void AMonster::Gravity(float _DeltaTime)
 {
-	if (!PixelPointCheck(ECheckDir::DOWN, UColor::MAGENTA)
+	if (!PixelPointCheck(ECheckDir::DOWN, UColor::CYAN)
 		&& !PixelPointCheck(ECheckDir::DOWN, UColor::BLACK) && !PixelPointCheck(ECheckDir::DOWN, UColor::YELLOW))
 	{
 		AddActorLocation(GravityForce * _DeltaTime);
@@ -166,7 +166,7 @@ void AMonster::Chase(float _DeltaTime)
 {
 	Gravity(_DeltaTime);
 
-	if ("_Left" == AnimDir && !PixelPointCheck(ECheckDir::LEFT, UColor::MAGENTA))
+	if ("_Left" == AnimDir && !PixelPointCheck(ECheckDir::LEFT, UColor::CYAN))
 	{
 		AddActorLocation(FVector2D::LEFT * Speed * _DeltaTime);
 	}
@@ -175,7 +175,7 @@ void AMonster::Chase(float _DeltaTime)
 		AnimDir = "_Right";
 	}
 
-	if ("_Right" == AnimDir && !PixelPointCheck(ECheckDir::RIGHT, UColor::MAGENTA))
+	if ("_Right" == AnimDir && !PixelPointCheck(ECheckDir::RIGHT, UColor::CYAN))
 	{
 		AddActorLocation(FVector2D::RIGHT * Speed * _DeltaTime);
 	}
